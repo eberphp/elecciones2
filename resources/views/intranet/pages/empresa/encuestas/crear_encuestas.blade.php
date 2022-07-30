@@ -9,24 +9,6 @@
                         <div class="row">
                             <div class="col-6">
                                 <h5 class="mb-0">Encuestas</h5>
-                                @if (Session('success'))
-                                    <div class="alert alert-success  alert-dismissible fade show text-white"
-                                        style="font-size: 14px;padding:8px;" role="alert">
-                                        <b>{{ Session('success') }}</b>
-                                        <button type="button" class="btn-close text-white" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
-                                    </div>
-                                @endif
-
-                                @if (Session('fail'))
-                                    <div class="alert alert-danger  alert-dismissible fade show text-white"
-                                        style="font-size: 14px;padding:8px;" role="alert">
-                                        <b>{{ Session('fail') }}</b>
-                                        <button type="button" class="btn-close btn-sm text-white" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
-                                    </div>
-                                @endif
-
                             </div>
                             <div class="col-6" style="text-align: right">
                                 <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
@@ -84,8 +66,8 @@
                                             <div class="d-flex align-items-center">
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
-                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Editar">
+                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                                                         <i class="fas fa-pencil-alt text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </div>
@@ -93,8 +75,8 @@
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
-                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Eliminar">
+                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                                                         <i class="far fa-trash-alt text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </div>
@@ -104,8 +86,8 @@
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
                                                     <a href="#"
                                                         class="icon icon-shape icon-sm me-1 bg-gradient-dark shadow text-center"
-                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}" data-bs-toggle="tooltip" data-bs-placement="top"
-                                                        title="Votos">
+                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Votos">
                                                         <i class="fas fa-vote-yea text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </a>
@@ -115,8 +97,8 @@
                                                     @if ($encuesta->encuestaManual == 'Si')
                                                         <a href="#"
                                                             class="icon icon-shape icon-sm me-1 bg-gradient-secondary shadow text-center"
-                                                            style="cursor:pointer;"
-                                                            data-item="{{ $encuesta->idEncuesta }}" data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
                                                             title="Encuesta Manual">
                                                             <i class="fas fa-hand-holding-medical text-white opacity-10 "
                                                                 style="cursor:pointer;"></i>
@@ -158,8 +140,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('Encuesta.store') }}" method="post" id="forms"
-                    enctype="multipart/form-data" class="needs-validation" novalidate>
+                <form action="{{ route('Encuesta.store') }}" method="post" id="forms" enctype="multipart/form-data"
+                    class="needs-validation" novalidate>
                     @csrf
                     <input type="hidden" name="idencuesta">
                     <div class="modal-body">
@@ -214,14 +196,57 @@
             </div>
         </div>
     </div>
+
+    <div class="position-fixed top-0 start-50 translate-middle-x z-index-2">
+
+        @if (Session('success'))
+            <div class="toast fade p-2 mt-2 bg-gradient-success show" role="alert" aria-live="assertive"
+                id="infoToast" aria-atomic="true">
+                <div class="toast-header bg-transparent border-0">
+                    <i class="ni ni-bell-55 text-white me-2"></i>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                        aria-label="Close" aria-hidden="true"></i>
+                </div>
+                <hr class="horizontal light m-0">
+                <div class="toast-body text-white">{{ Session('success') }}</div>
+            </div>
+        @endif
+
+        @if (Session('fail'))
+            <div class="toast fade p-2 mt-2 bg-gradient-danger show" role="alert" aria-live="assertive" id="infoToast"
+                aria-atomic="true">
+                <div class="toast-header bg-transparent border-0">
+                    <i class="ni ni-bell-55 text-white me-2"></i>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
+                        aria-label="Close" aria-hidden="true"></i>
+                </div>
+                <hr class="horizontal light m-0">
+                <div class="toast-body text-white">{{ Session('fail') }}</div>
+            </div>
+        @endif
+
+
+    </div>
 @endsection
 
 @section('script')
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
 
     <script>
         let dataTableSearch;
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn bg-gradient-success',
+                cancelButton: 'btn bg-gradient-danger'
+            },
+            buttonsStyling: false
+        })
+
         window.addEventListener('DOMContentLoaded', (event) => {
             dataTableSearch = new simpleDatatables.DataTable("#tbData", {
                 searchable: true,
@@ -300,27 +325,41 @@
         });
 
         $(document).on('click', '.btnEliminar', (e) => {
-            const ids = e.currentTarget.dataset.item
-            if (ids !== '') {
-                fetch('/Encuesta/' + ids + '/destroy', {
-                        credentials: 'include',
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then((response) => {
-                        if (response.status) {
-                            location.reload();
-                        } else {
-                            location.reload();
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            }
+
+            swalWithBootstrapButtons.fire({
+                title: 'Estas por Eliminar una Encuesta?',
+                text: "Estas de acuerdo en borrar esta Encuesta",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    const ids = e.currentTarget.dataset.item
+                    if (ids !== '') {
+                        fetch('/Encuesta/' + ids + '/destroy', {
+                                credentials: 'include',
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then((response) => {
+                                if (response.status) {
+                                    location.reload();
+                                } else {
+                                    location.reload();
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                    }
+                }
+            })
+
         });
 
         $('#exampleModal').on('hidden.bs.modal', function(e) {
