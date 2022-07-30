@@ -1,0 +1,319 @@
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
+    <div class="sidenav-header">
+        <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
+        <a class="navbar-brand m-0" href="{{ route('usuarios.admin')}}" target="_blank">
+
+                <img src="{{ asset('web/images/logo.png')}}" class="navbar-brand-img h-100" alt="main_logo" style="margin-bottom: 30px;">
+            <br>
+            <span class="ms-1 font-weight-bold" style="margin-top: 30px;">
+                <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+                echo('hola, '.$perfil->nombres);
+                ?>
+            </span>
+        </a>
+    </div>
+    <hr class="horizontal dark mt-0" style="margin-top: 60px!important;">
+    <div class="collapse navbar-collapse  w-auto h-auto" id="sidenav-collapse-main">
+        <ul class="navbar-nav">
+            @if ($perfil->tipo  == 'admin')
+            <li class="nav-item">
+                <a href="{{ route('usuarios.admin')}}" class="nav-link {{ (request()->is('usuarios')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-shop text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Usuarios</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('empresas.admin')}}" class="nav-link {{ (request()->is('empresas')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-shop text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Empresas</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link {{ (request()->is('dashboard')) ? 'active' : '' }}">
+                    <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                        <i class="ni ni-shop text-primary text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Roles Empresas</span>
+                </a>
+            </li>
+            @else
+                @if ($perfil->tipo  == 'empresa')
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#web" class="nav-link {{ (request()->is('datos-empresa')) || (request()->is('redes-sociales')) || (request()->is('sliders')) ? 'active' : '' }}" aria-controls="web" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Web</span>
+                    </a>
+                    <div class="collapse " id="web">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ (request()->is('datos-empresa')) ? 'active' : '' }}" href="{{ route('datos.empresa')}}">
+                                    <span class="sidenav-mini-icon"> DE </span>
+                                    <span class="sidenav-normal"> Datos de la Empresa <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('redes-sociales')) ? 'active' : '' }}" href="{{ route('redes.empresa')}}">
+                                    <span class="sidenav-mini-icon"> RS </span>
+                                    <span class="sidenav-normal"> Redes Sociales <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('sliders')) ? 'active' : '' }}" href="{{ route('sliders.index')}}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Sliders <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('publicaciones')) ? 'active' : '' }}" href="{{ route('publicaciones.index')}}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Publicaciones <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('botones')) ? 'active' : '' }}" href="{{ route('botones.index')}}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Botones <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('servicios')) ? 'active' : '' }}" href="{{ route('servicios.index')}}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Servicios <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('testimonios')) ? 'active' : '' }}" href="{{ route('testimonios.index')}}">
+                                    <span class="sidenav-mini-icon"> S </span>
+                                    <span class="sidenav-normal"> Testimonios <b class="caret"></b></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#elecciones" class="nav-link {{ (request()->is('departamentos')) || (request()->is('provincias')) || (request()->is('distritos')) || (request()->is('zonas')) ? 'active' : '' }}" aria-controls="elecciones" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Ubigeo</span>
+                    </a>
+                    <div class="collapse " id="elecciones">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ (request()->is('departamentos')) ? 'active' : '' }}" href="{{ route('departamentos.index')}}">
+                                    <span class="sidenav-mini-icon"> D </span>
+                                    <span class="sidenav-normal"> Departamentos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('provincias')) ? 'active' : '' }}" href="{{ route('provincias.index')}}">
+                                    <span class="sidenav-mini-icon"> P </span>
+                                    <span class="sidenav-normal"> Provincias <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('distritos')) ? 'active' : '' }}" href="{{ route('distritos.index')}}">
+                                    <span class="sidenav-mini-icon"> D </span>
+                                    <span class="sidenav-normal"> Distritos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('zonas')) ? 'active' : '' }}" href="{{ route('zonas.index')}}">
+                                    <span class="sidenav-mini-icon"> Z </span>
+                                    <span class="sidenav-normal"> Zonas <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            {{--<li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> C </span>
+                                    <span class="sidenav-normal"> Candidatos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> E </span>
+                                    <span class="sidenav-normal"> Encuestas <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> R </span>
+                                    <span class="sidenav-normal"> Reportes <b class="caret"></b></span>
+                                </a>
+                            </li>--}}
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#partidos" class="nav-link {{ (request()->is('partidos')) || (request()->is('provincias'))  ? 'active' : '' }}" aria-controls="partidos" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Partidos y Candidatos</span>
+                    </a>
+                    <div class="collapse " id="partidos">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ (request()->is('partidos')) ? 'active' : '' }}" href="{{ route('partidos.index')}}">
+                                    <span class="sidenav-mini-icon"> P </span>
+                                    <span class="sidenav-normal"> Partidos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('provincias')) ? 'active' : '' }}" href="{{ route('candidatos.index')}}">
+                                    <span class="sidenav-mini-icon"> c </span>
+                                    <span class="sidenav-normal"> Candidatos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a ref="#" class="nav-link ">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Crear Encuestas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a ref="#" class="nav-link ">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Votos</span>
+                    </a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </li>
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#resultados" class="nav-link " aria-controls="resultados" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Resultados y Gráficos</span>
+                    </a>
+                    <div class="collapse " id="resultados">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link  " href="#">
+                                    <span class="sidenav-mini-icon"> R </span>
+                                    <span class="sidenav-normal"> Resultados <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link " href="#">
+                                    <span class="sidenav-mini-icon"> G </span>
+                                    <span class="sidenav-normal"> Gráficos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </li>
+                {{--<li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#elecciones" class="nav-link {{ (request()->is('departamentos')) || (request()->is('provincias')) || (request()->is('distritos')) || (request()->is('zonas')) ? 'active' : '' }}" aria-controls="elecciones" role="button" aria-expanded="false">
+                        <div class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                        </div>
+                        <span class="nav-link-text ms-1">Encuestas</span>
+                    </a>
+                    <div class="collapse " id="elecciones">
+                        <ul class="nav ms-4">
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ (request()->is('departamentos')) ? 'active' : '' }}" href="{{ route('departamentos.index')}}">
+                                    <span class="sidenav-mini-icon"> D </span>
+                                    <span class="sidenav-normal"> Departamentos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('provincias')) ? 'active' : '' }}" href="{{ route('provincias.index')}}">
+                                    <span class="sidenav-mini-icon"> P </span>
+                                    <span class="sidenav-normal"> Provincias <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('distritos')) ? 'active' : '' }}" href="{{ route('distritos.index')}}">
+                                    <span class="sidenav-mini-icon"> D </span>
+                                    <span class="sidenav-normal"> Distritos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link {{ (request()->is('zonas')) ? 'active' : '' }}" href="{{ route('zonas.index')}}">
+                                    <span class="sidenav-mini-icon"> Z </span>
+                                    <span class="sidenav-normal"> Zonas <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> C </span>
+                                    <span class="sidenav-normal"> Candidatos <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> E </span>
+                                    <span class="sidenav-normal"> Encuestas <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#">
+                                    <span class="sidenav-mini-icon"> R </span>
+                                    <span class="sidenav-normal"> Reportes <b class="caret"></b></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>--}}
+                @else
+
+                @endif
+            @endif
+        </ul>
+    </div>
+</aside>
