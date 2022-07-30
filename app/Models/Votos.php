@@ -36,6 +36,6 @@ class Votos extends Model
 
     public function candidato()
     {
-        return $this->belongsTo(candidato::class,'candidatoId','id');
+        return $this->belongsTo(Candidato::class,'candidatoId','id');
     }
 }
