@@ -2,7 +2,7 @@
 @section('style')
     <style>
         .new-alturita-bloque-1{
-            min-height: 153vh!important;
+            min-height: 135vh!important;
         }
 
         .new-alturita{
@@ -23,7 +23,7 @@
 
         @media (max-width:767px){
             .new-alturita-bloque-1{
-                min-height: 65vh!important;
+                min-height: 59vh!important;
             }
 
             .new-alturita{
@@ -212,7 +212,7 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide new-alturita-bloque-1" style="">
+                                        <div class="swiper-slide new-alturita-bloque-1" >
                                             <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
