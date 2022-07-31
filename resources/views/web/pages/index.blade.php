@@ -198,12 +198,12 @@
                     @endif
                     @if ($publicacion->modeloBloque == 'Bloque 2')
                         @if ($publicacion->idConfiguracion == 1)
-                        <div class="col-lg-6 col-sm-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             {!!$publicacion->texto!!}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 2)
-                        <div class="col-lg-6 col-6" style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;">
                             @else
@@ -216,7 +216,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 3)
-                        <div class="col-lg-6 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <a href="{{$publicacion->url}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
@@ -229,7 +229,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 5)
-                        <div class="col-lg-6 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
