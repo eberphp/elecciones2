@@ -8312,7 +8312,7 @@ footer .item .copy-right p a {
     right: 0;
     bottom: 0;
     left: 0;
-    background-size: auto 60%;
+    background-size: auto 100%;
     background-position:center;
   }
   .slider .social-icon {
