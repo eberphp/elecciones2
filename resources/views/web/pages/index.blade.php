@@ -433,9 +433,6 @@
         
                                 </div>
                             </div>
-                            
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
                         </div>
                         @endif
                     @endif
