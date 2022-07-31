@@ -162,7 +162,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-12 col-sm-12 " style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-12 col-sm-12 " style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
@@ -243,7 +243,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-6 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-sm-12" style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
@@ -324,7 +324,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-4 col-sm-12" style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
@@ -405,7 +405,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-3 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-3 col-6" style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
@@ -486,7 +486,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-4 col-sm-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-4 col-sm-6" style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
@@ -567,7 +567,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
-                        <div class="col-lg-8 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-8 col-sm-12" style="margin-top: -0.5%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
                                 <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
                             
