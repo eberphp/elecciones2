@@ -19,15 +19,15 @@
 
         @media (max-width:767px){
             .new-alturita{
-                min-height: 100vh!important;
+                min-height: 59vh!important;
             }  
             
             .new-alturita-bloque-3{
-                min-height: 93vh!important;
+                min-height: 59vh!important;
             }
 
             .new-alturita-bloque-4{
-                min-height: 47vh!important;
+                min-height: 29vh!important;
             }
 
             .alineacion-center{
