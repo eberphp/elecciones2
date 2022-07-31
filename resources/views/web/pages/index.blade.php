@@ -299,7 +299,7 @@
                         @if ($publicacion->idConfiguracion == 3)
                         <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{$publicacion->url}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{$publicacion->url}}"  target="_blank" style="width: 100%;"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
