@@ -29,7 +29,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombres</label>
-                                                    <input type="text" required name="nombres" class="form-control"
+                                                    <input type="text"  name="nombres" class="form-control"
                                                         id="nombres_ic">
                                                     <div class="invalid-feedback" id="invalidNombresCreate">
                                                     </div>
@@ -38,7 +38,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombre Corto</label>
-                                                    <input type="text" required name="nombre_corto" class="form-control"
+                                                    <input type="text"  name="nombre_corto" class="form-control"
                                                         id="nombre_corto_ic">
 
                                                 </div>
@@ -46,7 +46,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Telefono</label>
-                                                    <input type="text" required name="telefono" class="form-control"
+                                                    <input type="text"  name="telefono" class="form-control"
                                                         id="telefono_corto_ic">
 
                                                 </div>
@@ -54,7 +54,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Dni</label>
-                                                    <input type="text" required name="dni" class="form-control"
+                                                    <input type="text"  name="dni" class="form-control"
                                                         id="dni_ic">
 
                                                 </div>
@@ -62,7 +62,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Correo</label>
-                                                    <input type="text" required name="correo" class="form-control"
+                                                    <input type="text"  name="correo" class="form-control"
                                                         id="correo_ic">
 
                                                 </div>
@@ -70,7 +70,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Clave</label>
-                                                    <input type="text" required name="clave" class="form-control"
+                                                    <input type="text"  name="clave" class="form-control"
                                                         id="clave_ic">
 
                                                 </div>
@@ -78,7 +78,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Fecha ingreso</label>
-                                                    <input type="date" required name="fecha_ingreso" class="form-control"
+                                                    <input type="date"  name="fecha_ingreso" class="form-control"
                                                         id="fecha_ingreso_ic">
 
                                                 </div>
@@ -86,7 +86,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
-                                                    <select name="cargo_id" required class="form-control" id="cargo_id_ic">
+                                                    <select name="cargo_id"  class="form-control" id="cargo_id_ic">
                                                         @foreach ($cargos as $cargo)
                                                             <option value="{{ $cargo->id }}">{{ $cargo->nombre }}
                                                             </option>
@@ -98,7 +98,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Puesto</label>
-                                                    <select name="puesto_id" required class="form-control"
+                                                    <select name="puesto_id"  class="form-control"
                                                         id="puesto_id_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($puestos as $puesto)
@@ -112,7 +112,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
-                                                    <select name="vinculo_id" required class="form-control"
+                                                    <select name="vinculo_id"  class="form-control"
                                                         id="vinculo_id_ic">
 
                                                         <option value=""> -- Seleccione -- </option>
@@ -127,7 +127,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo de usuario</label>
-                                                    <select name="tipo_usuarios_id" required class="form-control"
+                                                    <select name="tipo_usuarios_id"  class="form-control"
                                                         id="tipo_usuarios_id_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUsuarios as $tipoUsuario)
@@ -141,7 +141,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo ubigeo</label>
-                                                    <select name="tipo_ubigeo" required class="form-control"
+                                                    <select name="tipo_ubigeo"  class="form-control"
                                                         id="tipo_ubigeo_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUbigeos as $tipoUbigeo)
@@ -154,7 +154,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Estado</label>
-                                                    <select name="estado" required class="form-control" id="estado_ic">
+                                                    <select name="estado"  class="form-control" id="estado_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($estadoEvaluaciones as $estado)
                                                             <option value="{{ $estado->id }}">
@@ -166,7 +166,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Departamento</label>
-                                                    <select name="departamento" required class="form-control"
+                                                    <select name="departamento"  class="form-control"
                                                         id="departamento">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($departamentos as $departamento)
@@ -179,7 +179,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Provincia</label>
-                                                    <select name="provincia" required class="form-control"
+                                                    <select name="provincia"  class="form-control"
                                                         id="provincia">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
@@ -188,7 +188,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Distrito</label>
-                                                    <select name="distrito" required class="form-control" id="distrito">
+                                                    <select name="distrito"  class="form-control" id="distrito">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
                                                 </div>
@@ -196,7 +196,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url facebook</label>
-                                                    <input type="text" required name="url_facebook"
+                                                    <input type="text"  name="url_facebook"
                                                         class="form-control" id="url_facebook_ic">
 
                                                 </div>
@@ -205,7 +205,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 1</label>
-                                                    <input type="text" required name="url_1" class="form-control"
+                                                    <input type="text"  name="url_1" class="form-control"
                                                         id="url_1_ic">
 
                                                 </div>
@@ -213,7 +213,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 2</label>
-                                                    <input type="text" required name="url_2" class="form-control"
+                                                    <input type="text"  name="url_2" class="form-control"
                                                         id="url_2_ic">
 
                                                 </div>
@@ -221,7 +221,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">PPD</label>
-                                                    <input type="text" required name="ppd" class="form-control"
+                                                    <input type="text"  name="ppd" class="form-control"
                                                         id="ppd_ic">
 
                                                 </div>
@@ -231,7 +231,7 @@
                                                     <label class="form-label">
                                                         Referencias
                                                     </label>
-                                                    <textarea class="form-control" required name="referencias" id="referencias_ic"></textarea>
+                                                    <textarea class="form-control"  name="referencias" id="referencias_ic"></textarea>
 
 
                                                 </div>
@@ -241,7 +241,7 @@
                                                     <label class="form-label">
                                                         Perfil
                                                     </label>
-                                                    <textarea class="form-control" required name="perfil" id="perfil_ic"></textarea>
+                                                    <textarea class="form-control"  name="perfil" id="perfil_ic"></textarea>
 
 
                                                 </div>
@@ -273,7 +273,7 @@
                                                     <label class="form-label">Nombres</label>
                                                     <input type="hidden" name="id" class="form-control"
                                                         id="id_ie">
-                                                    <input type="text" required name="nombres" class="form-control"
+                                                    <input type="text"  name="nombres" class="form-control"
                                                         id="nombres_ie">
                                                     <div class="invalid-feedback" id="invalidNombresCreate">
                                                     </div>
@@ -282,7 +282,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombre Corto</label>
-                                                    <input type="text" required name="nombre_corto"
+                                                    <input type="text"  name="nombre_corto"
                                                         class="form-control" id="nombreCorto_ie">
 
                                                 </div>
@@ -290,7 +290,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Telefono</label>
-                                                    <input type="text" required name="telefono" class="form-control"
+                                                    <input type="text"  name="telefono" class="form-control"
                                                         id="telefono_ie">
 
                                                 </div>
@@ -298,7 +298,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Dni</label>
-                                                    <input type="text" required name="dni" class="form-control"
+                                                    <input type="text"  name="dni" class="form-control"
                                                         id="dni_ie">
 
                                                 </div>
@@ -306,7 +306,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Correo</label>
-                                                    <input type="text" required name="correo" class="form-control"
+                                                    <input type="text"  name="correo" class="form-control"
                                                         id="correo_ie">
 
                                                 </div>
@@ -314,7 +314,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Clave</label>
-                                                    <input type="text" required name="clave" class="form-control"
+                                                    <input type="text"  name="clave" class="form-control"
                                                         id="clave_ie">
 
                                                 </div>
@@ -322,14 +322,14 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Fecha ingreso</label>
-                                                    <input type="date" required name="fecha_ingreso"
+                                                    <input type="date"  name="fecha_ingreso"
                                                         class="form-control" id="fecha_ingreso_ie">
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
-                                                    <select name="cargo_id" required class="form-control"
+                                                    <select name="cargo_id"  class="form-control"
                                                         id="cargo_id_ie">
                                                         @foreach ($cargos as $cargo)
                                                             <option value="{{ $cargo->id }}">{{ $cargo->nombre }}
@@ -342,7 +342,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Puesto</label>
-                                                    <select name="puesto_id" required class="form-control"
+                                                    <select name="puesto_id"  class="form-control"
                                                         id="puesto_id_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($puestos as $puesto)
@@ -356,7 +356,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
-                                                    <select name="vinculo_id" required class="form-control"
+                                                    <select name="vinculo_id"  class="form-control"
                                                         id="vinculo_id_ie">
 
                                                         <option value=""> -- Seleccione -- </option>
@@ -371,7 +371,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo de usuario</label>
-                                                    <select name="tipo_usuarios_id" required class="form-control"
+                                                    <select name="tipo_usuarios_id"  class="form-control"
                                                         id="tipo_usuarios_id_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUsuarios as $tipoUsuario)
@@ -385,7 +385,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo ubigeo</label>
-                                                    <select name="tipo_ubigeo" required class="form-control"
+                                                    <select name="tipo_ubigeo"  class="form-control"
                                                         id="tipo_ubigeo_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUbigeos as $tipoUbigeo)
@@ -398,7 +398,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Estado</label>
-                                                    <select name="estado" required class="form-control" id="estado_ie">
+                                                    <select name="estado"  class="form-control" id="estado_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($estadoEvaluaciones as $estado)
                                                             <option value="{{ $estado->id }}">
@@ -410,7 +410,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Departamento</label>
-                                                    <select name="departamento" required class="form-control"
+                                                    <select name="departamento"  class="form-control"
                                                         id="departamento_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($departamentos as $departamento)
@@ -423,7 +423,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Provincia</label>
-                                                    <select name="provincia" required class="form-control"
+                                                    <select name="provincia"  class="form-control"
                                                         id="provincia_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
@@ -432,7 +432,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Distrito</label>
-                                                    <select name="distrito" required class="form-control"
+                                                    <select name="distrito"  class="form-control"
                                                         id="distrito_ie">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
@@ -441,7 +441,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url facebook</label>
-                                                    <input type="text" required name="url_facebook"
+                                                    <input type="text"  name="url_facebook"
                                                         class="form-control" id="url_facebook_ie">
 
                                                 </div>
@@ -450,7 +450,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 1</label>
-                                                    <input type="text" required name="url_1" class="form-control"
+                                                    <input type="text"  name="url_1" class="form-control"
                                                         id="url_1_ie">
 
                                                 </div>
@@ -458,7 +458,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 2</label>
-                                                    <input type="text" required name="url_2" class="form-control"
+                                                    <input type="text"  name="url_2" class="form-control"
                                                         id="url_2_ie">
 
                                                 </div>
@@ -466,7 +466,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">PPD</label>
-                                                    <input type="text" required name="ppd" class="form-control"
+                                                    <input type="text"  name="ppd" class="form-control"
                                                         id="ppd_ie">
 
                                                 </div>
@@ -476,7 +476,7 @@
                                                     <label class="form-label">
                                                         Referencias
                                                     </label>
-                                                    <textarea class="form-control" required name="referencias" id="referencias_ie"></textarea>
+                                                    <textarea class="form-control"  name="referencias" id="referencias_ie"></textarea>
 
 
                                                 </div>
@@ -486,13 +486,314 @@
                                                     <label class="form-label">
                                                         Perfil
                                                     </label>
-                                                    <textarea class="form-control" required name="perfil" id="perfil_ie"></textarea>
+                                                    <textarea class="form-control"  name="perfil" id="perfil_ie"></textarea>
 
 
                                                 </div>
                                             </div>
                                         </div>
-
+                                        <!--Funcionalidades: Ricardo Bejar-->
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label class="form-label">
+                                                    Roles: Configuración de permisos
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4 chk-3">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-3" id="chk-3" class="chk-all"><label>&nbsp;Web</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-1" id="chk-3-1">&nbsp;&nbsp;Datos de la empresa</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-2" id="chk-3-2">&nbsp;&nbsp;Slider</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-3" id="chk-3-3">&nbsp;&nbsp;Publicaciones</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-4" id="chk-3-4">&nbsp;&nbsp;Productos</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-5" id="chk-3-5">&nbsp;&nbsp;Servicios</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-6" id="chk-3-6">&nbsp;&nbsp;Redes sociales</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-7" id="chk-3-7">&nbsp;&nbsp;Nosotros</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-8" id="chk-3-8">&nbsp;&nbsp;Testimonios</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-9" id="chk-3-9">&nbsp;&nbsp;Pie de página</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-3')" name="chk-3-10" id="chk-3-10">&nbsp;&nbsp;Términos y condiciones</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 chk-1">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-1" id="chk-1" class="chk-all"><label>&nbsp;Configuración</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-1" id="chk-1-1">&nbsp;&nbsp;Cargo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-2" id="chk-1-2">&nbsp;&nbsp;Función</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-3" id="chk-1-3">&nbsp;&nbsp;Estado Evaluación</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-4" id="chk-1-4">&nbsp;&nbsp;Vínculo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-5" id="chk-1-5">&nbsp;&nbsp;Tipo de Usuario</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-6" id="chk-1-6">&nbsp;&nbsp;Tipo de Ubigeo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-7" id="chk-1-7">&nbsp;&nbsp;Tipo de Actividad</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-8" id="chk-1-8">&nbsp;&nbsp;Área</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-9" id="chk-1-9">&nbsp;&nbsp;Prioridad</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-10" id="chk-1-10">&nbsp;&nbsp;Estado Gestión</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-11" id="chk-1-11">&nbsp;&nbsp;Usuario Resp.</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-1')" name="chk-1-12" id="chk-1-12">&nbsp;&nbsp;Estado Actividad</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 chk-6">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-6" id="chk-6" class="chk-all"><label>&nbsp;Personal</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-1" id="chk-6-1">&nbsp;&nbsp;Id</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-2" id="chk-6-2">&nbsp;&nbsp;Nombres y apellidos</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-3" id="chk-6-3">&nbsp;&nbsp;Cargo 1</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-4" id="chk-6-4">&nbsp;&nbsp;PPD</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-5" id="chk-6-5">&nbsp;&nbsp;Perfil</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-6" id="chk-6-6">&nbsp;&nbsp;Foto</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-7" id="chk-6-7">&nbsp;&nbsp;CV</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-8" id="chk-6-8">&nbsp;&nbsp;Evaluación</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-9" id="chk-6-9">&nbsp;&nbsp;Facebook</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-10" id="chk-6-10">&nbsp;&nbsp;Whatsapp</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-11" id="chk-6-11">&nbsp;&nbsp;Instagram</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-12" id="chk-6-12">&nbsp;&nbsp;Cargo 2</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-13" id="chk-6-13">&nbsp;&nbsp;Nombre corto</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-14" id="chk-6-14">&nbsp;&nbsp;Teléfono</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-15" id="chk-6-15">&nbsp;&nbsp;Referencias</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-16" id="chk-6-16">&nbsp;&nbsp;Estado</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-17" id="chk-6-17">&nbsp;&nbsp;Vínculo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-18" id="chk-6-18">&nbsp;&nbsp;DNI</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-19" id="chk-6-19">&nbsp;&nbsp;Fecha de ingreso</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-20" id="chk-6-20">&nbsp;&nbsp;Correo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-21" id="chk-6-21">&nbsp;&nbsp;Observaciones</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-22" id="chk-6-22">&nbsp;&nbsp;Departamento</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-23" id="chk-6-23">&nbsp;&nbsp;Provincia</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-6')" name="chk-6-24" id="chk-6-24">&nbsp;&nbsp;Distrito</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 chk-2">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-2" id="chk-2" class="chk-all"><label>&nbsp;Encuestas</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-1" id="chk-2-1">&nbsp;&nbsp;Ubigeo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-2" id="chk-2-2">&nbsp;&nbsp;Partidos</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-3" id="chk-2-3">&nbsp;&nbsp;Candidatos</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-4" id="chk-2-4">&nbsp;&nbsp;Crear encuestas</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-5" id="chk-2-5">&nbsp;&nbsp;Encuestador</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_6_all('chk-2')" name="chk-2-6" id="chk-2-6">&nbsp;&nbsp;Registrar encuestas</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_6_itm('chk-2')" name="chk-2-6-1" id="chk-2-6-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_6_itm('chk-2')" name="chk-2-6-2" id="chk-2-6-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_6_itm('chk-2')" name="chk-2-6-3" id="chk-2-6-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-7" id="chk-2-7">&nbsp;&nbsp;Validar resultados</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-2')" name="chk-2-8" id="chk-2-8">&nbsp;&nbsp;Resultados</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_9_all('chk-2')" name="chk-2-9" id="chk-2-9">&nbsp;&nbsp;Tipo Ubigeo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_9_itm('chk-2')" name="chk-2-9-1" id="chk-2-9-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Departamento</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_9_itm('chk-2')" name="chk-2-9-2" id="chk-2-9-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Provincia</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks2_9_itm('chk-2')" name="chk-2-9-3" id="chk-2-9-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Distrito</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 chk-4">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-4" id="chk-4" class="chk-all"><label>&nbsp;Calendario</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-4')" name="chk-4-1" id="chk-4-1">&nbsp;&nbsp;Usuario Nivel 1</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-4')" name="chk-4-2" id="chk-4-2">&nbsp;&nbsp;Usuario Nivel 2</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_3_all('chk-4')" name="chk-4-3" id="chk-4-3">&nbsp;&nbsp;Tabla de Gestiones</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_3_itm('chk-4')" name="chk-4-3-1" id="chk-4-3-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_3_itm('chk-4')" name="chk-4-3-2" id="chk-4-3-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_3_itm('chk-4')" name="chk-4-3-3" id="chk-4-3-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_4_all('chk-4')" name="chk-4-4" id="chk-4-4">&nbsp;&nbsp;Historial de Gestiones</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_4_itm('chk-4')" name="chk-4-4-1" id="chk-4-4-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_4_itm('chk-4')" name="chk-4-4-2" id="chk-4-4-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks4_4_itm('chk-4')" name="chk-4-4-3" id="chk-4-4-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 chk-5">
+                                                <div class="row">
+                                                    <div class="col-md-12"><input type="checkbox" name="chk-5" id="chk-5" class="chk-all"><label>&nbsp;Proyectos</label></div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-5')" name="chk-5-1" id="chk-5-1">&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-5')" name="chk-5-2" id="chk-5-2">&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-5')" name="chk-5-3" id="chk-5-3">&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-5')" name="chk-5-4" id="chk-5-4">&nbsp;&nbsp;Ver</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks('chk-5')" name="chk-5-5" id="chk-5-5">&nbsp;&nbsp;Iniciar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_all('chk-5')" name="chk-5-6" id="chk-5-6">&nbsp;&nbsp;Entregables</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_itm('chk-5')" name="chk-5-6-1" id="chk-5-6-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_itm('chk-5')" name="chk-5-6-2" id="chk-5-6-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_itm('chk-5')" name="chk-5-6-3" id="chk-5-6-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_itm('chk-5')" name="chk-5-6-4" id="chk-5-6-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ver</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_6_itm('chk-5')" name="chk-5-6-5" id="chk-5-6-5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Iniciar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_7_all('chk-5')" name="chk-5-7" id="chk-5-7">&nbsp;&nbsp;Ajustes</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_7_itm('chk-5')" name="chk-5-7-1" id="chk-5-7-1">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nuevo</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_7_itm('chk-5')" name="chk-5-7-2" id="chk-5-7-2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Editar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_7_itm('chk-5')" name="chk-5-7-3" id="chk-5-7-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Eliminar</div>
+                                                </div>
+                                                <div class="row chk-itm">
+                                                    <div class="col-md-12"><input type="checkbox" onclick="verifyChecks5_7_itm('chk-5')" name="chk-5-7-4" id="chk-5-7-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ver</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Fin: Funcionalidades-->
                                         <div class="w-100 d-flex justify-content-end">
                                             <button class="btn btn-primary" type="submit">Guardar</button>
                                         </div>
@@ -641,6 +942,130 @@
 @endsection
 
 @section('script')
+    <!--Funcionalidades: Ricardo Bejar-->
+    <style>
+        .row .chk-itm {font-size:12.5px;font-weight: 400}
+    </style>
+    <script>
+        $('.chk-all').change(function () {
+            var clase = $(this).prop('name');
+            var chk = $(this).prop('checked');
+            $('.'+clase+' .chk-itm input[type=checkbox]').each(function () {
+                $(this).prop('checked', chk);
+            });
+        });
+
+        function verifyChecks(clase) {
+            var res = true;
+            $('.'+clase+' .chk-itm input[type=checkbox]').each(function () {
+                res |= $(this).prop('checked');
+            });
+            $('.'+clase+' .chk-all').prop('checked', res);
+        }
+
+        function verifyChecks2_6_all(clase) {
+            var chk = $('#chk-2-6').prop('checked');
+            $('#chk-2-6-1').prop('checked', chk);
+            $('#chk-2-6-2').prop('checked', chk);
+            $('#chk-2-6-3').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks2_9_all(clase) {
+            var chk = $('#chk-2-9').prop('checked');
+            $('#chk-2-9-1').prop('checked', chk);
+            $('#chk-2-9-2').prop('checked', chk);
+            $('#chk-2-9-3').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks4_3_all(clase) {
+            var chk = $('#chk-4-3').prop('checked');
+            $('#chk-4-3-1').prop('checked', chk);
+            $('#chk-4-3-2').prop('checked', chk);
+            $('#chk-4-3-3').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks4_4_all(clase) {
+            var chk = $('#chk-4-4').prop('checked');
+            $('#chk-4-4-1').prop('checked', chk);
+            $('#chk-4-4-2').prop('checked', chk);
+            $('#chk-4-4-3').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks5_6_all(clase) {
+            var chk = $('#chk-5-6').prop('checked');
+            $('#chk-5-6-1').prop('checked', chk);
+            $('#chk-5-6-2').prop('checked', chk);
+            $('#chk-5-6-3').prop('checked', chk);
+            $('#chk-5-6-4').prop('checked', chk);
+            $('#chk-5-6-5').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks5_7_all(clase) {
+            var chk = $('#chk-5-7').prop('checked');
+            $('#chk-5-7-1').prop('checked', chk);
+            $('#chk-5-7-2').prop('checked', chk);
+            $('#chk-5-7-3').prop('checked', chk);
+            $('#chk-5-7-4').prop('checked', chk);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks2_6_itm(clase) {
+            var chk1 = $('#chk-2-6-1').prop('checked');
+            var chk2 = $('#chk-2-6-2').prop('checked');
+            var chk3 = $('#chk-2-6-3').prop('checked');
+            $('#chk-2-6').prop('checked', chk1 || chk2 || chk3);
+            verifyChecks(clase);
+        }
+        
+        function verifyChecks2_9_itm(clase) {
+            var chk1 = $('#chk-2-9-1').prop('checked');
+            var chk2 = $('#chk-2-9-2').prop('checked');
+            var chk3 = $('#chk-2-9-3').prop('checked');
+            $('#chk-2-9').prop('checked', chk1 || chk2 || chk3);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks4_3_itm(clase) {
+            var chk1 = $('#chk-4-3-1').prop('checked');
+            var chk2 = $('#chk-4-3-2').prop('checked');
+            var chk3 = $('#chk-4-3-3').prop('checked');
+            $('#chk-4-3').prop('checked', chk1 || chk2 || chk3);
+            verifyChecks(clase);
+        }
+        
+        function verifyChecks4_4_itm(clase) {
+            var chk1 = $('#chk-4-4-1').prop('checked');
+            var chk2 = $('#chk-4-4-2').prop('checked');
+            var chk3 = $('#chk-4-4-3').prop('checked');
+            $('#chk-4-4').prop('checked', chk1 || chk2 || chk3);
+            verifyChecks(clase);
+        }
+
+        function verifyChecks5_6_itm(clase) {
+            var chk1 = $('#chk-5-6-1').prop('checked');
+            var chk2 = $('#chk-5-6-2').prop('checked');
+            var chk3 = $('#chk-5-6-3').prop('checked');
+            var chk4 = $('#chk-5-6-4').prop('checked');
+            var chk5 = $('#chk-5-6-5').prop('checked');
+            $('#chk-5-6').prop('checked', chk1 || chk2 || chk3 || chk4 || chk5);
+            verifyChecks(clase);
+        }
+        
+        function verifyChecks5_7_itm(clase) {
+            var chk1 = $('#chk-5-7-1').prop('checked');
+            var chk2 = $('#chk-5-7-2').prop('checked');
+            var chk3 = $('#chk-5-7-3').prop('checked');
+            var chk3 = $('#chk-5-7-4').prop('checked');
+            $('#chk-5-7').prop('checked', chk1 || chk2 || chk3 || chk4);
+            verifyChecks(clase);
+        }
+    </script>
+    <!--Fin: Funcionalidades-->
     <script src="{{ asset('admin/assets/js/plugins/xlsx.full.min.js') }}"></script>
 
     <script src="{{ asset('admin/assets/js/plugins/moment.js') }}"></script>
