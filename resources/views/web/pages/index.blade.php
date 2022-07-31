@@ -11,6 +11,7 @@
 
         .new-alturita-bloque-4{
             min-height: 43vh!important;
+            background-position: center!important;
         }
 
         @media (max-width:767px){
