@@ -29,6 +29,10 @@
             .new-alturita-bloque-4{
                 min-height: 47vh!important;
             }
+
+            .alineacion-center{
+                background-position: top!important;
+            }
         }
 
     </style>
