@@ -250,7 +250,7 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 76vh!important;@media (max-width:320px){min-height: 100vh!important;}">
+                                        <div class="swiper-slide" style="min-height: 76vh!important;@media (max-width:767px){min-height: 100vh!important;}">
                                             <div class="bg-img valign" style="background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
