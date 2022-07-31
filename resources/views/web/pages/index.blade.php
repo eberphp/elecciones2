@@ -43,15 +43,16 @@
             }
         }
 
+        
     </style>
 @endsection
 @section('content')
-<header class="slider-n slider-prlx fixed-slider text-center">
-    <div class="swiper-container parallax-slider-n">
+<header class="slider slider-prlx fixed-slider text-center">
+    <div class="swiper-container parallax-slider">
         <div class="swiper-wrapper altutra">
             @foreach ($sliders as $slider)
-            <div class="swiper-slide-n">
-                <div class="bg-img-n valign" data-background="{{ asset('img/sliders/'.$slider->imagen)}}" data-overlay-dark="6">
+            <div class="swiper-slide">
+                <div class="bg-img valign" data-background="{{ asset('img/sliders/'.$slider->imagen)}}" data-overlay-dark="6">
                     <div class="container">
                         <div class="row justify-content-center" style="float: left!important;">
                             <div class="col-lg-8 col-md-10">
