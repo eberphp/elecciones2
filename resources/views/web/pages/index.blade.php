@@ -1,6 +1,10 @@
 @extends('web.layouts.layouts')
 @section('style')
     <style>
+        .new-alturita-bloque-1{
+            min-height: 153vh!important;
+        }
+
         .new-alturita{
             min-height: 76vh!important;
         }
