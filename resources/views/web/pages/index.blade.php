@@ -9,6 +9,10 @@
             min-height: 50vh!important;
         }
 
+        .new-alturita-bloque-4{
+            min-height: 43vh!important;
+        }
+
         @media (max-width:767px){
             .new-alturita{
                 min-height: 100vh!important;
@@ -16,6 +20,10 @@
             
             .new-alturita-bloque-3{
                 min-height: 93vh!important;
+            }
+
+            .new-alturita-bloque-4{
+                min-height: 47vh!important;
             }
         }
 
@@ -431,8 +439,8 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-4" >
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
