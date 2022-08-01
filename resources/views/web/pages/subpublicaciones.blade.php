@@ -95,7 +95,7 @@
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
         <div class="container" style="max-width: 100%;">
             <div class="row">
-                @if ($titulo->tituloServicioVisible == 'SI')
+                {{--@if ($titulo->tituloServicioVisible == 'SI')
                 <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".5s">
                     <div class="form-group has-error has-danger controls">
                         <select name="" id="" class="form-control form-group">
@@ -111,12 +111,12 @@
                         </select>
                     </div>
                 </div>
-                @endif
+                @endif--}}
     
                 @if ($titulo->tituloServicioVisible == 'SI')
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".7s">
+                <div class="col-lg-12 wow fadeInLeft" data-wow-delay=".7s">
                     <div class="form-group has-error has-danger controls">
-                        <select name="" id="" class="form-control form-group" onchange="redireciona()">
+                        <select name="servicio" id="servicio" class="form-control form-group" onchange="redireciona()">
                             <option value="null">{{$titulo->titleServicio}}</option>
                             
                             @foreach ($servicios as $servicio)
