@@ -96,20 +96,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Puesto</label>
-                                                    <select required name="puesto_id" class="form-control"
-                                                        id="puesto_id_ic">
-                                                        <option value=""> -- Seleccione -- </option>
-                                                        @foreach ($puestos as $puesto)
-                                                            <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                            </div>
+                                          
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
@@ -163,6 +150,20 @@
                                                                 {{ $funcion->nombre }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Puesto</label>
+                                                    <select required name="puesto_id" class="form-control"
+                                                        id="puesto_id_ic">
+                                                        <option value=""> -- Seleccione -- </option>
+                                                        @foreach ($puestos as $puesto)
+                                                            <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -397,19 +398,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Puesto</label>
-                                                    <select name="puesto_id" class="form-control" id="puesto_id_ie">
-                                                        <option value=""> -- Seleccione -- </option>
-                                                        @foreach ($puestos as $puesto)
-                                                            <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                            </div>
+                                          
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
@@ -448,6 +437,19 @@
                                                                 {{ $tipoUbigeo->nombre }}</option>
                                                         @endforeach
                                                     </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Puesto</label>
+                                                    <select name="puesto_id" class="form-control" id="puesto_id_ie">
+                                                        <option value=""> -- Seleccione -- </option>
+                                                        @foreach ($puestos as $puesto)
+                                                            <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
@@ -1950,6 +1952,7 @@
                 $("#departamento_ie").val(item.departamento);
                 $("#provincia_ie").val(item.provincia);
                 $("#distrito_ie").val(item.distrito);
+                $("#cargo_id_ie").val(item.cargo_id);
                 $("#editModal").modal("show");
             }
         };
