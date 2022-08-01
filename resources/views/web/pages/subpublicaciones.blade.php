@@ -156,7 +156,7 @@
     
     <section class="services bords section-padding pt-10">
         <div class="container" style="max-width: 100%;">
-            <div class="row">
+            <div class="row" style="align-items: center;">
                 @foreach ($subpublicaciones as $publicacion)
                     @if ($publicacion->modeloBloque == 'Bloque 1')
                         @if ($publicacion->idConfiguracion == 1)
