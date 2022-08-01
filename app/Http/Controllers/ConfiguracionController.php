@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cargo;
 use App\Models\Departamento;
 use App\Models\EstadoEvaluacion;
+use App\Models\Funcion;
 use App\Models\TipoUbigeo;
 use App\Models\TipoUsuario;
 use App\Models\vinculo;
@@ -70,10 +71,11 @@ class ConfiguracionController extends Controller
         $cargos = Cargo::all();
         $puestos = $cargos;
         $vinculos = vinculo::all();
+        $funciones=Funcion::all();
         $tipoUsuarios=TipoUsuario::all();
         $tipoUbigeos=TipoUbigeo::all();
         $estadoEvaluaciones = EstadoEvaluacion::all();
         $departamentos = Departamento::all();
-        return view("intranet.pages.admin.configuracion.personal", compact("tipoUbigeos","tipoUsuarios","cargos", "puestos", "vinculos", "departamentos","estadoEvaluaciones"));
+        return view("intranet.pages.admin.configuracion.personal", compact("funciones","tipoUbigeos","tipoUsuarios","cargos", "puestos", "vinculos", "departamentos","estadoEvaluaciones"));
     }
 }

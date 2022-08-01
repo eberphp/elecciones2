@@ -20,7 +20,7 @@ class PersonalController extends Controller
     public function index()
     {
         try {
-            $personal = Personal::with("cargo","vinculo","tipoUsuario","departamento","provincia","distrito")->get();
+            $personal = Personal::with("cargo","vinculo","tipoUsuario","departamento","provincia","distrito","funcion")->get();
             $maxid=Personal::max('id');
             return response()->json(["personal" => $personal, "success" => true,"maxid" => $maxid], 200);
         } catch (Exception $e) {
@@ -29,7 +29,7 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo","vinculo","tipoUsuario","departamento","provincia","distrito","tiposUbigeo");
+        $areas = Personal::with("cargo","funcion","vinculo","tipoUsuario","departamento","provincia","distrito","tiposUbigeo");
         return DataTables::of($areas)->make(true);
     }
 
@@ -86,15 +86,36 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
-        
         try{
+            $foto=$request->file("foto");
+            $cv=$request->file("cv");
+            $save1="";
+            $foto_url="";
+            if($foto){
+                $url=$foto->store('public/images/personal');
+                $save1=explode('public/',$url);
+                $foto_url=implode("",$save1);
+            }else{
+                return response()->json(["message"=>"no se ha cargado la imagen","success"=>false],200);
+            }
+            $cv_url="";
+            $save2="";
+            if($cv){
+                $url=$cv->store('public/documents/personal/cv');
+                $save2=explode('public/',$url);
+                $cv_url=implode("",$save2);
+            }else{
+                return response()->json(["message"=>"no se ha cargado el cv","success"=>false],200);
+            }
             $personal=new Personal();
             $personal->nombres=$request->nombres;
             $personal->cargo_id=$request->cargo_id;
+            $personal->funcion_id=$request->funcion_id;
             $personal->ppd=$request->ppd;
             $personal->perfil=$request->perfil;
-            $personal->foto=null;
-            $personal->cv=null;
+            $personal->evaluacion=$request->evaluacion;
+            $personal->foto=$foto_url;
+            $personal->cv=$cv_url;
             $personal->url_facebook=$request->url_facebook;
             $personal->url_1=$request->url_1;
             $personal->url_2=$request->url_2;
@@ -108,20 +129,20 @@ class PersonalController extends Controller
             $personal->clave=$request->clave;
             $personal->fecha_ingreso=$request->fecha_ingreso;
             $personal->correo=$request->correo;
-            $personal->sugerencias="";
+            $personal->sugerencias=$request->sugerencias;
             $personal->tipo_usuarios_id=$request->tipo_usuarios_id;
             $personal->asignar_usuarios="";
-            $personal->observaciones="";
+            $personal->observaciones=$request->observaciones;
             $personal->tipo_ubigeo=$request->tipo_ubigeo;
             $personal->rol_id=1;
             $personal->departamento=$request->departamento;
             $personal->provincia=$request->provincia;
             $personal->distrito=$request->distrito;
             $personal->save();
+         
             return response()->json(["personal" => $personal, "success" => true,"message"=>"Personal creado con exito"], 200);
-
-        }catch(Exception $e){
-            return response()->json(['message' => $e->getMessage(), "success" => false], 500);
+        }catch (Exception $e){
+            return response()->json(["message"=>$e->getMessage(),"success"=>false],500);
         }
     }
 
@@ -179,16 +200,17 @@ class PersonalController extends Controller
             $personal->nombreCorto=$request->nombre_corto;
             $personal->telefono=$request->telefono;
             $personal->referencias=$request->referencias;
-            $personal->vinculo_id=$request->vinculo_id;
+            $personal->vinculo_id=$request->vinculo_id;            
+            $personal->funcion_id=$request->funcion_id;
             $personal->dni=$request->dni;
             $personal->clave=$request->clave;
             $personal->estado=$request->estado;
             $personal->tipo_ubigeo=$request->tipo_ubigeo;
             $personal->fecha_ingreso=$request->fecha_ingreso;
             $personal->correo=$request->correo;
-            $personal->sugerencias="";
+            $personal->sugerencias=$request->sugerencias;
             $personal->tipo_usuarios_id=$request->tipo_usuarios_id;
-            $personal->observaciones="";
+            $personal->observaciones=$request->observaciones;
             $personal->departamento=$request->departamento;
             $personal->provincia=$request->provincia;
             $personal->distrito=$request->distrito;
