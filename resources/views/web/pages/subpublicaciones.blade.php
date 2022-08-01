@@ -213,7 +213,7 @@
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita-bloque-1" >
-                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -294,7 +294,7 @@
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita" >
-                                            <div class="bg-img valign" style="" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                            <div class="bg-img valign" style="" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -375,7 +375,7 @@
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita-bloque-3" style="">
-                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
