@@ -9,4 +9,6 @@ class vinculo extends Model
 {
     public $table = 'vinculos';
     use HasFactory;
+
+    //modelo vinculo requerido por modelo personal
 }
