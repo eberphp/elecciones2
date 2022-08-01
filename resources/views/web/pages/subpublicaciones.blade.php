@@ -3,7 +3,7 @@
     
 @endsection
 @section('content')
-{{--<header class="slider slider-prlx fixed-slider text-center">
+<header class="slider slider-prlx fixed-slider text-center">
     <div class="swiper-container parallax-slider">
         <div class="swiper-wrapper altutra">
             @foreach ($sliders as $slider)
@@ -48,7 +48,7 @@
             <a href="{{$redes->linkedin}}"><i class="fab fa-linkedin" style="color: {{$redes->colorFondo}}"></i></a>
         </div>
     </div>
-</header>--}}
+</header>
 <div class="" style="margin-top: 8.5%!important;background: white;position: relative;z-index: 3;overflow-x: hidden !important;">
 
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
