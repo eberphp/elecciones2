@@ -13,7 +13,7 @@
                         <div class="row justify-content-center" style="float: left!important;">
                             <div class="col-lg-8 col-md-10">
                                 <div class="caption center mt-30">
-                                    
+                                    {{--<h1>{{$slider->nombre}}</h1>--}}
                                     <p>{!!$slider->texto!!}</p>
                                     @if ($slider->url)
                                     <a href="{{$slider->url}}" class="butn bord curve mt-30">
