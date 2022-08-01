@@ -43,7 +43,6 @@
             }
         }
 
-        
     </style>
 @endsection
 @section('content')

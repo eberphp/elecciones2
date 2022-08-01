@@ -1,6 +1,49 @@
 @extends('web.layouts.layouts')
 @section('style')
-    
+<style>
+    .new-alturita-bloque-1{
+        min-height: 135vh!important;
+    }
+
+    .new-alturita{
+        min-height: 76vh!important;
+    }
+
+    .new-alturita-bloque-3{
+        min-height: 50vh!important;
+    }
+
+    .new-alturita-bloque-4{
+        min-height: 43vh!important;
+    }
+
+    .alineacion-center{
+        background-position: center!important;
+    }
+
+    @media (max-width:767px){
+        .new-alturita-bloque-1{
+            min-height: 59vh!important;
+        }
+
+        .new-alturita{
+            min-height: 59vh!important;
+        }  
+        
+        .new-alturita-bloque-3{
+            min-height: 59vh!important;
+        }
+
+        .new-alturita-bloque-4{
+            min-height: 29vh!important;
+        }
+
+        .alineacion-center{
+            background-position: top!important;
+        }
+    }
+
+</style>
 @endsection
 @section('content')
 <header class="slider slider-prlx fixed-slider text-center">
@@ -164,13 +207,13 @@
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-12 col-sm-12 " style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
+                                <?php $imagenes = App\Models\SubImagen::where('idSubpublicacion', $publicacion->id)->get(); ?>
                             
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-1" >
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -191,8 +234,8 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
@@ -245,13 +288,13 @@
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-6 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
+                                <?php $imagenes = App\Models\SubImagen::where('idSubpublicacion', $publicacion->id)->get(); ?>
                             
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita" >
+                                            <div class="bg-img valign" style="" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -272,8 +315,8 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
@@ -326,13 +369,13 @@
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
+                                <?php $imagenes = App\Models\SubImagen::where('idSubpublicacion', $publicacion->id)->get(); ?>
                             
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-3" style="">
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -353,8 +396,8 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
@@ -407,13 +450,13 @@
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-3 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
+                                <?php $imagenes = App\Models\SubImagen::where('idSubpublicacion', $publicacion->id)->get(); ?>
                             
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-4" >
+                                            <div class="bg-img valign alineacion-center" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -433,9 +476,6 @@
         
                                 </div>
                             </div>
-                            
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
                         </div>
                         @endif
                     @endif
