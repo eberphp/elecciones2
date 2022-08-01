@@ -49,8 +49,8 @@
         </div>
     </div>
 </header>
-<div class="" style="margin-top: 8.5%!important;background: white;position: relative;z-index: 3;overflow-x: hidden !important;">
-
+{{--<div class="" style="margin-top: 8.5%!important;background: white;position: relative;z-index: 3;overflow-x: hidden !important;">--}}
+<div class="main-content">
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
         <div class="container" style="max-width: 100%;">
             <div class="row">
