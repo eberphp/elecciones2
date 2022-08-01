@@ -46,7 +46,7 @@
 </style>
 @endsection
 @section('content')
-<header class="slider slider-prlx fixed-slider text-center">
+{{--<header class="slider slider-prlx fixed-slider text-center">
     <div class="swiper-container parallax-slider">
         <div class="swiper-wrapper altutra">
             @foreach ($sliders as $slider)
@@ -56,7 +56,6 @@
                         <div class="row justify-content-center" style="float: left!important;">
                             <div class="col-lg-8 col-md-10">
                                 <div class="caption center mt-30">
-                                    {{--<h1>{{$slider->nombre}}</h1>--}}
                                     <p>{!!$slider->texto!!}</p>
                                     @if ($slider->url)
                                     <a href="{{$slider->url}}" class="butn bord curve mt-30">
@@ -91,9 +90,8 @@
             <a href="{{$redes->linkedin}}"><i class="fab fa-linkedin" style="color: {{$redes->colorFondo}}"></i></a>
         </div>
     </div>
-</header>
-{{--<div class="" style="margin-top: 8.5%!important;background: white;position: relative;z-index: 3;overflow-x: hidden !important;">--}}
-<div class="main-content">
+</header>--}}
+<div class="" style="margin-top: 8.5%!important;background: white;position: relative;z-index: 3;overflow-x: hidden !important;">
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
         <div class="container" style="max-width: 100%;">
             <div class="row">
