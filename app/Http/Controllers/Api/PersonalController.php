@@ -205,14 +205,33 @@ class PersonalController extends Controller
     {
         //
         try {
+            $urlfacebook = "";
+            if (isset($request->url_facebook) && strpos($request->url_facebook, "http")) {
+                $urlfacebook = $request->url_facebook;
+            } else {
+                $urlfacebook = "https://" . $request->url_facebook;
+            }
+            $url1 = "";
+            if (isset($request->url_1) && strpos($request->url_1, "http")) {
+                $url1 = $request->url_1;
+            } else {
+                $url1 = "https://" . $request->url_1;
+            }
+            $url2 = "";
+            if (isset($request->url_2) && strpos($request->url_2, "http")) {
+                $url2 = $request->url_2;
+            } else {
+                $url2 = "https://" . $request->url_2;
+            }
+
             $personal = Personal::find($id);
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->ppd = isset($request->ppd) ? $request->ppd : "";
             $personal->perfil = isset($request->perfil) ? $request->perfil : "";
-            $personal->url_facebook = isset($request->url_facebook) ? $request->url_facebook : "";
-            $personal->url_1 = isset($request->url_1) ? $request->url_1 : "";
-            $personal->url_2 = isset($request->url_2) ? $request->url_2 : "";
+            $personal->url_facebook = isset($request->url_facebook) ? $urlfacebook : "";
+            $personal->url_1 = isset($request->url_1) ? $url1 : "";
+            $personal->url_2 = isset($request->url_2) ? $url2 : "";
             $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
             $personal->telefono = isset($request->telefono) ? $request->telefono : "";
