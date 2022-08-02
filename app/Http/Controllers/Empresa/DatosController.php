@@ -15,7 +15,7 @@ class DatosController extends Controller
     }
 
     public function update(Request $request, $id){
-        dd($request->hasFile("bannerPrincipal"));
+        dd($request->file("bannerPrincipal"));
         $datos = DatosEmpresa::find($id);
         
         if($request->hasFile("favicon")){
