@@ -15,10 +15,10 @@ class DatosController extends Controller
     }
 
     public function update(Request $request, $id){
-        dd($request->file("bannerPrincipal"));
+        //dd($request->file("bannerPrincipal"));
         $datos = DatosEmpresa::find($id);
         
-        if($request->hasFile("favicon")){
+        if($request->file("favicon")){
 
             $imagen = $request->file("favicon");
             $nombreimagenFavicon = $imagen->getClientOriginalName().".".$imagen->guessExtension();
@@ -33,7 +33,7 @@ class DatosController extends Controller
             $nombreimagenFavicon = $datos->favicon;
         }
 
-        if($request->hasFile("bannerPrincipal")){
+        if($request->file("bannerPrincipal")){
 
             $imagen = $request->file("bannerPrincipal");
             $nombreimagenBanner = $imagen->getClientOriginalName();//.".".$imagen->guessExtension();
