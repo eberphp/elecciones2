@@ -652,8 +652,8 @@
                     let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cReg[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
+                        width: 38,
+                        height: 38,
                         value: el.Regional[0].total
                     });
                 }
@@ -662,8 +662,8 @@
                     let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cPro[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
+                        width: 38,
+                        height: 38,
                         value: el.Provincial[0].total
                     });
                 }
@@ -672,8 +672,8 @@
                     let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cDis[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
+                        width: 38,
+                        height: 38,
                         value: el.Distrital[0].total
                     });
                 }
