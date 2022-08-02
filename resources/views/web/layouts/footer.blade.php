@@ -29,6 +29,13 @@
                                 <p>{{$datos->telefono1}}</p>
                             </div>
                         </li>
+                        <li>
+                            {{--<span class="icon pe-7s-call"></span>--}}
+                            <div class="cont">
+                                <a href="#exampleModal" data-toggle="modal"><h6>Terminos y Condiciones</h6></a>
+                                {{--<p>{{$datos->telefono1}}</p>--}}
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -60,4 +67,6 @@
             </div>
         </div>
     </div>
+    
 </footer>
+

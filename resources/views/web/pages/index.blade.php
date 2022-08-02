@@ -21,6 +21,14 @@
             background-position: center!important;
         }
 
+        .embed-container iframe {
+            position: absolute!important;
+            top:0;
+            left: 0;
+            width: 100%!important;
+            height: 100%!important;
+        }
+
         @media (max-width:767px){
             .new-alturita-bloque-1{
                 min-height: 59vh!important;
@@ -692,6 +700,8 @@
             </div>
         </div>
     </section>
+
+    
     @endif
         
     @include('web.layouts.footer')
