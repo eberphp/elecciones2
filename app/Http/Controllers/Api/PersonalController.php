@@ -104,6 +104,26 @@ class PersonalController extends Controller
                 $save2 = explode('public/', $url);
                 $cv_url = implode("", $save2);
             }
+
+            $urlfacebook = "";
+            if (isset($request->url_facebook) && strpos($request->url_facebook, "http")) {
+                $urlfacebook = $request->url_facebook;
+            } else {
+                $urlfacebook = "https://" . $request->url_facebook;
+            }
+            $url1 = "";
+            if (isset($request->url_1) && strpos($request->url_1, "http")) {
+                $url1 = $request->url_1;
+            } else {
+                $url1 = "https://" . $request->url_1;
+            }
+            $url2 = "";
+            if (isset($request->url_2) && strpos($request->url_2, "http")) {
+                $url2 = $request->url_2;
+            } else {
+                $url2 = "https://" . $request->url_2;
+            }
+
             $personal = new Personal();
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
@@ -113,16 +133,16 @@ class PersonalController extends Controller
             $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
             $personal->foto = $foto_url;
             $personal->cv = $cv_url;
-            $personal->url_facebook = isset($request->url_facebook) ? $request->url_facebook : "";
-            $personal->url_1 = isset($request->url_1) ? $request->url_1 : "";
-            $personal->url_2 = isset($request->url_2) ? $request->url_2 : "";
+            $personal->url_facebook = isset($request->url_facebook) ? $urlfacebook : "";
+            $personal->url_1 = isset($request->url_1) ? $url1 : "";
+            $personal->url_2 = isset($request->url_2) ? $url2 : "";
             $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
             $personal->telefono = isset($request->telefono) ? $request->telefono : "";
             $personal->referencias = isset($request->referencias) ? $request->referencias : "";
             $personal->estado = isset($request->estado) ? $request->estado : "";
             $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
-            $personal->dni =  $request->dni ;
+            $personal->dni =  $request->dni;
             $personal->clave = isset($request->clave) ? $request->clave : "";
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
             $personal->correo = isset($request->correo) ? $request->correo : "";
@@ -187,34 +207,34 @@ class PersonalController extends Controller
         try {
             $personal = Personal::find($id);
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
-            $personal->cargo_id = isset($request->cargo_id)?$request->cargo_id:0;
-            $personal->ppd = isset($request->ppd)?$request->ppd:"";
-            $personal->perfil = isset($request->perfil)?$request->perfil:"";
-            $personal->url_facebook = isset($request->url_facebook)?$request->url_facebook:"";
-            $personal->url_1 = isset($request->url_1)?$request->url_1:"";
-            $personal->url_2 = isset($request->url_2)?$request->url_2:"";
-            $personal->puesto_id = isset($request->cargo_id)?$request->cargo_id:0;
-            $personal->nombreCorto = isset($request->nombre_corto)?$request->nombre_corto:"";
-            $personal->telefono = isset($request->telefono)?$request->telefono:"";
-            $personal->referencias = isset($request->referencias)?$request->referencias:"";
-            
+            $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->ppd = isset($request->ppd) ? $request->ppd : "";
+            $personal->perfil = isset($request->perfil) ? $request->perfil : "";
+            $personal->url_facebook = isset($request->url_facebook) ? $request->url_facebook : "";
+            $personal->url_1 = isset($request->url_1) ? $request->url_1 : "";
+            $personal->url_2 = isset($request->url_2) ? $request->url_2 : "";
+            $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $personal->telefono = isset($request->telefono) ? $request->telefono : "";
+            $personal->referencias = isset($request->referencias) ? $request->referencias : "";
+
             $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
-            $personal->vinculo_id = isset($request->vinculo_id)?$request->vinculo_id:0;
-            $personal->funcion_id = isset($request->funcion_id)?$request->funcion_id:0;
-            $personal->dni = isset($request->dni)?$request->dni:"";
-            $personal->clave = isset($request->clave)?$request->clave:"";
-            $personal->estado = isset($request->estado)?$request->estado:"";
-            $personal->tipo_ubigeo = isset($request->tipo_ubigeo)?$request->tipo_ubigeo:0;
-            $personal->fecha_ingreso = isset($request->fecha_ingreso)?$request->fecha_ingreso:"";
-            $personal->correo = isset($request->correo)?$request->correo:"";
-            $personal->sugerencias = isset($request->sugerencias)?$request->sugerencias:"";
-            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id)?$request->tipo_usuarios_id:0;
-            $personal->observaciones = isset($request->observaciones)?$request->observaciones:"";
-            $personal->departamento = isset($request->departamento)?$request->departamento:0;
-            $personal->provincia = isset($request->provincia)?$request->provincia:0;
-            
+            $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
+            $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
+            $personal->dni = isset($request->dni) ? $request->dni : "";
+            $personal->clave = isset($request->clave) ? $request->clave : "";
+            $personal->estado = isset($request->estado) ? $request->estado : "";
+            $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
+            $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
+            $personal->correo = isset($request->correo) ? $request->correo : "";
+            $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
+            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
             $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
-            $personal->distrito = isset($request->distrito)?$request->distrito:0;
+            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
+            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+
+            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
+            $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
         } catch (Exception $e) {
