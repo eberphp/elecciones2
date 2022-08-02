@@ -197,6 +197,9 @@
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
+    <script>
+        let ref = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+    </script>
     <script src="{{ asset('js/indexdb.js') }}"></script>
 
     <script>
@@ -205,23 +208,8 @@
             partidoRegional: '',
             partidoProvincial: '',
             partidoDistrital: '',
-        };
+        };       
         
-        let navegador = navigator.userAgent;
-        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-            console.log("Estás usando un dispositivo móvil!!");
-            alert(navigator.userAgent);
-        } else {
-            alert(navigator.userAgent);
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Móvil.',
-            })
-
-            // location.href =
-            // "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
-        }
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -232,7 +220,9 @@
         })
 
         window.addEventListener('DOMContentLoaded', (event) => {            
-
+            
+            verificarVoto();         
+            alertaGrafico();
 
         });
 
@@ -351,19 +341,16 @@
                                     text: response.message,
                                 })
                                 
-                                console.log(dbs);
-                                console.log(inoDb.transaction);
+                                localStorage.setItem("voto", "true");
                                 
-                                // location.href =
-                                //     "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+                                location.href = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
                             } else {
                                 Swal.fire({
                                     icon: 'danger',
                                     title: 'Ooops...',
                                     text: response.message,
                                 })
-                                location.href =
-                                    "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+                                location.href = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
                             }
                         })
                         .catch((error) => {
@@ -376,20 +363,7 @@
         });
     </script>
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-
-        if (win) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Mobil.',
-            })
-
-            // rediregir al inicio si no es la plataforma
-            // setTimeout(() => {
-            //     location.href = "/";
-            // }, 1500);
-        }
+        var win = navigator.platform.indexOf('Win') > -1;        
 
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
