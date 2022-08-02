@@ -64,6 +64,17 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
+
+                                                <span
+                                                    data-url="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
+                                                    class="icon icon-shape icon-sm me-1 bg-gradient-success shadow text-center"
+                                                    style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Enlace"
+                                                    id="enlacePublico" onclick="copiarAlPortapapeles('enlacePublico')">
+                                                    <i class="fas fa-link text-white opacity-10 "
+                                                        style="cursor:pointer;"></i>
+                                                </span>
+
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
@@ -84,10 +95,11 @@
 
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
-                                                    <a href="#"
+                                                    <a href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}"
                                                         class="icon icon-shape icon-sm me-1 bg-gradient-dark shadow text-center"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Votos">
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Votos Encuestador">
                                                         <i class="fas fa-vote-yea text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </a>
@@ -95,11 +107,11 @@
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
                                                     @if ($encuesta->encuestaManual == 'Si')
-                                                        <a href="#"
+                                                        <a href="{{ route('Votos.manual', ['encuesta' => $encuesta->idEncuesta]) }}"
                                                             class="icon icon-shape icon-sm me-1 bg-gradient-secondary shadow text-center"
                                                             style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                             data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="Encuesta Manual">
+                                                            title="Votos Manual">
                                                             <i class="fas fa-hand-holding-medical text-white opacity-10 "
                                                                 style="cursor:pointer;"></i>
                                                         </a>
@@ -107,7 +119,7 @@
                                                 @endif
 
 
-                                                <a href="#"
+                                                <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
                                                     class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
                                                     style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                     data-bs-toggle="tooltip" data-bs-placement="top"
@@ -140,8 +152,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('Encuesta.store') }}" method="post" id="forms" enctype="multipart/form-data"
-                    class="needs-validation" novalidate>
+                <form action="{{ route('Encuesta.store') }}" method="post" id="forms"
+                    enctype="multipart/form-data" class="needs-validation" novalidate>
                     @csrf
                     <input type="hidden" name="idencuesta">
                     <div class="modal-body">
@@ -200,8 +212,8 @@
     <div class="position-fixed top-0 start-50 translate-middle-x z-index-2">
 
         @if (Session('success'))
-            <div class="toast fade p-2 mt-2 bg-gradient-success show" role="alert" aria-live="assertive"
-                id="infoToast" aria-atomic="true">
+            <div class="toast fade p-2 mt-2 bg-gradient-success show" role="alert" aria-live="polite" id="infoToast"
+                aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
                     <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
@@ -214,8 +226,8 @@
         @endif
 
         @if (Session('fail'))
-            <div class="toast fade p-2 mt-2 bg-gradient-danger show" role="alert" aria-live="assertive" id="infoToast"
-                aria-atomic="true">
+            <div class="toast fade p-2 mt-2 bg-gradient-danger show" role="alert" aria-live="polite" id="dangerToas"
+                aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
                     <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
@@ -238,6 +250,20 @@
 
     <script>
         let dataTableSearch;
+
+        function copiarAlPortapapeles(id_elemento) {
+            var aux = document.createElement("input");
+            aux.setAttribute("value", document.getElementById(id_elemento).dataset.url);
+            document.body.appendChild(aux);
+            aux.select();
+            document.execCommand("copy");
+            document.body.removeChild(aux);
+            Swal.fire({
+                icon: 'success',
+                title: 'Felicidades',
+                text: 'Se copio Correctamente el enlace para poder publicarlo',
+            })
+        }
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -348,9 +374,18 @@
                             .then(response => response.json())
                             .then((response) => {
                                 if (response.status) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Felicidades',
+                                        text: response.message,
+                                    })
                                     location.reload();
                                 } else {
-                                    location.reload();
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Ooops...',
+                                        text: response.message,
+                                    })
                                 }
                             })
                             .catch((error) => {

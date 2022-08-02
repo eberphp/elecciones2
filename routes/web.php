@@ -25,7 +25,6 @@ use App\Http\Controllers\Empresa\PartidosController;
 use App\Http\Controllers\Empresa\ZonasController;
 use App\Http\Controllers\Empresa\RolController;
 use App\Http\Controllers\Empresa\EncuestaController;
-use App\Http\Controllers\Empresa\EncuestaManualController;
 use App\Http\Controllers\Empresa\VotosController;
 
 /*
@@ -136,6 +135,7 @@ route::get('getDistritos/{id}', [DistritosController::class, 'getDistritos']);
 Route::get('zonas', [ZonasController::class, 'index'])->name('zonas.index');
 Route::post('zonas-store', [ZonasController::class, 'store'])->name('zonas.store');
 Route::get('zona-cambia-estado/{id}', [ZonasController::class, 'destroy'])->name('zonas.delete');
+Route::get('/{departamento}/{provincia}/{distrito}/Zonas', [ZonasController::class, 'getZonas']);
 
 Route::get('partidos', [PartidosController::class, 'index'])->name('partidos.index');
 Route::post('partifos-store', [PartidosController::class, 'store'])->name('partidos.store');
@@ -147,6 +147,7 @@ Route::get('candidatos', [CandidatosController::class, 'index'])->name('candidat
 Route::post('candidatos-store', [CandidatosController::class, 'store'])->name('candidatos.store');
 Route::put('candidatos-update/{id}', [CandidatosController::class, 'update'])->name('candidatos.update');
 Route::get('asd/{id}', [CandidatosController::class, 'destroy'])->name('elimina-candidatos');
+Route::get('/{departamento}/{provincia}/{distrito}/Candidatos', [CandidatosController::class, 'getCandidatos']);
 
 
 //roles
@@ -180,16 +181,32 @@ Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encu
     Route::get('/{encuesta}/show','show')->name('Encuesta.show');
     Route::post('/{encuesta}/update','update')->name('Encuesta.update');
     Route::get('/{encuesta}/destroy','destroy')->name('Encuesta.destroy');
+    Route::get('/{encuesta}/Publicacion','publicacion')->name('Encuesta.publicacion');
+    Route::post('/{encuesta}/Sumatoria','sumatoria')->name('Encuesta.sumatoria');
 });
 
 // RUTAS DE VOTOS
 Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')->group(function(){
     Route::get('/','index')->name('Votos');
+
     Route::get('/{encuesta}/Encuestador','encuestador')->name('Votos.encuestador');
-    Route::get('/{encuesta}/Dispositivo','dispositivo')->name('Votos.dispositivo');
     Route::get('/{encuesta}/Manual','manual')->name('Votos.manual');
+    Route::get('/{encuesta}/Grafico','grafico')->name('Votos.grafico');
+    
+    //Vista Publico
+    Route::get('/{encuesta}/Grafico/Publico','graficoPublico')->name('Votos.grafico.publico')->withoutMiddleware(['auth']);
+    Route::get('/{encuesta}/Dispositivo','dispositivo')->name('Votos.dispositivo')->withoutMiddleware(['auth']);
+
     Route::post('/','store')->name('Votos.store');
+    
+    Route::post('/Dispositivo','storeDispositivo')->name('Votos.store.dispositivo')->withoutMiddleware(['auth']);
+
+    Route::post('/Manuales','storeManual')->name('Votos.manuales');
     Route::get('/{encuesta}/show','show')->name('Votos.show');
     Route::post('/{encuesta}/update','update')->name('Votos.update');
     Route::get('/{encuesta}/destroy','destroy')->name('Votos.destroy');
+    
+
+    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/Graficos/Total', 'getVotosDepartamentos')
+    ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });

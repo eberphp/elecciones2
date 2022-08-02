@@ -19,6 +19,10 @@ class Encuestas extends Model
         'fechaTermino',
         'observaciones',
         'encuestaManual',
+        'publicacion',
+        'dispositivo',
+        'encuestador',
+        'manual',
         'estado',
     ];
 

@@ -43,7 +43,7 @@
                                     <th style="font-size: .65rem;">IdEncuesta</th>
                                     <th style="font-size: .65rem;">Encuesta</th>
                                     <th style="font-size: .65rem;">Partdido</th>
-                                    <th style="font-size: .65rem;">Candidato</th>
+                                    <th style="font-size: .65rem;">Departamento</th>
                                     <th style="font-size: .65rem;">Región</th>
                                     <th style="font-size: .65rem;">Voto</th>
                                     <th style="font-size: .65rem;">Tipo de Encuesta</th>
@@ -71,17 +71,8 @@
                                                 </div>
                                             </div>                                            
                                         </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('img/fotos/'.$voto->candidato->foto)}}" class="avatar avatar-sm me-3"
-                                                        alt="user1">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $voto->candidato->nombresApellidos }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ $voto->candidato->observaciones }}</p>
-                                                </div>
-                                            </div>   
+                                        <td><span
+                                            class="badge badge-md bg-gradient-secondary">{{ $voto->departamento->departamento }}</span>   
                                         </td>
                                         <td><span
                                             class="badge badge-md bg-gradient-secondary">{{ $voto->region }}</span></td>
