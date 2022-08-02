@@ -1,61 +1,54 @@
 @extends('intranet.layouts.layout')
 @section('style')
-    <style>
-        .cc-selector {
-            /* background-color: var(--bs-success); */
-            min-width: 45px;
-            height: 45px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+<style>
+    .cc-selector {
+        /* background-color: var(--bs-success); */
+        min-width: 45px;
+        height: 45px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-        .cc-selector input {
-            margin: 0;
-            padding: 0;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
-        }
+    .cc-selector input {
+        margin: 0;
+        padding: 0;
+    }
 
-        .cc-selector-2 input {
-            position: absolute;
-            z-index: 999;
-        }
+    .cc-selector-2 input {
+        position: absolute;
+        z-index: 999;
+    }
 
-        .cc-selector-2 input:active+.drinkcard-cc,
-        .cc-selector input:active+.drinkcard-cc {
-            opacity: .9;
-        }
+    .cc-selector-2 input:active+.drinkcard-cc,
+    .cc-selector input:active+.drinkcard-cc {
+        
+    }
 
-        .cc-selector-2 input:checked+.drinkcard-cc,
-        .cc-selector input:checked+.drinkcard-cc {
-            -webkit-filter: none;
-            -moz-filter: none;
-            filter: none;
-        }
+    .cc-selector-2 input:checked+.drinkcard-cc,
+    .cc-selector input:checked+.drinkcard-cc {
+       
+    }
 
-        .drinkcard-cc {
-            cursor: pointer;
-            background-size: contain;
-            background-repeat: no-repeat;
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            -webkit-transition: all 100ms ease-in;
-            -moz-transition: all 100ms ease-in;
-            transition: all 100ms ease-in;
-            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
-        }
+    .drinkcard-cc {
+        cursor: pointer;
+        background-size: contain;
+        background-repeat: no-repeat;
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        /* -webkit-transition: all 100ms ease-in; */
+        /* -moz-transition: all 100ms ease-in; */
+        /* transition: all 100ms ease-in; */
+        /* -webkit-filter: brightness(1.8) grayscale(1) opacity(.7); */
+        /* -moz-filter: brightness(1.8) grayscale(1) opacity(.7); */
+        /* filter: brightness(1.8) grayscale(1) opacity(.7); */
+    }
 
-        .drinkcard-cc:hover {
-            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            filter: brightness(1.2) grayscale(.5) opacity(.9);
-        }
-    </style>
+    .drinkcard-cc:hover {
+                   
+    }
+</style>
 @endsection
 @section('content')
 <div class="container-fluid py-2">
@@ -227,22 +220,33 @@
         $(document).on('click', '.allRegional', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
+            
+            $(".allRegional").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
 
             if (dataVotos.partidoRegional === '' || dataVotos.partidoRegional !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoRegional = '';
                     dataVotos.votoRegional = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -251,21 +255,33 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
+            $(".allProvincial").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
+            
+
             if (dataVotos.partidoProvincial === '' || dataVotos.partidoProvincial !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoProvincial = '';
                     dataVotos.votoProvincial = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -273,22 +289,33 @@
         $(document).on('click', '.allDistrital', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
+            
+            $(".allDistrital").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
 
             if (dataVotos.partidoDistrital === '' || dataVotos.partidoDistrital !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoDistrital = '';
                     dataVotos.votoDistrital = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -467,8 +494,8 @@
                         if (res[i].Regional.length > 0) {
                             fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
-                                        <div class="cc-selector p-2 text-center">
-                                            <input class="allRegional" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
+                                        <div class="cc-selector p-2 text-center form-check">
+                                            <input class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
                                             <label class="drinkcard-cc text-center" 
                                             style="background-image: url(${(res[i].Regional[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Regional[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                             for="r${res[i].Regional[0].id}">
@@ -486,8 +513,8 @@
                         if (res[i].Provincial.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center">
-                                        <input class="allProvincial" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center form-check">
+                                        <input class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Provincial[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Provincial[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="p${res[i].Provincial[0].id}">
@@ -504,8 +531,8 @@
                         if (res[i].Distrital.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center">
-                                        <input class="allDistrital" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center form-check">
+                                        <input class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Distrital[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Distrital[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="d${res[i].Distrital[0].id}">
