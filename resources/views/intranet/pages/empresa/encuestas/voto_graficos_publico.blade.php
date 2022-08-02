@@ -225,6 +225,10 @@
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js') }}"></script>
     <script src="https://unpkg.com/chart.js-plugin-labels-dv@3.0.5/dist/chartjs-plugin-labels.min.js"></script>
+    <script>
+        let ref = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+    </script>
+    <script src="{{ asset('js/indexdb.js') }}"></script>
 
     <script>
         let dataTableSearch;
@@ -259,7 +263,8 @@
         })
 
         window.addEventListener('DOMContentLoaded', (event) => {            
-
+            alertaGrafico();
+            
             $("#departamento").val(1);
             getProvincias();
 
@@ -267,19 +272,7 @@
        
     </script>
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if(win){
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Mobil.',
-            })
-
-            // rediregir al inicio si no es la plataforma
-            // setTimeout(() => {
-            //     location.href = "/";
-            // }, 1500);
-        }
+        var win = navigator.platform.indexOf('Win') > -1;      
 
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
