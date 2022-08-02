@@ -28,7 +28,9 @@ return new class extends Migration
             $table->string("nombreCorto");
             $table->string("telefono");
             $table->text("referencias");
+            $table->text("evaluacion");
             $table->integer("estado");
+            $table->integer("funcion_id");
             $table->integer("vinculo_id");
             $table->string("dni");
             $table->string("clave");

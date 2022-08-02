@@ -1,6 +1,49 @@
 @extends('web.layouts.layouts')
 @section('style')
-    
+    <style>
+        .new-alturita-bloque-1{
+            min-height: 135vh!important;
+        }
+
+        .new-alturita{
+            min-height: 76vh!important;
+        }
+
+        .new-alturita-bloque-3{
+            min-height: 50vh!important;
+        }
+
+        .new-alturita-bloque-4{
+            min-height: 43vh!important;
+        }
+
+        .alineacion-center{
+            background-position: center!important;
+        }
+
+        @media (max-width:767px){
+            .new-alturita-bloque-1{
+                min-height: 59vh!important;
+            }
+
+            .new-alturita{
+                min-height: 59vh!important;
+            }  
+            
+            .new-alturita-bloque-3{
+                min-height: 59vh!important;
+            }
+
+            .new-alturita-bloque-4{
+                min-height: 29vh!important;
+            }
+
+            .alineacion-center{
+                background-position: top!important;
+            }
+        }
+
+    </style>
 @endsection
 @section('content')
 <header class="slider slider-prlx fixed-slider text-center">
@@ -54,7 +97,7 @@
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
         <div class="container" style="max-width: 100%;">
             <div class="row">
-                @if ($titulo->tituloServicioVisible == 'SI')
+                {{--@if ($titulo->tituloServicioVisible == 'SI')
                 <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".5s">
                     <div class="form-group has-error has-danger controls">
                         <select name="" id="" class="form-control form-group">
@@ -70,12 +113,12 @@
                         </select>
                     </div>
                 </div>
-                @endif
+                @endif--}}
     
                 @if ($titulo->tituloServicioVisible == 'SI')
-                <div class="col-lg-6 wow fadeInLeft" data-wow-delay=".7s">
+                <div class="col-lg-12 wow fadeInLeft" data-wow-delay=".7s">
                     <div class="form-group has-error has-danger controls">
-                        <select name="" id="" class="form-control form-group" onchange="redireciona()">
+                        <select name="servicio" id="servicio" class="form-control form-group" onchange="redireciona()">
                             <option value="null">{{$titulo->titleServicio}}</option>
                             
                             @foreach ($servicios as $servicio)
@@ -113,7 +156,7 @@
     
     <section class="services bords section-padding pt-10">
         <div class="container" style="max-width: 100%;">
-            <div class="row">
+            <div class="row" style="align-items: center">
                 @foreach ($publicaciones as $publicacion)
                     @if ($publicacion->modeloBloque == 'Bloque 1')
                         @if ($publicacion->idConfiguracion == 1)
@@ -169,8 +212,8 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-1" >
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -191,19 +234,19 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
                     @if ($publicacion->modeloBloque == 'Bloque 2')
                         @if ($publicacion->idConfiguracion == 1)
-                        <div class="col-lg-6 col-sm-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             {!!$publicacion->texto!!}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 2)
-                        <div class="col-lg-6 col-6" style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;">
                             @else
@@ -216,7 +259,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 3)
-                        <div class="col-lg-6 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <a href="{{$publicacion->url}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
@@ -229,7 +272,7 @@
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 5)
-                        <div class="col-lg-6 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
+                        <div class="col-lg-6 col-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
                                 <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
@@ -250,8 +293,8 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita" >
+                                            <div class="bg-img valign" style="" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -272,8 +315,8 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
@@ -299,7 +342,7 @@
                         @if ($publicacion->idConfiguracion == 3)
                         <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{$publicacion->url}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{$publicacion->url}}"  target="_blank" style="width: 100%;"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -331,8 +374,8 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-3" style="">
+                                            <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -353,8 +396,8 @@
                                 </div>
                             </div>
                             
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
+                            {{--<br>
+                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
                         @endif
                     @endif
@@ -412,8 +455,8 @@
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
-                                        <div class="swiper-slide" style="min-height: 43vh!important;">
-                                            <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
+                                        <div class="swiper-slide new-alturita-bloque-4" >
+                                            <div class="bg-img valign alineacion-center" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
                                                 
                                             </div>
                                         </div>
@@ -433,9 +476,6 @@
         
                                 </div>
                             </div>
-                            
-                            <br>
-                            <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
                         </div>
                         @endif
                     @endif

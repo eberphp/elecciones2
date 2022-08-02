@@ -12,10 +12,10 @@ class Personal extends Model
     public function cargo(){
         return $this->belongsTo(Cargo::class, 'cargo_id');
     }
-
     public function tipoUsuario(){
         return $this->belongsTo(TipoUsuario::class, 'tipo_usuarios_id');
     }
+    
     public function vinculo(){
         return $this->belongsTo(Vinculo::class, 'vinculo_id');
     }
@@ -30,6 +30,9 @@ class Personal extends Model
     }
     public function tiposUbigeo(){
         return $this->belongsTo(TipoUbigeo::class, 'tipo_ubigeo');
+    }
+    public function funcion(){
+        return $this->belongsTo(Funcion::class,'funcion_id');
     }
 
 }

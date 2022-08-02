@@ -20,52 +20,53 @@ class PersonalController extends Controller
     public function index()
     {
         try {
-            $personal = Personal::with("cargo","vinculo","tipoUsuario","departamento","provincia","distrito")->get();
-            $maxid=Personal::max('id');
-            return response()->json(["personal" => $personal, "success" => true,"maxid" => $maxid], 200);
+            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->get();
+            $maxid = Personal::max('id');
+            return response()->json(["personal" => $personal, "success" => true, "maxid" => $maxid], 200);
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage(), "success" => false], 500);
         }
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo","vinculo","tipoUsuario","departamento","provincia","distrito","tiposUbigeo");
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo");
         return DataTables::of($areas)->make(true);
     }
 
-    public function uploadCv(Request $request){
-        try{
-            
+    public function uploadCv(Request $request)
+    {
+        try {
             $personal = Personal::find($request->id);
-            if($personal->cv){
-                if(file_exists($personal->cv)){
+            if ($personal->cv) {
+                if (file_exists($personal->cv)) {
                     unlink($personal->cv);
                 }
             }
-            $url=$request->file('cv')->store('public/documents/personal/cv');
-            $save=explode('public/',$url);
-            $personal->cv = implode("",$save);
+            $url = $request->file('cv')->store('public/documents/personal/cv');
+            $save = explode('public/', $url);
+            $personal->cv = implode("", $save);
             $personal->save();
-            return response()->json(["success" => true,"message" => "cv cargado correctamente"], 200);
-        }catch (Exception $e){
-            return response()->json(["message"=>$e->getMessage(),"success"=>false],500);
+            return response()->json(["success" => true, "message" => "cv cargado correctamente"], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
-    public function uploadImage(Request $request){
-        try{
+    public function uploadImage(Request $request)
+    {
+        try {
             $personal = Personal::find($request->id);
-            if($personal->image){
-                if(file_exists($personal->image)){
+            if ($personal->image) {
+                if (file_exists($personal->image)) {
                     unlink($personal->image);
                 }
             }
-            $url=$request->file('image')->store('public/images/personal');
-            $save=explode('public/',$url);
-            $personal->foto = implode("",$save);
+            $url = $request->file('image')->store('public/images/personal');
+            $save = explode('public/', $url);
+            $personal->foto = implode("", $save);
             $personal->save();
-            return response()->json(["success" => true,"message" => "imagen cargada correctamente"], 200);
-        }catch (Exception $e){
-            return response()->json(["message"=>$e->getMessage(),"success"=>false],500);
+            return response()->json(["success" => true, "message" => "imagen cargada correctamente"], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
     /**
@@ -86,42 +87,59 @@ class PersonalController extends Controller
      */
     public function store(Request $request)
     {
-        
-        try{
-            $personal=new Personal();
-            $personal->nombres=$request->nombres;
-            $personal->cargo_id=$request->cargo_id;
-            $personal->ppd=$request->ppd;
-            $personal->perfil=$request->perfil;
-            $personal->foto=null;
-            $personal->cv=null;
-            $personal->url_facebook=$request->url_facebook;
-            $personal->url_1=$request->url_1;
-            $personal->url_2=$request->url_2;
-            $personal->puesto_id=$request->cargo_id;
-            $personal->nombreCorto=$request->nombre_corto;
-            $personal->telefono=$request->telefono;
-            $personal->referencias=$request->referencias;
-            $personal->estado=$request->estado;
-            $personal->vinculo_id=$request->vinculo_id;
-            $personal->dni=$request->dni;
-            $personal->clave=$request->clave;
-            $personal->fecha_ingreso=$request->fecha_ingreso;
-            $personal->correo=$request->correo;
-            $personal->sugerencias="";
-            $personal->tipo_usuarios_id=$request->tipo_usuarios_id;
-            $personal->asignar_usuarios="";
-            $personal->observaciones="";
-            $personal->tipo_ubigeo=$request->tipo_ubigeo;
-            $personal->rol_id=1;
-            $personal->departamento=$request->departamento;
-            $personal->provincia=$request->provincia;
-            $personal->distrito=$request->distrito;
+        try {
+            $foto = $request->file("foto");
+            $cv = $request->file("cv");
+            $save1 = "";
+            $foto_url = "";
+            if ($foto) {
+                $url = $foto->store('public/images/personal');
+                $save1 = explode('public/', $url);
+                $foto_url = implode("", $save1);
+            }
+            $cv_url = "";
+            $save2 = "";
+            if ($cv) {
+                $url = $cv->store('public/documents/personal/cv');
+                $save2 = explode('public/', $url);
+                $cv_url = implode("", $save2);
+            }
+            $personal = new Personal();
+            $personal->nombres = isset($request->nombres) ? $request->nombres : "";
+            $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
+            $personal->ppd = isset($request->ppd) ? $request->ppd : "";
+            $personal->perfil = isset($request->perfil) ? $request->perfil : "";
+            $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
+            $personal->foto = $foto_url;
+            $personal->cv = $cv_url;
+            $personal->url_facebook = isset($request->url_facebook) ? $request->url_facebook : "";
+            $personal->url_1 = isset($request->url_1) ? $request->url_1 : "";
+            $personal->url_2 = isset($request->url_2) ? $request->url_2 : "";
+            $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $personal->telefono = isset($request->telefono) ? $request->telefono : "";
+            $personal->referencias = isset($request->referencias) ? $request->referencias : "";
+            $personal->estado = isset($request->estado) ? $request->estado : "";
+            $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
+            $personal->dni =  $request->dni ;
+            $personal->clave = isset($request->clave) ? $request->clave : "";
+            $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
+            $personal->correo = isset($request->correo) ? $request->correo : "";
+            $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
+            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
+            $personal->asignar_usuarios = "" ? isset($request->asignar_usuarios) : "";
+            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
+            $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
+            $personal->rol_id = 1;
+            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
+            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+            $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
-            return response()->json(["personal" => $personal, "success" => true,"message"=>"Personal creado con exito"], 200);
 
-        }catch(Exception $e){
-            return response()->json(['message' => $e->getMessage(), "success" => false], 500);
+            return response()->json(["personal" => $personal, "success" => true, "message" => "Personal creado con exito"], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
 
@@ -134,13 +152,13 @@ class PersonalController extends Controller
     public function show($id)
     {
         //
-        try{
-            $personal=Personal::find($id);
+        try {
+            $personal = Personal::find($id);
             $personal->cargo;
             $personal->puesto;
             $personal->tipoUsuario;
             return response()->json(["personal" => $personal, "success" => true], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage(), "success" => false], 500);
         }
     }
@@ -166,35 +184,40 @@ class PersonalController extends Controller
     public function update(Request $request, $id)
     {
         //
-        try{
-            $personal= Personal::find($id);
-            $personal->nombres=$request->nombres;
-            $personal->cargo_id=$request->cargo_id;
-            $personal->ppd=$request->ppd;
-            $personal->perfil=$request->perfil;
-            $personal->url_facebook=$request->url_facebook;
-            $personal->url_1=$request->url_1;
-            $personal->url_2=$request->url_2;
-            $personal->puesto_id=$request->cargo_id;
-            $personal->nombreCorto=$request->nombre_corto;
-            $personal->telefono=$request->telefono;
-            $personal->referencias=$request->referencias;
-            $personal->vinculo_id=$request->vinculo_id;
-            $personal->dni=$request->dni;
-            $personal->clave=$request->clave;
-            $personal->estado=$request->estado;
-            $personal->tipo_ubigeo=$request->tipo_ubigeo;
-            $personal->fecha_ingreso=$request->fecha_ingreso;
-            $personal->correo=$request->correo;
-            $personal->sugerencias="";
-            $personal->tipo_usuarios_id=$request->tipo_usuarios_id;
-            $personal->observaciones="";
-            $personal->departamento=$request->departamento;
-            $personal->provincia=$request->provincia;
-            $personal->distrito=$request->distrito;
+        try {
+            $personal = Personal::find($id);
+            $personal->nombres = isset($request->nombres) ? $request->nombres : "";
+            $personal->cargo_id = isset($request->cargo_id)?$request->cargo_id:0;
+            $personal->ppd = isset($request->ppd)?$request->ppd:"";
+            $personal->perfil = isset($request->perfil)?$request->perfil:"";
+            $personal->url_facebook = isset($request->url_facebook)?$request->url_facebook:"";
+            $personal->url_1 = isset($request->url_1)?$request->url_1:"";
+            $personal->url_2 = isset($request->url_2)?$request->url_2:"";
+            $personal->puesto_id = isset($request->cargo_id)?$request->cargo_id:0;
+            $personal->nombreCorto = isset($request->nombre_corto)?$request->nombre_corto:"";
+            $personal->telefono = isset($request->telefono)?$request->telefono:"";
+            $personal->referencias = isset($request->referencias)?$request->referencias:"";
+            
+            $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
+            $personal->vinculo_id = isset($request->vinculo_id)?$request->vinculo_id:0;
+            $personal->funcion_id = isset($request->funcion_id)?$request->funcion_id:0;
+            $personal->dni = isset($request->dni)?$request->dni:"";
+            $personal->clave = isset($request->clave)?$request->clave:"";
+            $personal->estado = isset($request->estado)?$request->estado:"";
+            $personal->tipo_ubigeo = isset($request->tipo_ubigeo)?$request->tipo_ubigeo:0;
+            $personal->fecha_ingreso = isset($request->fecha_ingreso)?$request->fecha_ingreso:"";
+            $personal->correo = isset($request->correo)?$request->correo:"";
+            $personal->sugerencias = isset($request->sugerencias)?$request->sugerencias:"";
+            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id)?$request->tipo_usuarios_id:0;
+            $personal->observaciones = isset($request->observaciones)?$request->observaciones:"";
+            $personal->departamento = isset($request->departamento)?$request->departamento:0;
+            $personal->provincia = isset($request->provincia)?$request->provincia:0;
+            
+            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
+            $personal->distrito = isset($request->distrito)?$request->distrito:0;
             $personal->save();
-            return response()->json(["personal" => $personal, "success" => true,"message" => "Personal actualizado con exito"], 200);
-        }catch(Exception $e){
+            return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage(), "success" => false], 500);
         }
     }
@@ -208,11 +231,11 @@ class PersonalController extends Controller
     public function destroy($id)
     {
         //
-        try{
-            $personal=Personal::find($id);
+        try {
+            $personal = Personal::find($id);
             $personal->delete();
-            return response()->json(["personal" => $personal, "success" => true,"message"=>"Personal eliminado con exito"], 200);
-        }catch(Exception $e){
+            return response()->json(["personal" => $personal, "success" => true, "message" => "Personal eliminado con exito"], 200);
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage(), "success" => false], 500);
         }
     }

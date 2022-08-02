@@ -109,7 +109,7 @@
                 </li>
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#configuracion"
-                        class="nav-link {{ (request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders')) ? 'active' : '' }}"
+                        class="nav-link active}}"
                         aria-controls="configuracion" role="button" aria-expanded="false">
                         <div
                             class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
@@ -203,16 +203,16 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#configuracion"
+                    <a data-bs-toggle="collapse" href="#personal"
                         class="nav-link {{ request()->is('personal')?'active' : '' }}"
-                        aria-controls="configuracion" role="button" aria-expanded="false">
+                        aria-controls="personal" role="button" aria-expanded="false">
                         <div
                             class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                             <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
                         </div>
                         <span class="nav-link-text ms-1">Personal</span>
                     </a>
-                    <div class="collapse " id="configuracion">
+                    <div class="collapse " id="personal">
                         <ul class="nav ms-4">
                          
                             <li class="nav-item ">

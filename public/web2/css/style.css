@@ -8306,15 +8306,18 @@ footer .item .copy-right p a {
   .slider .parallax-slider .swiper-slide-active .caption h1 {
     font-size: 30px;
   }
+  
+
   .slider .parallax-slider .swiper-slide .bg-img {
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-size: auto 60%;
+    background-size: auto 58%;
     background-position:center;
-  }
+}
+
   .slider .social-icon {
     display: none;
   }
