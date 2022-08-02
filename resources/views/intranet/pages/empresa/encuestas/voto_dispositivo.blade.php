@@ -206,6 +206,22 @@
             partidoProvincial: '',
             partidoDistrital: '',
         };
+        
+        let navegador = navigator.userAgent;
+        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+            console.log("Estás usando un dispositivo móvil!!");
+            alert(navigator.userAgent);
+        } else {
+            alert(navigator.userAgent);
+            Swal.fire({
+                icon: 'info',
+                title: 'Lo Sentimos..',
+                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Móvil.',
+            })
+
+            // location.href =
+            // "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+        }
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -215,10 +231,7 @@
             buttonsStyling: false
         })
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            if (!window.IndexedDB) {
-                alert("¡IndexedDB no es compatible!");
-            }
+        window.addEventListener('DOMContentLoaded', (event) => {            
 
 
         });
