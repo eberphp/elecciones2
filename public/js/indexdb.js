@@ -1,66 +1,64 @@
 let navegador = navigator.userAgent;
+let veri = false;
+// 
 if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-    console.log("Estás usando un dispositivo móvil!!");
-    // alert(navigator.userAgent);
-} else {  
-
-    Swal.fire({
-        icon: 'info',
-        title: 'Lo Sentimos..',
-        text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Móvil.',
-    })    
-
-    setTimeout(() => {
-        location.href = "/";        
-    }, 1000);
-
+    var win = navigator.platform.indexOf('Win')  > -1;
+    if(win){
+        veri = false;
+    }else{
+        veri = true;
+    }
+} else {
+    var win = navigator.platform.indexOf('Win')  > -1;
+    if(win){
+        veri = false;
+    }else{
+        veri = true;
+    }
 }
 
 const verificarVoto = () => {
-    if(localStorage.getItem("voto") === null){
-        console.log('Puede votar');
-    }else{
-        if( localStorage.getItem("voto")  === 'true'){
-            location.href = ref;
-        }else{
+    if (localStorage.getItem("voto"+encuesta) === null) {
+    } else {
+        if (localStorage.getItem("voto"+encuesta) === encuesta) {
             location.href = ref;
         }
     }
 }
 
-const alertaGrafico = () =>{
+const alertaGrafico = () => {
+    const linkVoto = document.getElementById('linkVoto');
+    const alertVoto = document.getElementById('alertVoto');
 
-    if(localStorage.getItem("voto") === null){
-        if($("#linkVoto").length > 0){
-            $("#linkVoto").attr('disabled', false);
-            $("#linkVoto").show();
-            
+    if (localStorage.getItem("voto"+encuesta) === null) {
+        if (linkVoto) {
+            linkVoto.setAttribute('disabled', false);
+            linkVoto.style.display = 'block';
         }
 
-        if($("#alertVoto").length > 0){
-            $("#alertVoto").removeClass('d-block');
-            $("#alertVoto").addClass('d-none');
-            $("#alertVoto").removeClass('bg-gradient-success');
-            $("#alertVoto").addClass('bg-gradient-info');            
+        if (alertVoto) {
+            alertVoto.classList.remove('d-block');
+            alertVoto.classList.add('d-none');
+            alertVoto.classList.remove('bg-gradient-success');
+            alertVoto.classList.add('bg-gradient-info');
         }
-    }else{
-        if( localStorage.getItem("voto")  === 'true'){
-            if($("#linkVoto").length > 0){
-                $("#linkVoto").attr("href", "#");
-                $("#linkVoto").attr('disabled', true);
-                $("#linkVoto").text('VOTO REALIZADO');
-                $("#linkVoto").hide();
-                   
+    } else {
+        if (localStorage.getItem("voto"+encuesta) === encuesta) {
+            if (linkVoto) {
+                linkVoto.setAttribute('disabled', true);
+                linkVoto.style.display = 'none';
+                linkVoto.innerText = 'VOTO REALIZADO';
             }
-    
-            if($("#alertVoto").length > 0){
-                $("#alertVoto").removeClass('d-none');
-                $("#alertVoto").addClass('d-block');            
-                $("#alertVoto").text('Usted ya participó, espera la proxima apertura.');
-                $("#alertVoto").removeClass('bg-gradient-info');
-                $("#alertVoto").addClass('bg-gradient-success');             
+
+            if (alertVoto) { 
+                alertVoto.classList.remove('d-none');
+                alertVoto.classList.add('d-block');
+                alertVoto.classList.remove('bg-gradient-info');
+                alertVoto.classList.add('bg-gradient-success');
+                alertVoto.innerText = 'Usted ya participó, espera la proxima apertura.';
             }
         }
-    }    
-    
+    }
+
+
 }
