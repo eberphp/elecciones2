@@ -251,9 +251,7 @@
 
         linkVoto.addEventListener('click', (e) => {
             if (e.target.dataset.url !== '' && veri) {
-                console.log(e.target.dataset.url);
-                console.log(veri);
-                // location.href = e.target.dataset.value
+                location.href = e.target.dataset.value
             } else {
                 Swal.fire({
                     icon: 'info',
