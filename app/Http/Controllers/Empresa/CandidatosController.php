@@ -20,12 +20,12 @@ class CandidatosController extends Controller
     public function index()
     {
         //
-        $candidatos = Candidato::where('estado',true)->get();
+        $candidatos = Candidato::where('estado', true)->get();
         $departamentos = Departamento::where('estado', 'activo')->orderBy('departamento', 'ASC')->get();
-        $provincias = Provincia::where('estado','activo')->orderBy('provincia', 'ASC')->get();
-        $distritos = Distrito::where('estado','activo')->get();
+        $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();
+        $distritos = Distrito::where('estado', 'activo')->get();
         $partidos = Partido::where('estado', 'Activo')->orderBy('partido', 'ASC')->get();
-        return view('intranet.pages.empresa.encuestas.candidatos')->with(compact('departamentos','provincias', 'distritos', 'candidatos', 'partidos'));
+        return view('intranet.pages.empresa.encuestas.candidatos')->with(compact('departamentos', 'provincias', 'distritos', 'candidatos', 'partidos'));
     }
 
     /**
@@ -46,17 +46,17 @@ class CandidatosController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->hasFile("foto")){
+        if ($request->hasFile("foto")) {
 
             $imagen = $request->file("foto");
-            $nombreimagenFoto = $imagen->getClientOriginalName().".".$imagen->guessExtension();
+            $nombreimagenFoto = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
             $ruta = public_path("img/fotos/");
-            
-            $imagen->move($ruta,$nombreimagenFoto);
+
+            $imagen->move($ruta, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;            
-            
+
         }
 
         if ($request->tipo === 'Regional') {
@@ -103,9 +103,8 @@ class CandidatosController extends Controller
                     'observaciones' => $request->observacion
                 ]);
             }
-            
         }
-        
+
         return back();
     }
 
@@ -143,21 +142,21 @@ class CandidatosController extends Controller
         //
         $candidato = Candidato::find($id);
 
-        if($request->hasFile("foto")){
+        if ($request->hasFile("foto")) {
 
             $imagen = $request->file("foto");
-            $nombreimagenFoto = $imagen->getClientOriginalName().".".$imagen->guessExtension();
+            $nombreimagenFoto = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
             $ruta = public_path("img/fotos/");
-            
-            $imagen->move($ruta,$nombreimagenFoto);
+
+            $imagen->move($ruta, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;            
-            
-        }else{
+
+        } else {
             $nombreimagenFoto = $candidato->foto;
         }
-        
+
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
         $candidato->departamento_id = $request->departamento_id;
@@ -165,7 +164,7 @@ class CandidatosController extends Controller
         $candidato->distrito_id = $request->distrito_id;
         $candidato->partido = $request->partido;
         $candidato->nombre_apellido = $request->nombre_apellido;
-        $candidato->foto = $nombreimagenFoto;//$request->foto;
+        $candidato->foto = $nombreimagenFoto; //$request->foto;
         $candidato->observador = $request->observador;
         $candidato->save();
     }
@@ -188,4 +187,23 @@ class CandidatosController extends Controller
         return back();
     }
 
+    public function getCandidatos(Request $request, $departamento, $provincia, $distrito)
+    {
+        $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
+        
+        foreach ($partidos as $partido) {
+            $partido['Regional'] = Candidato::where('idDepartamento', $departamento)->where('tipo', 'Regional')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+
+            $partido['Provincial'] = Candidato::where('idDepartamento', $departamento)
+            ->where('idProvincia', $provincia)->where('tipo', 'Provincial')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+
+            $partido['Distrital'] = Candidato::where('idDepartamento', $departamento)->where('idProvincia', $provincia)
+            ->where('idDistrito', $distrito)->where('tipo', 'Distrital')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+        }
+
+        return response()->json($partidos);
+    }
 }

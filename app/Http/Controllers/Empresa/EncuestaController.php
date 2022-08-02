@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Empresa;
 use App\Models\Encuestas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Votos;
 
 class EncuestaController extends Controller
 {
@@ -73,45 +74,113 @@ class EncuestaController extends Controller
             'observacion' => 'min:0',
         ]);
 
-        $req = $encuesta->update([
-            'nombreEncuesta' => $valiData['nombre'],
-            'fechaInicio' => $valiData['inicio'],
-            'fechaTermino' => $valiData['termino'],
-            'encuestaManual' => $valiData['encuesta'],
-            'estado' => $valiData['estado'],
-            'observaciones' => $valiData['observacion']
-        ]);
+        $votos = Votos::where('encuestaId',$encuesta->idEncuesta)->where('tipoEncuesta','Manual')->where('estado','Activo')->get();
 
-        if ($req) {
-            return to_route('Encuesta')->with('success', 'Actualizado Correctamente');
-        } else {
-            return to_route('Encuesta')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
+        if($votos){
+
+            $req = $encuesta->update([
+                'nombreEncuesta' => $valiData['nombre'],
+                'fechaInicio' => $valiData['inicio'],
+                'fechaTermino' => $valiData['termino'],
+                'estado' => $valiData['estado'],
+                'observaciones' => $valiData['observacion']
+            ]);
+
+            return to_route('Encuesta')->with('fail', 'Ya no puedes Cambiar encuesta Manual por tener Votos Manuales');
+        }else{
+            $req = $encuesta->update([
+                'nombreEncuesta' => $valiData['nombre'],
+                'fechaInicio' => $valiData['inicio'],
+                'fechaTermino' => $valiData['termino'],
+                'encuestaManual' => $valiData['encuesta'],
+                'estado' => $valiData['estado'],
+                'observaciones' => $valiData['observacion']
+            ]);
+    
+            if ($req) {
+                return to_route('Encuesta')->with('success', 'Actualizado Correctamente');
+            } else {
+                return to_route('Encuesta')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
+            }
         }
+        
     }
 
     public function destroy(Request $request, Encuestas $encuesta)
     {
-        if ($encuesta) {
-            $req = $encuesta->update([
-                'estado' => 'Eliminado',
-            ]);
+        $votos = Votos::where('encuestaId',$encuesta->idEncuesta)->where('estado','Activo')->get();
 
-            if ($req) {
-               return response()->json([
-                'status' => true,
-                'message' => 'Encuesta Eliminado'
-               ],200);
+        if($votos){
+            return response()->json([
+                'status' => false,
+                'message' => 'No puedes Eliminar esta encuesta por te votos asociados.'
+            ], 402);
+        }else{
+            if ($encuesta) {
+            
+                $req = $encuesta->update([
+                    'estado' => 'Eliminado',
+                ]);
+    
+                if ($req) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Encuesta Eliminado'
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Sucedio un error. Vuelva a intentarlo'
+                    ], 402);
+                }
             } else {
                 return response()->json([
-                'status' => true,
-                'message' => 'Sucedio un error. Vuelva a intentarlo'
-               ],402);
+                    'status' => false,
+                    'message' => 'Sucedio un error. Vuelva a intentarlo'
+                ], 402);
             }
-        } else {
+        }
+
+        
+    }
+
+    public function publicacion(Request $request, Encuestas $encuesta)
+    {
+        if ($encuesta) {
+            $encuesta->update([
+                'publicacion' => ($encuesta->publicacion == 'Si') ? 'No' : 'Si',
+            ]);
+
             return response()->json([
                 'status' => true,
-                'message' => 'Sucedio un error. Vuelva a intentarlo'
-               ],402);
+                'message' => 'Encuesta Publicada Satisfactoriamente.'
+            ], 200);
         }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sucedio un error. Vuelva a intentarlo'
+        ], 402);
+    }
+
+    public function sumatoria(Request $request, Encuestas $encuesta)
+    {
+        if ($encuesta) {
+            $encuesta->update([
+                'dispositivo' => $request['dispositivo'],
+                'encuestador' => $request['encuestador'],
+                'manual' => $request['manual'],
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Encuesta Publicada Satisfactoriamente.'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Sucedio un error. Vuelva a intentarlo'
+        ], 402);
     }
 }

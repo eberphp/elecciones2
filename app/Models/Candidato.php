@@ -23,4 +23,9 @@ class candidato extends Model
         'visualiza',
         'observaciones'
     ];
+
+    public function partido()
+    {
+        return $this->belongsTo(Partido::class,'idPartido','id');
+    }
 }

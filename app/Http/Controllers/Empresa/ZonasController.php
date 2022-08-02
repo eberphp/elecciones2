@@ -105,4 +105,11 @@ class ZonasController extends Controller
         return back();
         
     }
+
+    public function getZonas(Request $request, $departamento, $provincia, $distrito){
+        $zonas = Zona::where('idDepartamento',$departamento)->where('idProvincia',$provincia)
+        ->where('idDistrito',$distrito)->where('estado','activo')->get();
+        return response()->json($zonas);
+    }
+
 }

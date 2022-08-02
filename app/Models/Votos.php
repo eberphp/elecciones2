@@ -16,10 +16,14 @@ class Votos extends Model
     protected $fillable = [
         'encuestaId',
         'partidoId',
-        'candidatoId',
+        'departamentoId',
+        'provinciaId',
+        'distritoId',
+        'zonaId',
         'region',
         'votos',
         'tipoEncuesta',
+        'codigo',
         'fecha',
         'estado',
     ];
@@ -34,8 +38,23 @@ class Votos extends Model
         return $this->belongsTo(Partido::class,'partidoId','id');
     }
 
-    public function candidato()
+    public function departamento()
     {
-        return $this->belongsTo(Candidato::class,'candidatoId','id');
+        return $this->belongsTo(Departamento::class,'departamentoId','id');
+    }
+
+    public function provincia()
+    {
+        return $this->belongsTo(Provincia::class,'provinciaId','id');
+    }
+
+    public function distrito()
+    {
+        return $this->belongsTo(Distrito::class,'distritoId','id');
+    }
+
+    public function zona()
+    {
+        return $this->belongsTo(Zona::class,'zonaId','id');
     }
 }
