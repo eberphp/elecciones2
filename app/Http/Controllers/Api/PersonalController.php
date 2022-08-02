@@ -197,6 +197,8 @@ class PersonalController extends Controller
             $personal->nombreCorto = isset($request->nombre_corto)?$request->nombre_corto:"";
             $personal->telefono = isset($request->telefono)?$request->telefono:"";
             $personal->referencias = isset($request->referencias)?$request->referencias:"";
+            
+            $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
             $personal->vinculo_id = isset($request->vinculo_id)?$request->vinculo_id:0;
             $personal->funcion_id = isset($request->funcion_id)?$request->funcion_id:0;
             $personal->dni = isset($request->dni)?$request->dni:"";
@@ -210,6 +212,8 @@ class PersonalController extends Controller
             $personal->observaciones = isset($request->observaciones)?$request->observaciones:"";
             $personal->departamento = isset($request->departamento)?$request->departamento:0;
             $personal->provincia = isset($request->provincia)?$request->provincia:0;
+            
+            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
             $personal->distrito = isset($request->distrito)?$request->distrito:0;
             $personal->save();
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);

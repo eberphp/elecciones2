@@ -29,7 +29,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombres</label>
-                                                    <input type="text"  name="nombres" class="form-control"
+                                                    <input type="text" name="nombres" class="form-control"
                                                         id="nombres_ic">
                                                     <div class="invalid-feedback" id="invalidNombresCreate">
                                                     </div>
@@ -38,7 +38,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombre Corto</label>
-                                                    <input type="text"  name="nombre_corto" class="form-control"
+                                                    <input type="text" name="nombre_corto" class="form-control"
                                                         id="nombre_corto_ic">
 
                                                 </div>
@@ -46,7 +46,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Telefono</label>
-                                                    <input type="text"  name="telefono" class="form-control"
+                                                    <input type="text" name="telefono" class="form-control"
                                                         id="telefono_corto_ic">
 
                                                 </div>
@@ -54,7 +54,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Dni</label>
-                                                    <input type="text" required  name="dni" class="form-control"
+                                                    <input type="text" required name="dni" class="form-control"
                                                         id="dni_ic">
 
                                                 </div>
@@ -62,7 +62,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Correo</label>
-                                                    <input type="text"  name="correo" class="form-control"
+                                                    <input type="text" name="correo" class="form-control"
                                                         id="correo_ic">
 
                                                 </div>
@@ -70,7 +70,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Clave</label>
-                                                    <input type="text"  required name="clave" class="form-control"
+                                                    <input type="text" required name="clave" class="form-control"
                                                         id="clave_ic">
 
                                                 </div>
@@ -78,7 +78,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Fecha ingreso</label>
-                                                    <input type="date"  name="fecha_ingreso" class="form-control"
+                                                    <input type="date" name="fecha_ingreso" class="form-control"
                                                         id="fecha_ingreso_ic">
 
                                                 </div>
@@ -86,7 +86,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
-                                                    <select  name="cargo_id" class="form-control" id="cargo_id_ic">
+                                                    <select name="cargo_id" class="form-control" id="cargo_id_ic">
                                                         <option value="">---Seleccione---</option>
                                                         @foreach ($cargos as $cargo)
                                                             <option value="{{ $cargo->id }}">{{ $cargo->nombre }}
@@ -96,12 +96,11 @@
 
                                                 </div>
                                             </div>
-                                          
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
-                                                    <select  name="vinculo_id" class="form-control"
-                                                        id="vinculo_id_ic">
+                                                    <select name="vinculo_id" class="form-control" id="vinculo_id_ic">
 
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($vinculos as $vinculo)
@@ -115,7 +114,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo de usuario</label>
-                                                    <select  name="tipo_usuarios_id" class="form-control"
+                                                    <select name="tipo_usuarios_id" class="form-control"
                                                         id="tipo_usuarios_id_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUsuarios as $tipoUsuario)
@@ -129,8 +128,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo ubigeo</label>
-                                                    <select  name="tipo_ubigeo" class="form-control"
-                                                        id="tipo_ubigeo_ic">
+                                                    <select name="tipo_ubigeo" class="form-control" id="tipo_ubigeo_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($tipoUbigeos as $tipoUbigeo)
                                                             <option value="{{ $tipoUbigeo->id }}">
@@ -142,8 +140,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Funcion</label>
-                                                    <select  name="funcion_id" class="form-control"
-                                                        id="funcion_id_ic">
+                                                    <select name="funcion_id" class="form-control" id="funcion_id_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($funciones as $funcion)
                                                             <option value="{{ $funcion->id }}">
@@ -155,8 +152,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Puesto</label>
-                                                    <select  name="puesto_id" class="form-control"
-                                                        id="puesto_id_ic">
+                                                    <select name="puesto_id" class="form-control" id="puesto_id_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($puestos as $puesto)
                                                             <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
@@ -169,7 +165,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Estado</label>
-                                                    <select  name="estado" class="form-control" id="estado_ic">
+                                                    <select name="estado" class="form-control" id="estado_ic">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($estadoEvaluaciones as $estado)
                                                             <option value="{{ $estado->id }}">
@@ -181,8 +177,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Departamento</label>
-                                                    <select  name="departamento" class="form-control"
-                                                        id="departamento">
+                                                    <select name="departamento" class="form-control" id="departamento">
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($departamentos as $departamento)
                                                             <option value="{{ $departamento->id }}">
@@ -194,8 +189,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Provincia</label>
-                                                    <select  name="provincia" class="form-control"
-                                                        id="provincia">
+                                                    <select name="provincia" class="form-control" id="provincia">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
                                                 </div>
@@ -203,7 +197,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Distrito</label>
-                                                    <select  name="distrito" class="form-control" id="distrito">
+                                                    <select name="distrito" class="form-control" id="distrito">
                                                         <option value=""> -- Seleccione -- </option>
                                                     </select>
                                                 </div>
@@ -211,7 +205,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Foto</label>
-                                                    <input type="file"  name="foto" class="form-control"
+                                                    <input type="file" name="foto" class="form-control"
                                                         id="foto_ic">
 
                                                 </div>
@@ -219,7 +213,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cv</label>
-                                                    <input type="file"  name="cv" class="form-control"
+                                                    <input type="file" name="cv" class="form-control"
                                                         id="cv_ic">
 
                                                 </div>
@@ -227,8 +221,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url facebook</label>
-                                                    <input type="text"  name="url_facebook"
-                                                        class="form-control" id="url_facebook_ic">
+                                                    <input type="text" name="url_facebook" class="form-control"
+                                                        id="url_facebook_ic">
 
                                                 </div>
                                             </div>
@@ -236,7 +230,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 1</label>
-                                                    <input type="text"  name="url_1" class="form-control"
+                                                    <input type="text" name="url_1" class="form-control"
                                                         id="url_1_ic">
 
                                                 </div>
@@ -244,7 +238,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Url 2</label>
-                                                    <input type="text"  name="url_2" class="form-control"
+                                                    <input type="text" name="url_2" class="form-control"
                                                         id="url_2_ic">
 
                                                 </div>
@@ -252,7 +246,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">PPD</label>
-                                                    <input type="text"  name="ppd" class="form-control"
+                                                    <input type="text" name="ppd" class="form-control"
                                                         id="ppd_ic">
                                                 </div>
                                             </div>
@@ -261,7 +255,7 @@
                                                     <label class="form-label">
                                                         Referencias
                                                     </label>
-                                                    <textarea class="form-control"  name="referencias" id="referencias_ic"></textarea>
+                                                    <textarea class="form-control ckeditor" name="referencias" id="referencias_ic"></textarea>
 
 
                                                 </div>
@@ -271,7 +265,7 @@
                                                     <label class="form-label">
                                                         Perfil
                                                     </label>
-                                                    <textarea class="form-control ckeditor"  name="perfil" id="perfil_ic"></textarea>
+                                                    <textarea class="form-control ckeditor" name="perfil" id="perfil_ic"></textarea>
 
 
                                                 </div>
@@ -387,7 +381,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
                                                     <select name="cargo_id" class="form-control" id="cargo_id_ie">
-                                                        
+
                                                         <option value=""> -- Seleccione -- </option>
                                                         @foreach ($cargos as $cargo)
                                                             <option value="{{ $cargo->id }}">{{ $cargo->nombre }}
@@ -397,7 +391,7 @@
 
                                                 </div>
                                             </div>
-                                          
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Vinculo</label>
@@ -1601,22 +1595,28 @@
                 objtValues = {};
                 e.preventDefault();
                 let data = $(this).serializeArray();
+                console.log(data);
                 data.forEach(function(item) {
+                    
                     objtValues[item.name] = item.value;
+
                 });
                 const formData = new FormData();
                 let documents = true;
                 if ($("#foto_ic")[0].files[0]) {
                     formData.append('foto', $("#foto_ic")[0].files[0]);
-                } 
+                }
                 if ($("#cv_ic")[0].files[0]) {
                     formData.append('cv', $("#cv_ic")[0].files[0]);
-                } 
+                }
                 if (validateFormNew(objtValues)) {
                     Object.keys(objtValues).forEach(function(key) {
                         formData.append(key, objtValues[key]);
                     });
-                    formData.append('personal', objtValues);
+                    formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
+                    formData.append('evaluacion',CKEDITOR.instances['evaluacion_ic'].getData());
+                    formData.append('observaciones',CKEDITOR.instances['observaciones_ic'].getData());
+                    formData.append('sugerencias',CKEDITOR.instances['sugerencias_ic'].getData());
                     $.ajax({
                         url: $("#createForm").attr("action"),
                         type: "POST",
@@ -1654,6 +1654,11 @@
                     objtValues[item.name] = item.value;
                 });
                 if (validateFormEdit(objtValues)) {
+                    objtValues['perfil']= CKEDITOR.instances['perfil_ie'].getData();
+                    objtValues['evaluacion']=CKEDITOR.instances['evaluacion_ie'].getData();
+                    objtValues['observaciones']=CKEDITOR.instances['observaciones_ie'].getData();
+                    objtValues['sugerencias']=CKEDITOR.instances['sugerencias_ie'].getData();
+                    console.log(objtValues);
                     $.ajax({
                         url: `/api/personal/${objtValues.id}`,
                         type: "PUT",
@@ -1705,13 +1710,13 @@
                     {
                         data: "nombres",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "ppd",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
@@ -1724,7 +1729,7 @@
                     {
                         data: "foto",
                         render: function(data, row, type) {
-                            return `<span objectid="${type.id}"  onclick="handleEditImagen(this)" class="btn btn-primary btn-sm" >Perfil</span>`;
+                            return `<span objectid="${type.id}"  onclick="handleEditImagen(this)" class="btn btn-primary btn-sm" >Foto</span>`;
                         }
                     },
                     {
@@ -1742,37 +1747,39 @@
                     {
                         data: "url_facebook",
                         render: function(data) {
-                            return data?data:"";
+                           return  `<a href="${data}" target="_blank">${data}</a>`
                         }
                     },
                     {
                         data: "url_1",
                         render: function(data) {
-                            return data?data:"";
+                            
+                           return  `<a href="${data}" target="_blank">${data}</a>`
                         }
                     },
                     {
                         data: "url_2",
                         render: function(data) {
-                            return data?data:"";
+                            
+                           return  `<a href="${data}" target="_blank">${data}</a>`
                         }
                     },
                     {
                         data: "funcion.nombre",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "nombreCorto",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "telefono",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
@@ -1790,39 +1797,40 @@
                     {
                         data: "estado",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "vinculo.nombre",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "dni",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
 
                     {
                         data: "clave",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "fecha_ingreso",
                         render: function(data) {
-                            
-                            return data? moment(data).format('DD/MM/YY'):moment().format('DD/MM/YY');
+
+                            return data ? moment(data).format('DD/MM/YY') : moment().format(
+                                'DD/MM/YY');
                         }
                     },
                     {
                         data: "correo",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
@@ -1844,13 +1852,13 @@
                     {
                         data: "tipo_usuario.nivel",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "asignar_usuarios",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
@@ -1884,19 +1892,19 @@
                     {
                         data: "departamento.departamento",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "provincia.provincia",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
                     {
                         data: "distrito.distrito",
                         render: function(data) {
-                            return data?data:"";
+                            return data ? data : "";
                         }
                     },
 
@@ -1928,10 +1936,14 @@
         const handleViewProfile = function(e) {
             let id = $(e).attr("objectid");
             let object = datos.find(x => x.id == id);
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(object.perfil, 'text/html');
-            let html = doc.body.firstChild.data;
-            $("#perfilvalue").html(html);
+            if (object.perfil) {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(object.perfil, 'text/html');
+                let html = doc.body.firstChild.data;
+                $("#perfilvalue").html(html);
+            }else{
+                $("#perfilvalue").html("");
+            }
             $("#perfilModal").modal("show");
 
         }
@@ -1940,10 +1952,14 @@
             let object = datos.find(x => x.id == id);
             console.log(object);
             $("#id_ie").val(id);
-            let parser = new DOMParser();
-            let doc = parser.parseFromString(object.evaluacion, 'text/html');
-            let html = doc.body.firstChild.data;
-            $("#evaluacionvalue").html(html);
+            if (object.evaluacion) {
+                let parser = new DOMParser();
+                let doc = parser.parseFromString(object.evaluacion, 'text/html');
+                let html = doc.body.firstChild.data;
+                $("#evaluacionvalue").html(html);
+            }else{
+                $("#evaluacionvalue").html("");
+            }
             $("#evaluacionModal").modal("show");
         }
         const handleEdit = function(ev) {
