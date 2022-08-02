@@ -15,7 +15,7 @@ class DatosController extends Controller
     }
 
     public function update(Request $request, $id){
-        
+        dd($request);
         $datos = DatosEmpresa::find($id);
         
         if($request->hasFile("favicon")){
@@ -36,7 +36,7 @@ class DatosController extends Controller
         if($request->hasFile("bannerPrincipal")){
 
             $imagen = $request->file("bannerPrincipal");
-            $nombreimagenBanner = $imagen->getClientOriginalName().".".$imagen->guessExtension();
+            $nombreimagenBanner = $imagen->getClientOriginalName();//.".".$imagen->guessExtension();
             $ruta = public_path("img/bannerPrincipal/");
 
             $imagen->move($ruta,$nombreimagenBanner);
