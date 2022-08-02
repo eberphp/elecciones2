@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
-use App\Models\vinculo;
+use App\Models\Vinculo;
 use Exception;
 use Illuminate\Http\Request;
 use PhpParser\Node\Expr;
@@ -20,7 +20,7 @@ class VinculoController extends Controller
     public function index()
     {
         try {
-            $vinculos = vinculo::all();
+            $vinculos = Vinculo::all();
             return response()->json(["vinculos" => $vinculos, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -29,7 +29,7 @@ class VinculoController extends Controller
     
     public function pagination(Request $request)
     {
-        $vinculos = vinculo::select(["*"]);
+        $vinculos = Vinculo::select(["*"]);
         return DataTables::of($vinculos)->make(true);
     }
 
@@ -53,7 +53,7 @@ class VinculoController extends Controller
     {
         //crear vinculo
         try {
-            $vinculo = new vinculo();
+            $vinculo = new Vinculo();
             $vinculo->nombre = $request->nombre;
             $vinculo->estado = "activo";
             $vinculo->save();
@@ -73,7 +73,7 @@ class VinculoController extends Controller
     {
         //detalle vinculo
         try {
-            $vinculo = vinculo::find($id);
+            $vinculo = Vinculo::find($id);
             return response()->json(["vinculo" => $vinculo, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);

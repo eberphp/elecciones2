@@ -8,7 +8,7 @@ use App\Models\EstadoEvaluacion;
 use App\Models\Funcion;
 use App\Models\TipoUbigeo;
 use App\Models\TipoUsuario;
-use App\Models\vinculo;
+use App\Models\Vinculo;
 use Illuminate\Http\Request;
 
 class ConfiguracionController extends Controller
@@ -70,7 +70,7 @@ class ConfiguracionController extends Controller
     {
         $cargos = Cargo::all();
         $puestos = $cargos;
-        $vinculos = vinculo::all();
+        $vinculos = Vinculo::all();
         $funciones=Funcion::all();
         $tipoUsuarios=TipoUsuario::all();
         $tipoUbigeos=TipoUbigeo::all();

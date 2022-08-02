@@ -36,7 +36,6 @@ class PersonalController extends Controller
     public function uploadCv(Request $request)
     {
         try {
-
             $personal = Personal::find($request->id);
             if ($personal->cv) {
                 if (file_exists($personal->cv)) {

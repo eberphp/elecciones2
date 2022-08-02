@@ -15,6 +15,7 @@ class Personal extends Model
     public function tipoUsuario(){
         return $this->belongsTo(TipoUsuario::class, 'tipo_usuarios_id');
     }
+    
     public function vinculo(){
         return $this->belongsTo(Vinculo::class, 'vinculo_id');
     }
