@@ -22,11 +22,11 @@
     }
 
     iframe {
-            position: absolute!important;
+            /*position: absolute!important;*/
             top:0;
             left: 0;
             width: 100%!important;
-            height: auto;/*100%!important;*/
+            /*height: 100%!important;*/
         }
 
     @media (max-width:767px){
