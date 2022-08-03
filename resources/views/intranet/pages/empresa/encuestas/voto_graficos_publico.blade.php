@@ -586,7 +586,7 @@
                         },
                         title: {
                             display: true,
-                            padding: 40,
+                            padding: { bottom: 40},
                             color: 'black',
                             text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
@@ -662,7 +662,7 @@
                         },
                         title: {
                             display: true,
-                            padding: 40,
+                            padding: { bottom: 40},
                             color: 'black',
                             text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
@@ -738,7 +738,7 @@
                         },
                         title: {
                             display: true,
-                            padding: 40,
+                            padding: { bottom: 40},
                             color: 'black',
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
