@@ -49,6 +49,14 @@
             .alineacion-center{
                 background-position: top!important;
             }
+
+            iframe {
+                /*position: absolute!important;*/
+                top:0;
+                left: 0;
+                width: 99%!important;
+                height: 215px;
+            }
         }
 
     </style>
