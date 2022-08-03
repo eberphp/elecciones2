@@ -26,7 +26,7 @@
             top:0;
             left: 0;
             width: 100%!important;
-            height: 100%!important;
+            height: auto;/*height: 100%!important;*/
         }
 
         @media (max-width:767px){
