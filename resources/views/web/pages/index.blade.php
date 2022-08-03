@@ -21,7 +21,7 @@
             background-position: center!important;
         }
 
-        .embed-container iframe {
+        iframe {
             position: absolute!important;
             top:0;
             left: 0;

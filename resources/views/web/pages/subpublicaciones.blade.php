@@ -21,6 +21,14 @@
         background-position: center!important;
     }
 
+    iframe {
+            position: absolute!important;
+            top:0;
+            left: 0;
+            width: 100%!important;
+            height: 100%!important;
+        }
+
     @media (max-width:767px){
         .new-alturita-bloque-1{
             min-height: 59vh!important;
