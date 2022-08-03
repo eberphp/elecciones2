@@ -13,9 +13,6 @@
         .cc-selector input {
             margin: 0;
             padding: 0;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            appearance: none;
         }
 
         .cc-selector-2 input {
@@ -25,14 +22,12 @@
 
         .cc-selector-2 input:active+.drinkcard-cc,
         .cc-selector input:active+.drinkcard-cc {
-            opacity: .9;
+            
         }
 
         .cc-selector-2 input:checked+.drinkcard-cc,
         .cc-selector input:checked+.drinkcard-cc {
-            -webkit-filter: none;
-            -moz-filter: none;
-            filter: none;
+           
         }
 
         .drinkcard-cc {
@@ -42,18 +37,16 @@
             display: inline-block;
             width: 50px;
             height: 50px;
-            -webkit-transition: all 100ms ease-in;
-            -moz-transition: all 100ms ease-in;
-            transition: all 100ms ease-in;
-            -webkit-filter: brightness(1.8) grayscale(1) opacity(.7);
-            -moz-filter: brightness(1.8) grayscale(1) opacity(.7);
-            filter: brightness(1.8) grayscale(1) opacity(.7);
+            /* -webkit-transition: all 100ms ease-in; */
+            /* -moz-transition: all 100ms ease-in; */
+            /* transition: all 100ms ease-in; */
+            /* -webkit-filter: brightness(1.8) grayscale(1) opacity(.7); */
+            /* -moz-filter: brightness(1.8) grayscale(1) opacity(.7); */
+            /* filter: brightness(1.8) grayscale(1) opacity(.7); */
         }
 
         .drinkcard-cc:hover {
-            -webkit-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            -moz-filter: brightness(1.2) grayscale(.5) opacity(.9);
-            filter: brightness(1.2) grayscale(.5) opacity(.9);
+                       
         }
     </style>
 @endsection
@@ -138,9 +131,9 @@
                                             <tr class="text-center">
                                                 <th style="font-size: .85rem;">Partidos</th>
                                                 <th style="font-size: .85rem;">Logo Tipo</th>
-                                                <th style="font-size: .85rem;">Región</th>
-                                                <th style="font-size: .85rem;">Provincia</th>
-                                                <th style="font-size: .85rem;">Distrito</th>
+                                                <th style="font-size: .85rem;" width="35px">Región</th>
+                                                <th style="font-size: .85rem;" width="35px">Provincia</th>
+                                                <th style="font-size: .85rem;" width="35px">Distrito</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tbDataCandidatos"></tbody>
@@ -197,6 +190,10 @@
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
+    <script>
+        let ref = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+        let encuesta = "{{ $encuesta->idEncuesta }}";
+    </script>
     <script src="{{ asset('js/indexdb.js') }}"></script>
 
     <script>
@@ -206,22 +203,8 @@
             partidoProvincial: '',
             partidoDistrital: '',
         };
-        
-        let navegador = navigator.userAgent;
-        if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
-            console.log("Estás usando un dispositivo móvil!!");
-            alert(navigator.userAgent);
-        } else {
-            alert(navigator.userAgent);
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Móvil.',
-            })
 
-            // location.href =
-            // "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
-        }
+        
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -231,30 +214,43 @@
             buttonsStyling: false
         })
 
-        window.addEventListener('DOMContentLoaded', (event) => {            
-
+        window.addEventListener('DOMContentLoaded', (event) => { 
+            verificarVoto();         
+            alertaGrafico();
 
         });
+        
 
         $(document).on('click', '.allRegional', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
+            
+            $(".allRegional").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
 
             if (dataVotos.partidoRegional === '' || dataVotos.partidoRegional !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoRegional = '';
                     dataVotos.votoRegional = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -263,21 +259,33 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
+            $(".allProvincial").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
+            
+
             if (dataVotos.partidoProvincial === '' || dataVotos.partidoProvincial !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoProvincial = '';
                     dataVotos.votoProvincial = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -285,22 +293,33 @@
         $(document).on('click', '.allDistrital', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
+            
+            $(".allDistrital").each((key, el)=>{
+                el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+            }) 
 
             if (dataVotos.partidoDistrital === '' || dataVotos.partidoDistrital !== partido) {
 
                 if (partido !== '') {
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
                     e.currentTarget.checked = false;
                     dataVotos.partidoDistrital = '';
                     dataVotos.votoDistrital = 0;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
+                    e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
                 }
             }
         });
@@ -351,11 +370,9 @@
                                     text: response.message,
                                 })
                                 
-                                console.log(dbs);
-                                console.log(inoDb.transaction);
+                                localStorage.setItem("voto"+encuesta, encuesta);
                                 
-                                // location.href =
-                                //     "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+                                location.href = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
                             } else {
                                 Swal.fire({
                                     icon: 'danger',
@@ -376,20 +393,7 @@
         });
     </script>
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-
-        if (win) {
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Mobil.',
-            })
-
-            // rediregir al inicio si no es la plataforma
-            // setTimeout(() => {
-            //     location.href = "/";
-            // }, 1500);
-        }
+        var win = navigator.platform.indexOf('Win') > -1;       
 
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
@@ -497,8 +501,8 @@
                         if (res[i].Regional.length > 0) {
                             fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
-                                        <div class="cc-selector p-2 text-center">
-                                            <input class="allRegional" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
+                                        <div class="cc-selector p-2 text-center form-check">
+                                            <input class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
                                             <label class="drinkcard-cc text-center" 
                                             style="background-image: url(${(res[i].Regional[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Regional[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                             for="r${res[i].Regional[0].id}">
@@ -516,8 +520,8 @@
                         if (res[i].Provincial.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center">
-                                        <input class="allProvincial" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center form-check">
+                                        <input class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Provincial[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Provincial[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="p${res[i].Provincial[0].id}">
@@ -534,8 +538,8 @@
                         if (res[i].Distrital.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center">
-                                        <input class="allDistrital" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center form-check">
+                                        <input class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Distrital[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Distrital[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="d${res[i].Distrital[0].id}">

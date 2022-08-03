@@ -1,108 +1,64 @@
-let dbs ;
-let inoDb;
-// check for IndexedDB support
-if (!window.indexedDB) {
-    console.log(`Your browser doesn't support IndexedDB`);
-    // return;
-}
-
-// open the CRM database with the version 1
-const request = indexedDB.open('CRM', 1);
-
-inoDb = request;
-// create the Contacts object store and indexes
-request.onupgradeneeded = (event) => {
-    let db = event.target.result;
-
-    // create the Contacts object store 
-    // with auto-increment id
-    let store = db.createObjectStore('Votos', {
-        autoIncrement: true
-    });
-
-    // create an index on the email property
-    let index = store.createIndex('voto', 'voto', {
-        unique: true
-    });
-};
-
-// handle the error event
-request.onerror = (event) => {
-    console.error(`Database error: ${event.target.errorCode}`);
-};
-
-// handle the success event
-request.onsuccess = (event) => {
-     const db = event.target.result;
-
-    dbs = event;
-    // get contact by id 1
-    // getContactById(db, 1);
-
-    // get contact by email
-    getContactByVoto(db, 'Si');
-
-    // get all contacts
-    // getAllContacts(db);
-
-    // deleteContact(db, 1);
-
-    console.log(inoDb);
-
-};
-
-function insertContact(db, contact) {
-    // create a new transaction
-    const txn = db.transaction('Votos', 'readwrite');
-
-    // get the Contacts object store
-    const store = txn.objectStore('Votos');
-    //
-    let query = store.put(contact);
-
-    // handle success case
-    query.onsuccess = function (event) {
-        console.log(event);
-    };
-
-    // handle the error case
-    query.onerror = function (event) {
-        console.log(event.target.errorCode);
+let navegador = navigator.userAgent;
+let veri = false;
+// 
+if (navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/webOS/i) || navigator.userAgent.match(/iPhone/i) || navigator.userAgent.match(/iPad/i) || navigator.userAgent.match(/iPod/i) || navigator.userAgent.match(/BlackBerry/i) || navigator.userAgent.match(/Windows Phone/i)) {
+    var win = navigator.platform.indexOf('Win')  > -1;
+    if(win){
+        veri = false;
+    }else{
+        veri = true;
     }
-
-    // close the database once the 
-    // transaction completes
-    txn.oncomplete = function () {
-        db.close();
-    };
+} else {
+    var win = navigator.platform.indexOf('Win')  > -1;
+    if(win){
+        veri = false;
+    }else{
+        veri = true;
+    }
 }
 
+const verificarVoto = () => {
+    if (localStorage.getItem("voto"+encuesta) === null) {
+    } else {
+        if (localStorage.getItem("voto"+encuesta) === encuesta) {
+            location.href = ref;
+        }
+    }
+}
 
-function getContactByVoto(db, voto) {
-    const txn = db.transaction('Votos', 'readonly');
-    const store = txn.objectStore('Votos');
+const alertaGrafico = () => {
+    const linkVoto = document.getElementById('linkVoto');
+    const alertVoto = document.getElementById('alertVoto');
 
-    // get the index from the Object Store
-    const index = store.index('voto');
-    // query by indexes
-    let query = index.get(voto);
+    if (localStorage.getItem("voto"+encuesta) === null) {
+        if (linkVoto) {
+            linkVoto.setAttribute('disabled', false);
+            linkVoto.style.display = 'block';
+        }
 
-    // return the result object on success
-    query.onsuccess = (event) => {
-        if (query.result !== undefined) {
-            if (query.result.voto == 'Si') {
-                location.href =
-                    "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
+        if (alertVoto) {
+            alertVoto.classList.remove('d-block');
+            alertVoto.classList.add('d-none');
+            alertVoto.classList.remove('bg-gradient-success');
+            alertVoto.classList.add('bg-gradient-info');
+        }
+    } else {
+        if (localStorage.getItem("voto"+encuesta) === encuesta) {
+            if (linkVoto) {
+                linkVoto.setAttribute('disabled', true);
+                linkVoto.style.display = 'none';
+                linkVoto.innerText = 'VOTO REALIZADO';
+            }
+
+            if (alertVoto) { 
+                alertVoto.classList.remove('d-none');
+                alertVoto.classList.add('d-block');
+                alertVoto.classList.remove('bg-gradient-info');
+                alertVoto.classList.add('bg-gradient-success');
+                alertVoto.innerText = 'Usted ya participó, espera la proxima apertura.';
             }
         }
-    };
-
-    query.onerror = (event) => {
-        console.log(event.target.errorCode);
     }
 
-    // close the database connection
-    txn.oncomplete = function () {
-        db.close();
-    };
+
 }

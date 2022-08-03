@@ -1,6 +1,10 @@
 @extends('intranet.layouts.public')
 @section('style')
     <style>
+        @media only screen and (min-width: 768px) {
+        /* For desktop: */
+        .graf{height: 300px;}
+    }
     </style>
 @endsection
 @section('content')
@@ -12,7 +16,8 @@
                     <div class="card-header bg-gradient-info ">
                         <div class="row ">
                             <div class="col-12 col-md-8 mb-3">
-                                <h5 class="mb-0 text-white " style="font-size: 15px;">{{ $encuesta->nombreEncuesta }} - GRÁFICOS / Por Ubicación y
+                                <h5 class="mb-0 text-white " style="font-size: 15px;">{{ $encuesta->nombreEncuesta }} -
+                                    GRÁFICOS / Por Ubicación y
                                     Resultado Total</h5>
                             </div>
                             <div class="col-12 col-md-4 text-end">
@@ -64,30 +69,28 @@
                             <div class="col-12 col-md-3 text-center">
                                 <div class="row">
                                     <div class="col-12 text-center">
-                                        <a href="{{ route('Votos.dispositivo',['encuesta'=> Crypt::encryptString($encuesta->idEncuesta)]) }}" class="btn btn-sm w-100 bg-gradient-info mx-1">Votar</a>                                        
+                                        <span id="linkVoto"
+                                            data-url="{{ route('Votos.dispositivo', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
+                                            class="btn btn-sm w-100 bg-gradient-info mx-1">Votar</span>
 
-                                        <span class="d-block fw-bold alertVotoDis d-none" style="font-size: 12px;">Usted ya
+                                        <span id="alertVoto"
+                                            class="d-block fw-bold d-none text-white btn btn-sm bg-gradient-info"
+                                            style="font-size: 14px;">Usted ya
                                             participó, espera la proxima apertura.</span>
                                     </div>
 
                                     <div class="col-12 text-center">
 
-                                        <div class="dropdown mt-2 w-100 ">
-                                            <button class="btn bg-gradient-secondary dropdown-toggle" type="button"
-                                                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Encuestas Anteriores
-                                            </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @foreach ($encuestas as $publicado)
-                                                    <li><a class="dropdown-item"
-                                                            href="{{ route('Votos.grafico.publico',['encuesta'=>Crypt::encryptString($publicado->idEncuesta)]) }}"><span
-                                                                class="badge bg-gradient-primary">{{ $publicado->fechaTermino }}</span>
-                                                            <span
-                                                                class="badge bg-gradient-{{ $publicado->publicacion == 'Si' ? 'success' : 'info' }}">{{ $publicado->publicacion == 'Si' ? 'Publicado' : 'En Proceso' }}</span>
-                                                        </a></li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                        <select name="anteriores" id="anteriores" class="form-control text-center">
+                                            <option value="">--- Encuestas Anteriores ---</option>
+                                            @foreach ($encuestas as $publicado)
+                                                <option
+                                                    value="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($publicado->idEncuesta)]) }}">
+                                                    {{ $publicado->fechaTermino }} -
+                                                    {{ $publicado->publicacion == 'Si' ? 'Publicado' : 'En Proceso' }}
+                                                </option>
+                                            @endforeach
+                                        </select>
 
                                     </div>
                                 </div>
@@ -101,7 +104,7 @@
                     </div>
 
                 </div>
-                <div class="card mt-3 shadow-lg">
+                <div class="card mt-3 shadow-lg {{ $encuesta->publicacion == 'Si' ? '' : 'd-none' }}">
                     <div class="card-header bg-gradient-success text-white">
                         <div class="row">
                             <div class="col-12 col-md-3 mb-3">
@@ -128,8 +131,7 @@
 
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="distrito" class="text-white">Distrito</label>
-                                <select name="distrito" id="distrito" class="form-control" required
-                                    onchange="getZonas(0)">
+                                <select name="distrito" id="distrito" class="form-control" required onchange="getZonas(0)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
@@ -149,37 +151,39 @@
                 </div>
             </div> <!-- End CArr -->
 
-            <div class="row mb-3 mt-3">
-                <div class="col-12 col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="chart">
-                                <canvas id="chart-departamento" class="chart-canvas" height="300px"></canvas>
+            @if ($encuesta->publicacion == 'Si')
+                <div class="row mb-3 mt-3">
+                    <div class="col-12 col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="chart-departamento" class="chart-canvas graf" height="220px;"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-12 col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body p-3">
-                            <div class="chart">
-                                <canvas id="chart-provincia" class="chart-canvas" height="300px"></canvas>
+                    <div class="col-12 col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="chart-provincia" class="chart-canvas graf" height="220px;"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-12 col-md-4">
-                    <div class="card mb-3">
-                        <div class="card-body p-3">
-                            <div class="chart">
-                                <canvas id="chart-distrito" class="chart-canvas" height="300px"></canvas>
+                    <div class="col-12 col-md-4">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <div class="chart">
+                                    <canvas id="chart-distrito" class="chart-canvas graf" height="220px;"></canvas>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
         </div>
     </div>
@@ -225,6 +229,11 @@
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js') }}"></script>
     <script src="https://unpkg.com/chart.js-plugin-labels-dv@3.0.5/dist/chartjs-plugin-labels.min.js"></script>
+    <script>
+        let ref = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+        let encuesta = "{{ $encuesta->idEncuesta }}";
+    </script>
+    <script src="{{ asset('js/indexdb.js') }}"></script>
 
     <script>
         let dataTableSearch;
@@ -233,7 +242,29 @@
             votoPro: [],
             votoDis: [],
         };
-        
+
+        const anteriores = document.getElementById('anteriores');
+
+        anteriores.addEventListener('change', (e) => {
+            if (e.target.value !== '') {
+                location.href = e.target.value
+            }
+        })
+
+        const linkVoto = document.getElementById('linkVoto');
+
+        linkVoto.addEventListener('click', (e) => {
+            if (e.target.dataset.url !== '' && veri) {
+                location.href = e.target.dataset.url
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Lo Sentimos..',
+                    text: 'Sólo disponible en Móvil',
+                })
+            }
+        })
+
 
         $("#resultado").change((e) => {
 
@@ -258,28 +289,17 @@
             buttonsStyling: false
         })
 
-        window.addEventListener('DOMContentLoaded', (event) => {            
+        window.addEventListener('DOMContentLoaded', (event) => {
+
+            alertaGrafico();
 
             $("#departamento").val(1);
             getProvincias();
 
         });
-       
     </script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
-        if(win){
-            Swal.fire({
-                icon: 'info',
-                title: 'Lo Sentimos..',
-                text: 'Lo sentimos mucho, por favor Acceda por un dispositivo Mobil.',
-            })
-
-            // rediregir al inicio si no es la plataforma
-            // setTimeout(() => {
-            //     location.href = "/";
-            // }, 1500);
-        }
 
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
@@ -415,34 +435,37 @@
                 totalDis = 0;
 
             res.forEach(el => {
-                
+
                 if (el.cReg.length > 0) {
-                    let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cReg[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cReg[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
+                        width: 34,
+                        height: 34,
                         value: el.Regional[0].total
                     });
                 }
 
                 if (el.cPro.length > 0) {
-                    let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cPro[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cPro[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
+                        width: 34,
+                        height: 34,
                         value: el.Provincial[0].total
                     });
                 }
 
                 if (el.cDis.length > 0) {
-                    let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cDis[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cDis[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 16,
-                        height: 16,
-                        value: el.Distrital[0].total
+                        width: 34,
+                        height: 34,
+                        value: parseInt(el.Distrital[0].total)
                     });
                 }
 
@@ -456,35 +479,79 @@
                 totalDis += parseInt(el.Distrital[0].total);
             });
 
-            res.forEach(el => {
-                let porDep = ((parseInt(el.Regional[0].total) / totalDep) * 100).toFixed(2);
+            // ORDEN DEPARTAMENTO
+            let dataDeps = dataDep.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataDeps.forEach((el, key) =>{
+                let porDep = ((el / totalDep) * 100).toFixed(2);
                 if (isNaN(porDep)) {
                     porDep = 0;
                 }
                 labDep.push(porDep + '%');
+            })
 
-                let porPro = ((parseInt(el.Provincial[0].total) / totalPro) * 100).toFixed(2);
+            // ORDEN PROVINCIAL
+            let dataPros = dataPro.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataPros.forEach((el, key) =>{
+                let porPro = ((el / totalPro) * 100).toFixed(2);
                 if (isNaN(porPro)) {
                     porPro = 0;
                 }
                 lebPro.push(porPro + '%');
+            })
 
-                let porDis = ((parseInt(el.Distrital[0].total) / totalDis) * 100).toFixed(2);
+            // ORDEN DISTRITAL
+            let dataDiss = dataDis.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataDiss.forEach((el, key) =>{
+                let porDis = ((el / totalDis) * 100).toFixed(2);
                 if (isNaN(porDis)) {
                     porDis = 0;
                 }
                 labDis.push(porDis + '%');
-            });
+            })
 
-            setGraDep(labDep.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataDep.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgDep.sort((a, b) => { return b.value - a.value; }), totalDep);
-            setGraPro(lebPro.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataPro.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgPro.sort((a, b) => { return b.value - a.value; }), totalPro);
-            setGraDis(labDis.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataDis.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgDis.sort((a, b) => { return b.value - a.value; }), totalDis);
+
+                setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
+                    return b.value - a.value;
+                }), totalDep);
+            setGraPro(lebPro, dataPro, imgPro.sort((a, b) => {
+                return b.value - a.value;
+            }), totalPro);
+            setGraDis(labDis, dataDis, imgDis.sort((a, b) => {
+                return b.value - a.value;
+            }), totalDis);
 
         }
 
         const setGraDep = (labels, data, images, total) => {
 
-            let dep = document.getElementById("chart-departamento").getContext("2d");
+            let dep = document.getElementById("chart-departamento").getContext("2d");            
 
             if (chDep) {
                 chDep.destroy();
@@ -519,9 +586,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 40},
                             color: 'black',
-                            text: 'Total de Votos Departamento: ' + total
+                            text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -560,7 +627,7 @@
 
         const setGraPro = (labels, data, images, total) => {
 
-            let pro = document.getElementById("chart-provincia").getContext("2d");
+            let pro = document.getElementById("chart-provincia").getContext("2d");            
 
             if (chPro) {
                 chPro.destroy();
@@ -595,9 +662,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 40},
                             color: 'black',
-                            text: 'Total de Votos Provincia: ' + total
+                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -671,9 +738,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 40},
                             color: 'black',
-                            text: 'Total de Votos Distrito: ' + total
+                            text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
