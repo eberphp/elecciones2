@@ -740,7 +740,7 @@
                             display: true,
                             padding: 40,
                             color: 'black',
-                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
+                            text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
