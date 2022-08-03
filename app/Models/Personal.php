@@ -34,5 +34,8 @@ class Personal extends Model
     public function funcion(){
         return $this->belongsTo(Funcion::class,'funcion_id');
     }
-
+    public function asignaciones()
+    {
+    	return $this->hasMany(Asignacion::class);
+    }
 }

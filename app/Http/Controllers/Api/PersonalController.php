@@ -4,14 +4,25 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Asignacion;
 use App\Models\Personal;
+use App\Models\Permiso;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\DataTables;
+use Response;
+//use Auth;
 
 class PersonalController extends Controller
 {
+    protected const MSG_SCS_CRTROL = 'Roles asignados exitosamente.';
+    protected const MSG_ERR_CRTROL = 'Ocurrió un problema mientras se intentaba asignar roles.';
+    protected const MSG_SCS_DLTROL = 'Roles eliminados exitosamente.';
+    protected const MSG_ERR_DLTROL = 'Ocurrió un problema mientras se intentaba eliminar roles.';
+    protected const MSG_NOT_FNDPER = 'El personal solicitado no ha sido encontrado.';
+    protected const MSG_NOT_FNDROL = 'El rol solicitado no ha sido encontrado.';
+
     /**
      * Display a listing of the resource.
      *
@@ -69,6 +80,49 @@ class PersonalController extends Controller
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
+
+    /* Roles: Ricardo Bejar */
+    public function asignarRoles(Request $request) 
+    {
+        $request->validate([
+            'personal_id' => 'required|integer|min:1',
+            'permisos' => 'required|array',
+        ], self::validationErrorMessages());
+
+        $personal = Personal::find($request->personal_id);
+        
+        if (!$personal)
+            return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
+
+        foreach ($personal->asignaciones as $asignacion) //elimino permisos fuera de la lista
+            if (!in_array($asignacion->permiso_id, $request->permisos))
+                if (!$asignacion->delete())
+                    return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_DLTROL]], 503);
+
+        foreach ($request->permisos as $permiso_id) { //agrego los permisos sin registrar
+            if (!Asignacion::where(['personal_id' => $personal->id, 'permiso_id' => $permiso_id])->first()) {
+                if (!Asignacion::create([
+                    'personal_id' => $personal->id,
+                    'permiso_id' => $permiso_id,
+                    //'created_by' => Auth::user()->id
+                ]))
+                    return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_CRTROL]], 503);
+            }
+        }
+        return Response::json(['success' => 'true', 'message' => self::MSG_SCS_CRTROL], 201);
+    }
+
+    public function obtenerRoles(Request $request, $id) 
+    {
+        $personal = Personal::find($id);
+
+        if (!$personal)
+            return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
+
+        return $personal->asignaciones;
+    }
+    /* Roles: Fin */
+
     /**
      * Show the form for creating a new resource.
      *
@@ -277,5 +331,17 @@ class PersonalController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage(), "success" => false], 500);
         }
+    }
+
+    protected static function validationErrorMessages()
+    {
+        return [
+            'personal_id.required' => 'Debes ingresar obligatoriamente el ID del personal.',
+            'personal_id.integer' => 'El ID de personal ingresado no tiene un formato válido.',
+            'personal_id.min' => 'El ID de personal ingresado no es válido.',
+
+            'permisos.required' => 'Debes seleccionar, al menos, un rol.',
+            'permisos.array' => 'La lista de permisos ingresada no tiene un formato válido.',
+        ];
     }
 }

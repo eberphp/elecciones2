@@ -117,3 +117,10 @@ Route::group([
     Route::post('/refresh', [AuthController::class, 'refresh']);
     Route::get('/user-profile', [AuthController::class, 'userProfile']);
 });
+
+/*Route::group([
+    'middleware'=> 'auth:sanctum'
+], function() {*/
+    Route::get("personal/obtenerRoles/{id}", [PersonalController::class, "obtenerRoles"]);
+    Route::post("personal/asignarRoles", [PersonalController::class, "asignarRoles"]);
+/*});*/
