@@ -1,6 +1,10 @@
 @extends('intranet.layouts.public')
 @section('style')
     <style>
+        @media only screen and (min-width: 768px) {
+        /* For desktop: */
+        .graf{height: 300px;}
+    }
     </style>
 @endsection
 @section('content')
@@ -153,7 +157,7 @@
                         <div class="card mb-3">
                             <div class="card-body">
                                 <div class="chart">
-                                    <canvas id="chart-departamento" class="chart-canvas" height="300px"></canvas>
+                                    <canvas id="chart-departamento" class="chart-canvas graf" height="220px;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -161,9 +165,9 @@
 
                     <div class="col-12 col-md-4">
                         <div class="card mb-3">
-                            <div class="card-body p-3">
+                            <div class="card-body">
                                 <div class="chart">
-                                    <canvas id="chart-provincia" class="chart-canvas" height="300px"></canvas>
+                                    <canvas id="chart-provincia" class="chart-canvas graf" height="220px;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -171,9 +175,9 @@
 
                     <div class="col-12 col-md-4">
                         <div class="card mb-3">
-                            <div class="card-body p-3">
+                            <div class="card-body">
                                 <div class="chart">
-                                    <canvas id="chart-distrito" class="chart-canvas" height="300px"></canvas>
+                                    <canvas id="chart-distrito" class="chart-canvas graf" height="220px;"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -437,8 +441,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
+                        width: 34,
+                        height: 34,
                         value: el.Regional[0].total
                     });
                 }
@@ -448,8 +452,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
+                        width: 34,
+                        height: 34,
                         value: el.Provincial[0].total
                     });
                 }
@@ -459,8 +463,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
+                        width: 34,
+                        height: 34,
                         value: parseInt(el.Distrital[0].total)
                     });
                 }
@@ -547,7 +551,7 @@
 
         const setGraDep = (labels, data, images, total) => {
 
-            let dep = document.getElementById("chart-departamento").getContext("2d");
+            let dep = document.getElementById("chart-departamento").getContext("2d");            
 
             if (chDep) {
                 chDep.destroy();
@@ -582,9 +586,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: 40,
                             color: 'black',
-                            text: 'Total de Votos Departamento: ' + total
+                            text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -623,7 +627,7 @@
 
         const setGraPro = (labels, data, images, total) => {
 
-            let pro = document.getElementById("chart-provincia").getContext("2d");
+            let pro = document.getElementById("chart-provincia").getContext("2d");            
 
             if (chPro) {
                 chPro.destroy();
@@ -658,9 +662,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: 40,
                             color: 'black',
-                            text: 'Total de Votos Provincia: ' + total
+                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -734,9 +738,9 @@
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: 40,
                             color: 'black',
-                            text: 'Total de Votos Distrito: ' + total
+                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
