@@ -57,7 +57,8 @@
                       <td class="text-sm font-weight-normal">
                         @if ($candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital')
                         <?php $prov = App\Models\Provincia::find($candidato->idProvincia); ?>
-                        {{$prov->provincia}}
+                        dd($prov);
+                        {{$prov}}
                         @else
                           ---
                         @endif
