@@ -657,8 +657,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 32,
-                        height: 50,
+                        width: 20,
+                        height: 24,
                         value: el.Regional[0].total
                     });
                 }
@@ -668,8 +668,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 32,
-                        height: 50,
+                        width: 20,
+                        height: 24,
                         value: el.Provincial[0].total
                     });
                 }
@@ -679,8 +679,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 32,
-                        height: 50,
+                        width: 20,
+                        height: 24,
                         value: parseInt(el.Distrital[0].total)
                     });
                 }
@@ -824,6 +824,8 @@
                             }
                         },
                         x: {
+                            min: 0,
+                            max: 6,
                             grid: {
                                 drawBorder: false,
                                 display: false,
