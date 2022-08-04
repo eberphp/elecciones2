@@ -2,28 +2,30 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Proyecto extends Model
 {
     use HasFactory;
 
     protected $table = "proyectos";
-    protected $primaryKey = 'idProyectos';
+    protected $primaryKey = 'idProyecto';
     public $timestamps = false;
 
     protected $fillable = [
         'nombre',
         'diasVencidos',
         'fechaInicio',
-        'plazoDias',
-        'plazoHoras',
+        'plazo',
         'totalEntregables',
         'encargado',
         'responsable',
         'costo',
         'observaciones',
+        'estadoActivida',
         'estado',
     ];
 
@@ -36,4 +38,10 @@ class Proyecto extends Model
     {
         return $this->belongsTo(User::class,'responsable','id');
     }
+
+
+    protected $casts = [
+        'fechaInicio' => 'timestamp',
+        'plazo' => 'timestamp',
+    ];
 }

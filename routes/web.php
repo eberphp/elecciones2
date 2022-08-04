@@ -218,9 +218,7 @@ Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')
 Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proyecto')->group(function(){
     Route::get('/','index')->name('Proyecto');
     Route::post('/','store')->name('Proyecto.store');
-    Route::get('/{encuesta}/show','show')->name('Proyecto.show');
-    Route::post('/{encuesta}/update','update')->name('Proyecto.update');
-    Route::get('/{encuesta}/destroy','destroy')->name('Proyecto.destroy');
-    Route::get('/{encuesta}/Publicacion','publicacion')->name('Proyecto.publicacion');
-    Route::post('/{encuesta}/Sumatoria','sumatoria')->name('Proyecto.sumatoria');
+    Route::get('/{proyecto}/show','show')->name('Proyecto.show');
+    Route::post('/{proyecto}/update','update')->name('Proyecto.update');
+    Route::get('/{proyecto}/destroy','destroy')->name('Proyecto.destroy');
 });

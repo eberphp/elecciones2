@@ -61,7 +61,6 @@
                                         <th>D.V</th>
                                         <th>F. Inicio</th>
                                         <th>Dias</th>
-                                        <th>Horas</th>
                                         <th>AJ/P</th>
                                         <th>Encargado</th>
                                         <th>Responsable</th>
@@ -118,9 +117,8 @@
                                             <td>{{ $proyecto->nombre }}</td>
                                             <td><span class="badge badge-md rounded bg-gradient-info">0 % E</span></td>
                                             <td><span class="badge badge-md rounded bg-gradient-success">5 Diás</span></td>
-                                            <td>{{ $proyecto->fechaInicio }}</td>
-                                            <td><span class="badge badge-md rounded bg-gradient-dark">{{ $proyecto->plazoDias }} Diás</span></td>
-                                            <td><span class="badge badge-md rounded bg-gradient-dark">{{ $proyecto->plazoHoras }} Hrs</span></td>
+                                            <td><span class="badge badge-md rounded bg-gradient-success">{{ \Carbon\Carbon::parse($proyecto->fechaInicio)->format('d-m-Y H:i:s') }}</span></td>
+                                            <td><span class="badge badge-md rounded bg-gradient-dark">{{ \Carbon\Carbon::parse($proyecto->plazo)->format('d-m-Y H:i:s')  ?? '---' }}</span></td>
                                             <td><span class="badge badge-md rounded bg-gradient-dark">0 E</span></td>
                                             <td><span class="badge badge-md rounded bg-gradient-secondary">{{ $proyecto->encargados->email }}</span></td>
                                             <td><span class="badge badge-md rounded bg-gradient-secondary">{{ $proyecto->responsables->email }}</span></td>
@@ -162,7 +160,7 @@
                 <form action="{{ route('Proyecto.store') }}" method="post" id="forms"
                     enctype="multipart/form-data" class="needs-validation" novalidate>
                     @csrf
-                    <input type="hidden" name="idencuesta">
+                    <input type="hidden" name="idproyecto">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12 mb-3">
@@ -174,41 +172,39 @@
 
                             <div class="col-12 col-md-6 mb-3">
                                 <label for="">Fecha Inicio</label>
-                                <input type="date" name="inicio" required class="form-control datepicker">
-                                <div class="invalid-feedback">Campo requerido*</div>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Diás</label>
-                                <input type="number" name="dias" required class="form-control">
-                                <div class="invalid-feedback">Campo requerido*</div>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Horas</label>
-                                <input type="number" any name="horas" required class="form-control">
+                                <input type="datetime-local" name="inicio" class="form-control datepicker">
                                 <div class="invalid-feedback">Campo requerido*</div>
                             </div>
 
                             <div class="col-12 col-md-6 mb-3">
-                                <label for="">Responsable</label>
-                                <select name="responsable" class="form-control" required>
-                                    <option value="No" selected>No</option>
-                                    <option value="Si">Si</option>
-                                </select>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Costo</label>
-                                <input type="number" any name="costo" required class="form-control">
+                                <label for="">Diás</label>
+                                <input type="datetime-local" name="dias" required class="form-control">
                                 <div class="invalid-feedback">Campo requerido*</div>
                             </div>
 
-                            <div class="col-12 col-md-3 mb-3">
+                            <div class="col-12 col-md-12 mb-3">
+                                <label for="">Responsable</label>
+                                <select name="responsable" class="form-control" required>
+                                    <option value="" selected>-- Seleccione --</option>
+                                    @foreach ($responsables as $responsable )
+                                       <option value="{{ $responsable->id }}">{{ $responsable->email }}</option> 
+                                    @endforeach
+                                </select>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <label for="">Costo</label>
+                                <input type="number" any name="costo" class="form-control">
+                                <div class="invalid-feedback">Campo requerido*</div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
                                 <label for="">Estado</label>
                                 <select name="estado" class="form-control" required>
-                                    <option value="Activo" selected>Activo</option>
-                                    <option value="Inactivo">Inactivo</option>
+                                    <option value="" selected>-- Seleccione --</option>
+                                    @foreach ($estados as $estado )
+                                        <option value="{{ $estado->id }}">{{ $estado->nombre }}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -231,7 +227,7 @@
     <div class="position-fixed top-0 start-50 translate-middle-x z-index-2">
 
         @if (Session('success'))
-            <div class="toast fade p-2 mt-2 bg-gradient-success show" role="alert" aria-live="polite" id="infoToast"
+            <div class="toast fade p-2 mt-2 bg-gradient-success rounded show" role="alert" aria-live="polite" id="infoToast"
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
@@ -245,7 +241,7 @@
         @endif
 
         @if (Session('fail'))
-            <div class="toast fade p-2 mt-2 bg-gradient-danger show" role="alert" aria-live="polite" id="dangerToas"
+            <div class="toast fade p-2 mt-2 bg-gradient-danger rouended show" role="alert" aria-live="polite" id="dangerToas"
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
@@ -329,7 +325,7 @@
         $(document).on('click', '.btnEditar', (e) => {
             const ids = e.currentTarget.dataset.item
             if (ids !== '') {
-                fetch('/Encuesta/' + ids + '/show', {
+                fetch('/Proyecto/' + ids + '/show', {
                         credentials: 'include',
                         method: 'GET',
                         headers: {
@@ -342,20 +338,21 @@
 
                             $("#exampleModalLabel")[0].parentNode.classList.remove('bg-success');
                             $("#exampleModalLabel")[0].parentNode.classList.add('bg-info');
-                            $("#exampleModalLabel").text('Editar Encuesta');
+                            $("#exampleModalLabel").text('Editar Proyecto');
 
                             $("#btnSubmit").text('Actualizar');
 
-                            $("#forms")[0].attributes[0].value = '/Encuesta/' + response.data.idEncuesta +
+                            $("#forms")[0].attributes[0].value = '/Proyecto/' + response.data.idProyecto +
                                 '/update';
                             $("#forms")[0].attributes[1].value = 'POST';
 
-                            $("#forms input[name=idencuesta]").val(response.data.idEncuesta);
-                            $("#forms input[name=nombre]").val(response.data.nombreEncuesta);
-                            $("#forms input[name=inicio]").val(response.data.fechaInicio);
-                            $("#forms input[name=termino]").val(response.data.fechaTermino);
-                            $("#forms select[name=encuesta]").val(response.data.encuestaManual);
-                            $("#forms select[name=estado]").val(response.data.estado);
+                            $("#forms input[name=idproyecto]").val(response.data.idProyecto);
+                            $("#forms input[name=nombre]").val(response.data.nombre);
+                            $("#forms input[name=inicio]").val(response.data.date);
+                            $("#forms input[name=dias]").val(response.data.plazoDias);
+                            $("#forms select[name=responsable]").val(response.data.responsable);
+                            $("#forms input[name=costo]").val(response.data.costo);
+                            $("#forms select[name=estado]").val(response.data.estadoActivida);
                             $("#forms textarea[name=observacion]").val(response.data.observaciones);
 
                             $("#exampleModal").modal('show');
@@ -372,8 +369,8 @@
         $(document).on('click', '.btnEliminar', (e) => {
 
             swalWithBootstrapButtons.fire({
-                title: 'Estas por Eliminar una Encuesta?',
-                text: "Estas de acuerdo en borrar esta Encuesta",
+                title: 'Estas por Eliminar un Proyecto?',
+                text: "Estas de acuerdo en borrar este Proyecto",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Si, Eliminar',
@@ -383,7 +380,7 @@
 
                     const ids = e.currentTarget.dataset.item
                     if (ids !== '') {
-                        fetch('/Encuesta/' + ids + '/destroy', {
+                        fetch('/Proyecto/' + ids + '/destroy', {
                                 credentials: 'include',
                                 method: 'GET',
                                 headers: {
@@ -419,7 +416,7 @@
         $('#exampleModal').on('hidden.bs.modal', function(e) {
             $("#exampleModalLabel")[0].parentNode.classList.remove('bg-info');
             $("#exampleModalLabel")[0].parentNode.classList.add('bg-success');
-            $("#exampleModalLabel").text('Crear Encuesta');
+            $("#exampleModalLabel").text('Crear Proyecto');
 
             $("#btnSubmit").text('Crear');
 
@@ -427,7 +424,7 @@
             $("#forms")[0].reset();
             $('#forms').trigger("reset");
 
-            $("#forms")[0].attributes[0].value = '/Encuesta';
+            $("#forms")[0].attributes[0].value = '/Proyecto';
             $("#forms")[0].attributes[1].value = 'POST';
         });
     </script>
