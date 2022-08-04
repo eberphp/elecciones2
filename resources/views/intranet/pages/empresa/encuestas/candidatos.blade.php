@@ -57,8 +57,8 @@
                       <td class="text-sm font-weight-normal">
                         @if ($candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital')
                         <?php $prov = App\Models\Provincia::find($candidato->idProvincia); ?>
-                        {{$prov->provincial}}
-                        @else 
+                        {{$prov->provincia}}
+                        @else
                           ---
                         @endif
                       </td>
@@ -66,7 +66,7 @@
                         @if ($candidato->tipo == 'Distrital')
                         <?php $dist = App\Models\Distrito::find($candidato->idDistrito); ?>
                         {{$dist->distrito}}
-                        @else 
+                        @else
                           ---
                         @endif
                       </td>
@@ -100,7 +100,7 @@
         </div>
       </div>
     </div>
-    
+
   </div>
   <!-- Modal Crear-->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -128,7 +128,7 @@
                       <option value="Regional">Regional</option>
                       <option value="Provincial">Provincial</option>
                       <option value="Distrital">Distrital</option>
-                        
+
                     </select>
                 </div>
               </div>
@@ -156,7 +156,7 @@
                     <label for="">Distrito</label>
                     <select name="idDistrito" id="idDistrito" class="form-control">
                         @foreach ($distritos as $distrito)
-                        
+
                         @endforeach
                     </select>
                 </div>
@@ -165,7 +165,7 @@
                 <div class="col-12">
                     <label for="">Partido</label>
                     <select name="idPartido" id="idPartido" class="form-control" >
-                      
+
                         @foreach ($partidos as $partido)
                         <option value="{{$partido->id}}">{{$partido->partido}}</option>
                         @endforeach
@@ -229,7 +229,7 @@
                       <option value="Regional">Regional</option>
                       <option value="Provincial">Provincial</option>
                       <option value="Distrital">Distrital</option>
-                        
+
                     </select>
                 </div>
               </div>
@@ -258,7 +258,7 @@
                     <label for="">Distrito</label>
                     <select name="idDistrito" id="idDistrito" class="form-control">
                         @foreach ($distritos as $distrito)
-                        
+
                         @endforeach
                     </select>
                 </div>
@@ -267,7 +267,7 @@
                 <div class="col-12">
                     <label for="">Partido</label>
                     <select name="idPartido" id="idPartido" class="form-control" >
-                      
+
                         @foreach ($partidos as $partido)
                         <option value="{{$partido->id}}">{{$partido->partido}}</option>
                         @endforeach
@@ -342,7 +342,7 @@
           var fila = "";
           for (let i = 0; i < res.length; i++) {
             fila += '<option value="'+res[i].id+'">'+res[i].provincia+'</option>';
-            
+
           }
           console.log(fila);
           $("#idProvincia option").remove();
@@ -367,7 +367,7 @@
           var fila = "";
           for (let i = 0; i < res.length; i++) {
             fila += '<option value="'+res[i].id+'">'+res[i].distrito+'</option>';
-            
+
           }
           $("#idDistrito option").remove();
           $("#idDistrito").append(fila);
@@ -391,7 +391,7 @@
           $('#div-provincia').css("display", 'block');
         $('#div-distrito').css("display", 'block');
         }
-      } 
+      }
     }
   </script>
 @endsection
