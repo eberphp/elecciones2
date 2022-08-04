@@ -155,17 +155,17 @@
                     </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Nosotros</a>
+                        <a class="nav-link" href="{{ route('nosotros')}}" target="_blank">Nosotros</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('login')}}" target="_blank">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <!--<li class="nav-item">
                         <a class="nav-link" href="contact.html">Pages</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.html">Contáctanos</a>
-                    </li>
+                    </li>-->
                 </ul>
             </div>
         </div>

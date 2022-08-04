@@ -41,6 +41,8 @@ use App\Http\Controllers\Empresa\VotosController;
 
 Route::get('/', [WebController::class, 'index'])->name('/');
 
+Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

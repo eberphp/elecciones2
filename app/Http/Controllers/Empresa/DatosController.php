@@ -57,6 +57,7 @@ class DatosController extends Controller
         $datos->correo = $request->correo;
         $datos->piePagina = $request->piePagina;
         $datos->terminoCondiciones = $request->terminoCondiciones;
+        $datos->nosotros = $request->nosotros;
         $datos->derechos = $request->derechos;
         $datos->save();
 
