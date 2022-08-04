@@ -152,7 +152,7 @@
             </div> <!-- End CArr -->
 
             @if ($encuesta->publicacion == 'Si')
-                <div class="row mb-3 mt-3">
+                <div class="row mb-3 mt-3" style="padding-right: 0;">
                     <div class="col-12 col-md-4">
                         <div class="card mb-3">
                             <div class="card-body">
@@ -709,14 +709,16 @@
                         borderRadius: 4,
                         backgroundColor: "#20c997",
                         data: data,
-                        fill: true,
-                        maxBarThickness: 35,
-                        display: false,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout:{
+                        padding:{
+                            right: 16,
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
@@ -733,37 +735,48 @@
                             text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                display: true,
-                                padding: 10,
-                                color: "#9ca2b7"
-                            }
-                        },
+                    scales: {                        
                         x: {
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                drawOnChartArea: true,
-                                drawTicks: true
-                            },
-                            ticks: {
-                                display: true,
-                                color: "#9ca2b7",
-                                padding: 10
-                            }
+                            min: 0,
+                            max: dataView,
+                        }                            
+                    }
+                },
+                plugins:[moveChart]
+            });
+
+            const moveScroll = () => {
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chPro;
+
+                canvas.addEventListener('click', (event)=>{
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chPro.options.scales.x.min = chPro.options.scales.x.min - dataMax;
+                        chPro.options.scales.x.max = chPro.options.scales.x.max - dataMax;
+                        if(chPro.options.scales.x.min <= 0){
+                            chPro.options.scales.x.min = 0;
+                            chPro.options.scales.x.max = dataView;
+                        }                        
+                    }
+                    
+
+                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chPro.options.scales.x.min = chPro.options.scales.x.min + dataMax;
+                        chPro.options.scales.x.max = chPro.options.scales.x.max + dataMax;
+                        if(chPro.options.scales.x.max >= data.length){
+                            chPro.options.scales.x.min = data.length - dataMax;
+                            chPro.options.scales.x.max = data.length;
                         }
                     }
-                }
-            });
+                    chPro.update();
+
+                });
+            }
+
+            chPro.ctx.onclick = moveScroll();
 
         }
 
@@ -786,14 +799,16 @@
                         borderRadius: 4,
                         backgroundColor: "#20c997",
                         data: data,
-                        fill: true,
-                        maxBarThickness: 35,
-                        display: false,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout:{
+                        padding:{
+                            right: 16,
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
@@ -810,37 +825,48 @@
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                display: true,
-                                padding: 10,
-                                color: "#9ca2b7"
-                            }
-                        },
+                    scales: {                        
                         x: {
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                drawOnChartArea: true,
-                                drawTicks: true
-                            },
-                            ticks: {
-                                display: true,
-                                color: "#9ca2b7",
-                                padding: 10
-                            }
+                            min: 0,
+                            max: dataView,
                         }
                     }
-                }
+                },
+                plugins:[moveChart]
             });
+
+            const moveScroll = () => {
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chDis;
+
+                canvas.addEventListener('click', (event)=>{
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDis.options.scales.x.min = chDis.options.scales.x.min - dataMax;
+                        chDis.options.scales.x.max = chDis.options.scales.x.max - dataMax;
+                        if(chDis.options.scales.x.min <= 0){
+                            chDis.options.scales.x.min = 0;
+                            chDis.options.scales.x.max = dataView;
+                        }                        
+                    }
+                    
+
+                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDis.options.scales.x.min = chDis.options.scales.x.min + dataMax;
+                        chDis.options.scales.x.max = chDis.options.scales.x.max + dataMax;
+                        if(chDis.options.scales.x.max >= data.length){
+                            chDis.options.scales.x.min = data.length - dataMax;
+                            chDis.options.scales.x.max = data.length;
+                        }
+                    }
+                    chDis.update();
+
+                });
+            }
+
+            chDis.ctx.onclick = moveScroll();
 
         }
     </script>

@@ -211,7 +211,7 @@
                 </div>
             </div> <!-- End CArr -->
 
-            <div class="row mb-3 mt-3">
+            <div class="row mb-3 mt-3" style="padding-right: 0;">
                 <div class="col-12 col-md-4">
                     <div class="card mb-3">
                         <div class="card-body">
@@ -817,7 +817,7 @@
                 let drawCiecleRight= new CircleChevron();
                 drawCiecleRight.draw(ctx, right, -5);                
             }
-        }
+        }   
 
         
 
@@ -959,12 +959,45 @@
                     scales: {                        
                         x: {
                             min: 0,
-                            max: dataMax,
+                            max: dataView,
                         }
                     }
                 },
                 plugins:[moveChart]
             });
+
+            const moveScroll = () => {
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chPro;
+
+                canvas.addEventListener('click', (event)=>{
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chPro.options.scales.x.min = chPro.options.scales.x.min - dataMax;
+                        chPro.options.scales.x.max = chPro.options.scales.x.max - dataMax;
+                        if(chPro.options.scales.x.min <= 0){
+                            chPro.options.scales.x.min = 0;
+                            chPro.options.scales.x.max = dataView;
+                        }                        
+                    }
+                    
+
+                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chPro.options.scales.x.min = chPro.options.scales.x.min + dataMax;
+                        chPro.options.scales.x.max = chPro.options.scales.x.max + dataMax;
+                        if(chPro.options.scales.x.max >= data.length){
+                            chPro.options.scales.x.min = data.length - dataMax;
+                            chPro.options.scales.x.max = data.length;
+                        }
+                    }
+                    chPro.update();
+
+                });
+            }
+
+            chPro.ctx.onclick = moveScroll();
 
         }
 
@@ -1016,12 +1049,45 @@
                     scales: {                       
                         x: {
                             min: 0,
-                            max: dataMax,
+                            max: dataView,
                         }
                     }
                 },
                 plugins:[moveChart]
             });
+
+            const moveScroll = () => {
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chDis;
+
+                canvas.addEventListener('click', (event)=>{
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDis.options.scales.x.min = chDis.options.scales.x.min - dataMax;
+                        chDis.options.scales.x.max = chDis.options.scales.x.max - dataMax;
+                        if(chDis.options.scales.x.min <= 0){
+                            chDis.options.scales.x.min = 0;
+                            chDis.options.scales.x.max = dataView;
+                        }                        
+                    }
+                    
+
+                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDis.options.scales.x.min = chDis.options.scales.x.min + dataMax;
+                        chDis.options.scales.x.max = chDis.options.scales.x.max + dataMax;
+                        if(chDis.options.scales.x.max >= data.length){
+                            chDis.options.scales.x.min = data.length - dataMax;
+                            chDis.options.scales.x.max = data.length;
+                        }
+                    }
+                    chDis.update();
+
+                });
+            }
+
+            chDis.ctx.onclick = moveScroll();
 
         }
     </script>
