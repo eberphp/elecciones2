@@ -55,7 +55,7 @@ class CandidatosController extends Controller
             $imagen->move($ruta, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
+            //$post->imagen = $nombreimagen;
 
         }
 
@@ -151,7 +151,7 @@ class CandidatosController extends Controller
             $imagen->move($ruta, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
+            //$post->imagen = $nombreimagen;
 
         } else {
             $nombreimagenFoto = $candidato->foto;
@@ -167,6 +167,8 @@ class CandidatosController extends Controller
         $candidato->foto = $nombreimagenFoto; //$request->foto;
         $candidato->observaciones = $request->observacion;
         $candidato->save();
+
+        return back();
     }
 
     /**
@@ -190,7 +192,7 @@ class CandidatosController extends Controller
     public function getCandidatos(Request $request, $departamento, $provincia, $distrito)
     {
         $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
-        
+
         foreach ($partidos as $partido) {
             $partido['Regional'] = Candidato::where('idDepartamento', $departamento)->where('tipo', 'Regional')
             ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
