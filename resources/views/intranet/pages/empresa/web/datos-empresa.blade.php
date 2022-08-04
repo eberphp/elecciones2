@@ -82,6 +82,13 @@
                         </div>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
+                                <label for="">Nosotros</label>
+                                <textarea class=" multisteps-form__input form-control ckeditor" name="nosotros" id="editor1" rows="10" cols="58">{{$datos->nosotros}}</textarea>
+                                
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-6">
                                 <label for="">Derechos</label>
                                 <input type="text" name="derechos" class="multisteps-form__input form-control" value="{{$datos->derechos}}">
                             </div>
