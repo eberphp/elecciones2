@@ -142,7 +142,7 @@ class CandidatosController extends Controller
         //
         $candidato = Candidato::find($id);
 
-        if ($request->hasFile("foto")) {
+        if ($request->file("foto")) {
 
             $imagen = $request->file("foto");
             $nombreimagenFoto = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
@@ -159,13 +159,13 @@ class CandidatosController extends Controller
 
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
-        $candidato->departamento_id = $request->departamento_id;
-        $candidato->provincia_id = $request->provincia_id;
-        $candidato->distrito_id = $request->distrito_id;
-        $candidato->partido = $request->partido;
-        $candidato->nombre_apellido = $request->nombre_apellido;
+        $candidato->idDepartamento = $request->idDepartamento;
+        $candidato->idProvincia = $request->idProvincia;
+        $candidato->idDistrito = $request->idDistrito;
+        $candidato->idPartido = $request->idPartido;
+        $candidato->nombresApellidos = $request->nombresApellidos;
         $candidato->foto = $nombreimagenFoto; //$request->foto;
-        $candidato->observador = $request->observador;
+        $candidato->observaciones = $request->observacion;
         $candidato->save();
     }
 
