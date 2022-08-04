@@ -509,7 +509,7 @@
                                             </label>
                                         </div>
                                         <div class="d-flex flex-column justify-content-center mt-1" >
-                                            <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombresApellidos}</h6></label>
+                                            <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombreCorto}</h6></label>
                                         </div>
                                     </div>                                    
                                     `;
@@ -528,7 +528,7 @@
                                         </label>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
-                                        <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombresApellidos}</h6></label>
+                                        <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
                         }
@@ -546,7 +546,7 @@
                                         </label>
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
-                                        <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombresApellidos}</h6></label>
+                                        <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
                         }

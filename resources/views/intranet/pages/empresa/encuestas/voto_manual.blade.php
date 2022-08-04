@@ -395,7 +395,7 @@
                                             <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="0" min="0" required />
                                         </div>
                                         <div class="d-flex flex-column justify-content-center mt-1" >
-                                            <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombresApellidos}</h6></label>
+                                            <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombreCorto}</h6></label>
                                         </div>
                                     </div>                                    
                                     `;
@@ -410,7 +410,7 @@
                                         <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="0" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
-                                        <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombresApellidos}</h6></label>
+                                        <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
                         }
@@ -424,7 +424,7 @@
                                         <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="0" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
-                                        <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombresApellidos}</h6></label>
+                                        <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
                         }

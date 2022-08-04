@@ -1,6 +1,10 @@
 @extends('intranet.layouts.layout')
 @section('style')
     <style>
+        @media only screen and (min-width: 768px) {
+            /* For desktop: */
+            .graf{height: 300px;}
+        }
     </style>
 @endsection
 @section('content')
@@ -212,7 +216,7 @@
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="chart">
-                                <canvas id="chart-departamento" class="chart-canvas" height="300px"></canvas>
+                                <canvas id="chart-departamento" class="chart-canvas graf" height="220px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -222,7 +226,7 @@
                     <div class="card mb-3">
                         <div class="card-body p-3">
                             <div class="chart">
-                                <canvas id="chart-provincia" class="chart-canvas" height="300px"></canvas>
+                                <canvas id="chart-provincia" class="chart-canvas graf" height="220px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -232,7 +236,7 @@
                     <div class="card mb-3">
                         <div class="card-body p-3">
                             <div class="chart">
-                                <canvas id="chart-distrito" class="chart-canvas" height="300px"></canvas>
+                                <canvas id="chart-distrito" class="chart-canvas graf" height="220px"></canvas>
                             </div>
                         </div>
                     </div>
@@ -647,34 +651,37 @@
                 totalDis = 0;
 
             res.forEach(el => {
-                
+
                 if (el.cReg.length > 0) {
-                    let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cReg[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cReg[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
+                        width: 32,
+                        height: 50,
                         value: el.Regional[0].total
                     });
                 }
 
                 if (el.cPro.length > 0) {
-                    let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cPro[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cPro[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
+                        width: 32,
+                        height: 50,
                         value: el.Provincial[0].total
                     });
                 }
 
                 if (el.cDis.length > 0) {
-                    let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/`+el.cDis[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+                    let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cDis[0].foto :
+                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 38,
-                        height: 38,
-                        value: el.Distrital[0].total
+                        width: 32,
+                        height: 50,
+                        value: parseInt(el.Distrital[0].total)
                     });
                 }
 
@@ -688,29 +695,73 @@
                 totalDis += parseInt(el.Distrital[0].total);
             });
 
-            res.forEach(el => {
-                let porDep = ((parseInt(el.Regional[0].total) / totalDep) * 100).toFixed(2);
+            // ORDEN DEPARTAMENTO
+            let dataDeps = dataDep.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataDeps.forEach((el, key) =>{
+                let porDep = ((el / totalDep) * 100).toFixed(2);
                 if (isNaN(porDep)) {
                     porDep = 0;
                 }
                 labDep.push(porDep + '%');
+            })
 
-                let porPro = ((parseInt(el.Provincial[0].total) / totalPro) * 100).toFixed(2);
+            // ORDEN PROVINCIAL
+            let dataPros = dataPro.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataPros.forEach((el, key) =>{
+                let porPro = ((el / totalPro) * 100).toFixed(2);
                 if (isNaN(porPro)) {
                     porPro = 0;
                 }
                 lebPro.push(porPro + '%');
+            })
 
-                let porDis = ((parseInt(el.Distrital[0].total) / totalDis) * 100).toFixed(2);
+            // ORDEN DISTRITAL
+            let dataDiss = dataDis.sort((a, b) => {
+                if (a == b) {
+                    return 0;
+                }
+                if (a > b) {
+                    return -1;
+                }
+                return 1;
+            })
+
+            dataDiss.forEach((el, key) =>{
+                let porDis = ((el / totalDis) * 100).toFixed(2);
                 if (isNaN(porDis)) {
                     porDis = 0;
                 }
                 labDis.push(porDis + '%');
             });
 
-            setGraDep(labDep.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataDep.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgDep.sort((a, b) => { return b.value - a.value; }), totalDep);
-            setGraPro(lebPro.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataPro.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgPro.sort((a, b) => { return b.value - a.value; }), totalPro);
-            setGraDis(labDis.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), dataDis.sort((a, b) => { if(a == b) { return 0; }  if(a > b) {  return -1;  }  return 1; }), imgDis.sort((a, b) => { return b.value - a.value; }), totalDis);
+
+                setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
+                    return b.value - a.value;
+                }), totalDep);
+            setGraPro(lebPro, dataPro, imgPro.sort((a, b) => {
+                return b.value - a.value;
+            }), totalPro);
+            setGraDis(labDis, dataDis, imgDis.sort((a, b) => {
+                return b.value - a.value;
+            }), totalDis);
 
         }
 
@@ -748,12 +799,13 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10 }
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 50},
                             color: 'black',
-                            text: 'Total de Votos Departamento: ' + total
+                            text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -824,12 +876,13 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10}
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 60},
                             color: 'black',
-                            text: 'Total de Votos Provincia: ' + total
+                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
@@ -900,12 +953,13 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10}
                         },
                         title: {
                             display: true,
-                            padding: 20,
+                            padding: { bottom: 60},
                             color: 'black',
-                            text: 'Total de Votos Distrito: ' + total
+                            text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
                     scales: {
