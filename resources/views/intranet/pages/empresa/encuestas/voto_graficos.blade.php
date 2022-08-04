@@ -610,11 +610,11 @@
     <script>
         let chDep, chPro, chDis;
 
-        const getVotosDepartamento = () => {
-            // if ($('#zona').val() === '') {
-            //     $("#tbDataCandidatos").html('');
-            //     return false;
-            // }
+        //Data maxima a Mostrarse en Graficos 9 = 10 datas;
+        let dataView = 9; dataMax = 10;
+
+
+        const getVotosDepartamento = () => {            
 
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
@@ -753,7 +753,7 @@
             });
 
 
-                setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
+            setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
                     return b.value - a.value;
                 }), totalDep);
             setGraPro(lebPro, dataPro, imgPro.sort((a, b) => {
@@ -765,9 +765,65 @@
 
         }
 
+        const moveChart = {
+            id: "chart-departamento",
+            afterEvent(chart, args){
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+
+                canvas.addEventListener('mousemove', (event)=>{
+                    const x = args.event.x;
+                    const y = args.event.y;
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else{
+                        canvas.style.cursor = 'default';
+                    }
+                })
+            },
+            afterDraw(chart, args, pluginOptions){
+                const { ctx, chartArea: {left, right, top, bottom, width, height}} = chart;
+
+                class CircleChevron{
+
+                    draw(ctx, x1, pixel){
+                        const angle = Math.PI / 180;
+
+                        ctx.beginPath();
+                        ctx.lineWith = 3;
+                        ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
+                        ctx.fillStyle = 'white';
+                        ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+                        ctx.stroke();
+                        ctx.fill();
+                        ctx.closePath();
+
+                        // Flecha Izquierda
+                        ctx.beginPath();
+                        ctx.lineWith = 5;
+                        ctx.strokeStyle = 'rgba(255, 26, 104, 1)';
+                        ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+                        ctx.lineTo(x1 - pixel, height / 2 + top);
+                        ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+
+                let drawCiecleLeft = new CircleChevron();
+                drawCiecleLeft.draw(ctx, left, 5);
+
+                let drawCiecleRight= new CircleChevron();
+                drawCiecleRight.draw(ctx, right, -5);                
+            }
+        }
+
+        
+
         const setGraDep = (labels, data, images, total) => {
             
-            let dep = document.getElementById("chart-departamento").getContext("2d");
+            let dep = document.getElementById("chart-departamento").getContext("2d");            
 
             if (chDep) {
                 chDep.destroy();
@@ -784,15 +840,17 @@
                         borderRadius: 4,
                         backgroundColor: "#20c997",
                         data: data,
-                        fill: true,
-                        maxBarThickness: 35,
-                        display: false,
                     }]
                 },
-                options: {
+                options: {                    
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
+                    layout:{
+                        padding:{
+                            right: 16,
+                        }
+                    },
+                    plugins: {                        
                         legend: {
                             display: false
                         },
@@ -808,39 +866,48 @@
                             text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                display: true,
-                                padding: 10,
-                                color: "#9ca2b7"
-                            }
-                        },
+                    scales: {                        
                         x: {
                             min: 0,
-                            max: 6,
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                drawOnChartArea: true,
-                                drawTicks: true
-                            },
-                            ticks: {
-                                display: true,
-                                color: "#9ca2b7",
-                                padding: 10
-                            }
+                            max: dataView,
+                        }                            
+                    }
+                },
+                plugins:[moveChart]
+            });
+
+            const moveScroll = () => {
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chDep;
+
+                canvas.addEventListener('click', (event)=>{
+                    const rect = canvas.getBoundingClientRect();
+                    const x = event.clientX - rect.left;
+                    const y = event.clientY - rect.top;
+
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDep.options.scales.x.min = chDep.options.scales.x.min - dataMax;
+                        chDep.options.scales.x.max = chDep.options.scales.x.max - dataMax;
+                        if(chDep.options.scales.x.min <= 0){
+                            chDep.options.scales.x.min = 0;
+                            chDep.options.scales.x.max = dataView;
+                        }                        
+                    }
+                    
+
+                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        chDep.options.scales.x.min = chDep.options.scales.x.min + dataMax;
+                        chDep.options.scales.x.max = chDep.options.scales.x.max + dataMax;
+                        if(chDep.options.scales.x.max >= data.length){
+                            chDep.options.scales.x.min = data.length - dataMax;
+                            chDep.options.scales.x.max = data.length;
                         }
                     }
-                }
-            });
+                    chDep.update();
+
+                });
+            }
+
+            chDep.ctx.onclick = moveScroll();
 
         }
 
@@ -863,14 +930,16 @@
                         borderRadius: 4,
                         backgroundColor: "#20c997",
                         data: data,
-                        fill: true,
-                        maxBarThickness: 35,
-                        display: false,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout:{
+                        padding:{
+                            right: 16
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
@@ -887,36 +956,14 @@
                             text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                display: true,
-                                padding: 10,
-                                color: "#9ca2b7"
-                            }
-                        },
+                    scales: {                        
                         x: {
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                drawOnChartArea: true,
-                                drawTicks: true
-                            },
-                            ticks: {
-                                display: true,
-                                color: "#9ca2b7",
-                                padding: 10
-                            }
+                            min: 0,
+                            max: dataMax,
                         }
                     }
-                }
+                },
+                plugins:[moveChart]
             });
 
         }
@@ -940,14 +987,16 @@
                         borderRadius: 4,
                         backgroundColor: "#20c997",
                         data: data,
-                        fill: true,
-                        maxBarThickness: 35,
-                        display: false,
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    layout:{
+                        padding:{
+                            right: 16
+                        }
+                    },
                     plugins: {
                         legend: {
                             display: false
@@ -964,36 +1013,14 @@
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {
-                        y: {
-                            grid: {
-                                drawBorder: false,
-                                display: true,
-                                drawOnChartArea: true,
-                                drawTicks: false,
-                                borderDash: [5, 5]
-                            },
-                            ticks: {
-                                display: true,
-                                padding: 10,
-                                color: "#9ca2b7"
-                            }
-                        },
+                    scales: {                       
                         x: {
-                            grid: {
-                                drawBorder: false,
-                                display: false,
-                                drawOnChartArea: true,
-                                drawTicks: true
-                            },
-                            ticks: {
-                                display: true,
-                                color: "#9ca2b7",
-                                padding: 10
-                            }
+                            min: 0,
+                            max: dataMax,
                         }
                     }
-                }
+                },
+                plugins:[moveChart]
             });
 
         }
