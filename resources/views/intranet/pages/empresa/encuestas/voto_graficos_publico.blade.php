@@ -441,8 +441,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDep.push({
                         src: fd,
-                        width: 34,
-                        height: 34,
+                        width: 32,
+                        height: 50,
                         value: el.Regional[0].total
                     });
                 }
@@ -452,8 +452,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgPro.push({
                         src: fd,
-                        width: 34,
-                        height: 34,
+                        width: 32,
+                        height: 50,
                         value: el.Provincial[0].total
                     });
                 }
@@ -463,8 +463,8 @@
                         'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
                     imgDis.push({
                         src: fd,
-                        width: 34,
-                        height: 34,
+                        width: 32,
+                        height: 50,
                         value: parseInt(el.Distrital[0].total)
                     });
                 }
@@ -534,7 +534,7 @@
                     porDis = 0;
                 }
                 labDis.push(porDis + '%');
-            })
+            });
 
 
                 setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
@@ -583,10 +583,11 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10}
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 40},
+                            padding: { bottom: 50},
                             color: 'black',
                             text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
                         },
@@ -659,10 +660,11 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10}
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 40},
+                            padding: { bottom: 60},
                             color: 'black',
                             text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
@@ -735,10 +737,11 @@
                         labels: {
                             render: 'image',
                             images: images,
+                            padding: { top: 10 }
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 40},
+                            padding: { bottom: 60},
                             color: 'black',
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
