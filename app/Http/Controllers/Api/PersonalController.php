@@ -10,6 +10,7 @@ use App\Models\Permiso;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use Response;
 //use Auth;
@@ -92,12 +93,12 @@ class PersonalController extends Controller
         $personal = Personal::find($request->personal_id);
         
         if (!$personal)
-            return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
+            return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
 
         foreach ($personal->asignaciones as $asignacion) //elimino permisos fuera de la lista
             if (!in_array($asignacion->permiso_id, $request->permisos))
                 if (!$asignacion->delete())
-                    return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_DLTROL]], 503);
+                    return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_DLTROL]], 503);
 
         foreach ($request->permisos as $permiso_id) { //agrego los permisos sin registrar
             if (!Asignacion::where(['personal_id' => $personal->id, 'permiso_id' => $permiso_id])->first()) {
@@ -106,10 +107,10 @@ class PersonalController extends Controller
                     'permiso_id' => $permiso_id,
                     //'created_by' => Auth::user()->id
                 ]))
-                    return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_CRTROL]], 503);
+                    return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_CRTROL]], 503);
             }
         }
-        return Response::json(['success' => 'true', 'message' => self::MSG_SCS_CRTROL], 201);
+        return response()->json(['success' => 'true', 'message' => self::MSG_SCS_CRTROL], 201);
     }
 
     public function obtenerRoles(Request $request, $id) 
@@ -117,7 +118,7 @@ class PersonalController extends Controller
         $personal = Personal::find($id);
 
         if (!$personal)
-            return Response::json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
+            return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
 
         return $personal->asignaciones;
     }
@@ -199,6 +200,9 @@ class PersonalController extends Controller
             $personal->dni =  $request->dni;
             $personal->clave = isset($request->clave) ? $request->clave : "";
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
+            if($request->clave){
+                $personal->password=Hash::make($request->clave);
+            }
             $personal->correo = isset($request->correo) ? $request->correo : "";
             $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
             $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
@@ -290,7 +294,9 @@ class PersonalController extends Controller
             $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
             $personal->telefono = isset($request->telefono) ? $request->telefono : "";
             $personal->referencias = isset($request->referencias) ? $request->referencias : "";
-
+            if($request->clave){
+                $personal->password=Hash::make($request->clave);
+            }
             $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
             $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
             $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;

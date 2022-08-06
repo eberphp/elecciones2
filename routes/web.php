@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\AuthPersonalController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Empresa\DatosController;
 use App\Http\Controllers\Empresa\RedesSocialesController;
@@ -38,9 +39,13 @@ use App\Http\Controllers\Empresa\VotosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
+Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
+Route::post("auth/logout",[AuthPersonalController::class,"logout"])->name("web.logout");
+Route::get("auth/profile",[AuthPersonalController::class,"profile"])->name("web.profile");
+Route::get("auth/register",[AuthPersonalController::class,"create"])->name("web.register.view");
+Route::post("auth/register",[AuthPersonalController::class,"store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');
-
 Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
 
 Auth::routes();

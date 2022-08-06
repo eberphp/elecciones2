@@ -3,18 +3,19 @@
 
 
 <!-- Mirrored from portotheme.com/html/porto_ecommerce/demo4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 05 May 2022 23:03:39 GMT -->
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{{$datos->nombre}}</title>
+    <title>{{ $datos->nombre }}</title>
     <meta name="robots" content="noindex, follow" />
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Place favicon.png in the root directory -->
-    <link rel="shortcut icon" href="{{ asset('img/favicon/'.$datos->favicon)}}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('img/favicon/' . $datos->favicon) }}" type="image/x-icon" />
     <!-- Font Icons css -->
-    {{--<link rel="stylesheet" href="{{ asset('web/css/font-icons.css')}}">
+    {{-- <link rel="stylesheet" href="{{ asset('web/css/font-icons.css')}}">
     <!-- plugins css -->
     <link rel="stylesheet" href="{{ asset('web/css/plugins.css')}}">
     <!-- Main Stylesheet -->
@@ -52,19 +53,24 @@
             white-space: nowrap;
             width: 100%;
         }
-    </style>--}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </style> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"
+        rel="stylesheet">
 
     <!-- Plugins -->
-    <link rel="stylesheet" href="{{ asset('web2/css/plugins.css')}}" />
-    <link rel="stylesheet" href="{{ asset('web2/css/plugins/pe-icon-7-stroke.css')}}" />
+    <link rel="stylesheet" href="{{ asset('web2/css/plugins.css') }}" />
+    <link rel="stylesheet" href="{{ asset('web2/css/plugins/pe-icon-7-stroke.css') }}" />
 
     <!-- Core Style Css -->
-    <link rel="stylesheet" href="{{ asset('web2/css/style.css')}}" />
-    
+    <link rel="stylesheet" href="{{ asset('web2/css/style.css') }}" />
+
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .whatsapp {
@@ -82,7 +88,7 @@
         }
 
         .whatsapp-icon {
-            margin-top:13px;
+            margin-top: 13px;
         }
     </style>
 
@@ -91,7 +97,7 @@
 </head>
 
 <body>
-    
+
     <div class="loading">
         <span>L</span>
         <span>o</span>
@@ -115,8 +121,8 @@
         <div class="container">
 
             <!-- Logo -->
-            <a class="logo" href="{{ route('/')}}">
-                <img src="{{ asset('img/bannerPrincipal/'.$datos->bannerPrincipal)}}" alt="logo">
+            <a class="logo" href="{{ route('/') }}">
+                <img src="{{ asset('img/bannerPrincipal/' . $datos->bannerPrincipal) }}" alt="logo">
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -128,7 +134,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('/')}}">Inicio</a>
+                        <a class="nav-link" href="{{ route('/') }}">Inicio</a>
                         <!--<div class="dropdown-menu">
                             <a class="dropdown-item" href="index.html">Main Home</a>
                             <a class="dropdown-item" href="index2.html">Creative Agency</a>
@@ -140,26 +146,65 @@
                             <a class="dropdown-item" href="index8.html">Architecture</a>
                         </div>-->
                     </li>
-                    {{--<li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a class="nav-link" href="#">Productos</a>
-                    </li>--}}
+                    </li> --}}
                     @if ($titulo->tituloServicioVisible == 'SI')
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
-                            aria-haspopup="true" aria-expanded="false">{{$titulo->titleServicio}}</a>
-                        <div class="dropdown-menu">
-                            @foreach ($servicios as $servicio)
-                            <a class="dropdown-item" href="{{$servicio->url}}">{{$servicio->nombre}}</a>
-                            @endforeach
-                        </div>
-                    </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                                aria-haspopup="true" aria-expanded="false">{{ $titulo->titleServicio }}</a>
+                            <div class="dropdown-menu">
+                                @foreach ($servicios as $servicio)
+                                    <a class="dropdown-item" href="{{ $servicio->url }}">{{ $servicio->nombre }}</a>
+                                @endforeach
+                            </div>
+                        </li>
                     @endif
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('nosotros')}}" target="_blank">Nosotros</a>
+                        <a class="nav-link" href="{{ route('nosotros') }}" target="_blank">Nosotros</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login')}}" target="_blank">Login</a>
+                        <a class="nav-link" href="{{ route('login') }}" target="_blank">Intranet</a>
                     </li>
+                    @if (auth('personal')->check())
+                        <li class="nav-item dropdown">
+                            @if (auth('personal')->user()->foto)
+                                <a class="nav-link dropdown-toggle p-0" data-toggle="dropdown" href="#"
+                                     role="button"
+                                    aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
+                                        src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
+                                <div class="dropdown-menu">
+                                    
+                                    <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
+                                    <a class="dropdown-item" href="{{route('web.profile')}}">Perfil</a>
+                                    <a class="dropdown-item" href="{{route('web.profile')}}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Cerrar sesión</a>
+
+                                </div>
+                            @else
+                                <a class="nav-link dropdown-toggle p-0" data-toggle="dropdown" href="#"
+                                     role="button"
+                                    aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
+                                        src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
+                                <div class="dropdown-menu">
+                                    
+                                    <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
+                                    <a class="dropdown-item" href="{{route('web.profile')}}">Perfil</a>
+                                    <a class="dropdown-item" href="{{route('web.profile')}}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();">Cerrar sesión</a>
+
+                                </div>
+                            @endif
+
+                        </li>
+                        <form id="logout-form" action="{{ route('web.logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
+                    @else
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('web.login.view')}}" target="">Login</a>
+                        </li>
+                    @endif
                     <!--<li class="nav-item">
                         <a class="nav-link" href="contact.html">Pages</a>
                     </li>
@@ -174,7 +219,8 @@
     @yield('content')
 
     <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -184,7 +230,7 @@
                     </button>
                 </div>
                 <div class="modal-body" style="color: black;text-align:center;">
-                    {!!$datos->terminoCondiciones!!}
+                    {!! $datos->terminoCondiciones !!}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -194,31 +240,33 @@
         </div>
     </div>
 
-    
 
-    <a href="https://wa.me/51{{$datos->telefono1}}?text=Me%20gustaría%20saber%20el%20precio%20del%20coche" class="whatsapp" target="_blank"> 
+
+    <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Me%20gustaría%20saber%20el%20precio%20del%20coche"
+        class="whatsapp" target="_blank">
         <i class="fa fa-whatsapp whatsapp-icon"></i>
     </a>
 
-    
-    
+
+
     <!-- All JS Plugins -->
-    {{--<script src="{{ asset('web/js/plugins.js')}}"></script>
+    {{-- <script src="{{ asset('web/js/plugins.js')}}"></script>
     <!-- Main JS -->
-    <script src="{{ asset('web/js/main.js')}}"></script>--}}
+    <script src="{{ asset('web/js/main.js')}}"></script> --}}
 
     <!-- jQuery -->
-    <script src="{{ asset('web2/js/jquery-3.0.0.min.js')}}"></script>
-    <script src="{{ asset('web2/js/jquery-migrate-3.0.0.min.js')}}"></script>
+    <script src="{{ asset('web2/js/jquery-3.0.0.min.js') }}"></script>
+    <script src="{{ asset('web2/js/jquery-migrate-3.0.0.min.js') }}"></script>
 
     <!-- plugins -->
-    <script src="{{ asset('web2/js/plugins.js')}}"></script>
+    <script src="{{ asset('web2/js/plugins.js') }}"></script>
 
     <!-- custom scripts -->
-    <script src="{{ asset('web2/js/scripts.js')}}"></script>
-    
+    <script src="{{ asset('web2/js/scripts.js') }}"></script>
+    @yield('script')
 </body>
 
 
 <!-- Mirrored from portotheme.com/html/porto_ecommerce/demo4.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 05 May 2022 23:04:14 GMT -->
+
 </html>

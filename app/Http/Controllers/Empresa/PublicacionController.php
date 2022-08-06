@@ -54,7 +54,7 @@ class PublicacionController extends Controller
         }
 
         $publicacion = Publicacion::create([
-            'idUsuario' => auth()->user()->id,
+            'idUsuario' => auth("web")->user()->id,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,

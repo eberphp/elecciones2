@@ -15,7 +15,7 @@ class RolController extends Controller
      */
     public function index()
     {
-        $usuario = auth()->user();
+        $usuario = auth("web")->user();
         $roles = Rol::where('idUsuarioCreador', $usuario->id)->where('estado','activo')->get();
         return view('intranet.pages.empresa.roles.roles')->with(compact('roles'));
     }
@@ -38,7 +38,7 @@ class RolController extends Controller
      */
     public function store(Request $request)
     {
-        $usuario = auth()->user();
+        $usuario = auth("web")->user();
         Rol::create([
             'rol' => $request->rol,
             'idUsuarioCreador' => $usuario->id,

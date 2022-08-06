@@ -4,7 +4,7 @@
         .new-alturita-bloque-1{
             min-height: 135vh!important;
         }
-
+       
         .new-alturita{
             min-height: 76vh!important;
         }

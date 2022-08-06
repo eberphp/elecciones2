@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class DatosController extends Controller
 {
     public function index(){
-        $datos = DatosEmpresa::where('idUsuario', auth()->user()->id)->first();
+        $datos = DatosEmpresa::where('idUsuario', auth("web")->user()->id)->first();
         return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos'));
     }
 

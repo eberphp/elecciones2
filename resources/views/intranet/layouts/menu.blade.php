@@ -8,11 +8,13 @@
             <img src="{{ asset('web/images/logo.png') }}" class="navbar-brand-img h-100" alt="main_logo"
                 style="margin-bottom: 30px;">
             <br>
+            @if(auth("web")->check())
             <span class="ms-1 font-weight-bold" style="margin-top: 30px;">
                 <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
                 echo 'hola, ' . $perfil->nombres;
                 ?>
             </span>
+            @endif
         </a>
     </div>
     <hr class="horizontal dark mt-0" style="margin-top: 60px!important;">

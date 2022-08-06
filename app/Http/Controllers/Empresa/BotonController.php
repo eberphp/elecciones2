@@ -15,7 +15,7 @@ class BotonController extends Controller
      */
     public function index()
     {
-        $botones = Boton::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
+        $botones = Boton::where('idUsuario', auth("web")->user()->id)->orderBy('orden', 'asc')->get();
         return view('intranet.pages.empresa.web.botones.index')->with(compact('botones'));
     }
 
@@ -38,7 +38,7 @@ class BotonController extends Controller
     public function store(Request $request)
     {
         $boton = Boton::create([
-            'idUsuario' => auth()->user()->id,
+            'idUsuario' => auth("web")->user()->id,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,

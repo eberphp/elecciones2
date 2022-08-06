@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Personal extends Model
+class Personal extends Authenticatable 
 {
+    use HasApiTokens, HasFactory, Notifiable;
+
     public $table = 'personal';
     use HasFactory;
     public function cargo(){
