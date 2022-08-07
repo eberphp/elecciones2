@@ -9,49 +9,57 @@ use Illuminate\Support\Str;
 
 class DatosController extends Controller
 {
-    public function index(){
-        $datos = DatosEmpresa::where('idUsuario', auth("web")->user()->id)->first();
-        return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos'));
+    public function index()
+    {
+        $datos = null;
+        if (auth()->user()->personal) {
+            $datos = DatosEmpresa::find(auth()->user()->personal->empresa_id);
+        } else {
+            $datos = DatosEmpresa::where('idUsuario', auth("web")->user()->id)->first();
+        }
+        
+        return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos')); 
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         //dd($request->file("bannerPrincipal"));
         $datos = DatosEmpresa::find($id);
-        
-        if($request->file("favicon")){
+
+        if ($request->file("favicon")) {
 
             $imagen = $request->file("favicon");
-            $nombreimagenFavicon = $imagen->getClientOriginalName().".".$imagen->guessExtension();
+            $nombreimagenFavicon = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
             $ruta = public_path("img/favicon/");
-            
-            $imagen->move($ruta,$nombreimagenFavicon);
+
+            $imagen->move($ruta, $nombreimagenFavicon);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;            
-            
-        }else{
+
+        } else {
             $nombreimagenFavicon = $datos->favicon;
         }
 
-        if($request->file("bannerPrincipal")){
+        if ($request->file("bannerPrincipal")) {
 
             $imagen = $request->file("bannerPrincipal");
-            $nombreimagenBanner = $imagen->getClientOriginalName();//.".".$imagen->guessExtension();
+            $nombreimagenBanner = $imagen->getClientOriginalName(); //.".".$imagen->guessExtension();
             $ruta = public_path("img/bannerPrincipal/");
 
-            $imagen->move($ruta,$nombreimagenBanner);
+            $imagen->move($ruta, $nombreimagenBanner);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;            
-            
-        }else{
+
+        } else {
             $nombreimagenBanner = $datos->bannerPrincipal;
         }
 
-        
+
         $datos->nombre = $request->nombre;
-        $datos->favicon = $nombreimagenFavicon;//$request->favicon;
-        $datos->bannerPrincipal = $nombreimagenBanner;//$request->bannerPrincipal;
+        $datos->favicon = $nombreimagenFavicon; //$request->favicon;
+        $datos->bannerPrincipal = $nombreimagenBanner; //$request->bannerPrincipal;
         $datos->telefono1 = $request->telefono1;
         $datos->telefono2 = $request->telefono2;
         $datos->correo = $request->correo;

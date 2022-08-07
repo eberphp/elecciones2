@@ -5,10 +5,14 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Asignacion;
+use App\Models\DatosEmpresa;
+use App\Models\Perfil;
 use App\Models\Personal;
 use App\Models\Permiso;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
@@ -83,7 +87,7 @@ class PersonalController extends Controller
     }
 
     /* Roles: Ricardo Bejar */
-    public function asignarRoles(Request $request) 
+    public function asignarRoles(Request $request)
     {
         $request->validate([
             'personal_id' => 'required|integer|min:1',
@@ -91,7 +95,7 @@ class PersonalController extends Controller
         ], self::validationErrorMessages());
 
         $personal = Personal::find($request->personal_id);
-        
+
         if (!$personal)
             return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
 
@@ -105,7 +109,7 @@ class PersonalController extends Controller
                 if (!Asignacion::create([
                     'personal_id' => $personal->id,
                     'permiso_id' => $permiso_id,
-                    //'created_by' => Auth::user()->id
+                    //'created_by' => auth()->user()->id
                 ]))
                     return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_CRTROL]], 503);
             }
@@ -113,7 +117,7 @@ class PersonalController extends Controller
         return response()->json(['success' => 'true', 'message' => self::MSG_SCS_CRTROL], 201);
     }
 
-    public function obtenerRoles(Request $request, $id) 
+    public function obtenerRoles(Request $request, $id)
     {
         $personal = Personal::find($id);
 
@@ -143,6 +147,10 @@ class PersonalController extends Controller
     public function store(Request $request)
     {
         try {
+            $userexiste = User::where("email", $request->correo)->first();
+            if ($userexiste) {
+                return response()->json(['success' => false, 'message' => 'El correo ya existe']);
+            }
             $foto = $request->file("foto");
             $cv = $request->file("cv");
             $save1 = "";
@@ -178,7 +186,8 @@ class PersonalController extends Controller
             } else {
                 $url2 = "https://" . $request->url_2;
             }
-
+            $usuarioregistrador = User::find($request->user_id);
+            $perfilregistrador = Perfil::find($usuarioregistrador->idPerfil);
             $personal = new Personal();
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
@@ -200,8 +209,8 @@ class PersonalController extends Controller
             $personal->dni =  $request->dni;
             $personal->clave = isset($request->clave) ? $request->clave : "";
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
-            if($request->clave){
-                $personal->password=Hash::make($request->clave);
+            if ($request->clave) {
+                $personal->password = Hash::make($request->clave);
             }
             $personal->correo = isset($request->correo) ? $request->correo : "";
             $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
@@ -213,11 +222,40 @@ class PersonalController extends Controller
             $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
             $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
+            $datosempresa = null;
+            if ($usuarioregistrador->personal) {
+                $datosempresa = DatosEmpresa::find($usuarioregistrador->personal->empresa_id);
+            } else {
+                $datosempresa = DatosEmpresa::where("idPerfil", $perfilregistrador->id)->first();
+            }
+            $personal->empresa_id = $datosempresa->id;
             $personal->save();
+            $lastidpersonal = Personal::max("id");
+            $lastidpersonal++;
+            $lastidperfil = Perfil::max("id");
+            $lastidperfil++;
+            $perfil = new Perfil();
+            $perfil->id = $lastidperfil;
+            $perfil->tipo = "persona";
+            $perfil->codigo = isset($request->dni) ? $request->dni : "";
+            $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+            $perfil->correo = isset($request->correo) ? $request->correo : "";
+            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+            $perfil->idUsuarioCreador = $usuarioregistrador->id ? $usuarioregistrador->id : 0;
+            $perfil->save();
+            $user = new User();
+            $user->idPerfil = $lastidperfil;
+            $user->idPersonal = $lastidpersonal;
+            $user->password = Hash::make($request->clave);
+            $user->clave = $request->clave;
+            $user->email = $request->correo;
+            $user->save();
 
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal creado con exito"], 200);
         } catch (Exception $e) {
-            return response()->json(["message" => $e->getMessage(), "success" => false], 500);
+            return response()->json(["message" => "Error :" . $e->getMessage(), "success" => false, "user" => auth()->user()]);
         }
     }
 
@@ -294,8 +332,8 @@ class PersonalController extends Controller
             $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
             $personal->telefono = isset($request->telefono) ? $request->telefono : "";
             $personal->referencias = isset($request->referencias) ? $request->referencias : "";
-            if($request->clave){
-                $personal->password=Hash::make($request->clave);
+            if ($request->clave) {
+                $personal->password = Hash::make($request->clave);
             }
             $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
             $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
@@ -305,7 +343,6 @@ class PersonalController extends Controller
             $personal->estado = isset($request->estado) ? $request->estado : "";
             $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
-            $personal->correo = isset($request->correo) ? $request->correo : "";
             $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
             $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
             $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
@@ -315,9 +352,26 @@ class PersonalController extends Controller
             $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
+
+
+
+            $user = User::where("email", $request->correo)->first();
+            $user->password = Hash::make($request->clave);
+            $user->clave = $request->clave;
+            $user->email = $request->correo;
+            $user->save();
+            $perfil = Perfil::find($user->idPerfil);
+            $perfil->codigo = isset($request->dni) ? $request->dni : "";
+            $perfil->correo = isset($request->correo) ? $request->correo : "";
+            $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+            $perfil->save();
+
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => $e->getMessage(), "success" => false], 500);
+            return response()->json(['message' => "Error :" . $e->getMessage(), "success" => false]);
         }
     }
 
@@ -331,7 +385,17 @@ class PersonalController extends Controller
     {
         //
         try {
+
             $personal = Personal::find($id);
+            $user = User::where("idPersonal", $personal->id)->first();
+            $perfil = Perfil::find($user->idPerfil);
+            if ($perfil) {
+                $perfil->delete();
+            }
+            if ($user) {
+                $user->delete();
+            }
+
             $personal->delete();
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal eliminado con exito"], 200);
         } catch (Exception $e) {

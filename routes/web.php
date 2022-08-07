@@ -42,7 +42,7 @@ use App\Http\Controllers\Empresa\VotosController;
 Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
 Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
 Route::post("auth/logout",[AuthPersonalController::class,"logout"])->name("web.logout");
-Route::get("auth/profile",[AuthPersonalController::class,"profile"])->name("web.profile");
+Route::get("auth/profile",[AuthPersonalController::class,"profile"])->name("web.profile")->middleware("auth.personal");
 Route::get("auth/register",[AuthPersonalController::class,"create"])->name("web.register.view");
 Route::post("auth/register",[AuthPersonalController::class,"store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');

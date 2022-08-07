@@ -8,6 +8,7 @@ use App\Models\DatosEmpresa;
 use App\Models\Departamento;
 use App\Models\EstadoEvaluacion;
 use App\Models\Funcion;
+use App\Models\Perfil;
 use App\Models\Personal;
 use App\Models\Publicacion;
 use App\Models\RedesSociales;
@@ -17,6 +18,7 @@ use App\Models\Testimonio;
 use App\Models\TipoUbigeo;
 use App\Models\TipoUsuario;
 use App\Models\Titulo;
+use App\Models\User;
 use App\Models\Vinculo;
 use Exception;
 use Illuminate\Http\Request;
@@ -63,28 +65,20 @@ class AuthPersonalController extends Controller
         return view("web.pages.auth.login");
     }
     public function profile()
-    {   
-        $id = 2;
-        
-        $redes = RedesSociales::where('idUsuario', $id)->first();
-        $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
-        $cargos = Cargo::all();
-        $puestos = $cargos;
-        $vinculos = Vinculo::all();
-        $publicaciones = Publicacion::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
-        //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
-        $servicios = Servicio::where('idUsuario', $id)->orderBy('nombre', 'asc')->get();
-        $botones = Boton::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
-        $sliders = Slider::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
-        $testimonios = Testimonio::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
-        $titulo = Titulo::where('idUsuario', $id)->first();
-        $funciones=Funcion::all();
-        $tipoUsuarios=TipoUsuario::all();
-        $datos = DatosEmpresa::where('idUsuario', $id)->first();
-        $tipoUbigeos=TipoUbigeo::all();
-        $estadoEvaluaciones = EstadoEvaluacion::all();
-        $departamentos = Departamento::all();
-        return view("web.pages.auth.profile", compact("datos","servicios","botones","titulo","redes","funciones","tipoUbigeos","tipoUsuarios","cargos", "puestos", "vinculos", "departamentos","estadoEvaluaciones","personal"));
+    {
+            $id = 2;
+            $redes = RedesSociales::where('idUsuario', $id)->first();
+            $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
+            $cargos = Cargo::all();
+            $puestos = $cargos;
+            $vinculos = Vinculo::all();
+            $funciones = Funcion::all();
+            $tipoUsuarios = TipoUsuario::all();
+            $tipoUbigeos = TipoUbigeo::all();
+            $estadoEvaluaciones = EstadoEvaluacion::all();
+            $departamentos = Departamento::all();
+            return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal"));
+      
     }
 
     /**
@@ -107,7 +101,7 @@ class AuthPersonalController extends Controller
     public function store(Request $request)
     {
         try {
-           
+
             $foto = $request->file("foto");
             $cv = $request->file("cv");
             $save1 = "";
@@ -143,15 +137,15 @@ class AuthPersonalController extends Controller
             } else {
                 $url2 = "https://" . $request->url_2;
             }
-            $correoregistrado=Personal::where("correo",$request->email)->first();
-            if($request->password!=$request->password_confirmation){
+            $correoregistrado = Personal::where("correo", $request->email)->first();
+            if ($request->password != $request->password_confirmation) {
                 return back()->withErrors([
                     'password' => 'Las contraseñas no coinciden.',
                     'password_confirmation' => 'Las contraseñas no coinciden.'
                 ])->withInput();
             }
 
-            if($correoregistrado){
+            if ($correoregistrado) {
                 return back()->withErrors([
                     'email' => 'El correo ya esta registrado.',
                 ])->withInput();
@@ -191,21 +185,40 @@ class AuthPersonalController extends Controller
             $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
-            $credentialsauth=[
-                'correo'=>$request->email,
-                'password'=>$request->password,
-                'clave'=>$request->password
+            $credentialsauth = [
+                'correo' => $request->email,
+                'password' => $request->password,
+                'clave' => $request->password
             ];
-            $bool=false;
+            $lastidpersonal=Personal::max("id");
+            $lastidpersonal++;
+            $lastidperfil=Perfil::max("id");
+            $lastidperfil++;
+            $perfil=new Perfil();
+            $perfil->id=$lastidperfil;
+            $perfil->tipo="persona";
+            $perfil->codigo=isset($request->dni) ? $request->dni :"";
+            $perfil->telefono=isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto=isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad= isset($request->dni) ? $request->dni : "";
+            $perfil->idUsuarioCreador=isset(Auth::user()->id) ? Auth::user()->id : 0;
+            $perfil->save();
+            $user=new User();
+            $user->idPerfil=$lastidperfil;
+            $user->idPersonal=$lastidpersonal;
+            $user->password=Hash::make($request->clave);
+            $user->clave=$request->clave;
+            $user->email=$request->correo;
+            $user->save();
+            $bool = false;
             if (Auth::guard('personal')->attempt($credentialsauth, $bool)) {
                 $request->session()->regenerate();
                 return redirect()->to('/');
             }
             return back()->with('success', 'Usuario creado correctamente');
-
         } catch (Exception $e) {
             return back()->withErrors([
-                "name"=>$e->getMessage()
+                "name" => $e->getMessage()
             ])->withInput();
         }
     }

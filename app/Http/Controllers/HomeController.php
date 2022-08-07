@@ -30,11 +30,7 @@ class HomeController extends Controller
         if ($perfil->tipo == 'admin') {
             return redirect()->route('usuarios.admin');
         } else {
-            if ($perfil->tipo == 'empresa') {
-                return redirect()->route('datos.empresa');
-            }
+            return redirect()->route('datos.empresa');
         }
-        
-        
     }
 }

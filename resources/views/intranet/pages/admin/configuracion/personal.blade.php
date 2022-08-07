@@ -29,6 +29,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nombres</label>
+                                                    <input type="hidden" name="user_id" value="{{auth()->user()->id}}">
                                                     <input type="text" name="nombres" class="form-control"
                                                         id="nombres_ic">
                                                     <div class="invalid-feedback" id="invalidNombresCreate">
@@ -62,7 +63,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Correo</label>
-                                                    <input type="text" name="correo" class="form-control"
+                                                    <input type="text" required name="correo" class="form-control"
                                                         id="correo_ic">
 
                                                 </div>
@@ -358,7 +359,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Correo</label>
-                                                    <input type="text" name="correo" class="form-control"
+                                                    <input type="text" required name="correo" class="form-control"
                                                         id="correo_ie">
 
                                                 </div>
@@ -976,7 +977,7 @@
 
             const validateFormNew = (data) => {
 
-                if (data.dni && data.clave) {
+                if (data.dni && data.clave && data.correo) {
                     return true;
                 }
                 return false;
@@ -984,7 +985,7 @@
             const validateFormEdit = (data) => {
 
                 console.log(data);
-                if (data.dni && data.clave) {
+                if (data.dni && data.clave && data.correo) {
                     return true;
                 }
                 return false;
@@ -1069,11 +1070,11 @@
                                 customtable.ajax.reload();
                                 $("#newModal").modal("hide");
                             } else {
-                                Swal.fire("", "Error al crear", "error");
+                                Swal.fire("", data.message, "error");
                             }
                         },
                         error: function(data) {
-                            Swal.fire("", "Intentelo mas tarde", "error");
+                            Swal.fire("", data.message, "error");
                         },
                     });
                 } else {
@@ -1108,11 +1109,11 @@
                                 $("#editModal").modal("hide");
                                 Swal.fire("", data.message, "success");
                             } else {
-                                Swal.fire("", "No se a podido actualizar", "error");
+                                Swal.fire("", data.message, "error");
                             }
                         },
                         error: function(data) {
-                            Swal.fire("", "Intentelo mas tarde", "error");
+                            Swal.fire("", data.message, "error");
                         },
                     });
                 }
@@ -1257,8 +1258,7 @@
                         data: "fecha_ingreso",
                         render: function(data) {
 
-                            return data ? moment(data).format('DD/MM/YY') : moment().format(
-                                'DD/MM/YY');
+                            return data ? moment(data).format('DD/MM/YY') : moment().format('DD/MM/YY');
                         }
                     },
                     {
