@@ -45,6 +45,7 @@ $('#frm-permisos').submit(function(e) {
         $('#personal_id').val("");
         $("#rolesModal").modal("hide");
         Swal.fire("", data.message, "success");
+        location.reload();
     })
     .fail(function(msg) {
         var message = '<b>¡Atención!</b><ul>';
