@@ -186,9 +186,22 @@ class PersonalController extends Controller
             } else {
                 $url2 = "https://" . $request->url_2;
             }
+            $lastidpersonal = Personal::max("id");
+            if($lastidpersonal == null){
+                $lastidpersonal = 0;
+            }
+            $lastidpersonal++;
+            $lastidperfil = Perfil::max("id");
+            if($lastidperfil==null){
+                $lastidperfil = 0;
+            }
+
+            $lastidperfil++;
+
             $usuarioregistrador = User::find($request->user_id);
             $perfilregistrador = Perfil::find($usuarioregistrador->idPerfil);
             $personal = new Personal();
+            $personal->id = $lastidpersonal;
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
@@ -230,10 +243,7 @@ class PersonalController extends Controller
             }
             $personal->empresa_id = $datosempresa->id;
             $personal->save();
-            $lastidpersonal = Personal::max("id");
-            $lastidpersonal++;
-            $lastidperfil = Perfil::max("id");
-            $lastidperfil++;
+            
             $perfil = new Perfil();
             $perfil->id = $lastidperfil;
             $perfil->tipo = "persona";
