@@ -134,12 +134,12 @@ class PartidosController extends Controller
     public function destroy($id)
     {
         $partido = Partido::find($id);
-        if ($partido->estado == 'activo') {
-            $partido->estado = 'inactivo';
-        } else {
-            $partido->estado = 'activo';
-        }
-        $partido->save();
+//         if ($partido->estado == 'activo') {
+//             $partido->estado = 'inactivo';
+//         } else {
+//             $partido->estado = 'activo';
+//         }
+        $partido->delete();
         return back();
         
     }
