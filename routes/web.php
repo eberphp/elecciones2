@@ -41,6 +41,9 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Auth::routes();
+
 Route::get("clearpersonal", [PersonalController::class,"clearPersonal"]);
 Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
 Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
@@ -50,8 +53,6 @@ Route::get("auth/register",[AuthPersonalController::class,"create"])->name("web.
 Route::post("auth/register",[AuthPersonalController::class,"store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');
 Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -203,20 +204,20 @@ Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')
     Route::get('/{encuesta}/Encuestador','encuestador')->name('Votos.encuestador');
     Route::get('/{encuesta}/Manual','manual')->name('Votos.manual');
     Route::get('/{encuesta}/Grafico','grafico')->name('Votos.grafico');
-    
+
     //Vista Publico
     Route::get('/{encuesta}/Grafico/Publico','graficoPublico')->name('Votos.grafico.publico')->withoutMiddleware(['auth']);
     Route::get('/{encuesta}/Dispositivo','dispositivo')->name('Votos.dispositivo')->withoutMiddleware(['auth']);
 
     Route::post('/','store')->name('Votos.store');
-    
+
     Route::post('/Dispositivo','storeDispositivo')->name('Votos.store.dispositivo')->withoutMiddleware(['auth']);
 
     Route::post('/Manuales','storeManual')->name('Votos.manuales');
     Route::get('/{encuesta}/show','show')->name('Votos.show');
     Route::post('/{encuesta}/update','update')->name('Votos.update');
     Route::get('/{encuesta}/destroy','destroy')->name('Votos.destroy');
-    
+
 
     Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/Graficos/Total', 'getVotosDepartamentos')
     ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
@@ -230,3 +231,7 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
     Route::post('/{proyecto}/update','update')->name('Proyecto.update');
     Route::get('/{proyecto}/destroy','destroy')->name('Proyecto.destroy');
 });
+
+//Log
+
+Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);

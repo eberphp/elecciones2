@@ -75,11 +75,11 @@
                                             {{ $dep->departamento }}
                                         </td>
                                         <td class="text-sm font-weight-normal">
-                                            @if (($candidato->idProvincia != null && $candidato->tipo == 'Provincial') || $candidato->tipo == 'Distrital')
+                                            @if ($candidato->idProvincia != null && ($candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital'))
                                                 <?php $prov = App\Models\Provincia::find($candidato->idProvincia);
                                                 $provincita = $prov->provincia;
                                                 ?>
-                                                {{ $provincita }}
+                                                {{ $candidato->idProvincia }}
                                             @else
                                                 ---
                                             @endif
@@ -99,16 +99,16 @@
                                         </td>
                                         <td class="text-sm font-weight-normal">{{ $candidato->nombresApellidos }}</td>
                                         <td class="text-sm font-weight-normal">
-                                            <img src="{{ asset('img/fotos/' . $candidato->foto) }}" alt="">
+                                            <img style="height: 50px;" src="{{ asset('img/fotos/' . $candidato->foto) }}" alt="">
                                         </td>
                                         <td class="text-sm font-weight-normal">{{ $candidato->observaciones }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex w-100 justify-content-end">
 
-                            {{ $candidatos->onEachSide(5)->links('pagination::bootstrap-5') }}
+                        <div class="d-flex w-100 justify-content-end">
+                            {{ $candidatos->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>
