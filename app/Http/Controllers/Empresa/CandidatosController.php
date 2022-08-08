@@ -20,7 +20,7 @@ class CandidatosController extends Controller
     public function index()
     {
         //
-        $candidatos = Candidato::where('estado', true)->paginate(10);
+        $candidatos = Candidato::where('estado', true)->paginate(8)->withQueryString();
         $departamentos = Departamento::where('estado', 'activo')->orderBy('departamento', 'ASC')->get();
         $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();
         $distritos = Distrito::where('estado', 'activo')->get();
