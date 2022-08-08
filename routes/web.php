@@ -158,7 +158,7 @@ Route::get('partidos-cambia-estado/{id}', [PartidosController::class, 'destroy']
 Route::get('candidatos', [CandidatosController::class, 'index'])->name('candidatos.index');
 Route::post('candidatos-store', [CandidatosController::class, 'store'])->name('candidatos.store');
 Route::put('candidatos-update/{id}', [CandidatosController::class, 'update'])->name('candidatos.update');
-Route::get('asd/{id}', [CandidatosController::class, 'destroy'])->name('elimina-candidatos');
+Route::get('candidato/eliminar/{id}', [CandidatosController::class, 'destroy'])->name('elimina-candidatos');
 Route::get('/{departamento}/{provincia}/{distrito}/Candidatos', [CandidatosController::class, 'getCandidatos']);
 
 

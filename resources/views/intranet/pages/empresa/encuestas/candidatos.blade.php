@@ -1,131 +1,172 @@
 @extends('intranet.layouts.layout')
+@section('style')
+    <style>
+        .bg-gradient-info {
+            border-radius: inherit;
+        }
+
+        .bg-gradient-danger {
+            border-radius: inherit;
+        }
+
+        .bg-gradient-warning {
+            border-radius: inherit;
+        }
+
+        .bg-gradient-success {
+            border-radius: inherit;
+        }
+
+        .bg-gradient-primary {
+            border-radius: inherit;
+        }
+
+        .bg-gradient-secondary {
+            border-radius: inherit;
+        }
+
+        ul.pagination li {
+            margin-left: 4px !important;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="container-fluid py-4">
-        <div class="row mt-4">
+        <div class="row">
+
             <div class="col-12">
-                <div class="card">
-                    <!-- Card header -->
-                    <div class="card-header">
+                <div class="card shadow-lg mb-3">
+                    <div class="card-body bg-gradient-info">
                         <div class="row">
-                            <div class="col-6">
-                                <h5 class="mb-0">Candidatos</h5>
+                            <div class="col-12 col-md-10 mb-3 mb-md-0">
+                                <h5 class="mb-0 text-white text-uppercase fw-bold text-center text-md-start">Candidatos</h5>
                             </div>
-                            <div class="col-6" style="text-align: right">
-                                {{-- <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#exampleModal">Importar Candidatos</button> --}}
-                                {{-- <a href="{{ route('sliders.craete')}}" class="btn btn-success">Importar Candidatos</a>
-                <a href="#" class="btn btn-info">Exportar</a> --}}
-                                <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
+                            <div class="col-12 col-md-2  text-md-end">
+                                <button type="button" class="btn btn-info w-100" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Nuevo</button>
                             </div>
                         </div>
-                        <p class="text-sm mb-0">
-                        </p>
                     </div>
-                    <div class="table-responsive">
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card shadow-lg">
+                    <div class="card-body">
                         <form action="">
                             <div class="row p-3">
                                 <div class="col-md-10">
 
-                                    <input type="text" name="buscador" class="form-control">
+                                    <input type="text" placeholder="Buscar por Nombre | Apellido | Nombre Corto" name="buscador" class="form-control">
                                 </div>
                                 <div class="col-md-2">
 
                                     <button type="submit" class="btn btn-primary">Buscar</button>
+                                    <a type="submit" href="{{ route('candidatos.index') }}" class="btn btn-warning">Limpiar</a>
+
                                 </div>
                             </div>
                         </form>
-                        <form action="" class="d-flex">
-                        </form>
-                        <table class="table table-flush" id="datatable-search">
-                            <thead class="thead-light">
-                                <tr style="width:200px">
-                                    <th>Acciones</th>
-                                    <th>Vis.en Gráfico</th>
-                                    <th>ID</th>
-                                    <th>Nombre Corto</th>
-                                    <th>Tipo</th>
-                                    <th>Departamento</th>
-                                    <th>Provincia</th>
-                                    <th>Distrito</th>
-                                    <th>Partido</th>
-                                    <th>Nombres y Apellidos</th>
-                                    <th>Foto</th>
-                                    <th>Observador</th>
-                                    <!--<th>URL</th>-->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($candidatos as $key => $candidato)
+                        <div class="table-responsive">
+                            <table class="table table-flush" id="tbData">
+                                <thead class="thead-light">
                                     <tr>
-                                        <td class="text-sm font-weight-normal d-flex">
-                                            <a href="{{ route('elimina-candidatos', $candidato->id) }}"
-                                                class="btn btn-danger mx-1"> <i class="fa fa-trash"></i> </a>
-                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModalEdit{{ $key }}"><i
-                                                    class="fa fa-edit"></i></button>
-                                        </td>
-                                        <td class="text-sm font-weight-normal">
-                                            <a href="#" class="btn btn-info"> {{ $candidato->visualiza }} </a>
-                                        </td>
-                                        <td class="text-sm font-weight-normal">{{ $candidato->id }}</td>
-                                        <td class="text-sm font-weight-normal">{{ $candidato->nombreCorto }}</td>
-                                        <td class="text-sm font-weight-normal">{{ $candidato->tipo }}</td>
-                                        <td class="text-sm font-weight-normal">
-                                            <?php $dep = App\Models\Departamento::find($candidato->idDepartamento); ?>
-                                            {{ $dep->departamento }}
-                                        </td>
-                                        <td class="text-sm font-weight-normal">
-                                            @if ($candidato->idProvincia != null && ($candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital'))
-                                                <?php $prov = App\Models\Provincia::find($candidato->idProvincia);
-                                                $provincita = $prov->provincia;
-                                                ?>
-                                                {{ $candidato->idProvincia }}
-                                            @else
-                                                ---
-                                            @endif
-                                        </td>
-                                        <td class="text-sm font-weight-normal">
-                                            @if ($candidato->tipo == 'Distrital')
-                                                <?php $dist = App\Models\Distrito::find($candidato->idDistrito); ?>
-
-                                                {{ $dist ? $dist->distrito : '' }}
-                                            @else
-                                                ---
-                                            @endif
-                                        </td>
-                                        <td class="text-sm font-weight-normal">
-                                            <?php $part = App\Models\Partido::find($candidato->idPartido); ?>
-                                            {{ $part->partido }}
-                                        </td>
-                                        <td class="text-sm font-weight-normal">{{ $candidato->nombresApellidos }}</td>
-                                        <td class="text-sm font-weight-normal">
-                                            <img style="height: 50px;" src="{{ asset('img/fotos/' . $candidato->foto) }}" alt="">
-                                        </td>
-                                        <td class="text-sm font-weight-normal">{{ $candidato->observaciones }}</td>
+                                        <th>Acciones</th>
+                                        <th>Vis.en Gráfico</th>
+                                        <th>Nombre Corto</th>
+                                        <th>Tipo</th>
+                                        <th>Departamento</th>
+                                        <th>Provincia</th>
+                                        <th>Distrito</th>
+                                        <th>Partido</th>
+                                        <th>Nombres y Apellidos</th>
+                                        <th>Foto</th>
+                                        <th>Observador</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    @foreach ($candidatos as $key => $candidato)
+                                        <tr style="font-size: 14px;color:black;">
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <div class="icon icon-shape icon-sm me-1 bg-gradient-info rounded-circle shadow text-center btnEditar"
+                                                        style="cursor:pointer;" data-bs-toggle="modal"
+                                                        data-bs-target="#exampleModalEdit{{ $key }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                                                        <i class="fas fa-pencil-alt text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </div>
 
-                        <div class="d-flex w-100 justify-content-end">
+                                                    <div class="icon icon-shape icon-sm me-1 bg-gradient-danger rounded-circle shadow text-center btnEliminar"
+                                                        style="cursor:pointer;" data-item="{{ $candidato->id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
+                                                        <i class="far fa-trash-alt text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </div>
+
+                                            </td>
+                                            <td class="text-sm font-weight-normal">
+                                                <span class="btn btn-info btn-sm"> {{ $candidato->visualiza }} </span>
+                                            </td>
+                                            <td class="text-sm font-weight-normal">{{ $candidato->nombreCorto }}</td>
+                                            <td class="text-sm font-weight-normal">{{ $candidato->tipo }}</td>
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->departamento)
+                                                    {{ $candidato->departamento->departamento }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->provincia)
+                                                    {{ $candidato->provincia->provincia }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->distrito)
+                                                    {{ $candidato->distrito->distrito }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->partido)
+                                                    {{ $candidato->partido->partido }}
+                                                @else
+                                                    -
+                                                @endif
+                                            </td>
+
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->nombresApellidos)
+                                                    {{ $candidato->nombresApellidos }}
+                                                @else
+                                                    {{ $candidato->id }}
+                                                @endif
+                                            </td>
+
+                                            <td class="text-sm font-weight-normal">
+                                                <img style="height: 50px"
+                                                    src="{{ asset('img/fotos/' . $candidato->foto) }}" alt="">
+                                            </td>
+                                            <td class="text-sm font-weight-normal">{{ $candidato->observaciones }}</td>
+
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="d-flex w-100 justify-content-center">
                             {{ $candidatos->links('pagination::bootstrap-5') }}
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mt-4" style="display: none;">
-            <div class="col-12">
-                <div class="card">
-                    <!-- Card header -->
 
-                    <div class="table-responsive">
-                        <table class="table table-flush" id="datatable-basic">
-
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
@@ -314,8 +355,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label for="">Nombres y Apellidos</label>
-                                    <input type="text" name="nombresApellidos" placeholder="Nombres y Apellidos"
-                                        class="form-control" value="{{ $candidato->nombresApellidos }}">
+                                    <input type="text" name="nombresApellidos" placeholder="Nombres y Apellidos" class="form-control" value="{{ $candidato->nombresApellidos }}">
                                 </div>
                             </div>
                             <div class="row">
@@ -345,9 +385,8 @@
 
 @section('script')
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
 
-    <script></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -422,5 +461,61 @@
                 }
             }
         }
+
+        $(document).on('click', '.btnEliminar', (e) => {
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn bg-gradient-success',
+                    cancelButton: 'btn bg-gradient-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Estas por Eliminar el Candidato?',
+                text: "Estas de acuerdo en borrar este Candidato",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Si, Eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    const ids = e.currentTarget.dataset.item
+
+                    if (ids !== '') {
+                        fetch("candidato/eliminar/" + ids, {
+                                credentials: 'include',
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            })
+                            .then(response => response.json())
+                            .then((response) => {
+                                if (response.status) {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: 'Felicidades',
+                                        text: response.message,
+                                    })
+                                    window.setTimeout(location.reload(), 2000);
+                                } else {
+                                    Swal.fire({
+                                        icon: 'info',
+                                        title: 'Ooops...',
+                                        text: response.message,
+                                    })
+                                }
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            })
+                    }
+                }
+            })
+
+        });
     </script>
 @endsection

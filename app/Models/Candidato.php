@@ -28,4 +28,19 @@ class candidato extends Model
     {
         return $this->belongsTo(Partido::class,'idPartido','id');
     }
+
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class,'idDepartamento','id');
+    }
+
+    public function provincia()
+    {
+        return $this->belongsTo(Provincia::class,'idProvincia','id');
+    }
+
+    public function distrito()
+    {
+        return $this->belongsTo(Distrito::class,'idDistrito','id');
+    }
 }
