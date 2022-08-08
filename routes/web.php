@@ -41,6 +41,9 @@ use Illuminate\Support\Facades\DB;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Auth::routes();
+
 Route::get("clearpersonal", [PersonalController::class,"clearPersonal"]);
 Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
 Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
@@ -50,8 +53,6 @@ Route::get("auth/register",[AuthPersonalController::class,"create"])->name("web.
 Route::post("auth/register",[AuthPersonalController::class,"store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');
 Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
-
-Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
