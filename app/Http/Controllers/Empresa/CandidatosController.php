@@ -25,7 +25,7 @@ class CandidatosController extends Controller
         $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();
         $distritos = Distrito::where('estado', 'activo')->get();
         $partidos = Partido::where('estado', 'Activo')->orderBy('partido', 'ASC')->get();
-        return view('intranet.pages.empresa.encuestas.candidatos')->with(compact('departamentos', 'provincias', 'distritos', 'candidatos', 'partidos'));
+        return view('intranet.pages.empresa.encuestas.candidatos',compact('departamentos', 'provincias', 'distritos', 'candidatos', 'partidos'));
     }
 
     /**
