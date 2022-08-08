@@ -22,7 +22,8 @@ class CandidatosController extends Controller
 
         if (!empty($request->buscador)) {
             $candidatos = $candidatos->where('nombresApellidos', 'like', '%' . $request->buscador . '%')
-            ->orWhere('nombreCorto', 'like', '%' . $request->buscador . '%');
+            ->orWhere('nombreCorto', 'like', '%' . $request->buscador . '%')
+            ->orWhere('id', 'like', '%' . $request->buscador . '%');
         }
         $candidatos = $candidatos->paginate(10)->withQueryString();
 
