@@ -17,8 +17,9 @@ class CandidatosController extends Controller
 
     public function index(Request $request)
     {
-        Log::info(json_encode($request->all()));
-        $candidatos = Candidato::where('estado', true)->paginate(8)->withQueryString();
+
+        $candidatos = Candidato::with('departamento', 'provincia', 'distrito')->where('estado', true)->paginate(10)->withQueryString();
+
         $departamentos = Departamento::where('estado', 'activo')->orderBy('departamento', 'ASC')->get();
         $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();
         $distritos = Distrito::where('estado', 'activo')->get();
@@ -178,13 +179,37 @@ class CandidatosController extends Controller
     public function destroy($id)
     {
         $candidato = Candidato::find($id);
-        if ($candidato->estado == 'activo') {
-            $candidato->estado = 'inactivo';
-        } else {
-            $candidato->estado = 'activo';
+
+        if(!$candidato){
+            return response()->json([
+                'status' => false,
+                'message' => 'No puedes Eliminar este Candidato'
+            ], 402);
+        }else{
+            if ($candidato) {
+
+                $req = $candidato->update([
+                    'estado' => 'inactivo',
+                ]);
+
+                if ($req) {
+                    return response()->json([
+                        'status' => true,
+                        'message' => 'Candidato Eliminado'
+                    ], 200);
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'message' => 'Sucedio un error. Vuelva a intentarlo'
+                    ], 402);
+                }
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Sucedio un error. Vuelva a intentarlo'
+                ], 402);
+            }
         }
-        $candidato->save();
-        return back();
     }
 
     public function getCandidatos(Request $request, $departamento, $provincia, $distrito)
