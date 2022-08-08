@@ -33,10 +33,26 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function clearPersonal()
+    {
+        $permisos = Asignacion::all();
+        foreach ($permisos as $permiso) {
+            $permiso->delete();
+        }
+        $personal = Personal::all();
+        foreach ($personal as $value) {
+            $user = User::where("idPersonal", $value->id)->first();
+            $perfil = Perfil::find($user->idPerfil);
+            $perfil->delete();
+            $user->delete();
+
+            $value->delete();
+        }
+    }
     public function index()
     {
         try {
-            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->get();
+            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamentos", "provincias", "distritos", "funcion")->get();
             $maxid = Personal::max('id');
             return response()->json(["personal" => $personal, "success" => true, "maxid" => $maxid], 200);
         } catch (Exception $e) {
@@ -45,7 +61,7 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo");
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamentos", "provincias", "distritos", "tiposUbigeo");
         return DataTables::of($areas)->make(true);
     }
 
@@ -187,12 +203,12 @@ class PersonalController extends Controller
                 $url2 = "https://" . $request->url_2;
             }
             $lastidpersonal = Personal::max("id");
-            if($lastidpersonal == null){
+            if ($lastidpersonal == null) {
                 $lastidpersonal = 0;
             }
             $lastidpersonal++;
             $lastidperfil = Perfil::max("id");
-            if($lastidperfil==null){
+            if ($lastidperfil == null) {
                 $lastidperfil = 0;
             }
 
@@ -243,7 +259,7 @@ class PersonalController extends Controller
             }
             $personal->empresa_id = $datosempresa->id;
             $personal->save();
-            
+
             $perfil = new Perfil();
             $perfil->id = $lastidperfil;
             $perfil->tipo = "persona";

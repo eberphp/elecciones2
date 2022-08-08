@@ -22,9 +22,23 @@
                         </p>
                     </div>
                     <div class="table-responsive">
+                        <form action="">
+                            <div class="row p-3">
+                                <div class="col-md-10">
+
+                                    <input type="text" name="buscador" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                </div>
+                            </div>
+                        </form>
+                        <form action="" class="d-flex">
+                        </form>
                         <table class="table table-flush" id="datatable-search">
                             <thead class="thead-light">
-                                <tr>
+                                <tr style="width:200px">
                                     <th>Acciones</th>
                                     <th>Vis.en Gráfico</th>
                                     <th>ID</th>
@@ -43,12 +57,12 @@
                             <tbody>
                                 @foreach ($candidatos as $key => $candidato)
                                     <tr>
-                                        <td class="text-sm font-weight-normal">
+                                        <td class="text-sm font-weight-normal d-flex">
                                             <a href="{{ route('elimina-candidatos', $candidato->id) }}"
-                                                class="btn btn-danger"> Eliminar </a>
-                                            <button type="button" class="btn btn-success" style="float: right"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#exampleModalEdit{{ $key }}">Editar</button>
+                                                class="btn btn-danger mx-1"> <i class="fa fa-trash"></i> </a>
+                                            <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModalEdit{{ $key }}"><i
+                                                    class="fa fa-edit"></i></button>
                                         </td>
                                         <td class="text-sm font-weight-normal">
                                             <a href="#" class="btn btn-info"> {{ $candidato->visualiza }} </a>
@@ -61,7 +75,7 @@
                                             {{ $dep->departamento }}
                                         </td>
                                         <td class="text-sm font-weight-normal">
-                                            @if ($candidato->idProvincia !=  null && $candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital')
+                                            @if (($candidato->idProvincia != null && $candidato->tipo == 'Provincial') || $candidato->tipo == 'Distrital')
                                                 <?php $prov = App\Models\Provincia::find($candidato->idProvincia);
                                                 $provincita = $prov->provincia;
                                                 ?>
@@ -74,7 +88,7 @@
                                             @if ($candidato->tipo == 'Distrital')
                                                 <?php $dist = App\Models\Distrito::find($candidato->idDistrito); ?>
 
-                                                {{ $dist }}
+                                                {{ $dist ? $dist->distrito : '' }}
                                             @else
                                                 ---
                                             @endif
@@ -92,6 +106,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex w-100 justify-content-end">
+
+                            {{ $candidatos->onEachSide(5)->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -149,7 +167,8 @@
                                     onchange="getProvincias(idDepartamento)">
                                     <option value=""></option>
                                     @foreach ($departamentos as $departamento)
-                                        <option value="{{ $departamento->id }}">{{ $departamento->departamento }}</option>
+                                        <option value="{{ $departamento->id }}">{{ $departamento->departamento }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -328,17 +347,7 @@
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
 
-    <script>
-        const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
-            searchable: false,
-            fixedHeight: true
-        });
-
-        const dataTableSearch = new simpleDatatables.DataTable("#datatable-search", {
-            searchable: true,
-            fixedHeight: true
-        });
-    </script>
+    <script></script>
     <script>
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {

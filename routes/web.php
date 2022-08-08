@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\EmpresaController;
+use App\Http\Controllers\Api\PersonalController;
 use App\Http\Controllers\AuthPersonalController;
 use App\Http\Controllers\ConfiguracionController;
 use App\Http\Controllers\Empresa\DatosController;
@@ -26,8 +27,10 @@ use App\Http\Controllers\Empresa\PartidosController;
 use App\Http\Controllers\Empresa\ZonasController;
 use App\Http\Controllers\Empresa\RolController;
 use App\Http\Controllers\Empresa\EncuestaController;
+use App\Http\Controllers\Empresa\PersonalController as EmpresaPersonalController;
 use App\Http\Controllers\Empresa\ProyectoController;
 use App\Http\Controllers\Empresa\VotosController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -39,6 +42,7 @@ use App\Http\Controllers\Empresa\VotosController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get("clearpersonal",[PersonalController::class,"clearPersonal"]);
 Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
 Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
 Route::post("auth/logout",[AuthPersonalController::class,"logout"])->name("web.logout");
@@ -178,9 +182,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("usuarioResponsable", [ConfiguracionController::class, "usuarioResponsable"])->name("configuracion.usuarioResponsable");
         Route::get("estadoActividad", [ConfiguracionController::class, "estadoActividad"])->name("configuracion.estadoActividad");
         Route::get("estadoProceso", [ConfiguracionController::class, "estadoProceso"])->name("configuracion.estadoProceso");
-        Route::get("personal", [ConfiguracionController::class, "personal"])->name("configuracion.personal");
     });
+    Route::resource("personal", EmpresaPersonalController::class)->names("personalweb");
 });
+
 
 // RUTAS DE ENCUESTAS
 Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encuesta')->group(function(){

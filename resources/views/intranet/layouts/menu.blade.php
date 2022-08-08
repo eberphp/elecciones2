@@ -241,8 +241,8 @@
                         <ul class="nav ms-4">
 
                             <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
-                                    href="{{ route('configuracion.personal') }}">
+                                <a class="nav-link  {{ request()->is('personal') ? 'active' : '' }}"
+                                    href="{{ route('personalweb.index') }}">
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                 </a>
                             </li>
@@ -883,8 +883,8 @@
                         <ul class="nav ms-4">
 
                             <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
-                                    href="{{ route('configuracion.personal') }}">
+                                <a class="nav-link  {{ request()->is('personal') ? 'active' : '' }}"
+                                    href="{{ route('personalweb.index') }}">
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                 </a>
                             </li>
