@@ -1,18 +1,33 @@
 @extends('intranet.layouts.layout')
 @section('content')
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+    $usuario = Auth::user();
+    $personal = $usuario->personal;
+    $permisos = [];
+    if ($personal) {
+        foreach ($personal->asignaciones as $asignacion) {
+            if ($asignacion->permiso->grupo == 4) {
+                $permisos[] = $asignacion->permiso->nombre;
+            }
+        }
+    }
+    ?>
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-12">
                 <div class="card">
                     <!-- Card header -->
+
                     <div class="card-header">
                         <div class="row">
                             <div class="col-6">
                                 <h5 class="mb-0">Encuestas</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
+                                @if(in_array("Nuevo",$permisos))
                                 <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Nuevo</button>
+                                @endif
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -76,21 +91,25 @@
                                                 </span>
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
+                                                    @if(in_array("Editar",$permisos))
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
                                                         <i class="fas fa-pencil-alt text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </div>
+                                                    @endif
                                                 @endif
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
+                                                    @if(in_array("Eliminar",$permisos))
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
                                                         <i class="far fa-trash-alt text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </div>
+                                                    @endif
                                                 @endif
 
 

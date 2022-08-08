@@ -876,6 +876,7 @@
                         </div>
                     </li>
                 @endif
+                @if(in_array("Personal",$permisos))
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#personal"
                         class="nav-link {{ request()->is('personal') ? 'active' : '' }}" aria-controls="personal"
@@ -899,6 +900,7 @@
                         </ul>
                     </div>
                 </li>
+                @endif
                 @if (in_array('Encuestas', $permisos))
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#encuestas"
@@ -912,7 +914,7 @@
                         </a>
                         <div class="collapse " id="encuestas">
                             <ul class="nav ms-4">
-                                @if (in_array('Ubigeo', $permisos))
+                                @if (in_array('Tipo ubigeo', $permisos))
                                     <li class="nav-item ">
                                         <a data-bs-toggle="collapse" href="#ubigeo"
                                             class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') ? 'active' : '' }}"
@@ -1020,7 +1022,7 @@
                                         </a>
                                     </li>
                                 @endif
-
+                                @if(in_array("Registrar encuestas",$permisos))
                                 <li class="nav-item">
                                     <a href="{{ route('Votos') }}"
                                         class="nav-link {{ request()->is('Votos') ? 'active' : '' }}">
@@ -1031,6 +1033,7 @@
                                         <span class="nav-link-text ms-1">Votos</span>
                                     </a>
                                 </li>
+                                @endif
                                 @if (in_array('Resultados', $permisos))
                                     <li class="nav-item">
                                         <a data-bs-toggle="collapse" href="#resultados" class="nav-link "
