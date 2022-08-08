@@ -75,11 +75,11 @@
                                             {{ $dep->departamento }}
                                         </td>
                                         <td class="text-sm font-weight-normal">
-                                            @if (($candidato->idProvincia != null && $candidato->tipo == 'Provincial') || $candidato->tipo == 'Distrital')
+                                            @if ($candidato->idProvincia != null && ($candidato->tipo == 'Provincial' || $candidato->tipo == 'Distrital'))
                                                 <?php $prov = App\Models\Provincia::find($candidato->idProvincia);
                                                 $provincita = $prov->provincia;
                                                 ?>
-                                                {{ $provincita }}
+                                                {{ $candidato->idProvincia }}
                                             @else
                                                 ---
                                             @endif

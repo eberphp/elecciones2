@@ -10,16 +10,13 @@ use App\Models\Distrito;
 use App\Models\Candidato;
 use App\Models\Partido;
 
+
 class CandidatosController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        //
+        Log::info(json_encode($request->all()));
         $candidatos = Candidato::where('estado', true)->paginate(8)->withQueryString();
         $departamentos = Departamento::where('estado', 'activo')->orderBy('departamento', 'ASC')->get();
         $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();
