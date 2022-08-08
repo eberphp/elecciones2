@@ -30,7 +30,7 @@
                                             <div class="invalid-feedback" id="invalidNombreCreate">
                                             </div>
                                         </div>
-                                       
+
                                         <div class="w-100 d-flex justify-content-end">
                                             <button class="btn btn-primary" type="submit">Guardar</button>
                                         </div>
@@ -58,7 +58,7 @@
                                             <div class="invalid-feedback" id="invalidNombreEdit">
                                             </div>
                                         </div>
-                                       
+
                                         <div class="w-100 d-flex justify-content-end">
                                             <button class="btn btn-primary" type="submit">Guardar</button>
                                         </div>
@@ -89,7 +89,7 @@
                                     {{-- <th>Accion</th> --}}
                                 </tr>
                             </thead>
-                           
+
                         </table>
                     </div>
                 </div>
@@ -136,7 +136,7 @@
                     $("#invalidNombreEdit").html("");
                 }
             });
-           
+
             const validateFormNew = (data) => {
 
                 if (data.nombre) {
@@ -220,7 +220,7 @@
             });
             //fin crear usuario
             customtable = $("#datatable").DataTable({
-             
+
                 "serverSide": true,
                 "ajax": {
                     "url": "/api/cargo/pagination",
@@ -246,7 +246,12 @@
                         data: "nombre",
                         name: "nombre",
                     }
-                ]
+                ],
+                "processing": true,
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                }
             });
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');

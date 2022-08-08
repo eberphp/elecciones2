@@ -103,3 +103,4 @@ class CandidatoController extends Controller
         return response()->json($candidatos, 200, []);
     }
 }
+

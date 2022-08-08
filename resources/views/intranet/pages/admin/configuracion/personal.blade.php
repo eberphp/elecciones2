@@ -925,7 +925,7 @@
                         </div>
                     </div>
                     <table class="table table-flush" id="datatable">
-                        <thead>
+                        <thead class="thead-light">
                             @if ($personal)
                                 <tr>
                                     <th>Accion</th>
@@ -1891,7 +1891,14 @@
                             return data.data;
                         }
                     },
-                    "columns": columns_datatables
+                    "columns": columns_datatables,
+                    
+                    "processing": true,
+                    "pagingType":"numbers",
+                    "language":{
+                        "url":"//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                    }
+                    
                 });
             }
             $("#exportToExcel").on("click", function() {

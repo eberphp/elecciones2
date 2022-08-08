@@ -100,7 +100,7 @@
                                     {{-- <th>Accion</th> --}}
                                 </tr>
                             </thead>
-                          
+
                         </table>
                     </div>
                 </div>
@@ -248,7 +248,7 @@
             });
             //fin crear usuario
             customtable = $("#datatable").DataTable({
-              
+
                 "serverSide": true,
                 "ajax": {
                     "url": "/api/area/pagination",
@@ -281,7 +281,12 @@
                             return `<div style="width:100px;height:10px; background-color:${data}"></div>`
                         }
                     }
-                ]
+                ],
+                "processing": true,
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                }
             });
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');

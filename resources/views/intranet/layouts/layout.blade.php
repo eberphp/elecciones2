@@ -21,7 +21,7 @@
     
     <link id="pagestyle" href="{{ asset('admin/assets/css/argon-dashboard.min790f.css?v=2.0.1')}}" rel="stylesheet" />
     <!-- Anti-flicker snippet (recommended)  -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/datatables.min.css')}}"/>
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin/assets/css/datatables.bootstrap5.min.css')}}"/>
  
     <style>
         .async-hide {
@@ -65,6 +65,8 @@
     <script src="//cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> --}}
 
     <script src="{{asset('admin/assets/js/datatables.min.js') }}"></script>
+
+    <script src="{{asset('admin/assets/js/datatables.bootstrap5.min.js') }}"></script>
     @yield('script')
 </body>
 </html>
