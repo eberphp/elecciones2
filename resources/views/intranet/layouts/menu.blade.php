@@ -241,8 +241,8 @@
                         <ul class="nav ms-4">
 
                             <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('personal') ? 'active' : '' }}"
-                                    href="{{ route('personalweb.index') }}">
+                                <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
+                                    href="{{ route('configuracion.personal') }}">
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                 </a>
                             </li>
@@ -658,88 +658,90 @@
                 </li>
             @endif
             @if ($perfil->tipo == 'persona')
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#web"
-                        class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
-                        aria-controls="web" role="button" aria-expanded="false">
-                        <div
-                            class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                @if (in_array('Web', $permisos))
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#web"
+                            class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
+                            aria-controls="web" role="button" aria-expanded="false">
+                            <div
+                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Web</span>
+                        </a>
+                        <div class="collapse " id="web">
+                            <ul class="nav ms-4">
+                                @if (in_array('Datos de la empresa', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('datos-empresa') ? 'active' : '' }}"
+                                            href="{{ route('datos.empresa') }}">
+                                            <span class="sidenav-mini-icon"> DE </span>
+                                            <span class="sidenav-normal"> Datos de la Empresa <b
+                                                    class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (in_array('Redes sociales', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('redes-sociales') ? 'active' : '' }}"
+                                            href="{{ route('redes.empresa') }}">
+                                            <span class="sidenav-mini-icon"> RS </span>
+                                            <span class="sidenav-normal"> Redes Sociales <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (in_array('Slider', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('sliders') ? 'active' : '' }}"
+                                            href="{{ route('sliders.index') }}">
+                                            <span class="sidenav-mini-icon"> S </span>
+                                            <span class="sidenav-normal"> Sliders <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Publicaciones', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('publicaciones') ? 'active' : '' }}"
+                                            href="{{ route('publicaciones.index') }}">
+                                            <span class="sidenav-mini-icon"> S </span>
+                                            <span class="sidenav-normal"> Publicaciones <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Boton', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('botones') ? 'active' : '' }}"
+                                            href="{{ route('botones.index') }}">
+                                            <span class="sidenav-mini-icon"> S </span>
+                                            <span class="sidenav-normal"> Botones <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Servicios', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('servicios') ? 'active' : '' }}"
+                                            href="{{ route('servicios.index') }}">
+                                            <span class="sidenav-mini-icon"> S </span>
+                                            <span class="sidenav-normal"> Servicios <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Testimonios', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link {{ request()->is('testimonios') ? 'active' : '' }}"
+                                            href="{{ route('testimonios.index') }}">
+                                            <span class="sidenav-mini-icon"> S </span>
+                                            <span class="sidenav-normal"> Testimonios <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
                         </div>
-                        <span class="nav-link-text ms-1">Web</span>
-                    </a>
-                    <div class="collapse " id="web">
-                        <ul class="nav ms-4">
-                            @if (in_array('Datos de la empresa', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('datos-empresa') ? 'active' : '' }}"
-                                        href="{{ route('datos.empresa') }}">
-                                        <span class="sidenav-mini-icon"> DE </span>
-                                        <span class="sidenav-normal"> Datos de la Empresa <b
-                                                class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (in_array('Redes sociales', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('redes-sociales') ? 'active' : '' }}"
-                                        href="{{ route('redes.empresa') }}">
-                                        <span class="sidenav-mini-icon"> RS </span>
-                                        <span class="sidenav-normal"> Redes Sociales <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (in_array('Slider', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('sliders') ? 'active' : '' }}"
-                                        href="{{ route('sliders.index') }}">
-                                        <span class="sidenav-mini-icon"> S </span>
-                                        <span class="sidenav-normal"> Sliders <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Publicaciones', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('publicaciones') ? 'active' : '' }}"
-                                        href="{{ route('publicaciones.index') }}">
-                                        <span class="sidenav-mini-icon"> S </span>
-                                        <span class="sidenav-normal"> Publicaciones <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Boton', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('botones') ? 'active' : '' }}"
-                                        href="{{ route('botones.index') }}">
-                                        <span class="sidenav-mini-icon"> S </span>
-                                        <span class="sidenav-normal"> Botones <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Servicios', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('servicios') ? 'active' : '' }}"
-                                        href="{{ route('servicios.index') }}">
-                                        <span class="sidenav-mini-icon"> S </span>
-                                        <span class="sidenav-normal"> Servicios <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Testimonios', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link {{ request()->is('testimonios') ? 'active' : '' }}"
-                                        href="{{ route('testimonios.index') }}">
-                                        <span class="sidenav-mini-icon"> S </span>
-                                        <span class="sidenav-normal"> Testimonios <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </li>
-
+                    </li>
+                @endif
+                @if(in_array('Roles', $permisos))
                 <li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link " aria-controls="rol" role="button">
                         <div
@@ -749,126 +751,131 @@
                         <span class="nav-link-text ms-1">Roles</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#configuracion" class="nav-link active}}"
-                        aria-controls="configuracion" role="button" aria-expanded="false">
-                        <div
-                            class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                @endif
+                @if (in_array('Configuración', $permisos))
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#configuracion" class="nav-link active}}"
+                            aria-controls="configuracion" role="button" aria-expanded="false">
+                            <div
+                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Configuracion</span>
+                        </a>
+                        <div class="collapse " id="configuracion">
+                            <ul class="nav ms-4">
+
+                                @if (in_array('Area', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/area') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.area') }}">
+                                            <span class="sidenav-normal"> Area <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Cargo', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/cargo') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.cargo') }}">
+                                            <span class="sidenav-normal"> Cargo <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Estado actividad', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/estadoActividad') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.estadoActividad') }}">
+                                            <span class="sidenav-normal"> Estado Actividad <b
+                                                    class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Estado evaluación', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/estadoEvaluacion') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.estadoEvaluacion') }}">
+                                            <span class="sidenav-normal"> Estado Evaluacion <b
+                                                    class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Estado gestión', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/estadoGestion') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.estadoGestion') }}">
+                                            <span class="sidenav-normal"> Estado Gestion <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                <li class="nav-item ">
+                                    <a class="nav-link  {{ request()->is('configuracion/estadoProceso') ? 'active' : '' }}"
+                                        href="{{ route('configuracion.estadoProceso') }}">
+                                        <span class="sidenav-normal"> Estado Proceso <b class="caret"></b></span>
+                                    </a>
+                                </li>
+
+                                @if (in_array('Función', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/funcion') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.funcion') }}">
+                                            <span class="sidenav-normal"> Funcion <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+
+                                @if (in_array('Prioridad', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/prioridad') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.prioridad') }}">
+                                            <span class="sidenav-normal"> Prioridad <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Tipo de actividad', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/tipoActividad') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.tipoActividad') }}">
+                                            <span class="sidenav-normal"> Tipo Actividad <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Tipo de ubigeo', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/tipoUbigeo') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.tipoUbigeo') }}">
+                                            <span class="sidenav-normal"> Tipo Ubigeo <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Tipo de usuario', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/tipoUsuario') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.tipoUsuario') }}">
+                                            <span class="sidenav-normal"> Tipo Usuario <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Usuario responsable', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/usuarioResponsable') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.usuarioResponsable') }}">
+                                            <span class="sidenav-normal"> Usuario Responsable <b
+                                                    class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                                @if (in_array('Vinculo', $permisos))
+                                    <li class="nav-item ">
+                                        <a class="nav-link  {{ request()->is('configuracion/vinculo') ? 'active' : '' }}"
+                                            href="{{ route('configuracion.vinculo') }}">
+                                            <span class="sidenav-normal"> Vinculo <b class="caret"></b></span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
                         </div>
-                        <span class="nav-link-text ms-1">Configuracion</span>
-                    </a>
-                    <div class="collapse " id="configuracion">
-                        <ul class="nav ms-4">
-
-                            @if (in_array('Area', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/area') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.area') }}">
-                                        <span class="sidenav-normal"> Area <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Cargo', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/cargo') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.cargo') }}">
-                                        <span class="sidenav-normal"> Cargo <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Estado actividad', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/estadoActividad') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.estadoActividad') }}">
-                                        <span class="sidenav-normal"> Estado Actividad <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Estado evaluación', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/estadoEvaluacion') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.estadoEvaluacion') }}">
-                                        <span class="sidenav-normal"> Estado Evaluacion <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Estado gestión', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/estadoGestion') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.estadoGestion') }}">
-                                        <span class="sidenav-normal"> Estado Gestion <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('configuracion/estadoProceso') ? 'active' : '' }}"
-                                    href="{{ route('configuracion.estadoProceso') }}">
-                                    <span class="sidenav-normal"> Estado Proceso <b class="caret"></b></span>
-                                </a>
-                            </li>
-
-                            @if (in_array('Función', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/funcion') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.funcion') }}">
-                                        <span class="sidenav-normal"> Funcion <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-
-                            @if (in_array('Prioridad', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/prioridad') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.prioridad') }}">
-                                        <span class="sidenav-normal"> Prioridad <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Tipo de actividad', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/tipoActividad') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.tipoActividad') }}">
-                                        <span class="sidenav-normal"> Tipo Actividad <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Tipo de ubigeo', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/tipoUbigeo') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.tipoUbigeo') }}">
-                                        <span class="sidenav-normal"> Tipo Ubigeo <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Tipo de usuario', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/tipoUsuario') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.tipoUsuario') }}">
-                                        <span class="sidenav-normal"> Tipo Usuario <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Usuario responsable', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/usuarioResponsable') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.usuarioResponsable') }}">
-                                        <span class="sidenav-normal"> Usuario Responsable <b
-                                                class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                            @if (in_array('Vinculo', $permisos))
-                                <li class="nav-item ">
-                                    <a class="nav-link  {{ request()->is('configuracion/vinculo') ? 'active' : '' }}"
-                                        href="{{ route('configuracion.vinculo') }}">
-                                        <span class="sidenav-normal"> Vinculo <b class="caret"></b></span>
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-                    </div>
-                </li>
+                    </li>
+                @endif
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#personal"
                         class="nav-link {{ request()->is('personal') ? 'active' : '' }}" aria-controls="personal"
@@ -883,8 +890,8 @@
                         <ul class="nav ms-4">
 
                             <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('personal') ? 'active' : '' }}"
-                                    href="{{ route('personalweb.index') }}">
+                                <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
+                                    href="{{ route('configuracion.personal') }}">
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                 </a>
                             </li>
@@ -892,151 +899,174 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <a data-bs-toggle="collapse" href="#encuestas"
-                        class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') || request()->is('partidos') ? 'active' : '' }}"
-                        aria-controls="encuestas" role="button" aria-expanded="false">
-                        <div
-                            class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                        </div>
-                        <span class="nav-link-text ms-1">Encuestas</span>
-                    </a>
-                    <div class="collapse " id="encuestas">
-                        <ul class="nav ms-4">
-                            @if (in_array('Ubigeo', $permisos))
-                                <li class="nav-item ">
-                                    <a data-bs-toggle="collapse" href="#ubigeo"
-                                        class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') ? 'active' : '' }}"
-                                        aria-controls="ubigeo" role="button" aria-expanded="false">
-                                        <div
-                                            class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                            <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                @if (in_array('Encuestas', $permisos))
+                    <li class="nav-item">
+                        <a data-bs-toggle="collapse" href="#encuestas"
+                            class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') || request()->is('partidos') ? 'active' : '' }}"
+                            aria-controls="encuestas" role="button" aria-expanded="false">
+                            <div
+                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Encuestas</span>
+                        </a>
+                        <div class="collapse " id="encuestas">
+                            <ul class="nav ms-4">
+                                @if (in_array('Ubigeo', $permisos))
+                                    <li class="nav-item ">
+                                        <a data-bs-toggle="collapse" href="#ubigeo"
+                                            class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') ? 'active' : '' }}"
+                                            aria-controls="ubigeo" role="button" aria-expanded="false">
+                                            <div
+                                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                            </div>
+                                            <span class="nav-link-text ms-1">Ubigeo</span>
+                                        </a>
+                                        <div class="collapse " id="ubigeo">
+                                            <ul class="nav ms-4">
+                                                @if (in_array('Departaments', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link  {{ request()->is('departamentos') ? 'active' : '' }}"
+                                                            href="{{ route('departamentos.index') }}">
+                                                            <span class="sidenav-mini-icon"> D </span>
+                                                            <span class="sidenav-normal"> Departamentos <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (in_array('Provincias', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link {{ request()->is('provincias') ? 'active' : '' }}"
+                                                            href="{{ route('provincias.index') }}">
+                                                            <span class="sidenav-mini-icon"> P </span>
+                                                            <span class="sidenav-normal"> Provincias <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (in_array('Distritos', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link {{ request()->is('distritos') ? 'active' : '' }}"
+                                                            href="{{ route('distritos.index') }}">
+                                                            <span class="sidenav-mini-icon"> D </span>
+                                                            <span class="sidenav-normal"> Distritos <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                                @if (in_array('Zonas', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link {{ request()->is('zonas') ? 'active' : '' }}"
+                                                            href="{{ route('zonas.index') }}">
+                                                            <span class="sidenav-mini-icon"> Z </span>
+                                                            <span class="sidenav-normal"> Zonas <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+                                            </ul>
                                         </div>
-                                        <span class="nav-link-text ms-1">Ubigeo</span>
-                                    </a>
-                                    <div class="collapse " id="ubigeo">
-                                        <ul class="nav ms-4">
-                                            <li class="nav-item ">
-                                                <a class="nav-link  {{ request()->is('departamentos') ? 'active' : '' }}"
-                                                    href="{{ route('departamentos.index') }}">
-                                                    <span class="sidenav-mini-icon"> D </span>
-                                                    <span class="sidenav-normal"> Departamentos <b
-                                                            class="caret"></b></span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ request()->is('provincias') ? 'active' : '' }}"
-                                                    href="{{ route('provincias.index') }}">
-                                                    <span class="sidenav-mini-icon"> P </span>
-                                                    <span class="sidenav-normal"> Provincias <b
-                                                            class="caret"></b></span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ request()->is('distritos') ? 'active' : '' }}"
-                                                    href="{{ route('distritos.index') }}">
-                                                    <span class="sidenav-mini-icon"> D </span>
-                                                    <span class="sidenav-normal"> Distritos <b
-                                                            class="caret"></b></span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ request()->is('zonas') ? 'active' : '' }}"
-                                                    href="{{ route('zonas.index') }}">
-                                                    <span class="sidenav-mini-icon"> Z </span>
-                                                    <span class="sidenav-normal"> Zonas <b class="caret"></b></span>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </li>
-                            @endif
-                            @if (in_array('Partidos', $permisos))
+                                    </li>
+                                @endif
+                                @if (in_array('Partidos', $permisos) || in_array('Candidatos', $permisos))
+                                    <li class="nav-item">
+                                        <a data-bs-toggle="collapse" href="#partidos"
+                                            class="nav-link {{ request()->is('partidos') ? 'active' : '' }}"
+                                            aria-controls="partidos" role="button" aria-expanded="false">
+                                            <div
+                                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                            </div>
+                                            <span class="nav-link-text ms-1">Partidos y Candidatos</span>
+                                        </a>
+                                        <div class="collapse " id="partidos">
+                                            <ul class="nav ms-4">
+                                                @if (in_array('Partidos', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link  {{ request()->is('partidos') ? 'active' : '' }}"
+                                                            href="{{ route('partidos.index') }}">
+                                                            <span class="sidenav-mini-icon"> P </span>
+                                                            <span class="sidenav-normal"> Partidos <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                                @if (in_array('Candidatos', $permisos))
+                                                    <li class="nav-item ">
+                                                        <a class="nav-link {{ request()->is('provincias') ? 'active' : '' }}"
+                                                            href="{{ route('candidatos.index') }}">
+                                                            <span class="sidenav-mini-icon"> c </span>
+                                                            <span class="sidenav-normal"> Candidatos <b
+                                                                    class="caret"></b></span>
+                                                        </a>
+                                                    </li>
+                                                @endif
+
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endif
+                                @if (in_array('Crear encuestas', $permisos))
+                                    <li class="nav-item">
+                                        <a href="{{ route('Encuesta') }}"
+                                            class="nav-link {{ request()->is('Encuesta') ? 'active' : '' }}">
+                                            <div
+                                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                            </div>
+                                            <span class="nav-link-text ms-1">Crear Encuestas</span>
+                                        </a>
+                                    </li>
+                                @endif
+
                                 <li class="nav-item">
-                                    <a data-bs-toggle="collapse" href="#partidos"
-                                        class="nav-link {{ request()->is('partidos') ? 'active' : '' }}"
-                                        aria-controls="partidos" role="button" aria-expanded="false">
+                                    <a href="{{ route('Votos') }}"
+                                        class="nav-link {{ request()->is('Votos') ? 'active' : '' }}">
                                         <div
                                             class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
                                             <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
                                         </div>
-                                        <span class="nav-link-text ms-1">Partidos y Candidatos</span>
+                                        <span class="nav-link-text ms-1">Votos</span>
                                     </a>
-                                    <div class="collapse " id="partidos">
-                                        <ul class="nav ms-4">
-                                            <li class="nav-item ">
-                                                <a class="nav-link  {{ request()->is('partidos') ? 'active' : '' }}"
-                                                    href="{{ route('partidos.index') }}">
-                                                    <span class="sidenav-mini-icon"> P </span>
-                                                    <span class="sidenav-normal"> Partidos <b
-                                                            class="caret"></b></span>
-                                                </a>
-                                            </li>
-                                            <li class="nav-item ">
-                                                <a class="nav-link {{ request()->is('provincias') ? 'active' : '' }}"
-                                                    href="{{ route('candidatos.index') }}">
-                                                    <span class="sidenav-mini-icon"> c </span>
-                                                    <span class="sidenav-normal"> Candidatos <b
-                                                            class="caret"></b></span>
-                                                </a>
-                                            </li>
-
-                                        </ul>
-                                    </div>
                                 </li>
-                            @endif
-                            <li class="nav-item">
-                                <a href="{{ route('Encuesta') }}"
-                                    class="nav-link {{ request()->is('Encuesta') ? 'active' : '' }}">
-                                    <div
-                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                                    </div>
-                                    <span class="nav-link-text ms-1">Crear Encuestas</span>
-                                </a>
-                            </li>
+                                @if (in_array('Resultados', $permisos))
+                                    <li class="nav-item">
+                                        <a data-bs-toggle="collapse" href="#resultados" class="nav-link "
+                                            aria-controls="resultados" role="button" aria-expanded="false">
+                                            <div
+                                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                            </div>
+                                            <span class="nav-link-text ms-1">Resultados y Gráficos</span>
+                                        </a>
+                                        <div class="collapse " id="resultados">
+                                            <ul class="nav ms-4">
+                                                <li class="nav-item ">
+                                                    <a class="nav-link  " href="#">
+                                                        <span class="sidenav-mini-icon"> R </span>
+                                                        <span class="sidenav-normal"> Resultados <b
+                                                                class="caret"></b></span>
+                                                    </a>
+                                                </li>
+                                                <li class="nav-item ">
+                                                    <a class="nav-link " href="#">
+                                                        <span class="sidenav-mini-icon"> G </span>
+                                                        <span class="sidenav-normal"> Gráficos <b
+                                                                class="caret"></b></span>
+                                                    </a>
+                                                </li>
 
-                            <li class="nav-item">
-                                <a href="{{ route('Votos') }}"
-                                    class="nav-link {{ request()->is('Votos') ? 'active' : '' }}">
-                                    <div
-                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                                    </div>
-                                    <span class="nav-link-text ms-1">Votos</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a data-bs-toggle="collapse" href="#resultados" class="nav-link "
-                                    aria-controls="resultados" role="button" aria-expanded="false">
-                                    <div
-                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
-                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
-                                    </div>
-                                    <span class="nav-link-text ms-1">Resultados y Gráficos</span>
-                                </a>
-                                <div class="collapse " id="resultados">
-                                    <ul class="nav ms-4">
-                                        <li class="nav-item ">
-                                            <a class="nav-link  " href="#">
-                                                <span class="sidenav-mini-icon"> R </span>
-                                                <span class="sidenav-normal"> Resultados <b class="caret"></b></span>
-                                            </a>
-                                        </li>
-                                        <li class="nav-item ">
-                                            <a class="nav-link " href="#">
-                                                <span class="sidenav-mini-icon"> G </span>
-                                                <span class="sidenav-normal"> Gráficos <b class="caret"></b></span>
-                                            </a>
-                                        </li>
-
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+                                            </ul>
+                                        </div>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    </li>
+                @endif
+                @if(in_array("Agenda",$permisos))
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#agenda"
                         class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
@@ -1101,8 +1131,10 @@
                         </ul>
                     </div>
                 </li>
+                @endif
 
                 {{-- SECCION DE PROYECTOS O  ACTIVIADADES --}}
+                @if(in_array("Proyectos",$permisos))
                 <li class="nav-item">
                     <a href="{{ route('Proyecto') }}"
                         class="nav-link {{ request()->is('Proyecto') ? 'active' : '' }}" aria-controls="rol"
@@ -1114,7 +1146,10 @@
                         <span class="nav-link-text ms-1">Proyectos</span>
                     </a>
                 </li>
+                @endif
+                {{-- SECCION DE PROYECTOS O  ACTIVIADADES --}}
                 {{-- END SECCION DE PROYECTOS O ACTIVIDADES --}}
+                @if(in_array("Actividades",$permisos))
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#actividades"
                         class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
@@ -1179,6 +1214,10 @@
                         </ul>
                     </div>
                 </li>
+                @endif
+                {{-- SECCION DE PROYECTOS O  ACTIVIADADES --}}
+                {{-- END SECCION DE PROYECTOS O ACTIVIDADES --}}
+                @if(in_array("Elecciones",$permisos))
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#elecciones"
                         class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
@@ -1243,6 +1282,10 @@
                         </ul>
                     </div>
                 </li>
+                @endif
+                {{-- SECCION DE PROYECTOS O  ACTIVIADADES --}}
+                {{-- END SECCION DE PROYECTOS O ACTIVIDADES --}}
+                @if(in_array("Sugerencias",$permisos))
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#sugerencias"
                         class="nav-link {{ request()->is('datos-empresa') || request()->is('redes-sociales') || request()->is('sliders') ? 'active' : '' }}"
@@ -1307,6 +1350,9 @@
                         </ul>
                     </div>
                 </li>
+                @endif
+                {{-- SECCION DE PROYECTOS O  ACTIVIADADES --}}
+                {{-- END SECCION DE PROYECTOS O ACTIVIDADES --}}
             @endif
         </ul>
     </div>

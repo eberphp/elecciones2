@@ -42,17 +42,20 @@ class PersonalController extends Controller
         $personal = Personal::all();
         foreach ($personal as $value) {
             $user = User::where("idPersonal", $value->id)->first();
-            $perfil = Perfil::find($user->idPerfil);
-            $perfil->delete();
-            $user->delete();
-
+            if ($user) {
+                if ($user->idPersonal) {
+                    $perfil = Perfil::find($user->idPerfil);
+                    $perfil->delete();
+                }
+                $user->delete();
+            }
             $value->delete();
         }
     }
     public function index()
     {
         try {
-            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamentos", "provincias", "distritos", "funcion")->get();
+            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->get();
             $maxid = Personal::max('id');
             return response()->json(["personal" => $personal, "success" => true, "maxid" => $maxid], 200);
         } catch (Exception $e) {
@@ -61,7 +64,7 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamentos", "provincias", "distritos", "tiposUbigeo");
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo");
         return DataTables::of($areas)->make(true);
     }
 
@@ -139,9 +142,13 @@ class PersonalController extends Controller
 
         if (!$personal)
             return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_NOT_FNDPER]], 404);
-
+        foreach ($personal->asignaciones as $asignacion) {
+            $asignacion->permiso;
+        }
         return $personal->asignaciones;
     }
+
+
     /* Roles: Fin */
 
     /**

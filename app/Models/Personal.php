@@ -24,16 +24,16 @@ class Personal extends Authenticatable
     public function vinculo(){
         return $this->belongsTo(Vinculo::class, 'vinculo_id');
     }
-    public function departamentos(){
+    public function departamento(){
         return $this->belongsTo(Departamento::class, 'departamento');
     }
-    public function provincias(){
+    public function provincia(){
         return $this->belongsTo(Provincia::class, 'provincia');
     }
-    public function distritos(){
+    public function distrito(){
         return $this->belongsTo(Distrito::class, 'distrito');
     }
-    public function tiposUbigeos(){
+    public function tiposUbigeo(){
         return $this->belongsTo(TipoUbigeo::class, 'tipo_ubigeo');
     }
     public function funcion(){
