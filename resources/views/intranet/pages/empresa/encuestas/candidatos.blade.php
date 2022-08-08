@@ -108,7 +108,13 @@
                                             <td class="text-sm font-weight-normal">
                                                 <span class="btn btn-info btn-sm"> {{ $candidato->visualiza }} </span>
                                             </td>
-                                            <td class="text-sm font-weight-normal">{{ $candidato->nombreCorto }}</td>
+                                            <td class="text-sm font-weight-normal">
+                                                @if ($candidato->nombreCorto)
+                                                    {{ $candidato->nombreCorto }}
+                                                @else
+                                                    {{ $candidato->id }}
+                                                @endif
+                                            </td>
                                             <td class="text-sm font-weight-normal">{{ $candidato->tipo }}</td>
                                             <td class="text-sm font-weight-normal">
                                                 @if ($candidato->departamento)
@@ -292,8 +298,11 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label for="">Nombre Corto</label>
-                                    <input type="text" name="nombreCorto" placeholder="Nombre Corto"
-                                        class="form-control" value="{{ $candidato->nombreCorto }}">
+                                    @if ($candidato->nombreCorto)
+                                        <input type="text" name="nombreCorto" placeholder="Nombre Corto" class="form-control" value="{{ $candidato->nombreCorto }}">
+                                    @else
+                                        <input type="text" name="nombreCorto" placeholder="Nombre Corto" class="form-control" value="{{ $candidato->id }}">
+                                    @endif
                                 </div>
                             </div>
                             <div class="row">
@@ -355,7 +364,11 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label for="">Nombres y Apellidos</label>
-                                    <input type="text" name="nombresApellidos" placeholder="Nombres y Apellidos" class="form-control" value="{{ $candidato->nombresApellidos }}">
+                                    @if ($candidato->nombresApellidos)
+                                        <input type="text" name="nombresApellidos" placeholder="Nombres y Apellidos" class="form-control" value="{{ $candidato->nombresApellidos }}">
+                                    @else
+                                        <input type="text" name="nombresApellidos" placeholder="Nombres y Apellidos" class="form-control" value="{{ $candidato->id }}">
+                                    @endif
                                 </div>
                             </div>
                             <div class="row">
