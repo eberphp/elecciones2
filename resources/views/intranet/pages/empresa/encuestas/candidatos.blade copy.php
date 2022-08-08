@@ -25,11 +25,12 @@
                         <div class="row p-3">
                             <div class="col-md-10">
 
-                                <input type="text" name="buscador" class="form-control">
+                                <input type="text" name="buscador" placeholder="Buscar por nombre | apellido | nombre corto" class="form-control">
                             </div>
                             <div class="col-md-2">
 
                                 <button type="submit" class="btn btn-primary">Buscar</button>
+                                <button type="submit" class="btn btn-primary">Limpiar</button>
                             </div>
                         </div>
                     </form>

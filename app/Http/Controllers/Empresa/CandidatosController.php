@@ -18,7 +18,13 @@ class CandidatosController extends Controller
     public function index(Request $request)
     {
 
-        $candidatos = Candidato::with('departamento', 'provincia', 'distrito')->where('estado', true)->paginate(10)->withQueryString();
+        $candidatos = Candidato::with('departamento', 'provincia', 'distrito')->where('estado', true);
+
+        if (!empty($request->buscador)) {
+            $candidatos = $candidatos->where('nombresApellidos', 'like', '%' . $request->buscador . '%')
+            ->orWhere('nombreCorto', 'like', '%' . $request->buscador . '%');
+        }
+        $candidatos = $candidatos->paginate(10)->withQueryString();
 
         $departamentos = Departamento::where('estado', 'activo')->orderBy('departamento', 'ASC')->get();
         $provincias = Provincia::where('estado', 'activo')->orderBy('provincia', 'ASC')->get();

@@ -53,6 +53,20 @@
             <div class="col-12">
                 <div class="card shadow-lg">
                     <div class="card-body">
+                        <form action="">
+                            <div class="row p-3">
+                                <div class="col-md-10">
+
+                                    <input type="text" placeholder="Buscar por Nombre | Apellido | Nombre Corto" name="buscador" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+
+                                    <button type="submit" class="btn btn-primary">Buscar</button>
+                                    <a type="submit" href="{{ route('candidatos.index') }}" class="btn btn-warning">Limpiar</a>
+
+                                </div>
+                            </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-flush" id="tbData">
                                 <thead class="thead-light">

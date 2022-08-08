@@ -17,6 +17,7 @@ class ProyectoController extends Controller
     public function index(Request $request)
     {
         $proyectos = Proyecto::with('encargados:id,email')->with('responsables:id,email')->where('estado','Activo')->get();
+
         $estadoActividades = EstadoActividad::where('estado','activo')->get();
         $responsables = User::all();
         // dd($proyectos);
@@ -90,7 +91,7 @@ class ProyectoController extends Controller
             'estado' => 'required|string',
             'observacion' => 'min:0',
         ]);
-        
+
         $req = $proyecto->update([
             'nombre' => $valiData['nombre'],
             'fechaInicio' => $valiData['inicio'],
@@ -105,8 +106,8 @@ class ProyectoController extends Controller
             return to_route('Proyecto')->with('success', 'Actualizado Correctamente');
         } else {
             return to_route('Proyecto')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
-        }        
-        
+        }
+
     }
 
     public function destroy(Request $request, Proyecto $proyecto)
@@ -121,11 +122,11 @@ class ProyectoController extends Controller
             ], 402);
         }else{
             if ($proyecto) {
-            
+
                 $req = $proyecto->update([
                     'estado' => 'Eliminado',
                 ]);
-    
+
                 if ($req) {
                     return response()->json([
                         'status' => true,
@@ -145,7 +146,7 @@ class ProyectoController extends Controller
             }
         }
 
-        
+
     }
 
 }
