@@ -9,6 +9,7 @@ use App\Models\Provincia;
 use App\Models\Distrito;
 use App\Models\Candidato;
 use App\Models\Partido;
+use Illuminate\Support\Facades\Log;
 
 
 class CandidatosController extends Controller
