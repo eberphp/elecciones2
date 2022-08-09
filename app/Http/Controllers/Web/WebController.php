@@ -18,7 +18,7 @@ class WebController extends Controller
 {
     //
     public function index(){
-        $id = 2;
+        $id = $this->userIdTemporal();
         $publicaciones = Publicacion::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('idUsuario', $id)->orderBy('nombre', 'asc')->get();
@@ -46,7 +46,7 @@ class WebController extends Controller
     }
 
     public function nosotros(){
-        $id = 2;
+        $id = $this->userIdTemporal();
         $publicaciones = Publicacion::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('idUsuario', $id)->orderBy('nombre', 'asc')->get();
@@ -57,5 +57,17 @@ class WebController extends Controller
         $testimonios = Testimonio::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $titulo = Titulo::where('idUsuario', $id)->first();
         return view('web.pages.nosotros')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'publicaciones','testimonios','titulo'));
+    }
+
+    private function userIdTemporal(){
+
+        $texto      = url('');
+        $domain     = explode("//", $texto);
+        $domain_aux = $domain[1];
+
+        if($domain_aux == 'en.levelte.com'){
+            return 9;
+        }
+        return 2;
     }
 }
