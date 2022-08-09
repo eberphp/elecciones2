@@ -24,7 +24,7 @@
                                 <h5 class="mb-0">Encuestas</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                                @if(in_array("Nuevo",$permisos))
+                                @if(in_array("Nuevo",$permisos) || !$personal)
                                 <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">Nuevo</button>
                                 @endif
@@ -91,7 +91,7 @@
                                                 </span>
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
-                                                    @if(in_array("Editar",$permisos))
+                                                    @if(in_array("Editar",$permisos) || !$personal)
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
@@ -102,7 +102,7 @@
                                                 @endif
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
-                                                    @if(in_array("Eliminar",$permisos))
+                                                    @if(in_array("Eliminar",$permisos) || !$personal)
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
                                                         style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
                                                         data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
