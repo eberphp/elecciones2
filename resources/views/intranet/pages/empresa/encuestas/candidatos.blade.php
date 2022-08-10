@@ -356,7 +356,7 @@
                                     <select name="idPartido" id="idPartido" class="form-control">
 
                                         @foreach ($partidos as $partido)
-                                            <option value="{{ $partido->id }}">{{ $partido->partido }}</option>
+                                            <option value="{{ $partido->id }}" {{ ($partido->id == $candidato->idPartido) ? 'selected' : '' }}>{{ $partido->partido }}</option>
                                         @endforeach
                                     </select>
                                 </div>
