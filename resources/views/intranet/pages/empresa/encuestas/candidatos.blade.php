@@ -508,7 +508,7 @@
                 } else {
                     $("#exampleModalEdit"+key+" #div-provincia").css('display','block');
                     $("#exampleModalEdit"+key+" #div-distrito").css('display','block');
-                    getProvincias(parseInt(divDepartamento.value), divProvincia.children[0].children[1]);
+                    getProvincias($("#exampleModalEdit"+key+" #idDepartamento").val(), $("#exampleModalEdit"+key+" #idProvincia"));
                     getDistritos($("#exampleModalEdit"+key+" #div-provincia").data('provincia'), $("#exampleModalEdit"+key+" #idDistrito"));
                     setTimeout(() => {
                         $("#exampleModalEdit"+key+" #idProvincia").val($("#exampleModalEdit"+key+" #div-provincia").data('provincia'));  
