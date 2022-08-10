@@ -166,8 +166,8 @@ class CandidatosController extends Controller
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
         $candidato->idDepartamento = $request->idDepartamento;
-        $candidato->idProvincia = $request->idProvincia;
-        $candidato->idDistrito = $request->idDistrito;
+        //$candidato->idProvincia = $request->idProvincia;
+        //$candidato->idDistrito = $request->idDistrito;
         $candidato->idPartido = $request->idPartido;
         $candidato->nombresApellidos = $request->nombresApellidos;
         $candidato->foto = $nombreimagenFoto; //$request->foto;
