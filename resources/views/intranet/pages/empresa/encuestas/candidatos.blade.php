@@ -92,7 +92,7 @@
                                                     <div class="icon icon-shape icon-sm me-1 bg-gradient-info rounded-circle shadow text-center btnEditar"
                                                         style="cursor:pointer;" data-bs-toggle="modal"
                                                         data-bs-target="#exampleModalEdit{{ $key }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar" onclick="selectTipoUpdate({{ $key }})">
                                                         <i class="fas fa-pencil-alt text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </div>
@@ -308,7 +308,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <label for="">Tipo</label>
-                                    <select name="tipo" id="tipo" class="form-control" onchange="selectTipo()">
+                                    <select name="tipo" id="tipo" class="form-control edit-tipo" onchange="selectTipo()">
                                         <option value="{{ $candidato->tipo }}">{{ $candidato->tipo }}</option>
                                         <option value="Regional">Regional</option>
                                         <option value="Provincial">Provincial</option>
@@ -332,7 +332,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" id="div-provincia" style="display: none;">
+                            <div class="row" id="div-provincia" data-provincia="{{ $candidato->idProvincia }}" style="display: none;">
                                 <div class="col-12">
                                     <label for="">Provincia</label>
                                     <select name="idProvincia" id="idProvincia" class="form-control"
@@ -341,7 +341,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="row" id="div-distrito" style="display: none;">
+                            <div class="row" id="div-distrito" data-distrito="{{ $candidato->idDistrito }}" style="display: none;">
                                 <div class="col-12">
                                     <label for="">Distrito</label>
                                     <select name="idDistrito" id="idDistrito" class="form-control">
@@ -410,8 +410,11 @@
         }
     </script>
     <script>
-        function getProvincias() {
+        function getProvincias(id, select) {
             let idDepartamento = $('#idDepartamento').val();
+            if(id > 0){
+                idDepartamento = id;
+            }
             let ip = window.location.origin;
             console.log('la ip es : ' + ip);
             console.log('la id del departamento es: ' + idDepartamento);
@@ -425,18 +428,25 @@
                         fila += '<option value="' + res[i].id + '">' + res[i].provincia + '</option>';
 
                     }
-                    console.log(fila);
-                    $("#idProvincia option").remove();
-                    $("#idProvincia").append(fila);
-                    getDistritos(res[0].id);
+                    if(id > 0){
+                        $(select).append(fila);
+                    }else{
+                        $("#idProvincia option").remove();
+                        $("#idProvincia").append(fila);
+                        getDistritos(res[0].id);
+                    }
+                    
                     //console.log(res[0]);
                     //alert(res);
                 }
             })
         }
 
-        function getDistritos(id) {
+        function getDistritos(id = 0, select) {
             let idProvincia = $('#idProvincia').val();
+            if(id > 0){
+                idProvincia = id;
+            }
             let ip = window.location.origin;
             console.log('la ip es : ' + ip);
             console.log('la id del provincia es: ' + idProvincia);
@@ -450,8 +460,14 @@
                         fila += '<option value="' + res[i].id + '">' + res[i].distrito + '</option>';
 
                     }
-                    $("#idDistrito option").remove();
-                    $("#idDistrito").append(fila);
+                    if(id > 0){
+                        console.log(select);
+                        $(select).append(fila);
+                    }else{
+                        $("#idDistrito option").remove();
+                        $("#idDistrito").append(fila);
+                    }
+                    
                     //console.log(res[0]);
                     //alert(res);
                 }
@@ -460,7 +476,6 @@
 
         function selectTipo() {
             let tipo = $('#tipo').val();
-            console.log(tipo);
             if (tipo === 'Regional') {
                 $('#div-provincia').css("display", 'none');
                 $('#div-distrito').css("display", 'none');
@@ -471,6 +486,35 @@
                 } else {
                     $('#div-provincia').css("display", 'block');
                     $('#div-distrito').css("display", 'block');
+                }
+            }
+        }
+
+        function selectTipoUpdate(key) {
+            let form = $("#exampleModalEdit"+key)[0];
+            let tipoUpdate = $("#exampleModalEdit"+key+" #tipo").val();         
+
+            if (tipoUpdate === 'Regional') {
+                $("#exampleModalEdit"+key+" #div-provincia").css('display','none');
+                $("#exampleModalEdit"+key+" #div-distrito").css('display','none');
+            } else {
+                if (tipoUpdate === 'Provincial') {
+                    $("#exampleModalEdit"+key+" #div-provincia").css('display','block');
+                    $("#exampleModalEdit"+key+" #div-distrito").css('display','none');
+                    getProvincias($("#exampleModalEdit"+key+" #idDepartamento").val(), $("#exampleModalEdit"+key+" #idProvincia"));
+                    setTimeout(() => {
+                        $("#exampleModalEdit"+key+" #idProvincia").val($("#exampleModalEdit"+key+" #div-provincia").data('provincia'));                        
+                    }, 1000);
+                } else {
+                    $("#exampleModalEdit"+key+" #div-provincia").css('display','block');
+                    $("#exampleModalEdit"+key+" #div-distrito").css('display','block');
+                    getProvincias(parseInt(divDepartamento.value), divProvincia.children[0].children[1]);
+                    getDistritos($("#exampleModalEdit"+key+" #div-provincia").data('provincia'), $("#exampleModalEdit"+key+" #idDistrito"));
+                    setTimeout(() => {
+                        $("#exampleModalEdit"+key+" #idProvincia").val($("#exampleModalEdit"+key+" #div-provincia").data('provincia'));  
+                        $("#exampleModalEdit"+key+" #idDistrito").val($("#exampleModalEdit"+key+" #div-distrito").data('distrito'));  
+                    }, 1000);
+                    
                 }
             }
         }
