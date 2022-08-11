@@ -66,7 +66,7 @@ class AuthPersonalController extends Controller
     }
     public function profile()
     {
-            $id = 2;
+            $id = idEmpresa();
             $redes = RedesSociales::where('idUsuario', $id)->first();
             $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
             $cargos = Cargo::all();
@@ -78,7 +78,7 @@ class AuthPersonalController extends Controller
             $estadoEvaluaciones = EstadoEvaluacion::all();
             $departamentos = Departamento::all();
             return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal"));
-      
+
     }
 
     /**

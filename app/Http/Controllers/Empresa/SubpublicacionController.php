@@ -32,14 +32,14 @@ class SubpublicacionController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;             
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = null;
         }
 
         $subpublicacion = Subpublicacion::create([
-            'idUsuario' => auth()->user()->id,
+            'idUsuario' => idEmpresa(),
             'idPublicacion' => $request->idPublicacion,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
@@ -72,8 +72,8 @@ class SubpublicacionController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = $subpublicacion->imagen;
         }

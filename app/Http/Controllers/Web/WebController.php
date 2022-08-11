@@ -17,8 +17,9 @@ use App\Models\Titulo;
 class WebController extends Controller
 {
     //
-    public function index(){
-        $id = $this->userIdTemporal();
+    public function index()
+    {
+        $id = idEmpresa();
         $publicaciones = Publicacion::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('idUsuario', $id)->orderBy('nombre', 'asc')->get();
@@ -28,11 +29,11 @@ class WebController extends Controller
         $sliders = Slider::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $testimonios = Testimonio::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $titulo = Titulo::where('idUsuario', $id)->first();
-        return view('web.pages.index')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'publicaciones','testimonios','titulo'));
-
+        return view('web.pages.index')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'publicaciones', 'testimonios', 'titulo'));
     }
 
-    public function subpublicaciones($id, $idPublicacion){
+    public function subpublicaciones($id, $idPublicacion)
+    {
         //dd($idPublicacion);
         $subpublicaciones = Subpublicacion::where('idPublicacion', $idPublicacion)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
@@ -42,11 +43,12 @@ class WebController extends Controller
         $redes = RedesSociales::where('idUsuario', $id)->first();
         $sliders = Slider::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $titulo = Titulo::where('idUsuario', $id)->first();
-        return view('web.pages.subpublicaciones')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'subpublicaciones','titulo'));
+        return view('web.pages.subpublicaciones')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'subpublicaciones', 'titulo'));
     }
 
-    public function nosotros(){
-        $id = $this->userIdTemporal();
+    public function nosotros()
+    {
+        $id = idEmpresa();
         $publicaciones = Publicacion::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('idUsuario', $id)->orderBy('nombre', 'asc')->get();
@@ -56,18 +58,7 @@ class WebController extends Controller
         $sliders = Slider::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $testimonios = Testimonio::where('idUsuario', $id)->orderBy('orden', 'asc')->get();
         $titulo = Titulo::where('idUsuario', $id)->first();
-        return view('web.pages.nosotros')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'publicaciones','testimonios','titulo'));
+        return view('web.pages.nosotros')->with(compact('datos', 'redes', 'sliders', 'botones', 'servicios', 'publicaciones', 'testimonios', 'titulo'));
     }
 
-    private function userIdTemporal(){
-
-        $texto      = url('');
-        $domain     = explode("//", $texto);
-        $domain_aux = $domain[1];
-
-        if($domain_aux == 'en.levelte.com'){
-            return 9;
-        }
-        return 2;
-    }
 }

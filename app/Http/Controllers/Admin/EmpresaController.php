@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use App\Models\DatosEmpresa;
 use App\Models\RedesSociales;
 use App\Models\Titulo;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class EmpresaController extends Controller
 {
@@ -41,45 +44,62 @@ class EmpresaController extends Controller
      */
     public function store(Request $request)
     {
-        $empresa = Perfil::create([
-            'tipo' => 'empresa',
-            'nombres' => $request->nombres.' '.$request->apellidos,
-            'telefono' => $request->telefono,
-            'nombreCorto' => $request->nombreCorto,
-            'edad' => $request->edad,
-            'fechaNacimiento' => $request->fechaNacimiento,
-            'profesion' => $request->profesion,
-            'cargo' => $request->cargo,
-            'docIdentidad' => $request->docIdentidad,
-            'correo' => $request->usuario,
-            'empresa' => $request->empresa,
-            'ruc' => $request->ruc,
-            'codigo' => $request->codigo,
-            'lugar' => $request->lugar
-        ]);
+        try {
+            DB::beginTransaction();
+            $empresa = Perfil::create([
+                'tipo' => 'empresa',
+                'nombres' => $request->nombres . ' ' . $request->apellidos,
+                'telefono' => $request->telefono,
+                'nombreCorto' => $request->nombreCorto,
+                'edad' => $request->edad,
+                'fechaNacimiento' => $request->fechaNacimiento,
+                'profesion' => $request->profesion,
+                'cargo' => $request->cargo,
+                'docIdentidad' => $request->docIdentidad,
+                'correo' => $request->usuario,
+                'empresa' => $request->empresa,
+                'ruc' => $request->ruc,
+                'codigo' => $request->codigo,
+                'lugar' => $request->lugar,
+            ]);
 
-        $usuario = User::create([
-            'idPerfil' => $empresa->id,
-            'email' => $request->usuario,
-            'password' => bcrypt($request->password),
-            'clave' => $request->password,
-        ]);
+            $usuario = User::create([
+                'idPerfil' => $empresa->id,
+                'email' => $request->usuario,
+                'password' => bcrypt($request->password),
+                'clave' => $request->password,
+            ]);
 
-        $datos = DatosEmpresa::create([
-            'idUsuario' => $usuario->id,
-            'idPerfil' => $empresa->id
-        ]);
+            $datos = DatosEmpresa::create([
+                'idUsuario' => $usuario->id,
+                'idPerfil' => $empresa->id,
+                'dominio'   => $request->dominio,
 
-        $redes = RedesSociales::create([
-            'idUsuario' => $usuario->id,
-            'idPerfil' => $empresa->id
-        ]);
+            ]);
 
-        $titulos = Titulo::create([
-            'idUsuario' => $usuario->id,
-        ]);
+            $redes = RedesSociales::create([
+                'idUsuario' => $usuario->id,
+                'idPerfil' => $empresa->id
+            ]);
 
-        return redirect()->route('empresas.admin');
+            $titulos = Titulo::create([
+                'idUsuario' => $usuario->id,
+            ]);
+
+            //Comando
+
+            DB::commit();
+            try {
+                $comando = exec("sh /var/www/bjar.sh $request->dominio");
+            } catch (ValidationException $e) {
+                Log::error('comando: ' . json_encode($e));
+            }
+            return redirect()->route('empresas.admin');
+        } catch (ValidationException $e) {
+            DB::rollBack();
+            Log::error('EmpresaController: ' . json_encode($e));
+            return $e->getMessage();
+        }
     }
 
     /**

@@ -22,6 +22,7 @@ class DatosEmpresa extends Model
         'piePagina',
         'terminoCondiciones',
         'derechos',
-        'nosotros'
+        'nosotros',
+        'dominio'
     ];
 }

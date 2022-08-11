@@ -17,8 +17,8 @@ class TestimonioController extends Controller
      */
     public function index()
     {
-        $titulos = Titulo::where('idUsuario', auth()->user()->id)->first();
-        $testimonios = Testimonio::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
+        $titulos = Titulo::where('idUsuario', idEmpresa())->first();
+        $testimonios = Testimonio::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
         return view('intranet.pages.empresa.web.testimonios.index')->with(compact('titulos','testimonios'));
     }
 
@@ -51,12 +51,12 @@ class TestimonioController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }
 
         $slider = Testimonio::create([
-            'idUsuario' => auth()->user()->id,
+            'idUsuario' => idEmpresa(),
             //'idPerfil' => auth()->user()->idPerfil,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
@@ -111,8 +111,8 @@ class TestimonioController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = $testimonio->imagen;
         }

@@ -29,7 +29,6 @@ use App\Http\Controllers\Empresa\RolController;
 use App\Http\Controllers\Empresa\EncuestaController;
 use App\Http\Controllers\Empresa\ProyectoController;
 use App\Http\Controllers\Empresa\VotosController;
-use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,13 +43,13 @@ use Illuminate\Support\Facades\DB;
 
 Auth::routes();
 
-Route::get("clearpersonal", [PersonalController::class,"clearPersonal"]);
-Route::get("auth/login",[AuthPersonalController::class,"index"])->name("web.login.view");
-Route::post("auth/login",[AuthPersonalController::class,"login"])->name("web.login.post");
-Route::post("auth/logout",[AuthPersonalController::class,"logout"])->name("web.logout");
-Route::get("auth/profile",[AuthPersonalController::class,"profile"])->name("web.profile")->middleware("auth.personal");
-Route::get("auth/register",[AuthPersonalController::class,"create"])->name("web.register.view");
-Route::post("auth/register",[AuthPersonalController::class,"store"])->name("web.register.post");
+Route::get("clearpersonal", [PersonalController::class, "clearPersonal"]);
+Route::get("auth/login", [AuthPersonalController::class, "index"])->name("web.login.view");
+Route::post("auth/login", [AuthPersonalController::class, "login"])->name("web.login.post");
+Route::post("auth/logout", [AuthPersonalController::class, "logout"])->name("web.logout");
+Route::get("auth/profile", [AuthPersonalController::class, "profile"])->name("web.profile")->middleware("auth.personal");
+Route::get("auth/register", [AuthPersonalController::class, "create"])->name("web.register.view");
+Route::post("auth/register", [AuthPersonalController::class, "store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');
 Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
 
@@ -187,51 +186,52 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 // RUTAS DE ENCUESTAS
-Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encuesta')->group(function(){
-    Route::get('/','index')->name('Encuesta');
-    Route::post('/','store')->name('Encuesta.store');
-    Route::get('/{encuesta}/show','show')->name('Encuesta.show');
-    Route::post('/{encuesta}/update','update')->name('Encuesta.update');
-    Route::get('/{encuesta}/destroy','destroy')->name('Encuesta.destroy');
-    Route::get('/{encuesta}/Publicacion','publicacion')->name('Encuesta.publicacion');
-    Route::post('/{encuesta}/Sumatoria','sumatoria')->name('Encuesta.sumatoria');
+Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encuesta')->group(function () {
+    Route::get('/', 'index')->name('Encuesta');
+    Route::post('/', 'store')->name('Encuesta.store');
+    Route::get('/{encuesta}/show', 'show')->name('Encuesta.show');
+    Route::post('/{encuesta}/update', 'update')->name('Encuesta.update');
+    Route::get('/{encuesta}/destroy', 'destroy')->name('Encuesta.destroy');
+    Route::get('/{encuesta}/Publicacion', 'publicacion')->name('Encuesta.publicacion');
+    Route::post('/{encuesta}/Sumatoria', 'sumatoria')->name('Encuesta.sumatoria');
 });
 
 // RUTAS DE VOTOS
-Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')->group(function(){
-    Route::get('/','index')->name('Votos');
+Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')->group(function () {
+    Route::get('/', 'index')->name('Votos');
 
-    Route::get('/{encuesta}/Encuestador','encuestador')->name('Votos.encuestador');
-    Route::get('/{encuesta}/Manual','manual')->name('Votos.manual');
-    Route::get('/{encuesta}/Grafico','grafico')->name('Votos.grafico');
+    Route::get('/{encuesta}/Encuestador', 'encuestador')->name('Votos.encuestador');
+    Route::get('/{encuesta}/Manual', 'manual')->name('Votos.manual');
+    Route::get('/{encuesta}/Grafico', 'grafico')->name('Votos.grafico');
 
     //Vista Publico
-    Route::get('/{encuesta}/Grafico/Publico','graficoPublico')->name('Votos.grafico.publico')->withoutMiddleware(['auth']);
-    Route::get('/{encuesta}/Dispositivo','dispositivo')->name('Votos.dispositivo')->withoutMiddleware(['auth']);
+    Route::get('/{encuesta}/Grafico/Publico', 'graficoPublico')->name('Votos.grafico.publico')->withoutMiddleware(['auth']);
+    Route::get('/{encuesta}/Dispositivo', 'dispositivo')->name('Votos.dispositivo')->withoutMiddleware(['auth']);
 
-    Route::post('/','store')->name('Votos.store');
+    Route::post('/', 'store')->name('Votos.store');
 
-    Route::post('/Dispositivo','storeDispositivo')->name('Votos.store.dispositivo')->withoutMiddleware(['auth']);
+    Route::post('/Dispositivo', 'storeDispositivo')->name('Votos.store.dispositivo')->withoutMiddleware(['auth']);
 
-    Route::post('/Manuales','storeManual')->name('Votos.manuales');
-    Route::get('/{encuesta}/show','show')->name('Votos.show');
-    Route::post('/{encuesta}/update','update')->name('Votos.update');
-    Route::get('/{encuesta}/destroy','destroy')->name('Votos.destroy');
+    Route::post('/Manuales', 'storeManual')->name('Votos.manuales');
+    Route::get('/{encuesta}/show', 'show')->name('Votos.show');
+    Route::post('/{encuesta}/update', 'update')->name('Votos.update');
+    Route::get('/{encuesta}/destroy', 'destroy')->name('Votos.destroy');
 
 
     Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/Graficos/Total', 'getVotosDepartamentos')
-    ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
+        ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });
 
 // RUTAS DE PROYECTOS
-Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proyecto')->group(function(){
-    Route::get('/','index')->name('Proyecto');
-    Route::post('/','store')->name('Proyecto.store');
-    Route::get('/{proyecto}/show','show')->name('Proyecto.show');
-    Route::post('/{proyecto}/update','update')->name('Proyecto.update');
-    Route::get('/{proyecto}/destroy','destroy')->name('Proyecto.destroy');
+Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proyecto')->group(function () {
+    Route::get('/', 'index')->name('Proyecto');
+    Route::post('/', 'store')->name('Proyecto.store');
+    Route::get('/{proyecto}/show', 'show')->name('Proyecto.show');
+    Route::post('/{proyecto}/update', 'update')->name('Proyecto.update');
+    Route::get('/{proyecto}/destroy', 'destroy')->name('Proyecto.destroy');
 });
 
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+//idUsuario

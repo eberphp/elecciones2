@@ -16,9 +16,9 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        $titulos = Titulo::where('idUsuario', auth("web")->user()->id)->first();
+        $titulos = Titulo::where('idUsuario', idEmpresa())->first();
         //$servicios = Servicio::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
-        $servicios = Servicio::where('idUsuario', auth("web")->user()->id)->orderBy('nombre', 'asc')->get();
+        $servicios = Servicio::where('idUsuario', idEmpresa())->orderBy('nombre', 'asc')->get();
         return view('intranet.pages.empresa.web.servicios.index')->with(compact('titulos','servicios'));
     }
 
@@ -41,14 +41,14 @@ class ServicioController extends Controller
     public function store(Request $request)
     {
         $servicio = Servicio::create([
-            'idUsuario' => auth("web")->user()->id,
+            'idUsuario' => idEmpresa(),
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,
             'url' => $request->url
         ]);
 
-        return redirect()->route('servicios.index'); 
+        return redirect()->route('servicios.index');
     }
 
     /**

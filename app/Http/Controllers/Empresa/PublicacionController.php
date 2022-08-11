@@ -16,7 +16,7 @@ class PublicacionController extends Controller
      */
     public function index()
     {
-        $publicaciones = Publicacion::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
+        $publicaciones = Publicacion::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
         return view('intranet.pages.empresa.web.publicaciones.index')->with(compact('publicaciones'));
     }
 
@@ -47,14 +47,14 @@ class PublicacionController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = null;
         }
 
         $publicacion = Publicacion::create([
-            'idUsuario' => auth("web")->user()->id,
+            'idUsuario' => idEmpresa(),
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,
@@ -115,8 +115,8 @@ class PublicacionController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = $publicacion->imagen;
         }

@@ -15,10 +15,10 @@ class DatosController extends Controller
         if (auth()->user()->personal) {
             $datos = DatosEmpresa::find(auth()->user()->personal->empresa_id);
         } else {
-            $datos = DatosEmpresa::where('idUsuario', auth("web")->user()->id)->first();
+            $datos = DatosEmpresa::where('idUsuario', idEmpresa())->first();
         }
-        
-        return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos')); 
+
+        return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos'));
     }
 
     public function update(Request $request, $id)
@@ -35,7 +35,7 @@ class DatosController extends Controller
             $imagen->move($ruta, $nombreimagenFavicon);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
+            //$post->imagen = $nombreimagen;
 
         } else {
             $nombreimagenFavicon = $datos->favicon;
@@ -50,7 +50,7 @@ class DatosController extends Controller
             $imagen->move($ruta, $nombreimagenBanner);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
+            //$post->imagen = $nombreimagen;
 
         } else {
             $nombreimagenBanner = $datos->bannerPrincipal;

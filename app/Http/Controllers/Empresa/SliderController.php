@@ -16,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
+        $sliders = Slider::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
         //dd($sliders);
         return view('intranet.pages.empresa.web.sliders.index')->with(compact('sliders'));
     }
@@ -50,14 +50,14 @@ class SliderController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = null;
         }
 
         $slider = Slider::create([
-            'idUsuario' => auth()->user()->id,
+            'idUsuario' => idEmpresa(),
             'idPerfil' => auth()->user()->idPerfil,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
@@ -112,12 +112,12 @@ class SliderController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagen = $slider->imagen;
         }
-        
+
 
         $slider->codigo = $request->id;
         $slider->nombre = $request->nombre;

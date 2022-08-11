@@ -9,7 +9,7 @@ use App\Models\RedesSociales;
 class RedesSocialesController extends Controller
 {
     public function index(){
-        $redes = RedesSociales::where('idUsuario', auth()->user()->id)->first();
+        $redes = RedesSociales::where('idUsuario', idEmpresa())->first();
         return view('intranet.pages.empresa.web.redes-sociales')->with(compact('redes'));
     }
 
