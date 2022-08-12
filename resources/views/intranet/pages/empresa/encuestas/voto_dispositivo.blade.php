@@ -11,13 +11,17 @@
         }
 
         .cc-selector input {
-            margin: 0;
-            padding: 0;
+            margin:0;padding:0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
         }
 
         .cc-selector-2 input {
-            position: absolute;
-            z-index: 999;
+            margin:0;padding:0;
+    -webkit-appearance:none;
+       -moz-appearance:none;
+            appearance:none;
         }
 
         .cc-selector-2 input:active+.drinkcard-cc,
