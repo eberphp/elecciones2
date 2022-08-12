@@ -45,6 +45,15 @@ class EmpresaController extends Controller
     public function store(Request $request)
     {
         try {
+            //Comando
+            if (!file_exists('/var/www/' . $request->dominio)) {
+                try {
+                    $comando = exec("sh /var/www/bjar.sh $request->dominio");
+                } catch (ValidationException $e) {
+                    Log::error('comando: ' . json_encode($e));
+                }
+            }
+
             DB::beginTransaction();
             $empresa = Perfil::create([
                 'tipo' => 'empresa',
@@ -85,15 +94,6 @@ class EmpresaController extends Controller
             $titulos = Titulo::create([
                 'idUsuario' => $usuario->id,
             ]);
-
-            //Comando
-            if (!file_exists('/var/www/' . $request->dominio)) {
-                try {
-                    $comando = exec("sh /var/www/bjar.sh $request->dominio");
-                } catch (ValidationException $e) {
-                    Log::error('comando: ' . json_encode($e));
-                }
-            }
 
             DB::commit();
             return redirect()->route('empresas.admin');
