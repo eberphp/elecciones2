@@ -2,7 +2,7 @@
 @section('style')
     <style>
         .table td, .table th {
-            /* white-space: nowrap; */
+            white-space: inherit !important;
         }
     </style>
 @endsection
