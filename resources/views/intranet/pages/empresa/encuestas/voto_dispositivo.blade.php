@@ -50,7 +50,7 @@
         }
         
         .table td, .table th {
-            /* white-space: nowrap; */
+           white-space: inherit !important;
         }
     
     </style>
