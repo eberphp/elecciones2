@@ -510,8 +510,8 @@
                         if (res[i].Regional.length > 0) {
                             fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
-                                        <div class="cc-selector p-2 text-center form-check">
-                                            <input class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
+                                        <div class="cc-selector p-2 text-center">
+                                            <input class="allRegional" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
                                             <label class="drinkcard-cc text-center" 
                                             style="background-image: url(${(res[i].Regional[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Regional[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                             for="r${res[i].Regional[0].id}">
@@ -529,8 +529,8 @@
                         if (res[i].Provincial.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center form-check">
-                                        <input class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center">
+                                        <input class="allProvincial" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Provincial[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Provincial[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="p${res[i].Provincial[0].id}">
@@ -547,8 +547,8 @@
                         if (res[i].Distrital.length > 0) {
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
-                                    <div class="cc-selector p-2 text-center form-check">
-                                        <input class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
+                                    <div class="cc-selector p-2 text-center">
+                                        <input class="allDistrital" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
                                         <label class="drinkcard-cc text-center" 
                                         style="background-image: url(${(res[i].Distrital[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Distrital[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="d${res[i].Distrital[0].id}">
