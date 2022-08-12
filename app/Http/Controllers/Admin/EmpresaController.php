@@ -87,13 +87,12 @@ class EmpresaController extends Controller
             ]);
 
             //Comando
-            if(!file_exists($request->dominio)){
+            if (!file_exists('/var/www/' . $request->dominio)) {
                 try {
                     $comando = exec("sh /var/www/bjar.sh $request->dominio");
                 } catch (ValidationException $e) {
                     Log::error('comando: ' . json_encode($e));
                 }
-
             }
 
             DB::commit();
