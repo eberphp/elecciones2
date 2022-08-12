@@ -48,6 +48,10 @@
     .drinkcard-cc:hover {
                    
     }
+    
+    .table td, .table th {
+        /* white-space: nowrap; */
+    }
 </style>
 @endsection
 @section('content')
