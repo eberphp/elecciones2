@@ -188,6 +188,7 @@ Route::group(['middleware' => 'auth'], function () {
 // RUTAS DE ENCUESTAS
 Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encuesta')->group(function () {
     Route::get('/', 'index')->name('Encuesta');
+    Route::get('/Encuestador', 'encuestador')->name('Encuesta.encuestador');
     Route::post('/', 'store')->name('Encuesta.store');
     Route::get('/{encuesta}/show', 'show')->name('Encuesta.show');
     Route::post('/{encuesta}/update', 'update')->name('Encuesta.update');

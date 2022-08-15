@@ -8,6 +8,18 @@
     </style>
 @endsection
 @section('content')
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+        $usuario = Auth::user();
+        $personal = $usuario->personal;
+        $permisos = [];
+        if ($personal) {
+            foreach ($personal->asignaciones as $asignacion) {
+                if ($asignacion->permiso->grupo == 4) {
+                    $permisos[] = $asignacion->permiso->nombre;
+                }
+            }
+        }
+    ?>
     <div class="container-fluid py-2">
         <div class="row mt-2">
             <div class="col-12">
@@ -20,7 +32,12 @@
                                     Resultado Total</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                                <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
+                            @if(in_array('Encuestador', $permisos))
+                            <a href="{{ route('Encuesta.encuestador') }}" class="btn btn-info" style="float: right">Volver</a>
+                            @else
+                            <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
+                            @endif
+                                
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -34,8 +51,12 @@
                                     <div class="col-12 d-flex justify-content-center align-items-center">
                                         <span class="text-info fw-bold" style="font-size: 14px;">Vigencia: Del
                                             {{ $encuesta->fechaInicio }} al {{ $encuesta->fechaTermino }}
+                                            @if(in_array('Encuestador', $permisos))
+                                            @else
                                             <button id="publicacion"
                                                 class="btn btn-sm bg-gradient-{{ $encuesta->publicacion == 'Si' ? 'success' : 'danger' }} mx-1">{{ $encuesta->publicacion == 'Si' ? 'Quitar Publicacion' : 'Publicar' }}</button>
+                                            @endif
+                                            
                                         </span>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -78,14 +99,25 @@
                                                 Ingrese a Votar
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            @if(in_array('Encuestador', $permisos))
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}">
+                                                    Voto Encuestador
+                                                </a></li>
+                                            @else
+                                            <li><a class="dropdown-item"
+                                                    href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}">
+                                                    Voto Encuestador
+                                                </a></li>
+                                                @if ($encuesta->encuestaManual == 'Si')
                                                 <li><a class="dropdown-item"
-                                                        href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}">
-                                                        Voto Encuestador
-                                                    </a></li>
-                                                <li><a class="dropdown-item"
-                                                        href="{{ route('Votos.manual', ['encuesta' => $encuesta->idEncuesta]) }}">
-                                                        Voto Manual
-                                                    </a></li>
+                                                    href="{{ route('Votos.manual', ['encuesta' => $encuesta->idEncuesta]) }}">
+                                                    Voto Manual
+                                                </a></li>
+                                                @endif
+                                            
+                                            @endif
+                                                
                                             </ul>
                                         </div>
 
@@ -117,6 +149,8 @@
                             </div>
 
                             <div class="col-12 col-md-4">
+                            @if(in_array('Encuestador', $permisos))
+                            @else
                                 <span class="d-block fw-bold text-info" style="font-size: 14px;">Sumatoria por Tipo de
                                     Votos.</span>
                                 <div>
@@ -157,6 +191,7 @@
                                         class="btn btn-sm w-100 mt-1 bg-gradient-dark">Guardar</button>
 
                                 </div>
+                            @endif
                             </div>
 
                         </div>

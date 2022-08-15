@@ -902,6 +902,19 @@
                 </li>
                 @endif
                 @if (in_array('Encuestas', $permisos))
+                    
+                    @if (in_array('Encuestador', $permisos))
+                    <li class="nav-item">
+                        <a href="{{ route('Encuesta.encuestador') }}" class="nav-link {{ request()->is('Encuestador') ? 'active' : '' }}" aria-controls="rol" role="button">
+                            <div
+                                class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                            </div>
+                            <span class="nav-link-text ms-1">Encuestador</span>
+                        </a>
+                    </li>
+                    @endif
+
                     <li class="nav-item">
                         <a data-bs-toggle="collapse" href="#encuestas"
                             class="nav-link {{ request()->is('departamentos') || request()->is('provincias') || request()->is('distritos') || request()->is('zonas') || request()->is('partidos') ? 'active' : '' }}"
@@ -1009,7 +1022,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                @endif
+                                @endif                            
                                 @if (in_array('Crear encuestas', $permisos))
                                     <li class="nav-item">
                                         <a href="{{ route('Encuesta') }}"

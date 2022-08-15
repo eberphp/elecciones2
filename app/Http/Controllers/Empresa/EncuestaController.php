@@ -18,6 +18,16 @@ class EncuestaController extends Controller
             'encuestas' => $dts,
         ]);
     }
+    
+    public function encuestador(Request $request)
+    {
+        $dts = Encuestas::select('idEncuesta', 'nombreEncuesta', 'fechaInicio', 'fechaTermino', 'observaciones', 'encuestaManual', 'estado')
+            ->where('estado', '!=', 'Eliminado')->orderBy('idEncuesta', 'desc')->get();
+
+        return view('intranet.pages.empresa.encuestas.encuestador', [
+            'encuestas' => $dts,
+        ]);
+    }
 
 
     public function store(Request $request)
