@@ -644,12 +644,12 @@
     </script>
     <script>
         let chDep, chPro, chDis;
+        let iDe, iPr, iDi;
 
         //Data maxima a Mostrarse en Graficos 9 = 10 datas;
         let dataView = 9; dataMax = 10;
 
-
-        const getVotosDepartamento = () => {            
+        const getVotosDepartamento = () => {         
 
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
@@ -684,14 +684,22 @@
             let totalDep = 0,
                 totalPro = 0,
                 totalDis = 0;
+            const urls = 'https://images.pexels.com/photos/6266317/pexels-photo-6266317.jpeg?cs=srgb&dl=pexels-ann-h-6266317.jpg&fm=jpg';
 
             res.forEach(el => {
+                let  fd;
 
                 if (el.cReg.length > 0) {
-                    let fd = (el.cReg[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cReg[0].foto :
-                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+
+                    if(el.cReg[0].visualiza === 'Si'){
+                            fd = (el.cReg[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
+                    }else{
+                        fd = urls;
+                    }   
+                    
                     imgDep.push({
                         src: fd,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: el.Regional[0].total
@@ -699,10 +707,16 @@
                 }
 
                 if (el.cPro.length > 0) {
-                    let fd = (el.cPro[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cPro[0].foto :
-                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+
+                    if(el.cPro[0].visualiza === 'Si'){
+                            fd = (el.cPro[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
+                    }else{
+                        fd = urls;
+                    } 
+
                     imgPro.push({
                         src: fd,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: el.Provincial[0].total
@@ -710,10 +724,16 @@
                 }
 
                 if (el.cDis.length > 0) {
-                    let fd = (el.cDis[0].visualiza === 'Si') ? `{{ asset('img/fotos/') }}/` + el.cDis[0].foto :
-                        'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444'
+
+                    if(el.cDis[0].visualiza === 'Si'){
+                            fd = (el.cDis[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cDis[0].foto;
+                    }else{
+                        fd = urls;
+                    }
+
                     imgDis.push({
                         src: fd,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: parseInt(el.Distrital[0].total)
@@ -789,19 +809,31 @@
 
 
             setGraDep(labDep, dataDep, imgDep.sort((a, b) => {
-                    return b.value - a.value;
-                }), totalDep);
+                return b.value - a.value;
+            }), totalDep);
+            iDe = imgDep.sort((a, b) => {
+                return b.value - a.value;
+            });
             setGraPro(lebPro, dataPro, imgPro.sort((a, b) => {
                 return b.value - a.value;
             }), totalPro);
+            iPr = imgPro.sort((a, b) => {
+                return b.value - a.value;
+            });
             setGraDis(labDis, dataDis, imgDis.sort((a, b) => {
                 return b.value - a.value;
             }), totalDis);
+            iDi = imgDis.sort((a, b) => {
+                return b.value - a.value;
+            });
 
         }
 
-        const moveChart = {
+        const moveChartDep = {
             id: "chart-departamento",
+            beforeDraw(chart, args, options){
+                
+            },
             afterEvent(chart, args){
                 const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
 
@@ -818,7 +850,15 @@
                 })
             },
             afterDraw(chart, args, pluginOptions){
-                const { ctx, chartArea: {left, right, top, bottom, width, height}} = chart;
+                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+
+                ctx.save();
+                let ims;
+                iDe.forEach((el, index) => {
+                    let img = new Image();
+                    img.src = iDe[index].src1;
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDe[index].value)) - 10, 9, 9);
+                });
 
                 class CircleChevron{
 
@@ -852,17 +892,143 @@
                 let drawCiecleRight= new CircleChevron();
                 drawCiecleRight.draw(ctx, right, -5);                
             }
-        }   
+        }
 
-        
+        const moveChartPro = {
+            id: "chart-departamento",
+            beforeDraw(chart, args, options){
+                
+            },
+            afterEvent(chart, args){
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+
+                canvas.addEventListener('mousemove', (event)=>{
+                    const x = args.event.x;
+                    const y = args.event.y;
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else{
+                        canvas.style.cursor = 'default';
+                    }
+                })
+            },
+            afterDraw(chart, args, pluginOptions){
+                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+
+                ctx.save();
+                let ims;
+                iPr.forEach((el, index) => {
+                    let img = new Image();
+                    img.src = iPr[index].src1;
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iPr[index].value)) - 10, 9, 9);
+                });
+
+                class CircleChevron{
+
+                    draw(ctx, x1, pixel){
+                        const angle = Math.PI / 180;
+
+                        ctx.beginPath();
+                        ctx.lineWith = 3;
+                        ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
+                        ctx.fillStyle = 'white';
+                        ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+                        ctx.stroke();
+                        ctx.fill();
+                        ctx.closePath();
+
+                        // Flecha Izquierda
+                        ctx.beginPath();
+                        ctx.lineWith = 5;
+                        ctx.strokeStyle = 'rgba(255, 26, 104, 1)';
+                        ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+                        ctx.lineTo(x1 - pixel, height / 2 + top);
+                        ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+
+                let drawCiecleLeft = new CircleChevron();
+                drawCiecleLeft.draw(ctx, left, 5);
+
+                let drawCiecleRight= new CircleChevron();
+                drawCiecleRight.draw(ctx, right, -5);                
+            }
+        }
+
+        const moveChartDis = {
+            id: "chart-departamento",
+            beforeDraw(chart, args, options){
+                
+            },
+            afterEvent(chart, args){
+                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+
+                canvas.addEventListener('mousemove', (event)=>{
+                    const x = args.event.x;
+                    const y = args.event.y;
+                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                        canvas.style.cursor = 'pointer';
+                    }else{
+                        canvas.style.cursor = 'default';
+                    }
+                })
+            },
+            afterDraw(chart, args, pluginOptions){
+                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+
+                ctx.save();
+                let ims;
+                iDi.forEach((el, index) => {
+                    let img = new Image();
+                    img.src = iDi[index].src1;
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDi[index].value)) - 10, 9, 9);
+                });
+
+                class CircleChevron{
+
+                    draw(ctx, x1, pixel){
+                        const angle = Math.PI / 180;
+
+                        ctx.beginPath();
+                        ctx.lineWith = 3;
+                        ctx.strokeStyle = 'rgba(102, 102, 102, 0.5)';
+                        ctx.fillStyle = 'white';
+                        ctx.arc(x1, height / 2 + top, 15, angle * 0, angle * 360, false);
+                        ctx.stroke();
+                        ctx.fill();
+                        ctx.closePath();
+
+                        // Flecha Izquierda
+                        ctx.beginPath();
+                        ctx.lineWith = 5;
+                        ctx.strokeStyle = 'rgba(255, 26, 104, 1)';
+                        ctx.moveTo(x1 + pixel, height / 2 + top - 7.5);
+                        ctx.lineTo(x1 - pixel, height / 2 + top);
+                        ctx.lineTo(x1 + pixel, height / 2 + top + 7.5);
+                        ctx.stroke();
+                        ctx.closePath();
+                    }
+                }
+
+                let drawCiecleLeft = new CircleChevron();
+                drawCiecleLeft.draw(ctx, left, 5);
+
+                let drawCiecleRight= new CircleChevron();
+                drawCiecleRight.draw(ctx, right, -5);                
+            }
+        }
 
         const setGraDep = (labels, data, images, total) => {
-            
+
             let dep = document.getElementById("chart-departamento").getContext("2d");            
 
-            if (chDep) {
-                chDep.destroy();
-            }
+            if (chDep) { chDep.destroy(); }
 
             chDep = new Chart(dep, {
                 type: "bar",
@@ -877,7 +1043,7 @@
                         data: data,
                     }]
                 },
-                options: {                    
+                options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     layout:{
@@ -885,30 +1051,30 @@
                             right: 16,
                         }
                     },
-                    plugins: {                        
+                    plugins: {
                         legend: {
                             display: false
                         },
                         labels: {
                             render: 'image',
                             images: images,
-                            padding: { top: 10 }
-                        },
+                            padding: { top: 10}
+                        },                        
                         title: {
                             display: true,
                             padding: { bottom: 50},
                             color: 'black',
                             text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
-                        },
+                        },                        
                     },
-                    scales: {                        
+                    scales: {                       
                         x: {
                             min: 0,
                             max: dataView,
-                        }                            
+                        } 
                     }
                 },
-                plugins:[moveChart]
+                plugins:[ moveChartDep ]
             });
 
             const moveScroll = () => {
@@ -948,7 +1114,7 @@
 
         const setGraPro = (labels, data, images, total) => {
 
-            let pro = document.getElementById("chart-provincia").getContext("2d");
+            let pro = document.getElementById("chart-provincia").getContext("2d");            
 
             if (chPro) {
                 chPro.destroy();
@@ -972,7 +1138,7 @@
                     maintainAspectRatio: false,
                     layout:{
                         padding:{
-                            right: 16
+                            right: 16,
                         }
                     },
                     plugins: {
@@ -995,10 +1161,10 @@
                         x: {
                             min: 0,
                             max: dataView,
-                        }
+                        }                            
                     }
                 },
-                plugins:[moveChart]
+                plugins:[moveChartPro]
             });
 
             const moveScroll = () => {
@@ -1062,7 +1228,7 @@
                     maintainAspectRatio: false,
                     layout:{
                         padding:{
-                            right: 16
+                            right: 16,
                         }
                     },
                     plugins: {
@@ -1072,7 +1238,7 @@
                         labels: {
                             render: 'image',
                             images: images,
-                            padding: { top: 10}
+                            padding: { top: 10 }
                         },
                         title: {
                             display: true,
@@ -1081,14 +1247,14 @@
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {                       
+                    scales: {                        
                         x: {
                             min: 0,
                             max: dataView,
                         }
                     }
                 },
-                plugins:[moveChart]
+                plugins:[moveChartDis]
             });
 
             const moveScroll = () => {
