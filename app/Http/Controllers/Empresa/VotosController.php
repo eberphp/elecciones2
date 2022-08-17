@@ -356,7 +356,7 @@ class VotosController extends Controller
     public function grafico(Request $request, Encuestas $encuesta)
     {
         $departamentos = Departamento::where('estado', 'activo')->get();
-        $encuestas = Encuestas::where('estado', 'Activo')->get();
+        $encuestas = Encuestas::where('estado', 'Activo')->orderBy('idEncuesta','desc')->get();;
 
         $porDispositivo = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
             ->where('tipoEncuesta', 'Dispositivo')->where('encuestaId', $encuesta->idEncuesta)->get();
@@ -384,7 +384,7 @@ class VotosController extends Controller
         $encuesta = Encuestas::where('idEncuesta', $id)->first();
 
         $departamentos = Departamento::where('estado', 'activo')->get();
-        $encuestas = Encuestas::where('estado', 'Activo')->get();
+        $encuestas = Encuestas::where('estado', 'Activo')->orderBy('idEncuesta','desc')->get();;
 
         $porDispositivo = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
             ->where('tipoEncuesta', 'Dispositivo')->where('encuestaId', $encuesta->idEncuesta)->get();
