@@ -606,7 +606,7 @@
                 iDe.forEach((el, index) => {
                     let img = new Image();
                     img.src = iDe[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 5, y.getPixelForValue(parseInt(iDe[index].value)), 12, 12);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDe[index].value)) - 10, 9, 9);
                 });
 
                 class CircleChevron{
@@ -671,7 +671,7 @@
                 iPr.forEach((el, index) => {
                     let img = new Image();
                     img.src = iPr[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 5, y.getPixelForValue(parseInt(iPr[index].value)), 12, 12);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iPr[index].value)) - 10, 9, 9);
                 });
 
                 class CircleChevron{
@@ -736,7 +736,7 @@
                 iDi.forEach((el, index) => {
                     let img = new Image();
                     img.src = iDi[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 5, y.getPixelForValue(parseInt(iDi[index].value)), 12, 12);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDi[index].value)) - 10, 9, 9);
                 });
 
                 class CircleChevron{
