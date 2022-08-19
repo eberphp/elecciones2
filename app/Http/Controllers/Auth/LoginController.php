@@ -62,9 +62,9 @@ class LoginController extends Controller
                 $request->session()->put('auth.password_confirmed_at', time());
             }
 
-            if (Auth::user()->idPerfil != idEmpresa()) {
-                Auth::logout();
-            }
+           //if (Auth::user()->idPerfil != idEmpresa()) {
+           //    Auth::logout();
+           //}
 
             return $this->sendLoginResponse($request);
         }
