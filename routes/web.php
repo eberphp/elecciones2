@@ -241,6 +241,6 @@ Route::get('bjar/bjar', function(){
     $domain     = explode("//", $texto);
     $domain_aux = $domain[1];
 
-    return DatosEmpresa::where('dominio', $domain_aux)->first();
+    return [DatosEmpresa::where('dominio', $domain_aux)->first(), idEmpresa()];
 });
 //idUsuario
