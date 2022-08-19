@@ -29,6 +29,7 @@ use App\Http\Controllers\Empresa\RolController;
 use App\Http\Controllers\Empresa\EncuestaController;
 use App\Http\Controllers\Empresa\ProyectoController;
 use App\Http\Controllers\Empresa\VotosController;
+use App\Models\DatosEmpresa;
 
 /*
 |--------------------------------------------------------------------------
@@ -235,4 +236,11 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+Route::get('bjar/bjar', function(){
+    $texto      = url('');
+    $domain     = explode("//", $texto);
+    $domain_aux = $domain[1];
+
+    return DatosEmpresa::where('dominio', $domain_aux)->first();
+});
 //idUsuario
