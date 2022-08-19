@@ -62,9 +62,11 @@ class LoginController extends Controller
                 $request->session()->put('auth.password_confirmed_at', time());
             }
 
-           //if (Auth::user()->idPerfil != idEmpresa()) {
-           //    Auth::logout();
-           //}
+            if (Auth::user()->idPerfil != idEmpresa()) {
+                Auth::logout();
+
+                return $this->sendFailedLoginResponse($request);
+            }
 
             return $this->sendLoginResponse($request);
         }
@@ -72,9 +74,6 @@ class LoginController extends Controller
         // to login and redirect the user back to the login form. Of course, when this
         // user surpasses their maximum number of attempts they will get locked out.
         $this->incrementLoginAttempts($request);
-
-        return Auth::user();
-
 
         return $this->sendFailedLoginResponse($request);
     }
