@@ -20,7 +20,7 @@ class AreaController extends Controller
     public function index()
     {
         try {
-            $areas = Area::all();
+            $areas = Area::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["areas" => $areas, "success" => true], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -29,7 +29,7 @@ class AreaController extends Controller
 
     public function pagination(Request $request)
     {
-        $areas = DB::table("areas")->select(["*"]);
+        $areas = DB::table("areas")->select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
 
@@ -52,8 +52,8 @@ class AreaController extends Controller
     {
         try {
             $area = new Area();
-            $area->nombre = $request->nombre;
             $area->color = $request->color;
+            $area->datos_empresa_id = idEmpresa();
             $area->estado = "activo";
             $area->save();
             return response()->json(["area" => $area, "success" => true, "message" => "Area creada correctamente"], 200);

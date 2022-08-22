@@ -174,7 +174,7 @@
                                     aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
                                         src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
                                 <div class="dropdown-menu">
-                                    
+
                                     <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}">Perfil</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}" onclick="event.preventDefault();
@@ -187,7 +187,7 @@
                                     aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
                                         src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
                                 <div class="dropdown-menu">
-                                    
+
                                     <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}">Perfil</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}" onclick="event.preventDefault();
@@ -242,7 +242,7 @@
 
 
 
-    <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Me%20gustaría%20saber%20el%20precio%20del%20coche"
+    <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Hola"
         class="whatsapp" target="_blank">
         <i class="fa fa-whatsapp whatsapp-icon"></i>
     </a>

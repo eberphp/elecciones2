@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class ImagenController extends Controller
 {
     public function index($id){
-        $imagenes = Imagen::where('idPublicacion', $id)->get();
+        $imagenes = Imagen::where('pubicacion_id', $id)->get();
         $publicacion = Publicacion::find($id);
         return view('intranet.pages.empresa.web.publicaciones.galeria')->with(compact('imagenes','publicacion'));
     }
@@ -26,11 +26,11 @@ class ImagenController extends Controller
             $imagen->move($ruta,$nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }
         $imagen = Imagen::create([
-            'idPublicacion' => $request->idPublicacion,
+            'pubicacion_id' => $request->pubicacion_id,
             'imagen' => $nombreimagen,
         ]);
 

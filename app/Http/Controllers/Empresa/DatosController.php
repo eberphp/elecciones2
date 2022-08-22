@@ -15,7 +15,7 @@ class DatosController extends Controller
         if (auth()->user()->personal) {
             $datos = DatosEmpresa::find(auth()->user()->personal->empresa_id);
         } else {
-            $datos = DatosEmpresa::where('idUsuario', idEmpresa())->first();
+            $datos = DatosEmpresa::where('id', idEmpresa())->first();
         }
 
         return view('intranet.pages.empresa.web.datos-empresa')->with(compact('datos'));
@@ -23,7 +23,7 @@ class DatosController extends Controller
 
     public function update(Request $request, $id)
     {
-        //dd($request->file("bannerPrincipal"));
+        //dd($request->file ("bannerPrincipal"));
         $datos = DatosEmpresa::find($id);
 
         if ($request->file("favicon")) {

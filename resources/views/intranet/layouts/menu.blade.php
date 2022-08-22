@@ -10,7 +10,7 @@
             <br>
             @if (auth('web')->check())
                 <span class="ms-1 font-weight-bold" style="margin-top: 30px;">
-                    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+                    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
                     echo 'hola, ' . $perfil->nombres;
                     $usuario = Auth::user();
                     $personal = $usuario->personal;
@@ -124,7 +124,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <!-----<li class="nav-item">
                     <a href="{{ route('roles.index') }}" class="nav-link " aria-controls="rol" role="button">
                         <div
                             class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
@@ -132,7 +132,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Roles</span>
                     </a>
-                </li>
+                </li>----->
                 <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#configuracion" class="nav-link active}}"
                         aria-controls="configuracion" role="button" aria-expanded="false">
@@ -902,7 +902,7 @@
                 </li>
                 @endif
                 @if (in_array('Encuestas', $permisos))
-                    
+
                     @if (in_array('Encuestador', $permisos))
                     <li class="nav-item">
                         <a href="{{ route('Encuesta.encuestador') }}" class="nav-link {{ request()->is('Encuestador') ? 'active' : '' }}" aria-controls="rol" role="button">
@@ -1022,7 +1022,7 @@
                                             </ul>
                                         </div>
                                     </li>
-                                @endif                            
+                                @endif
                                 @if (in_array('Crear encuestas', $permisos))
                                     <li class="nav-item">
                                         <a href="{{ route('Encuesta') }}"

@@ -1,7 +1,7 @@
 @extends('intranet.layouts.layout')
 
 @section('style')
-    
+
 @endsection
 
 @section('content')
@@ -28,7 +28,7 @@
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">ID</label>
-                                <?php $testimonios = App\Models\Testimonio::where('idUsuario', auth()->user()->id)->get(); ?>
+                                <?php $testimonios = App\Models\Testimonio::where('datos_empresa_id', auth()->user()->id)->get(); ?>
                                 <input type="text" name="id" class="multisteps-form__input form-control" value="{{ count($testimonios) +1 }}" disabled>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                             <div class="col-12 col-sm-6">
                                 <label for="">Texto</label>
                                 <textarea class=" multisteps-form__input form-control ckeditor" name="texto" id="editor1" rows="10" cols="58">{{$testimonio->texto}}</textarea>
-                                
+
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -67,7 +67,7 @@
                                 </form>-->
                             </div>
                         </div>
-                        
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <button class="btn btn-success" style="margin-top: 10%;width:100%">Guardar</button>

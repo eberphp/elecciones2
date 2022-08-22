@@ -15,6 +15,7 @@ class CreateCandidatosTable extends Migration
     {
         Schema::create('candidatos', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->integer('datos_empresa_id')->nullable();
             $table->enum('tipo', ['Distrital', 'Provincial', 'Regional']);
             $table->integer('idDepartamento')->nullable();
             $table->integer('idProvincia')->nullable();

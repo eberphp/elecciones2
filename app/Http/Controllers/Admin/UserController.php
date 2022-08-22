@@ -106,7 +106,7 @@ class UserController extends Controller
         ]);
 
         $usuario = User::create([
-            'idPerfil' => $perfil->id,
+            'perfil_id' => $perfil->id,
             'email' => $perfil->correo,
             'password' => bcrypt('123456'),
             'clave' => '123456',

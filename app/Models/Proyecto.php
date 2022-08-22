@@ -27,6 +27,7 @@ class Proyecto extends Model
         'observaciones',
         'estadoActivida',
         'estado',
+        'datos_empresa_id'
     ];
 
     public function encargados()

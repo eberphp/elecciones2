@@ -17,6 +17,7 @@ class CreateSubImagenesTable extends Migration
             $table->integer('id', true);
             $table->integer('idSubpublicacion');
             $table->string('imagen', 250)->nullable();
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

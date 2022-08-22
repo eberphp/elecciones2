@@ -112,7 +112,7 @@ class PersonalController extends Controller
             $lastidperfil++;
 
             $usuarioregistrador = User::find($request->user_id);
-            $perfilregistrador = Perfil::find($usuarioregistrador->idPerfil);
+            $perfilregistrador = Perfil::find($usuarioregistrador->perfil_id);
             $personal = new Personal();
             $personal->id = $lastidpersonal;
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
@@ -152,7 +152,7 @@ class PersonalController extends Controller
             if ($usuarioregistrador->personal) {
                 $datosempresa = DatosEmpresa::find($usuarioregistrador->personal->empresa_id);
             } else {
-                $datosempresa = DatosEmpresa::where("idPerfil", $perfilregistrador->id)->first();
+                $datosempresa = DatosEmpresa::where("perfil_id", $perfilregistrador->id)->first();
             }
             $personal->empresa_id = $datosempresa->id;
             $personal->save();
@@ -169,7 +169,7 @@ class PersonalController extends Controller
             $perfil->idUsuarioCreador = $usuarioregistrador->id ? $usuarioregistrador->id : 0;
             $perfil->save();
             $user = new User();
-            $user->idPerfil = $lastidperfil;
+            $user->perfil_id = $lastidperfil;
             $user->idPersonal = $lastidpersonal;
             $user->password = Hash::make($request->clave);
             $user->clave = $request->clave;

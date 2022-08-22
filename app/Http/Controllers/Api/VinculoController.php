@@ -20,16 +20,16 @@ class VinculoController extends Controller
     public function index()
     {
         try {
-            $vinculos = Vinculo::all();
+            $vinculos = Vinculo::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["vinculos" => $vinculos, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
-    
+
     public function pagination(Request $request)
     {
-        $vinculos = Vinculo::select(["*"]);
+        $vinculos = Vinculo::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($vinculos)->make(true);
     }
 
@@ -56,6 +56,7 @@ class VinculoController extends Controller
             $vinculo = new Vinculo();
             $vinculo->nombre = $request->nombre;
             $vinculo->estado = "activo";
+            $vinculo->datos_empresa_id = idEmpresa();
             $vinculo->save();
             return response()->json(["vinculo" => $vinculo, "success" => true, "message" => "Vinculo creado correctamente"], 200);
         } catch (Exception $e) {

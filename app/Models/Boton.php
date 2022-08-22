@@ -12,7 +12,7 @@ class Boton extends Model
     protected $table = 'botones';
     protected $fillable = [
         'id',
-        'idUsuario',
+        'datos_empresa_id',
         'codigo',
         'nombre',
         'orden',

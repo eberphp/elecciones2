@@ -15,10 +15,10 @@
                 <!--<button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo</button>-->
               </div>
             </div>
-            
-            
+
+
             <p class="text-sm mb-0">
-              
+
             </p>
           </div>
           <div class="table-responsive">
@@ -35,7 +35,7 @@
                     <tr>
                       <td class="text-sm font-weight-normal">
                         <a href="{{ route('imagenes.delete', $imagen->id)}}" class="btn btn-danger"> Eliminar </a>
-                        
+
                       </td>
                       <td class="text-sm font-weight-normal">{{$key+1}}</td>
                       <td class="text-sm font-weight-normal">
@@ -53,10 +53,10 @@
       <div class="col-12">
         <div class="card">
           <!-- Card header -->
-          
+
           <div class="table-responsive">
             <table class="table table-flush" id="datatable-basic">
-              
+
             </table>
           </div>
         </div>
@@ -81,7 +81,7 @@
                             <div class="col-12">
                                 <label for="">Imagen</label>
                                 <input type="file" name="imagen" class="form-control">
-                                <input type="text" name="idPublicacion" class="form-control" value="{{$publicacion->id}}" hidden>
+                                <input type="text" name="pubicacion_id" class="form-control" value="{{$publicacion->id}}" hidden>
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@
             </div>
         </div>
     </div>
-  
+
 @endsection
 
 @section('script')

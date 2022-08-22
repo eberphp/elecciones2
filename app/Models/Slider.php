@@ -13,8 +13,8 @@ class Slider extends Model
 
     protected $fillable = [
         'id',
-        'idUsuario',
-        'idPerfil',
+        'datos_empresa_id',
+        'perfil_id',
         'nombre',
         'orden',
         'url',

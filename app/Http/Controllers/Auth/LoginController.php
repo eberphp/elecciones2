@@ -63,10 +63,10 @@ class LoginController extends Controller
             }
 
 
-            //if (Auth::user()->idPerfil != idEmpresa()) {
-            //    Auth::logout();
-            //    return $this->sendFailedLoginResponse($request);
-            //}
+            if (Auth::user()->datos_empresa_id != idEmpresa()) {
+                Auth::logout();
+                return $this->sendFailedLoginResponse($request);
+            }
 
             return $this->sendLoginResponse($request);
         }

@@ -12,8 +12,8 @@ class Subpublicacion extends Model
     protected $table = 'subpublicaciones';
     protected $fillable = [
         'id',
-        'idUsuario',
-        'idPublicacion',
+        'datos_empresa_id',
+        'pubicacion_id',
         'codigo',
         'nombre',
         'orden',

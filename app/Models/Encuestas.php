@@ -24,6 +24,7 @@ class Encuestas extends Model
         'encuestador',
         'manual',
         'estado',
+        'datos_empresa_id'
     ];
 
 }

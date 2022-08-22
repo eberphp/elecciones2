@@ -15,10 +15,10 @@
                 <!--<button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo</button>-->
               </div>
             </div>
-            
-            
+
+
             <p class="text-sm mb-0">
-              
+
             </p>
           </div>
           <div class="table-responsive">
@@ -44,7 +44,7 @@
               </thead>
               <tbody>
                 @foreach ($usuarios as $usuario)
-                    <?php $perfil = App\Models\Perfil::find($usuario->idPerfil); ?>
+                    <?php $perfil = App\Models\Perfil::find($usuario->perfil_id); ?>
                     <tr>
                         <td class="text-sm font-weight-normal"></td>
                       <td class="text-sm font-weight-normal">{{$perfil->codigo}}</td>
@@ -73,10 +73,10 @@
       <div class="col-12">
         <div class="card">
           <!-- Card header -->
-          
+
           <div class="table-responsive">
             <table class="table table-flush" id="datatable-basic">
-              
+
             </table>
           </div>
         </div>

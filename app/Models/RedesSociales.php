@@ -12,8 +12,8 @@ class RedesSociales extends Model
     protected $table = 'redes_sociales';
     protected $fillable = [
         'id',
-        'idUsuario',
-        'idPerfil',
+        'datos_empresa_id',
+        'perfil_id',
         'facebook',
         'twitter',
         'instagram',

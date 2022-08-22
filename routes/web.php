@@ -124,7 +124,7 @@ Route::post('actualiza-titulo-servicio', [TituloController::class, 'actualizarTi
 
 
 //Route::get('mi-pagina/index/{id}', [WebController::class, 'index']);
-Route::get('subpublicaciones/{id}/{idPublicacion}', [WebController::class, 'subpublicaciones'])->name('subpublicaciones');
+Route::get('subpublicaciones/{id}/{pubicacion_id}', [WebController::class, 'subpublicaciones'])->name('subpublicaciones');
 
 //elecciones
 Route::get('departamentos', [DepartamentosController::class, 'index'])->name('departamentos.index');
@@ -236,11 +236,5 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-Route::get('bjar/bjar', function(){
-    $texto      = url('');
-    $domain     = explode("//", $texto);
-    $domain_aux = $domain[1];
 
-    return [DatosEmpresa::where('dominio', $domain_aux)->first(), idEmpresa()];
-});
-//idUsuario
+//datos_empresa_id

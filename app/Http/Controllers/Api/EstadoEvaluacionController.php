@@ -19,7 +19,7 @@ class EstadoEvaluacionController extends Controller
     public function index()
     {
         try{
-            $estadosEvaluacion = EstadoEvaluacion::all();
+            $estadosEvaluacion = EstadoEvaluacion::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["estadosEvaluacion" => $estadosEvaluacion, "success" => true], 200);
         }catch(Exception $e){
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -27,7 +27,7 @@ class EstadoEvaluacionController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = EstadoEvaluacion::select(["*"]);
+        $areas = EstadoEvaluacion::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -52,6 +52,7 @@ class EstadoEvaluacionController extends Controller
             $estadosEvaluacion=new EstadoEvaluacion();
             $estadosEvaluacion->nombre=$request->nombre;
             $estadosEvaluacion->estado="activo";
+            $estadosEvaluacion->datos_empresa_id = idEmpresa();
             $estadosEvaluacion->save();
             return response()->json(["estadosEvaluacion" => $estadosEvaluacion, "success" => true, "message" => "Estado de evaluación creado correctamente"], 200);
         }catch(Exception $e){

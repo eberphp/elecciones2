@@ -15,7 +15,7 @@ class CreateBotonesTable extends Migration
     {
         Schema::create('botones', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
+            $table->integer('datos_empresa_id')->nullable();
             $table->string('codigo', 150)->nullable();
             $table->string('nombre', 250)->nullable();
             $table->integer('orden')->nullable();

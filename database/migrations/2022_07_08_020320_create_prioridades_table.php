@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("nombre");
             $table->string("color");
             $table->enum("estado", ["activo", "baja"]);
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ use Illuminate\Support\Str;
 class SubpublicacionController extends Controller
 {
     public function index($id){
-        $subpublicaciones = Subpublicacion::where('idPublicacion',$id)->orderBy('orden', 'asc')->get();
+        $subpublicaciones = Subpublicacion::where('pubicacion_id',$id)->orderBy('orden', 'asc')->get();
         $publicacion = Publicacion::find($id);
         return view('intranet.pages.empresa.web.subpublicaciones.index')->with(compact('subpublicaciones', 'publicacion'));
     }
@@ -39,8 +39,8 @@ class SubpublicacionController extends Controller
         }
 
         $subpublicacion = Subpublicacion::create([
-            'idUsuario' => idEmpresa(),
-            'idPublicacion' => $request->idPublicacion,
+            'datos_empresa_id' => idEmpresa(),
+            'pubicacion_id' => $request->pubicacion_id,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,
@@ -53,7 +53,7 @@ class SubpublicacionController extends Controller
             'linkVideo' => $request->video
         ]);
 
-        return redirect()->route('subpublicaciones.index', $request->idPublicacion);
+        return redirect()->route('subpublicaciones.index', $request->pubicacion_id);
     }
 
     public function edit($id){
@@ -89,7 +89,7 @@ class SubpublicacionController extends Controller
         $subpublicacion->linkVideo = $request->video;
         $subpublicacion->save();
 
-        return redirect()->route('subpublicaciones.index', $subpublicacion->idPublicacion);
+        return redirect()->route('subpublicaciones.index', $subpublicacion->pubicacion_id);
     }
 
     public function destroy($id){

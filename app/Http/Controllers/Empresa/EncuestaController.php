@@ -12,13 +12,13 @@ class EncuestaController extends Controller
     public function index(Request $request)
     {
         $dts = Encuestas::select('idEncuesta', 'nombreEncuesta', 'fechaInicio', 'fechaTermino', 'observaciones', 'encuestaManual', 'estado')
-            ->where('estado', '!=', 'Eliminado')->orderBy('idEncuesta', 'desc')->get();
+            ->where('estado', '!=', 'Eliminado')->where('datos_empresa_id', idEmpresa())->orderBy('idEncuesta', 'desc')->get();
 
         return view('intranet.pages.empresa.encuestas.crear_encuestas', [
             'encuestas' => $dts,
         ]);
     }
-    
+
     public function encuestador(Request $request)
     {
         $dts = Encuestas::select('idEncuesta', 'nombreEncuesta', 'fechaInicio', 'fechaTermino', 'observaciones', 'encuestaManual', 'estado')
@@ -43,6 +43,7 @@ class EncuestaController extends Controller
 
         $req = Encuestas::create([
             'nombreEncuesta' => $valiData['nombre'],
+            'datos_empresa_id' => idEmpresa(),
             'fechaInicio' => $valiData['inicio'],
             'fechaTermino' => $valiData['termino'],
             'encuestaManual' => $valiData['encuesta'],
@@ -106,14 +107,14 @@ class EncuestaController extends Controller
                 'estado' => $valiData['estado'],
                 'observaciones' => $valiData['observacion']
             ]);
-    
+
             if ($req) {
                 return to_route('Encuesta')->with('success', 'Actualizado Correctamente');
             } else {
                 return to_route('Encuesta')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
             }
         }
-        
+
     }
 
     public function destroy(Request $request, Encuestas $encuesta)
@@ -127,11 +128,11 @@ class EncuestaController extends Controller
             ], 402);
         }else{
             if ($encuesta) {
-            
+
                 $req = $encuesta->update([
                     'estado' => 'Eliminado',
                 ]);
-    
+
                 if ($req) {
                     return response()->json([
                         'status' => true,
@@ -151,7 +152,7 @@ class EncuestaController extends Controller
             }
         }
 
-        
+
     }
 
     public function publicacion(Request $request, Encuestas $encuesta)

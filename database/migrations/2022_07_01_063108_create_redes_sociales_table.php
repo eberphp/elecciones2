@@ -15,13 +15,13 @@ class CreateRedesSocialesTable extends Migration
     {
         Schema::create('redes_sociales', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
-            $table->integer('idPerfil');
-            $table->string('facebook', 250)->nullable();
-            $table->string('twitter', 250)->nullable();
-            $table->string('instagram', 250)->nullable();
-            $table->string('linkedin', 250)->nullable();
-            $table->string('whatsapp', 250)->nullable();
+            $table->integer('datos_empresa_id')->nullable();
+            $table->integer('perfil_id');
+            $table->string('facebook', 250)->default('https://www.facebook.com');
+            $table->string('twitter', 250)->default('https://twitter.com');
+            $table->string('instagram', 250)->default('https://www.instagram.com');
+            $table->string('linkedin', 250)->default('https://www.linkedin.com');
+            $table->string('whatsapp', 250)->default('https://web.whatsapp.com');
             $table->string('colorFondo', 250)->nullable();
             $table->timestamps();
         });

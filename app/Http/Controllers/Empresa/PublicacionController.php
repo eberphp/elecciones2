@@ -16,7 +16,7 @@ class PublicacionController extends Controller
      */
     public function index()
     {
-        $publicaciones = Publicacion::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
+        $publicaciones = Publicacion::where('datos_empresa_id', idEmpresa())->orderBy('orden', 'asc')->get();
         return view('intranet.pages.empresa.web.publicaciones.index')->with(compact('publicaciones'));
     }
 
@@ -54,7 +54,7 @@ class PublicacionController extends Controller
         }
 
         $publicacion = Publicacion::create([
-            'idUsuario' => idEmpresa(),
+            'datos_empresa_id' => idEmpresa(),
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,

@@ -16,20 +16,21 @@ class CreatePerfilesTable extends Migration
         Schema::create('perfiles', function (Blueprint $table) {
             $table->integer('id', true);
             $table->enum('tipo', ['admin', 'persona', 'empresa'])->nullable();
-            $table->string('codigo')->nullable();
-            $table->string('nombres')->nullable();
-            $table->string('telefono', 9)->nullable();
-            $table->string('nombreCorto')->nullable();
-            $table->string('docIdentidad', 11)->nullable();
-            $table->integer('edad')->nullable();
-            $table->date('fechaNacimiento')->nullable();
-            $table->string('profesion', 250)->nullable();
-            $table->string('cargo', 250)->nullable();
-            $table->string('correo', 250)->nullable();
-            $table->string('lugar', 250)->nullable();
-            $table->string('empresa', 250)->nullable();
-            $table->string('ruc', 11)->nullable();
-            $table->text('observaciones')->nullable();
+            $table->string('codigo')->nullable()->default('-');
+            $table->string('nombres')->nullable()->default('-');
+            $table->string('telefono', 9)->nullable()->default('-');
+            $table->string('nombreCorto')->nullable()->default('-');
+            $table->string('docIdentidad', 11)->nullable()->default('-');
+            $table->integer('edad')->nullable()->default(0);
+            $table->date('fechaNacimiento')->nullable()->default(now());
+            $table->string('profesion', 250)->nullable()->default('-');
+            $table->string('cargo', 250)->nullable()->default('-');
+            $table->string('correo', 250)->nullable()->default('-');
+            $table->string('lugar', 250)->nullable()->default('-');
+            $table->string('empresa', 250)->nullable()->default('-');
+            $table->string('ruc', 11)->nullable()->default('-');
+            $table->text('observaciones')->nullable()->default('-');
+            $table->integer('idUsuarioCreador')->nullable();
             $table->timestamps();
         });
     }

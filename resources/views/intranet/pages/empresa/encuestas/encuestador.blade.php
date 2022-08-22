@@ -1,6 +1,6 @@
 @extends('intranet.layouts.layout')
 @section('content')
-    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
     $usuario = Auth::user();
     $personal = $usuario->personal;
     $permisos = [];
@@ -23,7 +23,7 @@
                             <div class="col-6">
                                 <h5 class="mb-0">Listado de  Encuestas</h5>
                             </div>
-                            <div class="col-6" style="text-align: right">                                
+                            <div class="col-6" style="text-align: right">
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -74,7 +74,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <div class="d-flex align-items-center">                                                                                               
+                                            <div class="d-flex align-items-center">
 
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
@@ -86,7 +86,7 @@
                                                         <i class="fas fa-vote-yea text-white opacity-10 "
                                                             style="cursor:pointer;"></i>
                                                     </a>
-                                                @endif                                                
+                                                @endif
 
                                                 <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
                                                     class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
@@ -97,7 +97,7 @@
                                                         style="cursor:pointer;"></i>
                                                 </a>
 
-                                               
+
                                             </div>
                                         </td>
                                         <td>

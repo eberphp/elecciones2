@@ -7,8 +7,8 @@
     </style>
 @endsection
 @section('content')
-    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
-    
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+
     $usuario = Auth::user();
     $personal = $usuario->personal;
     $permisos = [];
@@ -1892,13 +1892,13 @@
                         }
                     },
                     "columns": columns_datatables,
-                    
+
                     "processing": true,
                     "pagingType":"numbers",
                     "language":{
                         "url":"//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
                     }
-                    
+
                 });
             }
             $("#exportToExcel").on("click", function() {

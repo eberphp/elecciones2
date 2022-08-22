@@ -15,8 +15,8 @@ class CreateSubpublicacionesTable extends Migration
     {
         Schema::create('subpublicaciones', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
-            $table->integer('idPublicacion')->nullable();
+            $table->integer('datos_empresa_id')->nullable();
+            $table->integer('pubicacion_id')->nullable();
             $table->string('codigo', 250)->nullable();
             $table->string('nombre', 250)->nullable();
             $table->integer('orden')->nullable();

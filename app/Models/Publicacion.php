@@ -12,7 +12,7 @@ class Publicacion extends Model
     protected $table = 'publicaciones';
     protected $fillable = [
         'id',
-        'idUsuario',
+        'datos_empresa_id',
         'codigo',
         'nombre',
         'orden',

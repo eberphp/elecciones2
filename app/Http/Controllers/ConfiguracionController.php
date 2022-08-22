@@ -68,14 +68,14 @@ class ConfiguracionController extends Controller
     }
     public function personal()
     {
-        $cargos = Cargo::all();
+        $cargos = Cargo::where('datos_empresa_id', idEmpresa())->get();
         $puestos = $cargos;
-        $vinculos = Vinculo::all();
-        $funciones=Funcion::all();
-        $tipoUsuarios=TipoUsuario::all();
-        $tipoUbigeos=TipoUbigeo::all();
-        $estadoEvaluaciones = EstadoEvaluacion::all();
-        $departamentos = Departamento::all();
-        return view("intranet.pages.admin.configuracion.personal", compact("funciones","tipoUbigeos","tipoUsuarios","cargos", "puestos", "vinculos", "departamentos","estadoEvaluaciones"));
+        $vinculos = Vinculo::where('datos_empresa_id', idEmpresa())->get();
+        $funciones = Funcion::where('datos_empresa_id', idEmpresa())->get();
+        $tipoUsuarios = TipoUsuario::where('datos_empresa_id', idEmpresa())->get();
+        $tipoUbigeos = TipoUbigeo::where('datos_empresa_id', idEmpresa())->get();
+        $estadoEvaluaciones = EstadoEvaluacion::where('datos_empresa_id', idEmpresa())->get();
+        $departamentos = Departamento::get();
+        return view("intranet.pages.admin.configuracion.personal", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones"));
     }
 }

@@ -8,7 +8,7 @@
     </style>
 @endsection
 @section('content')
-    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
         $usuario = Auth::user();
         $personal = $usuario->personal;
         $permisos = [];
@@ -37,7 +37,7 @@
                             @else
                             <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
                             @endif
-                                
+
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -56,7 +56,7 @@
                                             <button id="publicacion"
                                                 class="btn btn-sm bg-gradient-{{ $encuesta->publicacion == 'Si' ? 'success' : 'danger' }} mx-1">{{ $encuesta->publicacion == 'Si' ? 'Quitar Publicacion' : 'Publicar' }}</button>
                                             @endif
-                                            
+
                                         </span>
                                     </div>
                                     <div class="col-12 col-md-6">
@@ -115,9 +115,9 @@
                                                     Voto Manual
                                                 </a></li>
                                                 @endif
-                                            
+
                                             @endif
-                                                
+
                                             </ul>
                                         </div>
 
@@ -649,7 +649,7 @@
         //Data maxima a Mostrarse en Graficos 9 = 10 datas;
         let dataView = 9; dataMax = 10;
 
-        const getVotosDepartamento = () => {         
+        const getVotosDepartamento = () => {
 
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
@@ -695,8 +695,8 @@
                             fd = (el.cReg[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
                     }else{
                         fd = urls;
-                    }   
-                    
+                    }
+
                     imgDep.push({
                         src: fd,
                         src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
@@ -712,7 +712,7 @@
                             fd = (el.cPro[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
                     }else{
                         fd = urls;
-                    } 
+                    }
 
                     imgPro.push({
                         src: fd,
@@ -832,7 +832,7 @@
         const moveChartDep = {
             id: "chart-departamento",
             beforeDraw(chart, args, options){
-                
+
             },
             afterEvent(chart, args){
                 const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
@@ -890,14 +890,14 @@
                 drawCiecleLeft.draw(ctx, left, 5);
 
                 let drawCiecleRight= new CircleChevron();
-                drawCiecleRight.draw(ctx, right, -5);                
+                drawCiecleRight.draw(ctx, right, -5);
             }
         }
 
         const moveChartPro = {
             id: "chart-departamento",
             beforeDraw(chart, args, options){
-                
+
             },
             afterEvent(chart, args){
                 const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
@@ -955,14 +955,14 @@
                 drawCiecleLeft.draw(ctx, left, 5);
 
                 let drawCiecleRight= new CircleChevron();
-                drawCiecleRight.draw(ctx, right, -5);                
+                drawCiecleRight.draw(ctx, right, -5);
             }
         }
 
         const moveChartDis = {
             id: "chart-departamento",
             beforeDraw(chart, args, options){
-                
+
             },
             afterEvent(chart, args){
                 const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
@@ -1020,13 +1020,13 @@
                 drawCiecleLeft.draw(ctx, left, 5);
 
                 let drawCiecleRight= new CircleChevron();
-                drawCiecleRight.draw(ctx, right, -5);                
+                drawCiecleRight.draw(ctx, right, -5);
             }
         }
 
         const setGraDep = (labels, data, images, total) => {
 
-            let dep = document.getElementById("chart-departamento").getContext("2d");            
+            let dep = document.getElementById("chart-departamento").getContext("2d");
 
             if (chDep) { chDep.destroy(); }
 
@@ -1059,19 +1059,19 @@
                             render: 'image',
                             images: images,
                             padding: { top: 10}
-                        },                        
+                        },
                         title: {
                             display: true,
                             padding: { bottom: 50},
                             color: 'black',
                             text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
-                        },                        
+                        },
                     },
-                    scales: {                       
+                    scales: {
                         x: {
                             min: 0,
                             max: dataView,
-                        } 
+                        }
                     }
                 },
                 plugins:[ moveChartDep ]
@@ -1091,9 +1091,9 @@
                         if(chDep.options.scales.x.min <= 0){
                             chDep.options.scales.x.min = 0;
                             chDep.options.scales.x.max = dataView;
-                        }                        
+                        }
                     }
-                    
+
 
                     if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
                         chDep.options.scales.x.min = chDep.options.scales.x.min + dataMax;
@@ -1114,7 +1114,7 @@
 
         const setGraPro = (labels, data, images, total) => {
 
-            let pro = document.getElementById("chart-provincia").getContext("2d");            
+            let pro = document.getElementById("chart-provincia").getContext("2d");
 
             if (chPro) {
                 chPro.destroy();
@@ -1157,11 +1157,11 @@
                             text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {                        
+                    scales: {
                         x: {
                             min: 0,
                             max: dataView,
-                        }                            
+                        }
                     }
                 },
                 plugins:[moveChartPro]
@@ -1181,9 +1181,9 @@
                         if(chPro.options.scales.x.min <= 0){
                             chPro.options.scales.x.min = 0;
                             chPro.options.scales.x.max = dataView;
-                        }                        
+                        }
                     }
-                    
+
 
                     if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
                         chPro.options.scales.x.min = chPro.options.scales.x.min + dataMax;
@@ -1247,7 +1247,7 @@
                             text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
                         },
                     },
-                    scales: {                        
+                    scales: {
                         x: {
                             min: 0,
                             max: dataView,
@@ -1271,9 +1271,9 @@
                         if(chDis.options.scales.x.min <= 0){
                             chDis.options.scales.x.min = 0;
                             chDis.options.scales.x.max = dataView;
-                        }                        
+                        }
                     }
-                    
+
 
                     if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
                         chDis.options.scales.x.min = chDis.options.scales.x.min + dataMax;

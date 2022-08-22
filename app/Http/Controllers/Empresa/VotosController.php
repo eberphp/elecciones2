@@ -17,9 +17,10 @@ class VotosController extends Controller
 {
     public function index(Request $request)
     {
+
         $votos = Votos::with('encuesta:idEncuesta,nombreEncuesta,fechaTermino')->with('partido:id,partido,logotipo,observacion')
             ->with('departamento:id,departamento')
-            ->select('idVoto', 'encuestaId', 'partidoId', 'departamentoId', 'region', DB::raw('IFNULL(SUM(votos),0) as votos'), 'tipoEncuesta', 'fecha', 'estado')
+            ->select('idVoto', 'encuestaId', 'partidoId', 'departamentoId', 'region', DB::raw('IFNULL(SUM(votos),0) as votos'), 'tipoEncuesta', 'fecha', 'estado')->where('datos_empresa_id', idEmpresa())
             ->groupBy('encuestaId', 'partidoId', 'region')->get();
 
         return view('intranet.pages.empresa.encuestas.votos_encuesta', [
@@ -53,6 +54,7 @@ class VotosController extends Controller
             'encuestaId' => $valiData['encuesta'],
             'partidoId' => $valiData['partidoRegional'],
             'departamentoId' => $valiData['departamento'],
+            'datos_empresa_id'  => idEmpresa(),
             'zonaId' => $valiData['zona'],
             'region' => 'Regional',
             'votos' => 1,
@@ -63,6 +65,7 @@ class VotosController extends Controller
 
         $votoProvincial = Votos::create([
             'encuestaId' => $valiData['encuesta'],
+            'datos_empresa_id'  => idEmpresa(),
             'partidoId' => $valiData['partidoProvincial'],
             'departamentoId' => $valiData['departamento'],
             'provinciaId' => $valiData['provincia'],
@@ -80,6 +83,7 @@ class VotosController extends Controller
             'departamentoId' => $valiData['departamento'],
             'provinciaId' => $valiData['provincia'],
             'distritoId' => $valiData['distrito'],
+            'datos_empresa_id'  => idEmpresa(),
             'zonaId' => $valiData['zona'],
             'region' => 'Distrital',
             'votos' => 1,
@@ -130,6 +134,7 @@ class VotosController extends Controller
             'zonaId' => $valiData['zona'],
             'region' => 'Regional',
             'votos' => 1,
+            'datos_empresa_id'  => idEmpresa(),
             'tipoEncuesta' => 'Dispositivo',
             'codigo' => 'VT-DISP',
             'fecha' => date('Y-m-d'),
@@ -143,6 +148,7 @@ class VotosController extends Controller
             'zonaId' => $valiData['zona'],
             'region' => 'Provincial',
             'votos' => 1,
+            'datos_empresa_id'  => idEmpresa(),
             'tipoEncuesta' => 'Dispositivo',
             'codigo' => 'VT-DISP',
             'fecha' => date('Y-m-d'),
@@ -175,7 +181,7 @@ class VotosController extends Controller
         }
     }
 
-    
+
 
     public function storeManual(Request $request)
     {
@@ -205,6 +211,7 @@ class VotosController extends Controller
                 'departamentoId' => $valiData['departamento'],
                 'zonaId' => $valiData['zona'],
                 'region' => 'Regional',
+                'datos_empresa_id'  => idEmpresa(),
                 'votos' => $valiData['votoReg'][$i][1],
                 'tipoEncuesta' => 'Manual',
                 'codigo' => $valiData['codigo'],
@@ -219,6 +226,7 @@ class VotosController extends Controller
                 'departamentoId' => $valiData['departamento'],
                 'provinciaId' => $valiData['provincia'],
                 'zonaId' => $valiData['zona'],
+                'datos_empresa_id'  => idEmpresa(),
                 'region' => 'Provincial',
                 'votos' => $valiData['votoPro'][$i][1],
                 'tipoEncuesta' => 'Manual',
@@ -234,6 +242,7 @@ class VotosController extends Controller
                 'departamentoId' => $valiData['departamento'],
                 'provinciaId' => $valiData['provincia'],
                 'distritoId' => $valiData['distrito'],
+                'datos_empresa_id'  => idEmpresa(),
                 'zonaId' => $valiData['zona'],
                 'region' => 'Distrital',
                 'votos' => $valiData['votoDis'][$i][1],
@@ -381,10 +390,13 @@ class VotosController extends Controller
     {
         $id = Crypt::decryptString($encuesta);
 
-        $encuesta = Encuestas::where('idEncuesta', $id)->first();
+        $encuesta = Encuestas::where('idEncuesta', $id)->where('datos_empresa_id', idEmpresa())->first();
+        if(!$encuesta){
+            abort(404);
+        }
 
         $departamentos = Departamento::where('estado', 'activo')->get();
-        $encuestas = Encuestas::where('estado', 'Activo')->orderBy('idEncuesta','desc')->get();;
+        $encuestas = Encuestas::where('estado', 'Activo')->where('datos_empresa_id', idEmpresa())->orderBy('idEncuesta','desc')->get();;
 
         $porDispositivo = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
             ->where('tipoEncuesta', 'Dispositivo')->where('encuestaId', $encuesta->idEncuesta)->get();

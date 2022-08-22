@@ -15,18 +15,20 @@ if (!function_exists('idEmpresa')) {
     {
 
         try {
-            if (Cache::has('id_empresa')) {
-                return Cache::get('id_empresa');
-            }
 
             $texto      = url('');
             $domain     = explode("//", $texto);
             $domain_aux = $domain[1];
 
+            if (Cache::has($domain_aux)) {
+                return Cache::get($domain_aux);
+            }
+
             $empresa = DatosEmpresa::where('dominio', $domain_aux)->first();
             if ($empresa) {
-                Cache::forever('id_empresa', $empresa->idUsuario);
-                return Cache::get('id_empresa');
+                Cache::forever($domain_aux, $empresa->id);
+                return Cache::get($domain_aux);
+                //return $empresa->id;
             } else {
                 abort(404);
             }

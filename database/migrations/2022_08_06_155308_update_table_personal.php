@@ -17,8 +17,9 @@ return new class extends Migration
             $table->string("password");
             $table->string("remember_token")->nullable();
             $table->datetime("email_verified_at")->nullable();
+            //$table->integer('datos_empresa_id')->nullable();
         });
-      
+
     }
 
     /**

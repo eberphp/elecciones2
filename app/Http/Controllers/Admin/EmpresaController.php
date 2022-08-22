@@ -46,15 +46,10 @@ class EmpresaController extends Controller
     {
         try {
 
-            if (!file_exists('/var/www/' . $request->dominio)) {
-                try {
-                    $comando = exec("sh /var/www/bjar.sh $request->dominio");
-                } catch (ValidationException $e) {
-                    Log::error('comando: ' . json_encode($e));
-                }
-            }
 
             DB::beginTransaction();
+
+
             $empresa = Perfil::create([
                 'tipo' => 'empresa',
                 'nombres' => $request->nombres . ' ' . $request->apellidos,
@@ -73,27 +68,39 @@ class EmpresaController extends Controller
             ]);
 
             $usuario = User::create([
-                'idPerfil' => $empresa->id,
+                'perfil_id' => $empresa->id,
                 'email' => $request->usuario,
                 'password' => bcrypt($request->password),
                 'clave' => $request->password,
             ]);
 
-            $datos = DatosEmpresa::create([
-                'idUsuario' => $usuario->id,
-                'idPerfil' => $empresa->id,
-                'dominio'   => $request->dominio,
+            $texto      = str_replace(["//", "/", "http", "https", ":"], '', $request->dominio);
+            //$domain     = explode("//", $texto);
+            //$domain_aux = $domain[1];
 
+            $datos = DatosEmpresa::create([
+                // 'datos_empresa_id' => $usuario->id,
+                'perfil_id' => $empresa->id,
+                'dominio'   => $texto,
             ]);
 
             $redes = RedesSociales::create([
-                'idUsuario' => $usuario->id,
-                'idPerfil' => $empresa->id
+                'datos_empresa_id' => $usuario->id,
+                'perfil_id' => $empresa->id
             ]);
 
             $titulos = Titulo::create([
-                'idUsuario' => $usuario->id,
+                'datos_empresa_id' => $usuario->id,
             ]);
+
+            //if (!file_exists('/var/www/' . $request->dominio)) {
+            //    try {
+            //        $comando = exec("sh /var/www/bjar.sh $request->dominio");
+            //    } catch (ValidationException $e) {
+            //        Log::error('comando: ' . json_encode($e));
+            //    }
+            //}
+
 
             DB::commit();
 

@@ -35,16 +35,16 @@ class PersonalController extends Controller
      */
     public function clearPersonal()
     {
-        $permisos = Asignacion::all();
+        $permisos = Asignacion::where('datos_empresa_id', idEmpresa())->get();
         foreach ($permisos as $permiso) {
             $permiso->delete();
         }
-        $personal = Personal::all();
+        $personal = Personal::where('datos_empresa_id', idEmpresa())->get();
         foreach ($personal as $value) {
             $user = User::where("idPersonal", $value->id)->first();
             if ($user) {
                 if ($user->idPersonal) {
-                    $perfil = Perfil::find($user->idPerfil);
+                    $perfil = Perfil::find($user->perfil_id);
                     $perfil->delete();
                 }
                 $user->delete();
@@ -55,7 +55,7 @@ class PersonalController extends Controller
     public function index()
     {
         try {
-            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->get();
+            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->where('datos_empresa_id', idEmpresa())->get();
             $maxid = Personal::max('id');
             return response()->json(["personal" => $personal, "success" => true, "maxid" => $maxid], 200);
         } catch (Exception $e) {
@@ -64,7 +64,7 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo");
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
 
@@ -222,9 +222,10 @@ class PersonalController extends Controller
             $lastidperfil++;
 
             $usuarioregistrador = User::find($request->user_id);
-            $perfilregistrador = Perfil::find($usuarioregistrador->idPerfil);
+            $perfilregistrador = Perfil::find($usuarioregistrador->perfil_id);
             $personal = new Personal();
             $personal->id = $lastidpersonal;
+            $personal->datos_empresa_id = idEmpresa();
             $personal->nombres = isset($request->nombres) ? $request->nombres : "";
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
@@ -262,7 +263,7 @@ class PersonalController extends Controller
             if ($usuarioregistrador->personal) {
                 $datosempresa = DatosEmpresa::find($usuarioregistrador->personal->empresa_id);
             } else {
-                $datosempresa = DatosEmpresa::where("idPerfil", $perfilregistrador->id)->first();
+                $datosempresa = DatosEmpresa::where("perfil_id", $perfilregistrador->id)->first();
             }
             $personal->empresa_id = $datosempresa->id;
             $personal->save();
@@ -278,11 +279,13 @@ class PersonalController extends Controller
             $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
             $perfil->idUsuarioCreador = $usuarioregistrador->id ? $usuarioregistrador->id : 0;
             $perfil->save();
+
             $user = new User();
-            $user->idPerfil = $lastidperfil;
+            $user->perfil_id = $lastidperfil;
             $user->idPersonal = $lastidpersonal;
             $user->password = Hash::make($request->clave);
-            $user->clave = $request->clave;
+            $user->datos_empresa_id = idEmpresa();
+            //$user->clave = $request->clave;
             $user->email = $request->correo;
             $user->save();
 
@@ -393,7 +396,7 @@ class PersonalController extends Controller
             $user->clave = $request->clave;
             $user->email = $request->correo;
             $user->save();
-            $perfil = Perfil::find($user->idPerfil);
+            $perfil = Perfil::find($user->perfil_id);
             $perfil->codigo = isset($request->dni) ? $request->dni : "";
             $perfil->correo = isset($request->correo) ? $request->correo : "";
             $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
@@ -421,7 +424,7 @@ class PersonalController extends Controller
 
             $personal = Personal::find($id);
             $user = User::where("idPersonal", $personal->id)->first();
-            $perfil = Perfil::find($user->idPerfil);
+            $perfil = Perfil::find($user->perfil_id);
             if ($perfil) {
                 $perfil->delete();
             }

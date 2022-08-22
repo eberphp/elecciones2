@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->enum("nivel",["nivel1","nivel2"]);
             $table->enum("estado", ["activo", "baja"]);
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

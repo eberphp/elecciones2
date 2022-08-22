@@ -4,7 +4,7 @@
         .new-alturita-bloque-1{
             min-height: 135vh!important;
         }
-       
+
         .new-alturita{
             min-height: 76vh!important;
         }
@@ -36,8 +36,8 @@
 
             .new-alturita{
                 min-height: 59vh!important;
-            }  
-            
+            }
+
             .new-alturita-bloque-3{
                 min-height: 59vh!important;
             }
@@ -130,13 +130,13 @@
                     </div>
                 </div>
                 @endif--}}
-    
+
                 @if ($titulo->tituloServicioVisible == 'SI')
                 <div class="col-lg-12 wow fadeInLeft" data-wow-delay=".7s">
                     <div class="form-group has-error has-danger controls">
                         <select name="servicio" id="servicio" class="form-control form-group" onchange="redireciona()">
                             <option value="null">{{$titulo->titleServicio}}</option>
-                            
+
                             @foreach ($servicios as $servicio)
                             <option value="{{$servicio->url}}"><a href="{{$servicio->url}}" target="_blank">{{$servicio->nombre}}</a></option>
                             @endforeach
@@ -154,7 +154,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="services bords section-padding pt-10" style="padding-bottom: 0%;">
         <div class="container" style="max-width: 100%;">
             <div class="row">
@@ -169,7 +169,7 @@
             </div>
         </div>
     </section>
-    
+
     <section class="services bords section-padding pt-10">
         <div class="container" style="max-width: 100%;">
             <div class="row" style="align-items: center">
@@ -209,7 +209,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-12 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -217,25 +217,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-12 col-sm-12 " style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita-bloque-1" >
                                             <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -246,10 +246,10 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
-                            
+
                             {{--<br>
                             <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
@@ -290,7 +290,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-6 col-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -298,25 +298,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-6 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita" >
                                             <div class="bg-img valign" style="" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -327,10 +327,10 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
-                            
+
                             {{--<br>
                             <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
@@ -371,7 +371,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -379,25 +379,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-4 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita-bloque-3" style="">
                                             <div class="bg-img valign" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -408,10 +408,10 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
-                            
+
                             {{--<br>
                             <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>--}}
                         </div>
@@ -452,7 +452,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-3 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -460,25 +460,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-3 col-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide new-alturita-bloque-4" >
                                             <div class="bg-img valign alineacion-center" style="background-size: 100%!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -489,7 +489,7 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
                         </div>
@@ -530,7 +530,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-4 col-sm-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -538,25 +538,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-4 col-sm-6" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide" style="min-height: 43vh!important;">
                                             <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -567,10 +567,10 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
-                            
+
                             <br>
                             <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
                         </div>
@@ -611,7 +611,7 @@
                         @if ($publicacion->idConfiguracion == 5)
                         <div class="col-lg-8 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             @if ($publicacion->selecciona == 'Imagen')
-                                <a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
+                                <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><img src="{{asset('img/publicaciones/'.$publicacion->imagen)}}" alt="" style="width: 100%;"></a>
                             @else
                             {!!$publicacion->linkVideo!!}
                             @endif
@@ -619,25 +619,25 @@
                             <div>
                                 {!!$publicacion->texto!!}
                             </div>
-                            {{--<a href="{{ route('subpublicaciones', [$publicacion->idUsuario, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
+                            {{--<a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id])}}"  target="_blank"><span>{{$publicacion->nombre}}</span></a>--}}
                         </div>
                         @endif
                         @if ($publicacion->idConfiguracion == 6)
                         <div class="col-lg-8 col-sm-12" style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                             <div class="slider slider-prlx text-center">
-                                <?php $imagenes = App\Models\Imagen::where('idPublicacion', $publicacion->id)->get(); ?>
-                            
+                                <?php $imagenes = App\Models\Imagen::where('pubicacion_id', $publicacion->id)->get(); ?>
+
                                 <div class="swiper-container parallax-slider">
                                     <div class="swiper-wrapper altutra">
                                         @foreach ($imagenes as $imagen)
                                         <div class="swiper-slide" style="min-height: 43vh!important;">
                                             <div class="bg-img valign" style="background-size: 100%!important;background-position: center!important;" data-background="{{ asset('img/publicaciones/galeria/'.$imagen->imagen)}}" data-overlay-dark="6">
-                                                
+
                                             </div>
                                         </div>
                                         @endforeach
                                     </div>
-        
+
                                     <!-- slider setting -->
                                     <div class="setone setwo">
                                         <div class="swiper-button-next swiper-nav-ctrl next-ctrl cursor-pointer">
@@ -648,22 +648,22 @@
                                         </div>
                                     </div>
                                     <div class="swiper-pagination top botm "></div>
-        
+
                                 </div>
                             </div>
-                            
+
                             <br>
                             <a href="#"  target="_blank"><span>{!!$publicacion->texto!!}</span></a>
                         </div>
                         @endif
                     @endif
-    
+
                 @endforeach
             </div>
         </div>
     </section>
-    
-    
+
+
     @if ($titulo->tituloTestimonioVisible == 'SI')
     <section class="work-carousel metro position-re">
         <div class="container-fluid">
@@ -683,7 +683,7 @@
                                 <div class="content wow noraidus fadeInUp" data-wow-delay=".3s">
                                     <div class="item-img bg-img wow imago" style="text-align: center">
                                         <img src="{{ asset('img/testimonios/'.$testimonio->imagen)}}" alt="" style="height: 200px;width: auto;">
-                                        
+
                                         <p>{!!$testimonio->texto!!}</p>
                                         <h6 class="color-font">{{$testimonio->nombre}}</h6>
                                     </div>
@@ -695,7 +695,7 @@
                             </div>
                             @endforeach
                         </div>
-    
+
                         <!-- slider setting -->
                         <div class="swiper-button-next swiper-nav-ctrl simp-next cursor-pointer">
                             <span class="simple-btn right">Next</span>
@@ -709,9 +709,9 @@
         </div>
     </section>
 
-    
+
     @endif
-        
+
     @include('web.layouts.footer')
 
 </div>

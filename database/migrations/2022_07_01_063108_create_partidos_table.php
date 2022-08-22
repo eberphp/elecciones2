@@ -15,6 +15,7 @@ class CreatePartidosTable extends Migration
     {
         Schema::create('partidos', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->integer('datos_empresa_id')->nullable();
             $table->string('partido', 250);
             $table->integer('idDepartamento');
             $table->string('logotipo', 250);

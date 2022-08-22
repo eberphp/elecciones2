@@ -18,6 +18,7 @@ return new class extends Migration
             $table->integer('idPersonal')->nullable();
             $table->dateTime("email_verified_at")->nullable();
             $table->string("remember_token")->nullable();
+            $table->integer('datos_empresa_id')->nullable();
         });
     }
 

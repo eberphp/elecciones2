@@ -19,7 +19,7 @@ class UsuarioResponsableController extends Controller
     public function index()
     {
         try{
-            $usuarios = UsuarioResponsable::all();
+            $usuarios = UsuarioResponsable::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["usuarios" => $usuarios, "success" => true], 200);
         }catch(\Exception $e){
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -28,7 +28,7 @@ class UsuarioResponsableController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = UsuarioResponsable::select(["*"]);
+        $areas = UsuarioResponsable::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
 
@@ -55,6 +55,7 @@ class UsuarioResponsableController extends Controller
             $usuarioResponsable=new UsuarioResponsable();
             $usuarioResponsable->nombre=$request->nombre;
             $usuarioResponsable->estado="activo";
+            $usuarioResponsable->datos_empresa_id = idEmpresa();
             $usuarioResponsable->save();
             return response()->json(["usuarioResponsable" => $usuarioResponsable, "success" => true, "message" => "Usuario creado correctamente"], 200);
         }catch(Exception $e) {

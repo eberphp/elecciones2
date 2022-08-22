@@ -16,10 +16,10 @@ class ServicioController extends Controller
      */
     public function index()
     {
-        $titulos = Titulo::where('idUsuario', idEmpresa())->first();
-        //$servicios = Servicio::where('idUsuario', auth()->user()->id)->orderBy('orden', 'asc')->get();
-        $servicios = Servicio::where('idUsuario', idEmpresa())->orderBy('nombre', 'asc')->get();
-        return view('intranet.pages.empresa.web.servicios.index')->with(compact('titulos','servicios'));
+        $titulos = Titulo::where('datos_empresa_id', idEmpresa())->first();
+        //$servicios = Servicio::where('datos_empresa_id', auth()->user()->id)->orderBy('orden', 'asc')->get();
+        $servicios = Servicio::where('datos_empresa_id', idEmpresa())->orderBy('nombre', 'asc')->get();
+        return view('intranet.pages.empresa.web.servicios.index')->with(compact('titulos', 'servicios'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ServicioController extends Controller
     public function store(Request $request)
     {
         $servicio = Servicio::create([
-            'idUsuario' => idEmpresa(),
+            'datos_empresa_id' => idEmpresa(),
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,
@@ -101,7 +101,7 @@ class ServicioController extends Controller
      */
     public function destroy($id)
     {
-        $servicio =Servicio::find($id);
+        $servicio = Servicio::find($id);
         $servicio->delete();
         return back();
     }

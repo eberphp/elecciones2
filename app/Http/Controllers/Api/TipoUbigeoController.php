@@ -14,7 +14,7 @@ class TipoUbigeoController extends Controller
     {
         //todos los estados de gestion
         try {
-            $tiposUbigeo = TipoUbigeo::all();
+            $tiposUbigeo = TipoUbigeo::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["tiposUbigeo" => $tiposUbigeo, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -22,7 +22,7 @@ class TipoUbigeoController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = TipoUbigeo::select(["*"]);
+        $areas = TipoUbigeo::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -47,7 +47,8 @@ class TipoUbigeoController extends Controller
         try {
             $tipoUbigeo = new TipoUbigeo();
             $tipoUbigeo->nombre = $request->nombre;
-           
+            $tipoUbigeo->datos_empresa_id = idEmpresa();
+
             $tipoUbigeo->save();
             return response()->json(["tipoUbigeo" => $tipoUbigeo, "success" => true, "message" => "Estado de gestión creado correctamente"], 200);
         } catch (Exception $e) {

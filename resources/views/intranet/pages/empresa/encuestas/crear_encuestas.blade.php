@@ -1,6 +1,6 @@
 @extends('intranet.layouts.layout')
 @section('content')
-    <?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
     $usuario = Auth::user();
     $personal = $usuario->personal;
     $permisos = [];

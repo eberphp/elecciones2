@@ -11,8 +11,8 @@ class DatosEmpresa extends Model
     protected $table = 'datos_empresa';
     protected $fillable = [
         'id',
-        'idUsuario',
-        'idPerfil',
+        'datos_empresa_id',
+        'perfil_id',
         'nombre',
         'favicon',
         'bannerPrincipal',

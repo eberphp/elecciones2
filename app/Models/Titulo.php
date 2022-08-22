@@ -13,7 +13,7 @@ class Titulo extends Model
 
     protected $fillable = [
         'id',
-        'idUsuario',
+        'datos_empresa_id',
         'titleTetimonio',
         'tituloTestimonioVisible',
         'titleServicio',

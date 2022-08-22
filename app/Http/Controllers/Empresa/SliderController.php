@@ -16,7 +16,7 @@ class SliderController extends Controller
      */
     public function index()
     {
-        $sliders = Slider::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
+        $sliders = Slider::where('datos_empresa_id', idEmpresa())->orderBy('orden', 'asc')->get();
         //dd($sliders);
         return view('intranet.pages.empresa.web.sliders.index')->with(compact('sliders'));
     }
@@ -57,8 +57,8 @@ class SliderController extends Controller
         }
 
         $slider = Slider::create([
-            'idUsuario' => idEmpresa(),
-            'idPerfil' => auth()->user()->idPerfil,
+            'datos_empresa_id' => idEmpresa(),
+            'perfil_id' => auth()->user()->perfil_id,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,

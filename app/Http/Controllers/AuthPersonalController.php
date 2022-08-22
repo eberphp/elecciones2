@@ -67,7 +67,7 @@ class AuthPersonalController extends Controller
     public function profile()
     {
             $id = idEmpresa();
-            $redes = RedesSociales::where('idUsuario', $id)->first();
+            $redes = RedesSociales::where('datos_empresa_id', $id)->first();
             $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
             $cargos = Cargo::all();
             $puestos = $cargos;
@@ -204,7 +204,7 @@ class AuthPersonalController extends Controller
             $perfil->idUsuarioCreador=isset(Auth::user()->id) ? Auth::user()->id : 0;
             $perfil->save();
             $user=new User();
-            $user->idPerfil=$lastidperfil;
+            $user->perfil_id=$lastidperfil;
             $user->idPersonal=$lastidpersonal;
             $user->password=Hash::make($request->clave);
             $user->clave=$request->clave;

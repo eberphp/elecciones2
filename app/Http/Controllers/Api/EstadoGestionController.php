@@ -21,7 +21,7 @@ class EstadoGestionController extends Controller
     {
         //todos los estados de gestion
         try {
-            $estadosGestion = EstadoGestion::all();
+            $estadosGestion = EstadoGestion::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["estadosGestion" => $estadosGestion, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -29,7 +29,7 @@ class EstadoGestionController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = EstadoGestion::select(["*"]);
+        $areas = EstadoGestion::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -54,6 +54,7 @@ class EstadoGestionController extends Controller
         try {
             $estadoGestion = new EstadoGestion();
             $estadoGestion->nombre = $request->nombre;
+            $estadoGestion->datos_empresa_id = idEmpresa();
             $estadoGestion->estado = "activo";
             $estadoGestion->save();
             return response()->json(["estadoGestion" => $estadoGestion, "success" => true, "message" => "Estado de gestión creado correctamente"], 200);

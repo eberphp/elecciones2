@@ -33,7 +33,7 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return $this->createNewToken($token);
-       
+
     }
     /**
      * Register a User.
@@ -45,7 +45,7 @@ class AuthController extends Controller
             // 'name' => 'required|string|between:2,100',
             // 'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|confirmed|min:6',
-            'idPerfil' => 'requires|string|confirmed|max:10',
+            'perfil_id' => 'requires|string|confirmed|max:10',
             'login' => 'required|string|email|max:100|unique:users',
         ]);
         if($validator->fails()){

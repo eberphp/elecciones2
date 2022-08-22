@@ -9,7 +9,7 @@ use App\Models\Titulo;
 class TituloController extends Controller
 {
     public function actualizaTituloTestimonio(Request $request){
-        $titulo = Titulo::where('idUsuario', idEmpresa())->first();
+        $titulo = Titulo::where('datos_empresa_id', idEmpresa())->first();
         $titulo->titleTestimonio = $request->titleTestimonio;
         $titulo->tituloTestimonioVisible = $request->tituloTestimonioVisible;
         $titulo->save();
@@ -18,7 +18,7 @@ class TituloController extends Controller
     }
 
     public function actualizarTituloServicio(Request $request){
-        $titulo = Titulo::where('idUsuario', idEmpresa())->first();
+        $titulo = Titulo::where('datos_empresa_id', idEmpresa())->first();
         $titulo->titleServicio = $request->titleServicio;
         $titulo->tituloServicioVisible = $request->tituloServicioVisible;
         $titulo->save();

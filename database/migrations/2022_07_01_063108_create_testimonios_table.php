@@ -15,7 +15,7 @@ class CreateTestimoniosTable extends Migration
     {
         Schema::create('testimonios', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
+            $table->integer('datos_empresa_id')->nullable();
             $table->string('codigo', 250)->nullable();
             $table->string('nombre', 250)->nullable();
             $table->integer('orden')->nullable();

@@ -22,12 +22,12 @@
 
     .cc-selector-2 input:active+.drinkcard-cc,
     .cc-selector input:active+.drinkcard-cc {
-        
+
     }
 
     .cc-selector-2 input:checked+.drinkcard-cc,
     .cc-selector input:checked+.drinkcard-cc {
-       
+
     }
 
     .drinkcard-cc {
@@ -46,16 +46,16 @@
     }
 
     .drinkcard-cc:hover {
-                   
+
     }
-    
+
     .table td, .table th {
         white-space: inherit !important;
     }
 </style>
 @endsection
 @section('content')
-<?php $perfil = App\Models\Perfil::find(auth()->user()->idPerfil);
+<?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
     $usuario = Auth::user();
     $personal = $usuario->personal;
     $permisos = [];
@@ -85,7 +85,7 @@
                             <a href="{{ route('Votos.grafico',['encuesta'=>$encuesta->idEncuesta]) }}" class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
                             <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
                         @endif
-                           
+
                         </div>
                     </div>
                     <p class="text-sm mb-0">
@@ -242,11 +242,11 @@
         $(document).on('click', '.allRegional', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
-            
+
             $(".allRegional").each((key, el)=>{
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
                 el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
+            })
 
             if (dataVotos.partidoRegional === '' || dataVotos.partidoRegional !== partido) {
 
@@ -280,8 +280,8 @@
             $(".allProvincial").each((key, el)=>{
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
                 el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
-            
+            })
+
 
             if (dataVotos.partidoProvincial === '' || dataVotos.partidoProvincial !== partido) {
 
@@ -311,11 +311,11 @@
         $(document).on('click', '.allDistrital', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
-            
+
             $(".allDistrital").each((key, el)=>{
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
                 el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
+            })
 
             if (dataVotos.partidoDistrital === '' || dataVotos.partidoDistrital !== partido) {
 
@@ -510,15 +510,15 @@
                                             <img src="${url +'/'+ res[i].logotipo}" class="avatar avatar-sm me-3"
                                                 alt="${res[i].partido}">
                                         </div>
-                                    </div> 
+                                    </div>
                                 </td>
                                 <td>`;
                         if (res[i].Regional.length > 0) {
-                            fila += ` 
+                            fila += `
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center form-check">
                                             <input class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
-                                            <label class="drinkcard-cc text-center" 
+                                            <label class="drinkcard-cc text-center"
                                             style="background-image: url(${(res[i].Regional[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Regional[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                             for="r${res[i].Regional[0].id}">
                                             </label>
@@ -526,7 +526,7 @@
                                         <div class="d-flex flex-column justify-content-center mt-1" >
                                             <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombreCorto}</h6></label>
                                         </div>
-                                    </div>                                    
+                                    </div>
                                     `;
                         }
                         fila += `</td>
@@ -537,7 +537,7 @@
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center form-check">
                                         <input class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
-                                        <label class="drinkcard-cc text-center" 
+                                        <label class="drinkcard-cc text-center"
                                         style="background-image: url(${(res[i].Provincial[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Provincial[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="p${res[i].Provincial[0].id}">
                                         </label>
@@ -555,7 +555,7 @@
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center form-check">
                                         <input class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
-                                        <label class="drinkcard-cc text-center" 
+                                        <label class="drinkcard-cc text-center"
                                         style="background-image: url(${(res[i].Distrital[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Distrital[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="d${res[i].Distrital[0].id}">
                                         </label>

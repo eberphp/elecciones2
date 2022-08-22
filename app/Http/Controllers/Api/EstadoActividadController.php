@@ -20,16 +20,16 @@ class EstadoActividadController extends Controller
      */
     public function index()
     {
-        try{
-            $estados = EstadoActividad::all();
+        try {
+            $estados = EstadoActividad::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["estadosActividad" => $estados, "success" => true], 200);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
     public function pagination(Request $request)
     {
-        $areas = EstadoActividad::select(["*"]);
+        $areas = EstadoActividad::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -50,14 +50,15 @@ class EstadoActividadController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $estadoactividad=new EstadoActividad();
-            $estadoactividad->nombre=$request->nombre;
-            $estadoactividad->color=$request->color;
-            $estadoactividad->estado="activo";
+        try {
+            $estadoactividad = new EstadoActividad();
+            $estadoactividad->nombre = $request->nombre;
+            $estadoactividad->color = $request->color;
+            $estadoactividad->datos_empresa_id = idEmpresa();
+            $estadoactividad->estado = "activo";
             $estadoactividad->save();
             return response()->json(["estadoActividad" => $estadoactividad, "success" => true, "message" => "Estado de actividad creado correctamente"], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
@@ -71,10 +72,10 @@ class EstadoActividadController extends Controller
     public function show($id)
     {
         //Detalle de Actividad
-        try{
-            $estadoactividad=EstadoActividad::find($id);
+        try {
+            $estadoactividad = EstadoActividad::find($id);
             return response()->json(["estadoActividad" => $estadoactividad, "success" => true], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
@@ -100,13 +101,13 @@ class EstadoActividadController extends Controller
     public function update(Request $request, $id)
     {
         //Actualizar estado de actividad
-        try{
-            $estadoactividad=EstadoActividad::find($id);
-            $estadoactividad->nombre=$request->nombre;
-            $estadoactividad->color=$request->color;
+        try {
+            $estadoactividad = EstadoActividad::find($id);
+            $estadoactividad->nombre = $request->nombre;
+            $estadoactividad->color = $request->color;
             $estadoactividad->save();
             return response()->json(["estadoActividad" => $estadoactividad, "success" => true, "message" => "Estado de actividad actualizado correctamente"], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }
@@ -120,11 +121,11 @@ class EstadoActividadController extends Controller
     public function destroy($id)
     {
         //Dar de baja estado de actividad
-        try{
-            $estadoactividad=EstadoActividad::find($id);
+        try {
+            $estadoactividad = EstadoActividad::find($id);
             $estadoactividad->delete();
             return response()->json(["estadoActividad" => $estadoactividad, "success" => true, "message" => "Estado de actividad dado de baja correctamente"], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
     }

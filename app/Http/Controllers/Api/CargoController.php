@@ -20,7 +20,7 @@ class CargoController extends Controller
     public function index()
     {
         try {
-            $cargos = Cargo::all();
+            $cargos = Cargo::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["cargos" => $cargos, "success" => true], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -28,7 +28,7 @@ class CargoController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = DB::table("cargos")->select(["*"]);
+        $areas = DB::table("cargos")->select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -52,6 +52,7 @@ class CargoController extends Controller
         try {
             $cargo = new Cargo();
             $cargo->nombre = $request->nombre;
+            $cargo->datos_empresa_id = idEmpresa();
             $cargo->estado = "activo";
             $cargo->save();
             return response()->json(["cargo" => $cargo, "success" => true, "message" => "Cargo creado correctamente"], 200);

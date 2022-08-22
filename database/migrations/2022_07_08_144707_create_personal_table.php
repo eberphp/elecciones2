@@ -45,6 +45,7 @@ return new class extends Migration
             $table->string("departamento");
             $table->string("provincia");
             $table->string("distrito");
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ class FuncionController extends Controller
     {
         //obtener todos los registros de la tabla funciones
         try {
-            $funciones = Funcion::all();
+            $funciones = Funcion::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["funciones" => $funciones, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -29,7 +29,7 @@ class FuncionController extends Controller
     }
     public function pagination(Request $request)
     {
-        $funciones = Funcion::select(["*"]);
+        $funciones = Funcion::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($funciones)->make(true);
     }
 
@@ -55,6 +55,7 @@ class FuncionController extends Controller
         try {
             $funcion = new Funcion();
             $funcion->nombre = $request->nombre;
+            $funcion->datos_empresa_id = idEmpresa();
             $funcion->estado = "activo";
             $funcion->save();
             return response()->json(["funcion" => $funcion, "success" => true, "message" => "Funcion creada correctamente"], 200);

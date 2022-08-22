@@ -20,7 +20,7 @@ class TipoUsuarioController extends Controller
     {
         // todos los tipos de usuario
         try {
-            $tiposUsuario = TipoUsuario::all();
+            $tiposUsuario = TipoUsuario::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["tiposUsuario" => $tiposUsuario, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -28,7 +28,7 @@ class TipoUsuarioController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = TipoUsuario::select(["*"]);
+        $areas = TipoUsuario::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -53,6 +53,7 @@ class TipoUsuarioController extends Controller
         try{
             $tipoUsuario=new TipoUsuario();
             $tipoUsuario->nivel=$request->nivel;
+            $tipoUsuario->datos_empresa_id = idEmpresa();
             $tipoUsuario->estado="activo";
             $tipoUsuario->save();
             return response()->json(["tipoUsuario"=>$tipoUsuario,"success"=>true,"message"=>"Tipo de usuario creada correctamente"],200);

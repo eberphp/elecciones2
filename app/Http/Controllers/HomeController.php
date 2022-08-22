@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $perfil = Perfil::find(auth()->user()->idPerfil);
+        $perfil = Perfil::find(auth()->user()->perfil_id);
 
         if ($perfil->tipo == 'admin') {
             return redirect()->route('usuarios.admin');

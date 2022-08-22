@@ -16,10 +16,10 @@ class ProyectoController extends Controller
 {
     public function index(Request $request)
     {
-        $proyectos = Proyecto::with('encargados:id,email')->with('responsables:id,email')->where('estado','Activo')->get();
+        $proyectos = Proyecto::with('encargados:id,email')->with('responsables:id,email')->where('estado','Activo')->where('datos_empresa_id', idEmpresa())->get();
 
-        $estadoActividades = EstadoActividad::where('estado','activo')->get();
-        $responsables = User::all();
+        $estadoActividades = EstadoActividad::where('estado','activo')->where('datos_empresa_id', idEmpresa())->get();
+        $responsables = User::where('datos_empresa_id', idEmpresa())->get();
         // dd($proyectos);
         return view('intranet.pages.empresa.proyectos.index',[
             'proyectos' => $proyectos,
@@ -44,6 +44,7 @@ class ProyectoController extends Controller
             'nombre' => $valiData['nombre'],
             'fechaInicio' => $valiData['inicio'],
             'diasVencidos' => 0,
+            'datos_empresa_id' =>  idEmpresa(),
             'plazo' => $valiData['dias'],
             'totalEntregables' => 0,
             'encargado' => Auth::user()->id,

@@ -12,7 +12,7 @@ class Testimonio extends Model
     protected $table = 'testimonios';
     protected $fillable = [
         'id',
-        'idUsuario',
+        'datos_empresa_id',
         'codigo',
         'nombre',
         'orden',

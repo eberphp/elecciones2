@@ -1,7 +1,7 @@
 @extends('intranet.layouts.layout')
 
 @section('style')
-    
+
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">ID</label>
-                                <?php $publicaciones = App\Models\Publicacion::where('idUsuario', auth()->user()->id)->get(); ?>
+                                <?php $publicaciones = App\Models\Publicacion::where('datos_empresa_id', auth()->user()->id)->get(); ?>
                                 <input type="text" name="id" class="multisteps-form__input form-control" value="{{ count($publicaciones) + 1}}" disabled>
                             </div>
                         </div>
@@ -53,7 +53,7 @@
                             <div class="col-12 col-sm-6">
                                 <label for="">Texto</label>
                                 <textarea class=" multisteps-form__input form-control ckeditor" name="texto" id="editor1" rows="10" cols="58"></textarea>
-                                
+
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -80,7 +80,7 @@
                                     <option value="Bloque 6">Bloque 6</option>
                                 </select>
                             </div>
-                            
+
                         </div>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
@@ -91,7 +91,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">Imagen</label><br>
@@ -102,14 +102,14 @@
                                 </form>-->
                             </div>
                         </div>
-                        
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">Link de Video</label>
                                 <input type="text" name="video" class="multisteps-form__input form-control">
                             </div>
                         </div>
-                        
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <button class="btn btn-success" style="margin-top: 10%;width:100%">Crear</button>

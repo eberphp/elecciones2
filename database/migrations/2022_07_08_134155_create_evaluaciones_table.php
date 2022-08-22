@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string("titulo");
             $table->text("descripcion");
             $table->integer("usuario_id");
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

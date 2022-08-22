@@ -1,7 +1,7 @@
 @extends('intranet.layouts.layout')
 
 @section('style')
-    
+
 @endsection
 
 @section('content')
@@ -27,7 +27,7 @@
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">ID</label>
-                                <?php $servicios = App\Models\Servicio::where('idUsuario', auth()->user()->id)->get(); ?>
+                                <?php $servicios = App\Models\Servicio::where('datos_empresa_id', auth()->user()->id)->get(); ?>
                                 <input type="text" name="id" class="multisteps-form__input form-control" value="{{ count($servicios) + 1 }}" disabled>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                 <input type="text" name="url" class="multisteps-form__input form-control">
                             </div>
                         </div>
-                        
+
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <button class="btn btn-success" style="margin-top: 10%;width:100%">Crear</button>

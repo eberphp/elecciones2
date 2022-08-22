@@ -19,6 +19,7 @@ class CreateZonasTable extends Migration
             $table->integer('idProvincia');
             $table->integer('idDistrito');
             $table->string('zona', 250);
+            $table->integer('datos_empresa_id')->nullable();
             $table->enum('estado', ['activo', 'inactivo'])->nullable();
             $table->timestamps();
         });

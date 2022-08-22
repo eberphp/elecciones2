@@ -17,8 +17,8 @@ class TestimonioController extends Controller
      */
     public function index()
     {
-        $titulos = Titulo::where('idUsuario', idEmpresa())->first();
-        $testimonios = Testimonio::where('idUsuario', idEmpresa())->orderBy('orden', 'asc')->get();
+        $titulos = Titulo::where('datos_empresa_id', idEmpresa())->first();
+        $testimonios = Testimonio::where('datos_empresa_id', idEmpresa())->orderBy('orden', 'asc')->get();
         return view('intranet.pages.empresa.web.testimonios.index')->with(compact('titulos','testimonios'));
     }
 
@@ -56,8 +56,8 @@ class TestimonioController extends Controller
         }
 
         $slider = Testimonio::create([
-            'idUsuario' => idEmpresa(),
-            //'idPerfil' => auth()->user()->idPerfil,
+            'datos_empresa_id' => idEmpresa(),
+            //'perfil_id' => auth()->user()->perfil_id,
             'codigo' => $request->id,
             'nombre' => $request->nombre,
             'orden' => $request->orden,

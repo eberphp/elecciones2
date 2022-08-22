@@ -20,7 +20,7 @@ class EstadoProcesoController extends Controller
     {
         //estado de procesos
         try {
-            $estadosProcesos = EstadoProceso::all();
+            $estadosProcesos = EstadoProceso::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["estadosProcesos" => $estadosProcesos, "success" => true], 200);
         } catch (Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -28,7 +28,7 @@ class EstadoProcesoController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = EstadoProceso::select(["*"]);
+        $areas = EstadoProceso::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
 
@@ -54,6 +54,7 @@ class EstadoProcesoController extends Controller
         try {
             $estadoProceso = new EstadoProceso();
             $estadoProceso->nombre = $request->nombre;
+            $estadoProceso->datos_empresa_id = idEmpresa();
             $estadoProceso->estado = "activo";
             $estadoProceso->save();
             return response()->json(["estadoProceso" => $estadoProceso, "success" => true, "message" => "Estado de proceso creado correctamente"], 200);

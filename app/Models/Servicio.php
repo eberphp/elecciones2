@@ -11,7 +11,7 @@ class Servicio extends Model
 
     protected $table = 'servicios';
     protected $fillable = [
-        'idUsuario',
+        'datos_empresa_id',
         'codigo',
         'nombre',
         'orden',

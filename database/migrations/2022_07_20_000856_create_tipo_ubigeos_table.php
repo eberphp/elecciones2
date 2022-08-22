@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('tipo_ubigeos', function (Blueprint $table) {
             $table->id();
             $table->string("nombre");
+            $table->integer('datos_empresa_id')->nullable();
             $table->timestamps();
         });
     }

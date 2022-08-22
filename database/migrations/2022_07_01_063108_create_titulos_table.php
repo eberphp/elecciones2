@@ -15,7 +15,7 @@ class CreateTitulosTable extends Migration
     {
         Schema::create('titulos', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
+            $table->integer('datos_empresa_id')->nullable();
             $table->string('titleTestimonio', 250)->nullable();
             $table->enum('tituloTestimonioVisible', ['SI', 'NO'])->nullable();
             $table->string('titleServicio', 250)->nullable();

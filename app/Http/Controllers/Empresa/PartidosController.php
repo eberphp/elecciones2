@@ -16,7 +16,7 @@ class PartidosController extends Controller
      */
     public function index()
     {
-        $partidos = Partido::where('estado','activo')->get();
+        $partidos = Partido::where('estado','activo')->where('datos_empresa_id', idEmpresa())->get();
         $departamentos = Departamento::where('estado', 'activo')->get();
         return view('intranet.pages.empresa.encuestas.partidos')->with(compact('partidos', 'departamentos'));
     }
@@ -39,18 +39,18 @@ class PartidosController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         if($request->hasFile("logotipo")){
 
             $imagen = $request->file("logotipo");
             $nombreimagenLogotipo = $imagen->getClientOriginalName().".".$imagen->guessExtension();
             $ruta = public_path("img/logotipos/");
-            
+
             $imagen->move($ruta,$nombreimagenLogotipo);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }
         //dd($request);
         $partido = new Partido();
@@ -58,6 +58,7 @@ class PartidosController extends Controller
         $partido->idDepartamento = $request->idDepartamento;
         $partido->logotipo = $nombreimagenLogotipo;
         $partido->estado = 'activo';
+        $partido->datos_empresa_id = idEmpresa();
         $partido->observacion = $request->observacion;
         $partido->save();
         /*Partido::create([
@@ -107,12 +108,12 @@ class PartidosController extends Controller
             $imagen = $request->file("logotipo");
             $nombreimagenLogotipo = $imagen->getClientOriginalName().".".$imagen->guessExtension();
             $ruta = public_path("img/logotipos/");
-            
+
             $imagen->move($ruta,$nombreimagenLogotipo);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
-            //$post->imagen = $nombreimagen;            
-            
+            //$post->imagen = $nombreimagen;
+
         }else{
             $nombreimagenLogotipo = $partido->logotipo;
         }
@@ -141,6 +142,6 @@ class PartidosController extends Controller
 //         }
         $partido->delete();
         return back();
-        
+
     }
 }

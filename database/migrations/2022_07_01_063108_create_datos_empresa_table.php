@@ -15,15 +15,16 @@ class CreateDatosEmpresaTable extends Migration
     {
         Schema::create('datos_empresa', function (Blueprint $table) {
             $table->integer('id', true);
-            $table->integer('idUsuario');
-            $table->integer('idPerfil');
+            //$table->integer('datos_empresa_id')->nullable();
+            $table->integer('perfil_id');
             $table->string('nombre', 250)->nullable();
             $table->string('favicon', 250)->nullable();
             $table->string('bannerPrincipal', 250)->nullable();
             $table->string('telefono1', 9)->nullable();
             $table->string('telefono2', 9)->nullable();
             $table->string('correo', 250)->nullable();
-            $table->text('piePagina')->nullable();
+            $table->text('piePagina')->nullable()->default('');
+            $table->text('nosotros')->nullable()->default('');
             $table->text('terminoCondiciones')->nullable();
             $table->string('derechos', 250)->nullable();
             $table->timestamps();

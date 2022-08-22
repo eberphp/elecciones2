@@ -15,6 +15,7 @@ class CreateConfiguracionesTable extends Migration
     {
         Schema::create('configuraciones', function (Blueprint $table) {
             $table->integer('id', true);
+            $table->integer('datos_empresa_id')->nullable();
             $table->string('nombre', 250)->nullable();
             $table->timestamps();
         });

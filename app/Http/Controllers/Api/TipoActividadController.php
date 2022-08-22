@@ -20,7 +20,7 @@ class TipoActividadController extends Controller
     {
         //todos los registros de la tabla tipo actividad
         try{
-            $tipoActividad=TipoActividad::all();
+            $tipoActividad=TipoActividad::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["tiposActividad"=>$tipoActividad,"success"=>true],200);
         }catch(Exception $e){
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -28,7 +28,7 @@ class TipoActividadController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = TipoActividad::select(["*"]);
+        $areas = TipoActividad::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     /**
@@ -54,6 +54,7 @@ class TipoActividadController extends Controller
             $tipoActividad=new TipoActividad();
             $tipoActividad->nombre=$request->nombre;
             $tipoActividad->color=$request->color;
+            $tipoActividad->datos_empresa_id = idEmpresa();
             $tipoActividad->estado="activo";
             $tipoActividad->save();
             return response()->json(["tipoActividad"=>$tipoActividad,"success"=>true,"message"=>"Tipo de actividad creada correctamente"],200);

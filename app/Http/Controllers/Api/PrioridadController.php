@@ -21,7 +21,7 @@ class PrioridadController extends Controller
     {
         //todas las prioridades
         try {
-            $prioridades = Prioridad::all();
+            $prioridades = Prioridad::where('datos_empresa_id', idEmpresa())->get();
             return response()->json(["prioridades" => $prioridades, "success" => true], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
@@ -29,11 +29,11 @@ class PrioridadController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Prioridad::select(["*"]);
+        $areas = Prioridad::select(["*"])->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
 
-    /**
+    /**funcion
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -55,10 +55,11 @@ class PrioridadController extends Controller
         try {
             $prioridad = new Prioridad();
             $prioridad->nombre = $request->nombre;
+            $prioridad->datos_empresa_id = idEmpresa();
             $prioridad->color= $request->color;
             $prioridad->estado = "activo";
             $prioridad->save();
-            return response()->json(["prioridad" => $prioridad, "success" => true, "message" => "Prioridad creada correctamente"], 200);    
+            return response()->json(["prioridad" => $prioridad, "success" => true, "message" => "Prioridad creada correctamente"], 200);
         } catch (\Exception $e) {
             return response()->json(["message" => $e->getMessage(), "success" => false], 500);
         }
