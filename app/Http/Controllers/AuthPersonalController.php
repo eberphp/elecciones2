@@ -23,6 +23,7 @@ use App\Models\Vinculo;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class AuthPersonalController extends Controller
@@ -45,6 +46,14 @@ class AuthPersonalController extends Controller
             "clave" => $request->password
         ];
         if (Auth::guard('personal')->attempt($credentialsauth, $bool)) {
+
+            if (Auth::guard('personal')->user()->datos_empresa_id != idEmpresa()) {
+                Auth::guard('personal')->logout();
+                return back()->withErrors([
+                    'email' => 'Usuario incorrecto.',
+                    'password' => 'Contraseña incorrecto.'
+                ]);
+            }
             $request->session()->regenerate();
             return redirect()->to('/');
         }
@@ -66,19 +75,18 @@ class AuthPersonalController extends Controller
     }
     public function profile()
     {
-            $id = idEmpresa();
-            $redes = RedesSociales::where('datos_empresa_id', $id)->first();
-            $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
-            $cargos = Cargo::all();
-            $puestos = $cargos;
-            $vinculos = Vinculo::all();
-            $funciones = Funcion::all();
-            $tipoUsuarios = TipoUsuario::all();
-            $tipoUbigeos = TipoUbigeo::all();
-            $estadoEvaluaciones = EstadoEvaluacion::all();
-            $departamentos = Departamento::all();
-            return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal"));
-
+        $id = idEmpresa();
+        $redes = RedesSociales::where('datos_empresa_id', $id)->first();
+        $personal = Personal::where("id", Auth::guard('personal')->user()->id)->first();
+        $cargos = Cargo::all();
+        $puestos = $cargos;
+        $vinculos = Vinculo::all();
+        $funciones = Funcion::all();
+        $tipoUsuarios = TipoUsuario::all();
+        $tipoUbigeos = TipoUbigeo::all();
+        $estadoEvaluaciones = EstadoEvaluacion::all();
+        $departamentos = Departamento::all();
+        return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal"));
     }
 
     /**
@@ -101,6 +109,8 @@ class AuthPersonalController extends Controller
     public function store(Request $request)
     {
         try {
+
+            DB::beginTransaction();
 
             $foto = $request->file("foto");
             $cv = $request->file("cv");
@@ -152,6 +162,7 @@ class AuthPersonalController extends Controller
             }
             $personal = new Personal();
             $personal->nombres = isset($request->name) ? $request->name : "";
+            $personal->datos_empresa_id = idEmpresa();
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
             $personal->ppd = isset($request->ppd) ? $request->ppd : "";
@@ -190,27 +201,33 @@ class AuthPersonalController extends Controller
                 'password' => $request->password,
                 'clave' => $request->password
             ];
-            $lastidpersonal=Personal::max("id");
+            $lastidpersonal = Personal::max("id");
             $lastidpersonal++;
-            $lastidperfil=Perfil::max("id");
+            $lastidperfil = Perfil::max("id");
             $lastidperfil++;
-            $perfil=new Perfil();
-            $perfil->id=$lastidperfil;
-            $perfil->tipo="persona";
-            $perfil->codigo=isset($request->dni) ? $request->dni :"";
-            $perfil->telefono=isset($request->telefono) ? $request->telefono : "";
-            $perfil->nombreCorto=isset($request->nombre_corto) ? $request->nombre_corto : "";
-            $perfil->docIdentidad= isset($request->dni) ? $request->dni : "";
-            $perfil->idUsuarioCreador=isset(Auth::user()->id) ? Auth::user()->id : 0;
+
+
+            $perfil = new Perfil();
+            $perfil->id = $lastidperfil;
+            $perfil->tipo = "persona";
+            $perfil->codigo = isset($request->dni) ? $request->dni : "";
+            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+            $perfil->idUsuarioCreador = isset(Auth::user()->id) ? Auth::user()->id : 0;
             $perfil->save();
-            $user=new User();
-            $user->perfil_id=$lastidperfil;
-            $user->idPersonal=$lastidpersonal;
-            $user->password=Hash::make($request->clave);
-            $user->clave=$request->clave;
-            $user->email=$request->correo;
+
+            $user = new User();
+            $user->perfil_id = $lastidperfil;
+            $user->idPersonal = $lastidpersonal;
+            $user->password = Hash::make($request->clave);
+            $user->datos_empresa_id = idEmpresa();
+
+            //$user->clave = $request->clave;
+            $user->email = $request->email;
             $user->save();
             $bool = false;
+            DB::commit();
             if (Auth::guard('personal')->attempt($credentialsauth, $bool)) {
                 $request->session()->regenerate();
                 return redirect()->to('/');

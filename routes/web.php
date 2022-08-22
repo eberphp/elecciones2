@@ -30,6 +30,7 @@ use App\Http\Controllers\Empresa\EncuestaController;
 use App\Http\Controllers\Empresa\ProyectoController;
 use App\Http\Controllers\Empresa\VotosController;
 use App\Models\DatosEmpresa;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -236,5 +237,7 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+
+
 
 //datos_empresa_id

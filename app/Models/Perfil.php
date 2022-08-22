@@ -29,4 +29,8 @@ class Perfil extends Model
         'observaciones',
         'idUsuarioCreador'
     ];
+
+    public function datos_empresa(){
+        return $this->hasOne(DatosEmpresa::class, 'perfil_id', 'id');
+    }
 }
