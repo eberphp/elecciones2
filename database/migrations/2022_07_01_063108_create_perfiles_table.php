@@ -29,7 +29,7 @@ class CreatePerfilesTable extends Migration
             $table->string('lugar', 250)->nullable()->default('-');
             $table->string('empresa', 250)->nullable()->default('-');
             $table->string('ruc', 11)->nullable()->default('-');
-            $table->text('observaciones')->nullable()->default('-');
+            $table->text('observaciones')->nullable();
             $table->integer('idUsuarioCreador')->nullable();
             $table->timestamps();
         });
