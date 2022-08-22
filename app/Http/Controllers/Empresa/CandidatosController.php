@@ -17,8 +17,9 @@ class CandidatosController extends Controller
 
     public function index(Request $request)
     {
+       
 
-        $candidatos = Candidato::with('departamento', 'provincia', 'distrito')->where('estado', true);
+        $candidatos = Candidato::with('departamento', 'provincia', 'distrito')->where('estado', true)->where('datos_empresa_id', idEmpresa());
 
         if (!empty($request->buscador)) {
             $candidatos = $candidatos->where('nombresApellidos', 'like', '%' . $request->buscador . '%')
