@@ -24,7 +24,8 @@ class User extends Authenticatable
         'email',
         'password',
         'clave',
-        'idRegion'
+        'idRegion',
+        'datos_empresa_id'
     ];
 
     /**

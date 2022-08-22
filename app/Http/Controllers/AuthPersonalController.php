@@ -217,15 +217,17 @@ class AuthPersonalController extends Controller
             $perfil->idUsuarioCreador = isset(Auth::user()->id) ? Auth::user()->id : 0;
             $perfil->save();
 
+            //dd(idEmpresa());
+
             $user = new User();
             $user->perfil_id = $lastidperfil;
             $user->idPersonal = $lastidpersonal;
-            $user->password = Hash::make($request->clave);
+            $user->password = Hash::make($request->password);
             $user->datos_empresa_id = idEmpresa();
-
             //$user->clave = $request->clave;
             $user->email = $request->email;
             $user->save();
+            //dd($user);
             $bool = false;
             DB::commit();
             if (Auth::guard('personal')->attempt($credentialsauth, $bool)) {
