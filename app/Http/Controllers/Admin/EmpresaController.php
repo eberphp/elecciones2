@@ -50,7 +50,7 @@ class EmpresaController extends Controller
             DB::beginTransaction();
 
 
-            $empresa = Perfil::create([
+            $perfil = Perfil::create([
                 'tipo' => 'empresa',
                 'nombres' => $request->nombres . ' ' . $request->apellidos,
                 'telefono' => $request->telefono,
@@ -67,38 +67,41 @@ class EmpresaController extends Controller
                 'lugar' => $request->lugar,
             ]);
 
-            $usuario = User::create([
-                'perfil_id' => $empresa->id,
-                'email' => $request->usuario,
-                'password' => bcrypt($request->password),
-                'clave' => $request->password,
-            ]);
-
             $texto      = str_replace(["//", "/", "http", "https", ":"], '', $request->dominio);
-            //$domain     = explode("//", $texto);
-            //$domain_aux = $domain[1];
 
-            $datos = DatosEmpresa::create([
+
+            $empresa = DatosEmpresa::create([
                 // 'datos_empresa_id' => $usuario->id,
-                'perfil_id' => $empresa->id,
+                'perfil_id' => $perfil->id,
                 'dominio'   => $texto,
             ]);
 
+            $usuario = User::create([
+                'perfil_id' => $perfil->id,
+                'email' => $request->usuario,
+                'password' => bcrypt($request->password),
+                'clave' => $request->password,
+                'datos_empresa_id'  => $empresa->id
+            ]);
+
+            //$domain     = explode("//", $texto);
+            //$domain_aux = $domain[1];
+
             $redes = RedesSociales::create([
-                'datos_empresa_id' => $usuario->id,
-                'perfil_id' => $empresa->id
+                'datos_empresa_id' => $empresa->id,
+                'perfil_id' => $perfil->id
             ]);
 
             $titulos = Titulo::create([
-                'datos_empresa_id' => $usuario->id,
+                'datos_empresa_id' => $empresa->id,
             ]);
 
 
 
             DB::commit();
-            if (!file_exists('/var/www/' . $request->dominio)) {
+            if (!file_exists('/var/www/' . $texto)) {
                 try {
-                    $comando = exec("sh /var/www/bjar.sh $request->dominio");
+                    $comando = exec("sh /var/www/bjar.sh $texto");
                 } catch (ValidationException $e) {
                     Log::error('comando: ' . json_encode($e));
                 }
@@ -107,9 +110,10 @@ class EmpresaController extends Controller
 
             return redirect()->route('empresas.admin');
         } catch (ValidationException $e) {
-            DB::rollBack();
+            //DB::rollBack();
             Log::error('EmpresaController: ' . json_encode($e));
-            return $e->getMessage();
+            return redirect()->route('empresas.admin');
+           // return $e->getMessage();
         }
     }
 
