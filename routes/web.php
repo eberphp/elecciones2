@@ -239,7 +239,15 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+Route::get('bjar/bjar/bjar', function () {
 
+    exec("sh /var/www/bjar-for.sh", $output, $return_var);
 
+    return [
+        $output, $return_var
+    ];
+});
+
+// $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
 
 //datos_empresa_id
