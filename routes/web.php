@@ -60,6 +60,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.admin');
 
 Route::get('empresas', [EmpresaController::class, 'index'])->name('empresas.admin');
+Route::get('nueva/crear-empresa/{empresa}', [EmpresaController::class, 'crearProyecto'])->name('empresas_nueva.admin');
+
 Route::get('empresas-create', [EmpresaController::class, 'create'])->name('empresas.create');
 Route::post('empresa-store', [EmpresaController::class, 'store'])->name('empresas.store');
 
