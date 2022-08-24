@@ -96,8 +96,15 @@ class AuthPersonalController extends Controller
      */
     public function create()
     {
-
-        return view("web.pages.auth.register");
+        $cargos = Cargo::all();
+        $puestos = $cargos;
+        $vinculos = Vinculo::all();
+        $funciones = Funcion::all();
+        $tipoUsuarios = TipoUsuario::all();
+        $tipoUbigeos = TipoUbigeo::all();
+        $estadoEvaluaciones = EstadoEvaluacion::all();
+        $departamentos = Departamento::all();
+        return view("web.pages.auth.register", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones"));
     }
 
     /**
@@ -111,7 +118,6 @@ class AuthPersonalController extends Controller
         try {
 
             DB::beginTransaction();
-
             $foto = $request->file("foto");
             $cv = $request->file("cv");
             $save1 = "";
@@ -147,14 +153,7 @@ class AuthPersonalController extends Controller
             } else {
                 $url2 = "https://" . $request->url_2;
             }
-            $correoregistrado = Personal::where("correo", $request->email)->first();
-            if ($request->password != $request->password_confirmation) {
-                return back()->withErrors([
-                    'password' => 'Las contraseñas no coinciden.',
-                    'password_confirmation' => 'Las contraseñas no coinciden.'
-                ])->withInput();
-            }
-
+            $correoregistrado = Personal::where("correo", $request->correo)->first();
             if ($correoregistrado) {
                 return back()->withErrors([
                     'email' => 'El correo ya esta registrado.',
@@ -162,7 +161,8 @@ class AuthPersonalController extends Controller
             }
             $personal = new Personal();
             $personal->nombres = isset($request->name) ? $request->name : "";
-            $personal->datos_empresa_id = idEmpresa();
+            $personal->datos_empresa_id = 1/* idEmpresa() */;
+            $personal->empresa_id = 1 /* idEmpresa() */;
             $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
             $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
             $personal->ppd = isset($request->ppd) ? $request->ppd : "";
@@ -182,10 +182,11 @@ class AuthPersonalController extends Controller
             $personal->dni =  $request->dni;
             $personal->clave = isset($request->password) ? $request->password : "";
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
-            if ($request->password) {
-                $personal->password = Hash::make($request->password);
+            if ($request->clave) {
+                $personal->clave = $request->clave;
+                $personal->password = Hash::make($request->clave);
             }
-            $personal->correo = isset($request->email) ? $request->email : "";
+            $personal->correo = isset($request->correo) ? $request->correo : "";
             $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
             $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
             $personal->asignar_usuarios = "" ? isset($request->asignar_usuarios) : "";
@@ -196,17 +197,11 @@ class AuthPersonalController extends Controller
             $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
-            $credentialsauth = [
-                'correo' => $request->email,
-                'password' => $request->password,
-                'clave' => $request->password
-            ];
+
             $lastidpersonal = Personal::max("id");
             $lastidpersonal++;
             $lastidperfil = Perfil::max("id");
             $lastidperfil++;
-
-
             $perfil = new Perfil();
             $perfil->id = $lastidperfil;
             $perfil->tipo = "persona";
@@ -220,21 +215,16 @@ class AuthPersonalController extends Controller
             //dd(idEmpresa());
 
             $user = new User();
-            $user->perfil_id = $lastidperfil;
+            $user->perfil_id=$lastidperfil;
             $user->idPersonal = $lastidpersonal;
-            $user->password = Hash::make($request->password);
-            $user->datos_empresa_id = idEmpresa();
+            $user->password = Hash::make($request->clave);
+            $user->clave = $request->clave;
+            $user->datos_empresa_id = 1 /* idEmpresa() */;
             //$user->clave = $request->clave;
-            $user->email = $request->email;
+            $user->email = $request->correo;
             $user->save();
-            //dd($user);
-            $bool = false;
             DB::commit();
-            if (Auth::guard('personal')->attempt($credentialsauth, $bool)) {
-                $request->session()->regenerate();
-                return redirect()->to('/');
-            }
-            return back()->with('success', 'Usuario creado correctamente');
+            return back()->with('success', 'Su cuenta fue creada correctamente ');
         } catch (Exception $e) {
             return back()->withErrors([
                 "name" => $e->getMessage()
