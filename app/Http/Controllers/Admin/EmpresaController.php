@@ -22,7 +22,17 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $usuarios = User::all();
+        $us = User::with('perfil.datos_empresa')->get();
+        $usuarios = $us->map(function ($u) {
+            $d = 'no crear';
+
+            if($u->perfil->datos_empresa){
+                $d =  file_exists('/var/www/' . $u->perfil->datos_empresa->dominio);
+            }
+            $u->proyecto_creado = $d ;
+
+            return $u;
+        });
         return view('intranet.pages.admin.empresas.index')->with(compact('usuarios'));
     }
 

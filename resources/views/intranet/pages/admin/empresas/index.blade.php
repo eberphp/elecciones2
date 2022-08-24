@@ -27,6 +27,7 @@
                             <tr>
                                 <th>Acciones</th>
                                 <th>Código</th>
+                                <th>Proyecto Empresa</th>
                                 <th>Representante Legal</th>
                                 <th>Telefono</th>
                                 <th>Nombre Corto</th>
@@ -43,23 +44,32 @@
                         </thead>
                         <tbody>
                             @foreach ($usuarios as $usuario)
-                                <?php $perfil = App\Models\Perfil::find($usuario->perfil_id); ?>
-                                @if ($perfil->tipo == 'empresa')
+
+                                @if ($usuario->perfil->tipo == 'empresa')
                                     <tr>
                                         <td class="text-sm font-weight-normal"></td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->codigo}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->nombres}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->telefono}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->nombreCorto}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->codigo}}</td>
+                                        <td class="text-sm font-weight-normal">
+                                            @if ($usuario->proyecto_creado == true)
+                                              <span class="badge badge-success">Proyecto Creado</span>
+                                            @elseif ($usuario->proyecto_creado == 'no crear')
+                                                -
+                                            @else
+                                                <span class="badge badge-warning">Crear Proyecto</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->nombres}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->telefono}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->nombreCorto}}</td>
                                         <td class="text-sm font-weight-normal">{{$usuario->email}}</td>
                                         <td class="text-sm font-weight-normal">{{$usuario->clave}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->docIdentidad}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->edad}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->fechaNacimiento}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->profesion}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->cargo}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->lugar}}</td>
-                                        <td class="text-sm font-weight-normal">{{$perfil->empresa}} / {{$perfil->ruc}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->docIdentidad}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->edad}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->fechaNacimiento}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->profesion}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->cargo}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->lugar}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->empresa}} / {{$usuario->perfil->ruc}}</td>
                                     </tr>
                                 @endif
                             @endforeach
