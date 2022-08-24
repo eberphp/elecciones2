@@ -250,4 +250,3 @@ Route::get('bjar/bjar/bjar', function () {
 
 // $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
 
-//datos_empresa_id
