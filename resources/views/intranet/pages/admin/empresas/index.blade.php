@@ -27,6 +27,7 @@
                             <tr>
                                 <th>Acciones</th>
                                 <th>Código</th>
+                                <th>Dominio</th>
                                 <th>Proyecto Empresa</th>
                                 <th>Representante Legal</th>
                                 <th>Telefono</th>
@@ -49,6 +50,7 @@
                                     <tr>
                                         <td class="text-sm font-weight-normal"></td>
                                         <td class="text-sm font-weight-normal">{{$usuario->perfil->codigo}}</td>
+                                        <td class="text-sm font-weight-normal">{{$usuario->perfil->datos_empresa->dominio}}</td>
                                         <td class="text-sm font-weight-normal">
                                             @if ($usuario->proyecto_creado == true)
                                               <span class="badge badge-success">Proyecto Creado</span>
