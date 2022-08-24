@@ -128,13 +128,13 @@ class EmpresaController extends Controller
 
 
             DB::commit();
-            if (!file_exists('/var/www/' . $texto)) {
-                try {
-                    $comando = exec("sh /var/www/bjar.sh $texto");
-                } catch (ValidationException $e) {
-                    Log::error('comando: ' . json_encode($e));
-                }
-            }
+           //if (!file_exists('/var/www/' . $texto)) {
+           //    try {
+           //        $comando = exec("sh /var/www/bjar.sh $texto");
+           //    } catch (ValidationException $e) {
+           //        Log::error('comando: ' . json_encode($e));
+           //    }
+           //}
 
 
             return redirect()->route('empresas.admin');
