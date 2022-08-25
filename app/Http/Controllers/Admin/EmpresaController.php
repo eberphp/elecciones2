@@ -22,8 +22,37 @@ class EmpresaController extends Controller
      */
     public function index()
     {
-        $usuarios = User::all();
+        $us = User::with('perfil.datos_empresa')->get();
+        $usuarios = $us->map(function ($u) {
+            $d = 'no crear';
+
+            if ($u->perfil->datos_empresa) {
+                $d =  file_exists('/var/www/' . $u->perfil->datos_empresa->dominio);
+            }
+            $u->proyecto_creado = $d;
+
+            return $u;
+        });
         return view('intranet.pages.admin.empresas.index')->with(compact('usuarios'));
+    }
+
+    public function crearProyecto($texto)
+    {
+        try {
+             $empresa = DatosEmpresa::find($texto);
+
+            if (!file_exists('/var/www/' . $empresa->dominio)) {
+                try {
+                    $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
+                    return $comando;
+                } catch (ValidationException $e) {
+                    return $e;
+                    Log::error('comando: ' . json_encode($e));
+                }
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 
     /**
@@ -99,13 +128,13 @@ class EmpresaController extends Controller
 
 
             DB::commit();
-            if (!file_exists('/var/www/' . $texto)) {
-                try {
-                    $comando = exec("sh /var/www/bjar.sh $texto");
-                } catch (ValidationException $e) {
-                    Log::error('comando: ' . json_encode($e));
-                }
-            }
+           //if (!file_exists('/var/www/' . $texto)) {
+           //    try {
+           //        $comando = exec("sh /var/www/bjar.sh $texto");
+           //    } catch (ValidationException $e) {
+           //        Log::error('comando: ' . json_encode($e));
+           //    }
+           //}
 
 
             return redirect()->route('empresas.admin');
@@ -113,7 +142,7 @@ class EmpresaController extends Controller
             //DB::rollBack();
             Log::error('EmpresaController: ' . json_encode($e));
             return redirect()->route('empresas.admin');
-           // return $e->getMessage();
+            // return $e->getMessage();
         }
     }
 
