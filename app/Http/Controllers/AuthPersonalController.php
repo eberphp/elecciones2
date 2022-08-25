@@ -159,7 +159,10 @@ class AuthPersonalController extends Controller
                     'email' => 'El correo ya esta registrado.',
                 ])->withInput();
             }
+            $lastidpersonal = Personal::max("id");
+            $lastidpersonal++;
             $personal = new Personal();
+            $personal->id=$lastidpersonal;
             $personal->nombres = isset($request->name) ? $request->name : "";
             $personal->datos_empresa_id = 1/* idEmpresa() */;
             $personal->empresa_id = 1 /* idEmpresa() */;
@@ -198,8 +201,6 @@ class AuthPersonalController extends Controller
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
 
-            $lastidpersonal = Personal::max("id");
-            $lastidpersonal++;
             $lastidperfil = Perfil::max("id");
             $lastidperfil++;
             $perfil = new Perfil();
