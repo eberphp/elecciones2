@@ -122,7 +122,22 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Foto</label>
+                                <input type="file" name="foto" class="form-control"
+                                    id="foto_ic">
 
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Cv</label>
+                                <input type="file" name="cv" class="form-control"
+                                    id="cv_ic">
+
+                            </div>
+                        </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Url facebook</label>
@@ -139,7 +154,7 @@
                                 <label class="form-label">
                                     Referencias
                                 </label>
-                                <textarea class="form-control" name="referencias" id="referencias_ie">@if (old('referencias'))
+                                <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">@if (old('referencias'))
                                     {{ old('referencias') }}
                                     @else
                                     <p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
