@@ -139,7 +139,16 @@
                                 <label class="form-label">
                                     Referencias
                                 </label>
-                                <textarea class="form-control" name="referencias" id="referencias_ie">{{ old('referencias') }}</textarea>
+                                <textarea class="form-control" name="referencias" id="referencias_ie">@if (old('referencias'))
+                                    {{ old('referencias') }}
+                                    @else
+                                    <p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
+                                    
+                                    <ol>
+                                        <li><strong>&nbsp;</strong></li>
+                                        <li>&nbsp;</li>
+                                    </ol>
+                                    @endif</textarea>
 
 
                             </div>
@@ -149,17 +158,7 @@
                                 <label class="form-label">
                                     Perfil
                                 </label>
-                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">@if (old('perfil'))
-{{ old('perfil') }}
-@else
-<p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
-
-<ol>
-	<li><strong>&nbsp;</strong></li>
-	<li>&nbsp;</li>
-</ol>
-@endif
-</textarea>
+                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{old('perfil')}}</textarea>
                             </div>
                         </div>
 
