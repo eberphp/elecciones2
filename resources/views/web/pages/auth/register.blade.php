@@ -40,7 +40,6 @@
                                 <label class="form-label">Nombre Corto</label>
                                 <input type="text" name="nombre_corto" value="{{ old('nombre_corto') }}"
                                     class="form-control" id="nombreCorto_ie">
-
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -48,7 +47,6 @@
                                 <label class="form-label">Telefono</label>
                                 <input type="text" name="telefono" value="{{ old('telefono') }}" class="form-control"
                                     id="telefono_ie">
-
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -56,7 +54,6 @@
                                 <label class="form-label">Dni <span class="text-danger">*</span></label>
                                 <input type="text" required name="dni" value="{{ old('dni') }}"
                                     class="form-control" id="dni_ie">
-
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -64,7 +61,6 @@
                                 <label class="form-label">Correo <span class="text-danger">*</span> </label>
                                 <input type="text" name="correo" required value="{{ old('correo') }}"
                                     class="form-control" id="correo_ie">
-
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -81,9 +77,6 @@
                                     class="form-control" id="fecha_ingreso_ie">
                             </div>
                         </div>
-                      
-
-                       
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Tipo ubigeo</label>
@@ -97,23 +90,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Puesto</label>
-                                <select name="puesto_id" value="{{ old('puesto_id') }}" class="form-control"
-                                    id="puesto_id_ie">
-                                    <option value="">
-                                        -- Seleccione -- </option>
-                                    @foreach ($puestos as $puesto)
-                                        <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                        </option>
-                                    @endforeach
-                                </select>
 
-                            </div>
-                        </div>
-                      
-                      
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Departamento</label>
@@ -155,30 +132,8 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Url 1</label>
-                                <input type="text" name="url_1" value="{{ old('url_1') }}" class="form-control"
-                                    id="url_1_ie">
-
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">Url 2</label>
-                                <input type="text" name="url_2" value="{{ old('url_2') }}" class="form-control"
-                                    id="url_2_ie">
-
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label class="form-label">PPD</label>
-                                <input type="text" name="ppd" value="{{ old('ppd') }}" class="form-control"
-                                    id="ppd_ie">
-
-                            </div>
-                        </div>
+                   
+                        
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
@@ -194,10 +149,20 @@
                                 <label class="form-label">
                                     Perfil
                                 </label>
-                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ old('perfil') }}</textarea>
+                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">@if (old('perfil'))
+{{ old('perfil') }}
+@else
+<p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
+
+<ol>
+	<li><strong>&nbsp;</strong></li>
+	<li>&nbsp;</li>
+</ol>
+@endif
+</textarea>
                             </div>
                         </div>
-                      
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
