@@ -242,14 +242,9 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::get('bjar/bjar/bjar', function () {
 
-    exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
 
-    $nueva_lista = [];
 
-    foreach($respuesta as $d){
-        $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
-        //echo $d;
-    }
+    $nueva_lista = exec("sh /var/www/bjar-for.sh");
 
     return $nueva_lista;
 
