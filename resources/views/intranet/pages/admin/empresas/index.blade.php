@@ -183,6 +183,8 @@
                 method: "GET",
                 url: "/actualizar/git/proyectos-empresas",
             }).done(function(data) {
+                document.getElementById('content-text').innerHTML = '';
+
                 $(data).each(function(key, value) {
                     $("#content-text").append('<li class="list-group-item"> <a href="http://' +
                         value + '" target="_blank" >' + value + '</a></li>');

@@ -59,8 +59,8 @@ class EmpresaController extends Controller
     {
         try {
 
-            exec("sh /var/www/bjar-for.sh");
-            $respuesta = [];
+            exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
+
             $nueva_lista = [];
 
             foreach ($respuesta as $d) {
