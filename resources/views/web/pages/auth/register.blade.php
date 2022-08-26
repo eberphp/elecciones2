@@ -132,8 +132,8 @@
                             </div>
                         </div>
 
-                   
-                        
+
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
@@ -158,7 +158,7 @@
                                 <label class="form-label">
                                     Perfil
                                 </label>
-                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{old('perfil')}}</textarea>
+                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie"></textarea>
                             </div>
                         </div>
 

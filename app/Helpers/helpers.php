@@ -38,3 +38,16 @@ if (!function_exists('idEmpresa')) {
         }
     }
 }
+
+
+if (!function_exists('limpiar_datos')) {
+    function limpiar_datos($texto_a_reemplazar, $reemplazar = [])
+    {
+        try {
+            return str_replace($reemplazar, '', $texto_a_reemplazar);
+        } catch (ValidationException $th) {
+            Log::error('limpiar_datos ' . json_encode($th));
+            abort(404);
+        }
+    }
+}

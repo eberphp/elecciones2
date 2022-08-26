@@ -61,6 +61,7 @@ Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.admin')
 
 Route::get('empresas', [EmpresaController::class, 'index'])->name('empresas.admin');
 Route::get('nueva/crear-empresa/{empresa}', [EmpresaController::class, 'crearProyecto'])->name('empresas_nueva.admin');
+Route::get('actualizar/git/proyectos-empresas', [EmpresaController::class, 'actualizarGit'])->name('empresas_actualizar.admin');
 
 Route::get('empresas-create', [EmpresaController::class, 'create'])->name('empresas.create');
 Route::post('empresa-store', [EmpresaController::class, 'store'])->name('empresas.store');
@@ -239,14 +240,3 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-Route::get('bjar/bjar/bjar', function () {
-
-    exec("sh /var/www/bjar-for.sh", $output, $return_var);
-
-    return [
-        $output, $return_var
-    ];
-});
-
-// $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
-

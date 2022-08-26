@@ -13,6 +13,7 @@
                             </div>
                             <div class="col-6" style="text-align: right">
                                 <a href="{{ route('empresas.create') }}" class="btn btn-success">Nuevo</a>
+                                <a href="javascript:void(0)" class="btn btn-primary actualizar-git">Actualizar proyectos</a>
                                 <a href="#" class="btn btn-info">Exportar</a>
                                 <!--<button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo</button>-->
                             </div>
@@ -105,10 +106,30 @@
         <div class="modal fade" id="newModal" tabindex="-1" data-backdrop="static" data-keyboard="false" role="dialog"
             aria-labelledby="newModalLabel" aria-hidden="true">
             <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
-                <div class="modal-content">
-                    <div class="modal-body" id="dynamic-content" style="background-color: transparent !important">
+                <div class="modal-content-bjar">
+                    <div class="modal-body" id="dynamic-content">
                         <img src="https://acegif.com/wp-content/uploads/loading-23.gif" class="img-fluid" alt="" />
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="actualizar-git" tabindex="-1" role="dialog" aria-labelledby="newModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="newModalLabel">Lista de Proyectos Actualizados</h5>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="list-group" id="content-text">
+
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cerrar-modal" data-dismiss="modal">Cerrar</button>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -155,20 +176,47 @@
 
 
             });
+        });
 
+        $('body').on('click', '.actualizar-git', async function() {
+            $('#newModal').modal('show');
+
+            await $.ajax({
+                method: "GET",
+                url: "/actualizar/git/proyectos-empresas",
+            }).done(function(data) {
+                document.getElementById('content-text').innerHTML = '';
+
+                $(data).each(function(key, value) {
+                    $("#content-text").append('<li class="list-group-item"> <a href="http://' +
+                        value + '" target="_blank" >' + value + '</a></li>');
+                });
+                $('#newModal').modal('hide')
+                $('#actualizar-git').modal('show');
+            }).fail(function(e) {
+                $('#newModal').modal('hide')
+                console.error(e);
+                alert("Algo salió mal");
+            }).always(function() {
+                $('#newModal').modal('hide')
+            });
+        });
+
+        $('body').on('click', '.cerrar-modal', function() {
+            $('#actualizar-git').modal('hide')
         });
     </script>
 @endsection
 <style>
-    .modal-content {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        pointer-events: auto;
-        background-clip: padding-box;
-        border: none !important;
-        border-radius: 0.75rem;
+    .modal-content-bjar {
+        position: relative !important;
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        pointer-events: auto !important;
+        background-clip: padding-box !important;
+        border: none !important !important;
+        border-radius: 0.75rem !important;
         background: transparent !important;
         outline: 0;
         background-color: transparent !important;
