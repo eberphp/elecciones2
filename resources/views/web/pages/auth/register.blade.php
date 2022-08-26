@@ -132,8 +132,8 @@
                             </div>
                         </div>
 
-                   
-                        
+
+
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
@@ -149,7 +149,8 @@
                                 <label class="form-label">
                                     Perfil
                                 </label>
-                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">@if (old('perfil'))
+                                <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">
+@if (old('perfil'))
 {{ old('perfil') }}
 @else
 <p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
