@@ -61,6 +61,7 @@ Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.admin')
 
 Route::get('empresas', [EmpresaController::class, 'index'])->name('empresas.admin');
 Route::get('nueva/crear-empresa/{empresa}', [EmpresaController::class, 'crearProyecto'])->name('empresas_nueva.admin');
+Route::get('actualizar/git/proyectos-empresas', [EmpresaController::class, 'actualizarGit'])->name('empresas_actualizar.admin');
 
 Route::get('empresas-create', [EmpresaController::class, 'create'])->name('empresas.create');
 Route::post('empresa-store', [EmpresaController::class, 'store'])->name('empresas.store');
@@ -241,12 +242,28 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::get('bjar/bjar/bjar', function () {
 
-    exec("sh /var/www/bjar-for.sh", $output, $return_var);
-
-    return [
-        $output, $return_var
+    //exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
+    $data = [
+        "/var/www/don.ghcontigo.com ---> Proyecto Actualizado",
+        "/var/www/en.levelte.com ---> Proyecto Actualizado",
+        "/var/www/nati.eslavoz.com ---> Proyecto Actualizado",
+        "/var/www/tapia.eslavoz.com ---> Proyecto Actualizado",
+        "/var/www/yaipen.eslavoz.com ---> Proyecto Actualizado"
     ];
+
+    $nueva_lista = [];
+
+    foreach($data as $d){
+        $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
+        //echo $d;
+    }
+
+    return $nueva_lista;
+
+
+    //return [
+    //    $respuesta, $return_var
+    //];
 });
 
 // $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
-

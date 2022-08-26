@@ -39,7 +39,7 @@ class EmpresaController extends Controller
     public function crearProyecto($texto)
     {
         try {
-             $empresa = DatosEmpresa::find($texto);
+            $empresa = DatosEmpresa::find($texto);
 
             if (!file_exists('/var/www/' . $empresa->dominio)) {
                 try {
@@ -52,6 +52,32 @@ class EmpresaController extends Controller
             }
         } catch (\Throwable $th) {
             //throw $th;
+        }
+    }
+
+    public function actualizarGit()
+    {
+        try {
+
+            //exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
+
+            $respuesta = [
+                "/var/www/don.ghcontigo.com ---> Proyecto Actualizado",
+                "/var/www/en.levelte.com ---> Proyecto Actualizado",
+                "/var/www/nati.eslavoz.com ---> Proyecto Actualizado",
+                "/var/www/tapia.eslavoz.com ---> Proyecto Actualizado",
+                "/var/www/yaipen.eslavoz.com ---> Proyecto Actualizado"
+            ];
+
+            $nueva_lista = [];
+
+            foreach ($respuesta as $d) {
+                $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
+            }
+
+            return $nueva_lista;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
         }
     }
 
@@ -128,13 +154,13 @@ class EmpresaController extends Controller
 
 
             DB::commit();
-           //if (!file_exists('/var/www/' . $texto)) {
-           //    try {
-           //        $comando = exec("sh /var/www/bjar.sh $texto");
-           //    } catch (ValidationException $e) {
-           //        Log::error('comando: ' . json_encode($e));
-           //    }
-           //}
+            //if (!file_exists('/var/www/' . $texto)) {
+            //    try {
+            //        $comando = exec("sh /var/www/bjar.sh $texto");
+            //    } catch (ValidationException $e) {
+            //        Log::error('comando: ' . json_encode($e));
+            //    }
+            //}
 
 
             return redirect()->route('empresas.admin');
