@@ -179,6 +179,8 @@
         });
 
         $('body').on('click', '.actualizar-git', async function() {
+            $('#newModal').modal('show');
+
             await $.ajax({
                 method: "GET",
                 url: "/actualizar/git/proyectos-empresas",
