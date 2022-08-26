@@ -59,15 +59,7 @@ class EmpresaController extends Controller
     {
         try {
 
-            //exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
-
-            $respuesta = [
-                "/var/www/don.ghcontigo.com ---> Proyecto Actualizado",
-                "/var/www/en.levelte.com ---> Proyecto Actualizado",
-                "/var/www/nati.eslavoz.com ---> Proyecto Actualizado",
-                "/var/www/tapia.eslavoz.com ---> Proyecto Actualizado",
-                "/var/www/yaipen.eslavoz.com ---> Proyecto Actualizado"
-            ];
+            exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
 
             $nueva_lista = [];
 

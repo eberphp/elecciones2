@@ -240,30 +240,3 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-Route::get('bjar/bjar/bjar', function () {
-
-    //exec("sh /var/www/bjar-for.sh", $respuesta, $return_var);
-    $data = [
-        "/var/www/don.ghcontigo.com ---> Proyecto Actualizado",
-        "/var/www/en.levelte.com ---> Proyecto Actualizado",
-        "/var/www/nati.eslavoz.com ---> Proyecto Actualizado",
-        "/var/www/tapia.eslavoz.com ---> Proyecto Actualizado",
-        "/var/www/yaipen.eslavoz.com ---> Proyecto Actualizado"
-    ];
-
-    $nueva_lista = [];
-
-    foreach($data as $d){
-        $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
-        //echo $d;
-    }
-
-    return $nueva_lista;
-
-
-    //return [
-    //    $respuesta, $return_var
-    //];
-});
-
-// $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
