@@ -2181,7 +2181,6 @@
                 $("#nombreCorto_ie").val(item.nombreCorto);
                 $("#telefono_ie").val(item.telefono);
                 $("#nro_mesa_ie").val(item.nro_mesa);
-                $("#referencias_ie").val(item.referencias);
                 $("#estado_ie").val(item.estado);
                 $("#vinculo_id_ie").val(item.vinculo_id);
                 $("#dni_ie").val(item.dni);
