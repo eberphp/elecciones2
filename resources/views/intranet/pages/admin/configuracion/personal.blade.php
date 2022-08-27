@@ -1536,6 +1536,7 @@
             },
             {
                 data: "tipo_usuario.nivel",
+                searchable:false,
                 render: function(data) {
                     return data ? data : "";
                 }
