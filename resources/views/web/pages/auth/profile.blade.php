@@ -1,16 +1,7 @@
 @extends('layouts.appweb')
 
 @section('content')
-    <?php
     
-    $pp = Auth::guard('personal')->user();
-    $permisos = [];
-    if ($pp) {
-        foreach ($pp->asignaciones as $asignacion) {
-            $permisos[] = $asignacion->permiso->nombre;
-        }
-    }
-    ?>
 
     <div class="container">
         <div class="row">
@@ -25,26 +16,22 @@
                                     <div class="form-group">
                                         <label class="form-label">N° mesa</label>
                                         <input type="text" name="id" class="form-control" id="id_ie"
-                                            value="{{ $pp->nro_mesa }}" readonly>
+                                            value="{{ $personal->nro_mesa }}" readonly>
                                         <div class="invalid-feedback" id="invalidNombresCreate">
                                         </div>
                                     </div>
                                 </div>
-                                @if (in_array('Nombres y apellidos', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Nombres</label>
                                             <input type="hidden" name="id" class="form-control" id="id_ie"
-                                                value="{{ $pp->id }}">
+                                                value="{{ $personal->id }}">
                                             <input type="text" value="{{ $personal->nombres }}" name="nombres"
                                                 class="form-control" id="nombres_ie">
                                             <div class="invalid-feedback" id="invalidNombresCreate">
                                             </div>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Nombre corto', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Nombre Corto</label>
@@ -53,9 +40,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Teléfono', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Telefono</label>
@@ -64,10 +48,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-
-                                @if (in_array('DNI', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Dni</label>
@@ -76,9 +56,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Correo', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Correo</label>
@@ -87,7 +64,6 @@
 
                                         </div>
                                     </div>
-                                @endif
 
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -96,8 +72,6 @@
                                             value="{{ $personal->clave }}">
                                     </div>
                                 </div>
-
-                                @if (in_array('Fecha ingreso', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Fecha ingreso</label>
@@ -105,8 +79,6 @@
                                                 value="{{ $personal->fecha_ingreso }}" id="fecha_ingreso_ie">
                                         </div>
                                     </div>
-                                @endif
-                                @if (in_array('Departamento', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Departamento</label>
@@ -120,9 +92,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Provincia', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Provincia</label>
@@ -132,9 +101,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Distrito', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Distrito</label>
@@ -144,8 +110,6 @@
                                             </select>
                                         </div>
                                     </div>
-                                @endif
-                                @if (in_array('Foto', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Foto</label>
@@ -153,8 +117,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-                                @if (in_array('CV', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Cv</label>
@@ -162,9 +124,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Facebook', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Url facebook</label>
@@ -173,9 +132,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('WhatsApp', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Url 1</label>
@@ -184,9 +140,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Instagram', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">Url 2</label>
@@ -195,10 +148,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-
-                                @if (in_array('PPD', $permisos))
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label class="form-label">PPD</label>
@@ -207,9 +156,6 @@
 
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Referencias', $permisos))
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">
@@ -218,9 +164,6 @@
                                             <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Perfil', $permisos))
                                     <div class="col-md-12">
 
                                         <div class="form-group">
@@ -230,10 +173,6 @@
                                             <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
                                         </div>
                                     </div>
-                                @endif
-
-
-                                @if (in_array('Evaluación', $permisos))
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">
@@ -242,9 +181,6 @@
                                             <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Observaciones', $permisos))
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">
@@ -253,9 +189,6 @@
                                             <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ $personal->observaciones }}</textarea>
                                         </div>
                                     </div>
-                                @endif
-
-                                @if (in_array('Sugerencias', $permisos))
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label class="form-label">
@@ -264,7 +197,6 @@
                                             <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
                                         </div>
                                     </div>
-                                @endif
                             </div>
                             <div class="w-100 d-flex justify-content-end my-4">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
