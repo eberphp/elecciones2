@@ -55,7 +55,7 @@ class PersonalController extends Controller
     public function index()
     {
         try {
-            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "funcion")->where('datos_empresa_id', idEmpresa())->get();
+            $personal = Personal::with("cargo", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "funcion")->where('datos_empresa_id', idEmpresa())->get();
             $maxid = Personal::max('id');
             return response()->json(["personal" => $personal, "success" => true, "maxid" => $maxid], 200);
         } catch (Exception $e) {
@@ -64,7 +64,17 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "departamento", "provincia", "distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
+        return DataTables::of($areas)->make(true);
+    }
+    public function paginationIntranet(Request $request)
+    {
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","intranet");
+        return DataTables::of($areas)->make(true);
+    }
+    public function paginationWeb(Request $request)
+    {
+        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","web");
         return DataTables::of($areas)->make(true);
     }
 
@@ -259,6 +269,7 @@ class PersonalController extends Controller
             $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
             $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
+            $personal->nro_mesa = isset($request->nro_mesa) ? $request->nro_mesa : "";
             $datosempresa = null;
             if ($usuarioregistrador->personal) {
                 $datosempresa = DatosEmpresa::find($usuarioregistrador->personal->empresa_id);
@@ -379,13 +390,22 @@ class PersonalController extends Controller
             $personal->estado = isset($request->estado) ? $request->estado : "";
             $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
             $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
-            $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
-            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
-            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
-            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
-            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+            if(isset($request->sugerencias) && $request->sugerencias){
 
-            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
+                $personal->sugerencias =  $request->sugerencias ;
+            }
+            
+            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
+            if(isset($request->observaciones) && $request->observaciones){
+                $personal->observaciones = $request->observaciones;
+            }
+
+            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
+            $personal->nro_mesa = isset($request->nro_mesa) ? $request->nro_mesa : "";
+            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+            if(isset($request->observaciones) && $request->observaciones){
+                $personal->observaciones = $request->observaciones;
+            }
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->save();
 

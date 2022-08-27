@@ -246,6 +246,12 @@
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                 </a>
                             </li>
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ request()->is('configuracion/personal_web') ? 'active' : '' }}"
+                                    href="{{ route('configuracion.personalweb') }}">
+                                    <span class="sidenav-normal"> Personal web <b class="caret"></b></span>
+                                </a>
+                            </li>
 
                         </ul>
                     </div>
@@ -894,6 +900,12 @@
                                 <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
                                     href="{{ route('configuracion.personal') }}">
                                     <span class="sidenav-normal"> Personal <b class="caret"></b></span>
+                                </a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link  {{ request()->is('configuracion/personal_web') ? 'active' : '' }}"
+                                    href="{{ route('configuracion.personalweb') }}">
+                                    <span class="sidenav-normal"> Personal web <b class="caret"></b></span>
                                 </a>
                             </li>
 

@@ -85,6 +85,8 @@ Route::resource("evaluacion", EvaluacionController::class);
 Route::post("personal/cv", [PersonalController::class, "uploadCv"]);
 Route::post("personal/image", [PersonalController::class, "uploadImage"]);
 
+Route::post("personal/pagination_intranet",[PersonalController::class, "paginationIntranet"]);
+Route::post("personal/pagination_web",[PersonalController::class, "paginationWeb"]);
 Route::post("personal/pagination", [PersonalController::class, "pagination"]);
 Route::resource("personal", PersonalController::class);
 

@@ -1,6 +1,17 @@
 @extends('layouts.appweb')
 
 @section('content')
+    <?php
+    
+    $pp = Auth::guard('personal')->user();
+    $permisos = [];
+    if ($pp) {
+        foreach ($pp->asignaciones as $asignacion) {
+            $permisos[] = $asignacion->permiso->nombre;
+        }
+    }
+    ?>
+
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -8,49 +19,76 @@
                     <div class="card-body">
                         <form action="" class="card-body p-4" id="editForm">
                             <h1>Perfil</h1>
+                            @csrf
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label">Nombres</label>
-                                        <input type="hidden" name="id" class="form-control" id="id_ie">
-                                        <input type="text" value="{{ $personal->nombres }}" name="nombres"
-                                            class="form-control" id="nombres_ie">
+                                        <label class="form-label">N° mesa</label>
+                                        <input type="text" name="id" class="form-control" id="id_ie"
+                                            value="{{ $pp->nro_mesa }}" readonly>
                                         <div class="invalid-feedback" id="invalidNombresCreate">
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Nombre Corto</label>
-                                        <input type="text" value="{{ $personal->nombreCorto }}" name="nombre_corto"
-                                            class="form-control" id="nombreCorto_ie">
-
+                                @if (in_array('Nombres y apellidos', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Nombres</label>
+                                            <input type="hidden" name="id" class="form-control" id="id_ie"
+                                                value="{{ $pp->id }}">
+                                            <input type="text" value="{{ $personal->nombres }}" name="nombres"
+                                                class="form-control" id="nombres_ie">
+                                            <div class="invalid-feedback" id="invalidNombresCreate">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Telefono</label>
-                                        <input type="text" name="telefono" value="{{ $personal->telefono }}"
-                                            class="form-control" id="telefono_ie">
+                                @endif
 
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Dni</label>
-                                        <input type="text" required name="dni" class="form-control"
-                                            value="{{ $personal->dni }}" id="dni_ie">
+                                @if (in_array('Nombre corto', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Nombre Corto</label>
+                                            <input type="text" value="{{ $personal->nombreCorto }}" name="nombre_corto"
+                                                class="form-control" id="nombreCorto_ie">
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Correo</label>
-                                        <input type="text" name="correo" class="form-control" id="correo_ie"
-                                            value="{{ $personal->correo }}">
+                                @endif
 
+                                @if (in_array('Teléfono', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Telefono</label>
+                                            <input type="text" name="telefono" value="{{ $personal->telefono }}"
+                                                class="form-control" id="telefono_ie">
+
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
+
+                                @if (in_array('DNI', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Dni</label>
+                                            <input type="text" required name="dni" class="form-control"
+                                                value="{{ $personal->dni }}" id="dni_ie">
+
+                                        </div>
+                                    </div>
+                                @endif
+
+                                @if (in_array('Correo', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Correo</label>
+                                            <input type="text" name="correo" class="form-control" id="correo_ie"
+                                                value="{{ $personal->correo }}">
+
+                                        </div>
+                                    </div>
+                                @endif
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Clave</label>
@@ -58,219 +96,175 @@
                                             value="{{ $personal->clave }}">
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Fecha ingreso</label>
-                                        <input type="date" name="fecha_ingreso" class="form-control"
-                                            value="{{ $personal->fecha_ingreso }}" id="fecha_ingreso_ie">
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Cargo</label>
-                                        <select name="cargo_id" class="form-control" id="cargo_id_ie"
-                                            value="{{ $personal->cargo_id }}">
 
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($cargos as $cargo)
-                                                <option value="{{ $cargo->id }}">{{ $cargo->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                @if (in_array('Fecha ingreso', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Fecha ingreso</label>
+                                            <input type="date" name="fecha_ingreso" class="form-control"
+                                                value="{{ $personal->fecha_ingreso }}" id="fecha_ingreso_ie">
+                                        </div>
+                                    </div>
+                                @endif
+                                @if (in_array('Departamento', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Departamento</label>
+                                            <select name="departamento" class="form-control" id="departamento_ie"
+                                                value="{{ $personal->departamento }}">
+                                                <option value=""> -- Seleccione -- </option>
+                                                @foreach ($departamentos as $departamento)
+                                                    <option value="{{ $departamento->id }}" @if($departamento->id==$personal->departamento) selected="selected" @endif>
+                                                        {{ $departamento->departamento }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
 
+                                @if (in_array('Provincia', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Provincia</label>
+                                            <select name="provincia" class="form-control" id="provincia_ie"
+                                                value="{{ $personal->provincia }}">
+                                                <option value=""> -- Seleccione -- </option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Vinculo</label>
-                                        <select name="vinculo_id" class="form-control" id="vinculo_id_ie"
-                                            value="{{ $personal->vinculo_id }}">
+                                @if (in_array('Distrito', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Distrito</label>
+                                            <select name="distrito" class="form-control" id="distrito_ie"
+                                                value="{{ $personal->distrito }}">
+                                                <option value=""> -- Seleccione -- </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if (in_array('Foto', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Foto</label>
+                                            <input type="file" name="foto" class="form-control" id="foto_ie">
 
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($vinculos as $vinculo)
-                                                <option value="{{ $vinculo->id }}">{{ $vinculo->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        </div>
+                                    </div>
+                                @endif
+                                @if (in_array('CV', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Cv</label>
+                                            <input type="file" name="cv" class="form-control" id="cv_ie">
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Tipo de usuario</label>
-                                        <select name="tipo_usuarios_id" class="form-control" id="tipo_usuarios_id_ie"
-                                            value="{{ $personal->tipo_usuarios_id }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($tipoUsuarios as $tipoUsuario)
-                                                <option value="{{ $tipoUsuario->id }}">
-                                                    {{ $tipoUsuario->nivel }}</option>
-                                            @endforeach
-                                        </select>
+                                @endif
 
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Tipo ubigeo</label>
-                                        <select name="tipo_ubigeo" class="form-control" id="tipo_ubigeo_ie"
-                                            value="{{ $personal->tipo_ubigeo }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($tipoUbigeos as $tipoUbigeo)
-                                                <option value="{{ $tipoUbigeo->id }}">
-                                                    {{ $tipoUbigeo->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Puesto</label>
-                                        <select name="puesto_id" class="form-control" id="puesto_id_ie"
-                                            value="{{ $personal->puesto_id }}
-                                    <option value="">
-                                            -- Seleccione -- </option>
-                                            @foreach ($puestos as $puesto)
-                                                <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                @if (in_array('Facebook', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Url facebook</label>
+                                            <input type="text" name="url_facebook" class="form-control"
+                                                id="url_facebook_ie" value="{{ $personal->url_facebook }}">
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Funcion</label>
-                                        <select name="funcion_id" class="form-control" id="funcion_id_ie"
-                                            value="{{ $personal->funcion_id }}" <option value=""> -- Seleccione --
-                                            </option>
-                                            @foreach ($funciones as $funcion)
-                                                <option value="{{ $funcion->id }}">
-                                                    {{ $funcion->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Estado</label>
-                                        <select name="estado" class="form-control" id="estado_ie"
-                                            value="{{ $personal->estado }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($estadoEvaluaciones as $estado)
-                                                <option value="{{ $estado->id }}">
-                                                    {{ $estado->nombre }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Departamento</label>
-                                        <select name="departamento" class="form-control" id="departamento_ie"
-                                            value="{{ $personal->departamento }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                            @foreach ($departamentos as $departamento)
-                                                <option value="{{ $departamento->id }}">
-                                                    {{ $departamento->departamento }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Provincia</label>
-                                        <select name="provincia" class="form-control" id="provincia_ie"
-                                            value="{{ $personal->provincia }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Distrito</label>
-                                        <select name="distrito" class="form-control" id="distrito_ie"
-                                            value="{{ $personal->distrito }}">
-                                            <option value=""> -- Seleccione -- </option>
-                                        </select>
-                                    </div>
-                                </div>
+                                @endif
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Url facebook</label>
-                                        <input type="text" name="url_facebook" class="form-control"
-                                            id="url_facebook_ie" value="{{ $personal->url_facebook }}">
+                                @if (in_array('WhatsApp', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Url 1</label>
+                                            <input type="text" name="url_1" class="form-control" id="url_1_ie"
+                                                value="{{ $personal->url_1 }}">
 
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
 
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Url 1</label>
-                                        <input type="text" name="url_1" class="form-control" id="url_1_ie"
-                                            value="{{ $personal->url_1 }}">
+                                @if (in_array('Instagram', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">Url 2</label>
+                                            <input type="text" name="url_2" class="form-control" id="url_2_ie"
+                                                value="{{ $personal->url_2 }}">
 
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">Url 2</label>
-                                        <input type="text" name="url_2" class="form-control" id="url_2_ie"
-                                            value="{{ $personal->url_2 }}">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">PPD</label>
-                                        <input type="text" name="ppd" class="form-control" id="ppd_ie"
-                                            value="{{ $personal->ppd }}">
-
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Referencias
-                                        </label>
-                                        <textarea class="form-control" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
+                                @endif
 
 
+                                @if (in_array('PPD', $permisos))
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="form-label">PPD</label>
+                                            <input type="text" name="ppd" class="form-control" id="ppd_ie"
+                                                value="{{ $personal->ppd }}">
+
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Perfil
-                                        </label>
-                                        <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
+                                @endif
+
+                                @if (in_array('Referencias', $permisos))
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                Referencias
+                                            </label>
+                                            <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Evaluacion
-                                        </label>
-                                        <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
+                                @endif
+
+                                @if (in_array('Perfil', $permisos))
+                                    <div class="col-md-12">
+
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                Perfil
+                                            </label>
+                                            <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Observaciones
-                                        </label>
-                                        <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ $personal->observaciones }}</textarea>
+                                @endif
+
+
+                                @if (in_array('Evaluación', $permisos))
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                Evaluacion
+                                            </label>
+                                            <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Sugerencias
-                                        </label>
-                                        <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
+                                @endif
+
+                                @if (in_array('Observaciones', $permisos))
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                Observaciones
+                                            </label>
+                                            <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ $personal->observaciones }}</textarea>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
+
+                                @if (in_array('Sugerencias', $permisos))
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="form-label">
+                                                Sugerencias
+                                            </label>
+                                            <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <div class="w-100 d-flex justify-content-end my-4">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
@@ -281,6 +275,8 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="" id="departamentohidden" value="{{$personal->departamento}}">
+    <input type="hidden" name="" id="provinciahidden" value="{{$personal->provincia}}"><input type="hidden" name="" id="distritohidden" value="{{$personal->distrito}}">
 @endsection
 
 
@@ -298,6 +294,61 @@
         var customtable = null;
         var datos = [];
         $(document).ready(function() {
+           let valordepartamento=$("#departamentohidden").val();
+           console.log(valordepartamento);
+            if (valordepartamento) {
+                $("#distrito_ie").empty();
+                $("#provincia_ie").empty();
+                $("#provincia_ie").append("<option value=''>--Seleccione--</option>");
+                $("#distrito_ie").append("<option value=''>--Seleccione--</option>");
+                if (valordepartamento) {
+                    const getProvincias = async (departamento_ie) => {
+                        const res = await fetch(`/api/provincias/${departamento_ie}`);
+                        const data = await res.json();
+                        if (data) {
+                            $("#provincia_ie").empty();
+                            let content = "";
+                            data.forEach((data) => {
+                                content +=
+                                    `<option value="${data.id}">${data.provincia}</option>`
+                            })
+                            $("#provincia_ie").append("<option value=''>--Seleccione--</option>");
+                            $("#provincia_ie").append(content);
+                            if ($("#provinciahidden").val()) {
+
+                                $("#provincia_ie").val($("#provinciahidden").val());
+                            }
+                        }
+                    }
+                    getProvincias(valordepartamento);
+                }
+            }
+            let valorprovincia=$("#provinciahidden").val();
+            if (valorprovincia) {
+                $("#distrito_ie").empty();
+                $("#distrito_ie").html("<option value=''>--Seleccione--</option>");
+                if (valorprovincia) {
+                    const getDistritos = async (departamento_ie, provincia) => {
+                        const res = await fetch(`/api/distritos/${departamento_ie}/${provincia}`);
+                        const data = await res.json();
+                        if (data) {
+                            $("#distrito_ie").empty();
+                            let content = "";
+                            data.forEach((data) => {
+                                content +=
+                                    `<option value="${data.id}">${data.distrito}</option>`
+                            })
+                            $("#distrito_ie").append("<option value=''>--Seleccione--</option>");
+                            $("#distrito_ie").append(content);
+                            if ($("#distritohidden").val()) {
+                                $("#distrito_ie").val($("#distritohidden").val());
+                            }
+                        }
+                    }
+
+                    getDistritos(valordepartamento, valorprovincia);
+                }
+            }
             $(".close-modall").on("click", function() {
                 $("#newModal").modal("hide");
                 $("#editModal").modal("hide");
@@ -480,6 +531,7 @@
                 });
                 const formData = new FormData();
                 let documents = true;
+
                 if ($("#foto_ic")[0].files[0]) {
                     formData.append('foto', $("#foto_ic")[0].files[0]);
                 }
@@ -531,15 +583,41 @@
                     objtValues[item.name] = item.value;
                 });
                 if (validateFormEdit(objtValues)) {
-                    objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
-                    objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
-                    objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
-                    objtValues['sugerencias'] = CKEDITOR.instances['sugerencias_ie'].getData();
+                    if ($("#perfil_ie")) {
+                        objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
+                    }
+                    if ($("#evaluacion_ie")) {
+                        objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
+                    }
+                    if ($("#observaciones_ie")) {
+                        objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
+                    }
+                    if ($("#referencias_ie")) {
+                        objtValues['referencias'] = CKEDITOR.instances['referencias_ie'].getData();
+                    }
+
                     console.log(objtValues);
+                    const formData = new FormData();
+                    let documents = true;
+                    if ($("#foto_ie")) {
+                        if ($("#foto_ie")[0].files[0]) {
+                            formData.append('foto', $("#foto_ie")[0].files[0]);
+                        }
+                    }
+                    if ($("#cv_ie")) {
+                        if ($("#cv_ie")[0].files[0]) {
+                            formData.append('cv', $("#cv_ie")[0].files[0]);
+                        }
+                    }
+                    Object.keys(objtValues).forEach((e) => {
+                        formData.append(e, objtValues[e]);
+                    });
                     $.ajax({
-                        url: `/api/personal/${objtValues.id}`,
-                        type: "PUT",
-                        data: objtValues,
+                        url: `/auth/profile/${objtValues.id}`,
+                        type: "POST",
+                        data: formData,
+                        contentType: false,
+                        processData: false,
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                                 "content"
@@ -547,9 +625,12 @@
                         },
                         success: function(data) {
                             if (data.success) {
-                                customtable.ajax.reload();
                                 $("#editModal").modal("hide");
-                                Swal.fire("", data.message, "success");
+                                Swal.fire("", "Tus datos fueron actualizados correctamente",
+                                    "success");
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 100);
                             } else {
                                 Swal.fire("", "No se a podido actualizar", "error");
                             }

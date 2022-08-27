@@ -82,6 +82,7 @@
     </div>
     
     <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @yield('script')
     
 </body>

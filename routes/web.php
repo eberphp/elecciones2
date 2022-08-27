@@ -50,6 +50,7 @@ Route::get("auth/login", [AuthPersonalController::class, "index"])->name("web.lo
 Route::post("auth/login", [AuthPersonalController::class, "login"])->name("web.login.post");
 Route::post("auth/logout", [AuthPersonalController::class, "logout"])->name("web.logout");
 Route::get("auth/profile", [AuthPersonalController::class, "profile"])->name("web.profile")->middleware("auth.personal");
+Route::post("auth/profile/{id}", [AuthPersonalController::class, "update"])->name("web.profile.update");
 Route::get("auth/register", [AuthPersonalController::class, "create"])->name("web.register.view");
 Route::post("auth/register", [AuthPersonalController::class, "store"])->name("web.register.post");
 Route::get('/', [WebController::class, 'index'])->name('/');
@@ -187,6 +188,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get("estadoActividad", [ConfiguracionController::class, "estadoActividad"])->name("configuracion.estadoActividad");
         Route::get("estadoProceso", [ConfiguracionController::class, "estadoProceso"])->name("configuracion.estadoProceso");
         Route::get("personal", [ConfiguracionController::class, "personal"])->name("configuracion.personal");
+        Route::get("personal_web",[ConfiguracionController::class, "personal_web"])->name("configuracion.personalweb");
     });
 });
 

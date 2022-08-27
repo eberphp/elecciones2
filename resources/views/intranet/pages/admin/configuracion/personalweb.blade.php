@@ -302,14 +302,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label class="form-label">Nro. mesa</label>
-                                                    <input type="text" required name="nro_mesa"
-                                                        class="form-control" id="nro_mesa_ic">
-
-                                                </div>
-                                            </div>
                                             @if (in_array('PPD', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -319,7 +311,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                           
                                             @if (in_array('Referencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -634,7 +625,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            
                                             @if (in_array('Instagram', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -711,6 +701,7 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            
                                             @if (in_array('Sugerencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -930,16 +921,14 @@
                     <div class="card-header bg-secondary">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="text-white">Personal</h5>
+                                <h5 class="text-white">Personal web</h5>
                                 @if (auth()->user()->personal)
                                     <input type="hidden" name="user_autenticated"
                                         value="{{ auth()->user()->personal->id }}" id="user_autenticated">
                                 @endif
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-                                <button class="btn btn-primary btn-xs mx-2" id="crear"><i
-                                        class="fa fa-plus-circle"></i>
-                                    Crear</button>
+                                
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -2047,7 +2036,7 @@
                 customtable = $("#datatable").DataTable({
                     "serverSide": true,
                     "ajax": {
-                        "url": "/api/personal/pagination_intranet",
+                        "url": "/api/personal/pagination_web",
                         "type": "POST",
                         "dataSrc": function(data) {
                             console.log(data);
@@ -2165,7 +2154,6 @@
                 $("#puesto_id_ie").val(item.puesto_id);
                 $("#nombreCorto_ie").val(item.nombreCorto);
                 $("#telefono_ie").val(item.telefono);
-                $("#nro_mesa_ie").val(item.nro_mesa);
                 $("#referencias_ie").val(item.referencias);
                 $("#estado_ie").val(item.estado);
                 $("#vinculo_id_ie").val(item.vinculo_id);
@@ -2176,6 +2164,8 @@
                 $("#correo_ie").val(item.correo);
                 $("#tipo_usuarios_id_ie").val(item.tipo_usuarios_id);
                 $("#tipo_ubigeo_id_ie").val(item.tipo_ubigeo_id);
+                
+                $("#nro_mesa_ie").val(item.nro_mesa);
                 if (item.departamento) {
                     $("#departamento_ie").val(item.departamento);
                     let value = item.departamento;

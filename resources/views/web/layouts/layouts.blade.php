@@ -172,7 +172,7 @@
                                 <a class="nav-link dropdown-toggle p-0" data-toggle="dropdown" href="#"
                                      role="button"
                                     aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
-                                        src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
+                                        src="/storage/{{ auth('personal')->user()->foto }}"  alt=""></a>
                                 <div class="dropdown-menu">
 
                                     <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
@@ -187,8 +187,7 @@
                                     aria-haspopup="true" aria-expanded="false"><img style="width: 50px; height:50px;border-radius:50%"
                                         src="{{ asset('/web/img/avatar.png') }}"  alt=""></a>
                                 <div class="dropdown-menu">
-
-                                    <a class="dropdown-item" href="#">{{auth('personal')->user()->nombres}}</a>
+                                    <a class="dropdown-item" href="{{route('web.profile')}}">{{auth('personal')->user()->nombres}}</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}">Perfil</a>
                                     <a class="dropdown-item" href="{{route('web.profile')}}" onclick="event.preventDefault();
                                     document.getElementById('logout-form').submit();">Cerrar sesión</a>
