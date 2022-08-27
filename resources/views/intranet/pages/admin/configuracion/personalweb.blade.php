@@ -302,6 +302,14 @@
                                                     </div>
                                                 </div>
                                             @endif
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Nro. mesa</label>
+                                                    <input type="text" required name="nro_mesa" class="form-control"
+                                                        id="nro_mesa_ic">
+
+                                                </div>
+                                            </div>
                                             @if (in_array('PPD', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -311,6 +319,7 @@
                                                     </div>
                                                 </div>
                                             @endif
+
                                             @if (in_array('Referencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -625,6 +634,7 @@
                                                     </div>
                                                 </div>
                                             @endif
+
                                             @if (in_array('Instagram', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -638,8 +648,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Nro. mesa</label>
-                                                    <input type="text" required name="nro_mesa"
-                                                        class="form-control" id="nro_mesa_ie">
+                                                    <input type="text" required name="nro_mesa" class="form-control"
+                                                        id="nro_mesa_ie">
 
                                                 </div>
                                             </div>
@@ -701,7 +711,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            
                                             @if (in_array('Sugerencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -921,14 +930,14 @@
                     <div class="card-header bg-secondary">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="text-white">Personal web</h5>
+                                <h5 class="text-white">Personal</h5>
                                 @if (auth()->user()->personal)
                                     <input type="hidden" name="user_autenticated"
                                         value="{{ auth()->user()->personal->id }}" id="user_autenticated">
                                 @endif
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-                                
+                              
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -981,9 +990,10 @@
                                         @if (in_array('Nombres y apellidos', $permisos))
                                             <th> Nombres y Apellidos</th>
                                         @endif
-                                        @if (in_array('PPD', $permisos))
-                                            <th> PPD</th>
+                                        @if (in_array('Estado', $permisos))
+                                            <th> Estado</th>
                                         @endif
+
 
                                         @if (in_array('Perfil', $permisos))
                                             <th> Perfil</th>
@@ -996,6 +1006,9 @@
                                         @endif
                                         @if (in_array('Evaluación', $permisos))
                                             <th>Evaluacion</th>
+                                        @endif
+                                        @if (in_array('PPD', $permisos))
+                                            <th> PPD</th>
                                         @endif
                                         @if (in_array('Facebook', $permisos))
                                             <th> URL_facebook</th>
@@ -1018,9 +1031,7 @@
                                         @if (in_array('Referencias', $permisos))
                                             <th> Referencias</th>
                                         @endif
-                                        @if (in_array('Estado', $permisos))
-                                            <th> Estado</th>
-                                        @endif
+
                                         @if (in_array('Vínculo', $permisos))
                                             <th>Vinculo</th>
                                         @endif
@@ -1072,11 +1083,14 @@
                                         <th>Accion</th>
                                         <th> id</th>
                                         <th> Nombres y Apellidos</th>
-                                        <th> PPD</th>
+
+
+                                        <th> Estado</th>
                                         <th> Perfil</th>
                                         <th> Foto</th>
                                         <th> Cv</th>
                                         <th>Evaluacion</th>
+                                        <th> PPD</th>
                                         <th> URL_facebook</th>
                                         <th> URL_1</th>
                                         <th> URL_1</th>
@@ -1084,7 +1098,6 @@
                                         <th> Nombre Corto</th>
                                         <th> Telefono</th>
                                         <th> Referencias</th>
-                                        <th> Estado</th>
                                         <th>Vinculo</th>
                                         <th> Dni</th>
                                         <th> Clave</th>
@@ -1153,15 +1166,17 @@
                 },
             },
             {
-                name: "PPD",
+                name: "Estado",
                 level: 2,
                 value: {
-                    data: "ppd",
+                    data: "estado",
                     render: function(data) {
                         return data ? data : "";
                     }
                 },
+
             },
+
             {
                 name: "Perfil",
                 level: 2,
@@ -1200,6 +1215,15 @@
                     data: "evaluacion",
                     render: function(data, row, type) {
                         return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
+                    }
+                },
+            }, {
+                name: "PPD",
+                level: 2,
+                value: {
+                    data: "ppd",
+                    render: function(data) {
+                        return data ? data : "";
                     }
                 },
             },
@@ -1282,17 +1306,6 @@
                         return "";
                     }
                 }
-
-            },
-            {
-                name: "Estado",
-                level: 2,
-                value: {
-                    data: "estado",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
 
             },
             {
@@ -1410,9 +1423,8 @@
                 render: function(data) {
                     return data ? data : "";
                 }
-            },
-            {
-                data: "ppd",
+            }, {
+                data: "estado",
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -1440,6 +1452,12 @@
                 data: "evaluacion",
                 render: function(data, row, type) {
                     return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
+                }
+            },
+            {
+                data: "ppd",
+                render: function(data) {
+                    return data ? data : "";
                 }
             },
             {
@@ -1492,12 +1510,7 @@
                     return "";
                 }
             },
-            {
-                data: "estado",
-                render: function(data) {
-                    return data ? data : "";
-                }
-            },
+
             {
                 data: "vinculo.nombre",
                 render: function(data) {
@@ -2154,6 +2167,7 @@
                 $("#puesto_id_ie").val(item.puesto_id);
                 $("#nombreCorto_ie").val(item.nombreCorto);
                 $("#telefono_ie").val(item.telefono);
+                $("#nro_mesa_ie").val(item.nro_mesa);
                 $("#referencias_ie").val(item.referencias);
                 $("#estado_ie").val(item.estado);
                 $("#vinculo_id_ie").val(item.vinculo_id);
@@ -2164,8 +2178,6 @@
                 $("#correo_ie").val(item.correo);
                 $("#tipo_usuarios_id_ie").val(item.tipo_usuarios_id);
                 $("#tipo_ubigeo_id_ie").val(item.tipo_ubigeo_id);
-                
-                $("#nro_mesa_ie").val(item.nro_mesa);
                 if (item.departamento) {
                     $("#departamento_ie").val(item.departamento);
                     let value = item.departamento;

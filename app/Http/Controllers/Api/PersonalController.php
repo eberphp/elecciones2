@@ -368,45 +368,93 @@ class PersonalController extends Controller
             }
 
             $personal = Personal::find($id);
-            $personal->nombres = isset($request->nombres) ? $request->nombres : "";
-            $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
-            $personal->ppd = isset($request->ppd) ? $request->ppd : "";
-            $personal->perfil = isset($request->perfil) ? $request->perfil : "";
-            $personal->url_facebook = isset($request->url_facebook) ? $urlfacebook : "";
-            $personal->url_1 = isset($request->url_1) ? $url1 : "";
-            $personal->url_2 = isset($request->url_2) ? $url2 : "";
-            $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
-            $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
-            $personal->telefono = isset($request->telefono) ? $request->telefono : "";
-            $personal->referencias = isset($request->referencias) ? $request->referencias : "";
+            if(isset($request->nombres) && $request->nombres){
+                $personal->nombres = $request->nombres;
+            }
+            if(isset($request->cargo_id) && $request->cargo_id){
+                $personal->cargo_id = $request->cargo_id;
+            }
+            if(isset($request->ppd) && $request->ppd){
+                $personal->ppd = $request->ppd;
+            }
+            if(isset($request->perfil) && $request->perfil){
+                $personal->perfil = $request->perfil;
+            }
+            if(isset($request->url_facebook) && $request->url_facebook){
+                $personal->url_facebook = $urlfacebook;
+            }
+            if(isset($request->url_1) && $request->url_1){
+
+                $personal->url_1 = $url1 ;
+            }
+            if(isset($request->url_2) && $request->url_2){
+                $personal->url_2 = $url2 ;
+            }
+            if(isset($request->cargo_id) && $request->cargo_id){
+                $personal->puesto_id = $request->cargo_id;
+            }
+            if(isset($request->nombreCorto) && $request->nombreCorto){
+                $personal->nombreCorto = $request->nombre_corto;
+            }
+            if(isset($request->telefono) && $request->telefono){
+                $personal->telefono = $request->telefono;
+            }
+            if(isset($request->referencias) && $request->referencias){
+                $personal->referencias = $request->referencias;
+            }
             if ($request->clave) {
                 $personal->password = Hash::make($request->clave);
             }
-            $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
-            $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
-            $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
-            $personal->dni = isset($request->dni) ? $request->dni : "";
-            $personal->clave = isset($request->clave) ? $request->clave : "";
-            $personal->estado = isset($request->estado) ? $request->estado : "";
-            $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
-            $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
+            if(isset($request->evaluacion) && $request->evaluacion){
+                $personal->evaluacion = $request->evaluacion;
+            }
+            if(isset($request->vinculo_id) && $request->vinculo_id){
+                $personal->vinculo_id = $request->vinculo_id;
+            }
+            if(isset($request->funcion_id) && $request->funcion_id){
+                $personal->funcion_id = $request->funcion_id;
+            }
+            if(isset($request->dni) && $request->dni){
+                $personal->dni = $request->dni;
+            }
+            if(isset($request->clave) && $request->clave){
+                $personal->clave = $request->clave;
+            }
+            if(isset($request->estado) && $request->estado){
+                $personal->estado = $request->estado;
+            }
+            if(isset($request->tipo_ubigeo) && $request->tipo_ubigeo){
+                $personal->tipo_ubigeo = $request->tipo_ubigeo;
+            }
+            if(isset($request->fecha_ingreso) && $request->fecha_ingreso){
+                $personal->fecha_ingreso = $request->fecha_ingreso;
+            }
             if(isset($request->sugerencias) && $request->sugerencias){
 
                 $personal->sugerencias =  $request->sugerencias ;
             }
-            
-            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
-            if(isset($request->observaciones) && $request->observaciones){
-                $personal->observaciones = $request->observaciones;
-            }
+            if(isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id){
 
-            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
-            $personal->nro_mesa = isset($request->nro_mesa) ? $request->nro_mesa : "";
-            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id ;
+            }
             if(isset($request->observaciones) && $request->observaciones){
                 $personal->observaciones = $request->observaciones;
             }
-            $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
+            if(isset($request->departamento) && $request->departamento){
+                $personal->departamento = $request->departamento;
+            }
+            if(isset($request->nro_mesa) && $request->nro_mesa){
+                $personal->nro_mesa = $request->nro_mesa;
+            }
+            if(isset($request->provincia) && $request->provincia){
+                $personal->provincia = $request->provincia;
+            }
+            if(isset($request->observaciones) && $request->observaciones){
+                $personal->observaciones = $request->observaciones;
+            }
+            if(isset($request->distrito) && $request->distrito){
+                $personal->distrito = $request->distrito;
+            }
             $personal->save();
 
 
