@@ -407,7 +407,6 @@
                         formData.append(key, objtValues[key]);
                     });
                     formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
-                    formData.append('evaluacion', CKEDITOR.instances['evaluacion_ic'].getData());
                     formData.append('observaciones', CKEDITOR.instances['observaciones_ic'].getData());
                     formData.append('sugerencias', CKEDITOR.instances['sugerencias_ic'].getData());
                     $.ajax({
@@ -448,7 +447,6 @@
                 });
                 if (validateFormEdit(objtValues)) {
                     objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
-                    objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
                     objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
                     objtValues['sugerencias'] = CKEDITOR.instances['sugerencias_ie'].getData();
                     console.log(objtValues);

@@ -172,14 +172,7 @@
                                         <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
                                     </div>
                                 </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label class="form-label">
-                                            Evaluacion
-                                        </label>
-                                        <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
-                                    </div>
-                                </div>
+                                
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">
@@ -286,7 +279,6 @@
                 $("#editModal").modal("hide");
                 $("#cvModal").modal("hide");
                 $("#imagenModal").modal("hide");
-                $("#evaluacionModal").modal("hide");
                 $("#perfilModal").modal("hide");
                 $("#rolesModal").modal("hide");
             })
@@ -475,7 +467,6 @@
                         formData.append(key, objtValues[key]);
                     });
                     formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
-                    formData.append('evaluacion', CKEDITOR.instances['evaluacion_ic'].getData());
                     formData.append('observaciones', CKEDITOR.instances['observaciones_ic'].getData());
                     formData.append('sugerencias', CKEDITOR.instances['sugerencias_ic'].getData());
                     $.ajax({
@@ -518,9 +509,7 @@
                     if ($("#perfil_ie")) {
                         objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
                     }
-                    if ($("#evaluacion_ie")) {
-                        objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
-                    }
+                    
                     if ($("#observaciones_ie")) {
                         objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
                     }
