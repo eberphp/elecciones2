@@ -50,7 +50,7 @@ class AuthPersonalController extends Controller
                 ])->withInput();
             }
             $request->session()->regenerate();
-            return redirect()->to('/');
+            return redirect()->to('/auth/profile');
         }
         return back()->withErrors([
             'email' => 'Usuario incorrecto.',
