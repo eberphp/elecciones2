@@ -923,7 +923,7 @@
                                     </label>
                                     <select name="departamento" class="form-control form-control-sm"
                                         id="departamento_filter">
-                                        <option value=""> -- Seleccione -- </option>
+                                        <option value=""> -- Todos -- </option>
                                         @foreach ($departamentos as $departamento)
                                             <option value="{{ $departamento->id }}">
                                                 {{ $departamento->departamento }}</option>
@@ -935,7 +935,7 @@
                                 <div class="form-group">
                                     <label class="form-label text-white">Provincia</label>
                                     <select name="provincia" class="form-control form-control-sm" id="provincia_filter">
-                                        <option value=""> -- Seleccione -- </option>
+                                        <option value=""> -- Todos -- </option>
                                     </select>
                                 </div>
                             </div>
@@ -943,7 +943,7 @@
                                 <div class="form-group">
                                     <label class="form-label text-white">Distrito</label>
                                     <select name="distrito" class="form-control form-control-sm" id="distrito_filter">
-                                        <option value=""> -- Seleccione -- </option>
+                                        <option value=""> -- Todos -- </option>
                                     </select>
                                 </div>
                             </div>
@@ -1717,12 +1717,12 @@
                     .draw();
                 $("#distrito_filter").empty();
                 $("#provincia_filter").empty();
-                $("#provincia_filter").append("<option value=''>--Seleccione--</option>");
+                $("#provincia_filter").append("<option value=''>--Todos--</option>");
                 customtable
                     .column(31)
                     .search("")
                     .draw();
-                $("#distrito_filter").append("<option value=''>--Seleccione--</option>");
+                $("#distrito_filter").append("<option value=''>--Todos--</option>");
 
                 customtable
                     .column(32)
@@ -1741,7 +1741,7 @@
                                     `<option value="${data.id}">${data.provincia}</option>`
                             })
                             $("#provincia_filter").append(
-                                "<option value=''>--Seleccione--</option>");
+                                "<option value=''>--Todos--</option>");
                             $("#provincia_filter").append(content);
                         }
                     }
@@ -1755,7 +1755,7 @@
                     .search(value)
                     .draw();
                 $("#distrito_filter").empty();
-                $("#distrito_filter").html("<option value=''>--Seleccione--</option>");
+                $("#distrito_filter").html("<option value=''>--Todos--</option>");
                 customtable
                     .column(32)
                     .search("")
@@ -1772,7 +1772,7 @@
                                     `<option value="${data.id}">${data.distrito}</option>`
                             })
                             $("#distrito_filter").append(
-                                "<option value=''>--Seleccione--</option>");
+                                "<option value=''>--Todos--</option>");
                             $("#distrito_filter").append(content);
                         }
                     }
