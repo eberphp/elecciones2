@@ -549,9 +549,9 @@
                                 $("#editModal").modal("hide");
                                 Swal.fire("", "Tus datos fueron actualizados correctamente",
                                     "success");
-                                setTimeout(() => {
+                               /*  setTimeout(() => {
                                     location.reload();
-                                }, 100);
+                                }, 100); */
                             } else {
                                 Swal.fire("", "No se a podido actualizar", "error");
                             }
