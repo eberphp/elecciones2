@@ -64,17 +64,17 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
+        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     public function paginationIntranet(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","intranet");
+        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","intranet");
         return DataTables::of($areas)->make(true);
     }
     public function paginationWeb(Request $request)
     {
-        $areas = Personal::with("cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","web");
+        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","web");
         return DataTables::of($areas)->make(true);
     }
 

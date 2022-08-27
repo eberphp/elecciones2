@@ -43,4 +43,7 @@ class Personal extends Authenticatable
     {
     	return $this->hasMany(Asignacion::class);
     }
+    public function _estado(){
+        return $this->belongsTo(EstadoEvaluacion::class, 'estado');
+    }
 }

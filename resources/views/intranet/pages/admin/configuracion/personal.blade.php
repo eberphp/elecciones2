@@ -1171,7 +1171,7 @@
                 name: "Estado",
                 level: 2,
                 value: {
-                    data: "estado",
+                    data: "_estado.nombre",
                     render: function(data) {
                         return data ? data : "";
                     }
@@ -1426,7 +1426,7 @@
                     return data ? data : "";
                 }
             }, {
-                data: "estado",
+                data: "_estado.nombre",
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -2139,28 +2139,35 @@
                 if (item.perfil) {
                     let doc = parser.parseFromString(item.perfil, 'text/html');
                     html = doc.body.firstChild.data;
-                    CKEDITOR.instances['perfil_ie'].setData(html);
+                    try {
+                        CKEDITOR.instances['perfil_ie'].setData(html);
+                    } catch (e) {}
                 }
                 if (item.evaluacion) {
                     let doc2 = parser.parseFromString(item.evaluacion, 'text/html');
                     html2 = doc2.body.firstChild.data;
-
-                    CKEDITOR.instances['evaluacion_ie'].setData(html2);
+                    try {
+                        CKEDITOR.instances['evaluacion_ie'].setData(html2);
+                    } catch (e) {}
                 }
                 if (item.observaciones && item.sugerencias) {
                     let doc3 = parser.parseFromString(item.observaciones, 'text/html');
                     let doc4 = parser.parseFromString(item.sugerencias, 'text/html');
                     html3 = doc3.body.firstChild.data;
                     html4 = doc4.body.firstChild.data;
-
-                    CKEDITOR.instances['observaciones_ie'].setData(html3);
-
-                    CKEDITOR.instances['sugerencias_ie'].setData(html4);
+                    try {
+                        CKEDITOR.instances['observaciones_ie'].setData(html3);
+                    } catch (e) {}
+                    try {
+                        CKEDITOR.instances['sugerencias_ie'].setData(html4);
+                    } catch (e) {}
                 }
                 if (item.referencias) {
                     let doc5 = parser.parseFromString(item.referencias, 'text/html');
                     let html5 = doc5.body.firstChild.data;
-                    CKEDITOR.instances['referencias_ie'].setData(html5);
+                    try {
+                        CKEDITOR.instances['referencias_ie'].setData(html5);
+                    } catch (e) {}
                 }
                 $("#url_facebook_ie").val(item.url_facebook);
                 $("#url_1_ie").val(item.url_1);

@@ -210,6 +210,8 @@
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/tableexport.min.js') }}"></script>
     <script>
+        
+        CKEDITOR.instances['evaluacion_ie'].setData(html2);
         var customtable = null;
         var datos = [];
         $(document).ready(function() {

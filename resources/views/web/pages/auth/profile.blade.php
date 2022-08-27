@@ -1,8 +1,6 @@
 @extends('layouts.appweb')
 
 @section('content')
-    
-
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -21,49 +19,49 @@
                                         </div>
                                     </div>
                                 </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Nombres</label>
-                                            <input type="hidden" name="id" class="form-control" id="id_ie"
-                                                value="{{ $personal->id }}">
-                                            <input type="text" value="{{ $personal->nombres }}" name="nombres"
-                                                class="form-control" id="nombres_ie">
-                                            <div class="invalid-feedback" id="invalidNombresCreate">
-                                            </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombres</label>
+                                        <input type="hidden" name="id" class="form-control" id="id_ie"
+                                            value="{{ $personal->id }}">
+                                        <input type="text" value="{{ $personal->nombres }}" name="nombres"
+                                            class="form-control" id="nombres_ie">
+                                        <div class="invalid-feedback" id="invalidNombresCreate">
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Nombre Corto</label>
-                                            <input type="text" value="{{ $personal->nombreCorto }}" name="nombre_corto"
-                                                class="form-control" id="nombreCorto_ie">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre Corto</label>
+                                        <input type="text" value="{{ $personal->nombreCorto }}" name="nombre_corto"
+                                            class="form-control" id="nombreCorto_ie">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Telefono</label>
-                                            <input type="text" name="telefono" value="{{ $personal->telefono }}"
-                                                class="form-control" id="telefono_ie">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Telefono</label>
+                                        <input type="text" name="telefono" value="{{ $personal->telefono }}"
+                                            class="form-control" id="telefono_ie">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Dni</label>
-                                            <input type="text" required name="dni" class="form-control"
-                                                value="{{ $personal->dni }}" id="dni_ie">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Dni</label>
+                                        <input type="text" required name="dni" class="form-control"
+                                            value="{{ $personal->dni }}" id="dni_ie">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Correo</label>
-                                            <input type="text" name="correo" class="form-control" id="correo_ie"
-                                                value="{{ $personal->correo }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Correo</label>
+                                        <input type="text" name="correo" class="form-control" id="correo_ie"
+                                            value="{{ $personal->correo }}">
 
-                                        </div>
                                     </div>
+                                </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -72,131 +70,132 @@
                                             value="{{ $personal->clave }}">
                                     </div>
                                 </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Fecha ingreso</label>
-                                            <input type="date" name="fecha_ingreso" class="form-control"
-                                                value="{{ $personal->fecha_ingreso }}" id="fecha_ingreso_ie">
-                                        </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Fecha ingreso</label>
+                                        <input type="date" name="fecha_ingreso" class="form-control"
+                                            value="{{ $personal->fecha_ingreso }}" id="fecha_ingreso_ie">
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Departamento</label>
-                                            <select name="departamento" class="form-control" id="departamento_ie"
-                                                value="{{ $personal->departamento }}">
-                                                <option value=""> -- Seleccione -- </option>
-                                                @foreach ($departamentos as $departamento)
-                                                    <option value="{{ $departamento->id }}" @if($departamento->id==$personal->departamento) selected="selected" @endif>
-                                                        {{ $departamento->departamento }}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Departamento</label>
+                                        <select name="departamento" class="form-control" id="departamento_ie"
+                                            value="{{ $personal->departamento }}">
+                                            <option value=""> -- Seleccione -- </option>
+                                            @foreach ($departamentos as $departamento)
+                                                <option value="{{ $departamento->id }}"
+                                                    @if ($departamento->id == $personal->departamento) selected="selected" @endif>
+                                                    {{ $departamento->departamento }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Provincia</label>
-                                            <select name="provincia" class="form-control" id="provincia_ie"
-                                                value="{{ $personal->provincia }}">
-                                                <option value=""> -- Seleccione -- </option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Provincia</label>
+                                        <select name="provincia" class="form-control" id="provincia_ie"
+                                            value="{{ $personal->provincia }}">
+                                            <option value=""> -- Seleccione -- </option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Distrito</label>
-                                            <select name="distrito" class="form-control" id="distrito_ie"
-                                                value="{{ $personal->distrito }}">
-                                                <option value=""> -- Seleccione -- </option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Distrito</label>
+                                        <select name="distrito" class="form-control" id="distrito_ie"
+                                            value="{{ $personal->distrito }}">
+                                            <option value=""> -- Seleccione -- </option>
+                                        </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Foto</label>
-                                            <input type="file" name="foto" class="form-control" id="foto_ie">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Foto</label>
+                                        <input type="file" name="foto" class="form-control" id="foto_ie">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Cv</label>
-                                            <input type="file" name="cv" class="form-control" id="cv_ie">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Cv</label>
+                                        <input type="file" name="cv" class="form-control" id="cv_ie">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Url facebook</label>
-                                            <input type="text" name="url_facebook" class="form-control"
-                                                id="url_facebook_ie" value="{{ $personal->url_facebook }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Url facebook</label>
+                                        <input type="text" name="url_facebook" class="form-control"
+                                            id="url_facebook_ie" value="{{ $personal->url_facebook }}">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Url 1</label>
-                                            <input type="text" name="url_1" class="form-control" id="url_1_ie"
-                                                value="{{ $personal->url_1 }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Url 1</label>
+                                        <input type="text" name="url_1" class="form-control" id="url_1_ie"
+                                            value="{{ $personal->url_1 }}">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">Url 2</label>
-                                            <input type="text" name="url_2" class="form-control" id="url_2_ie"
-                                                value="{{ $personal->url_2 }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">Url 2</label>
+                                        <input type="text" name="url_2" class="form-control" id="url_2_ie"
+                                            value="{{ $personal->url_2 }}">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <label class="form-label">PPD</label>
-                                            <input type="text" name="ppd" class="form-control" id="ppd_ie"
-                                                value="{{ $personal->ppd }}">
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label">PPD</label>
+                                        <input type="text" name="ppd" class="form-control" id="ppd_ie"
+                                            value="{{ $personal->ppd }}">
 
-                                        </div>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Referencias
-                                            </label>
-                                            <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Referencias
+                                        </label>
+                                        <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
                                     </div>
-                                    <div class="col-md-12">
+                                </div>
+                                <div class="col-md-12">
 
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Perfil
-                                            </label>
-                                            <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
-                                        </div>
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Perfil
+                                        </label>
+                                        <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Evaluacion
-                                            </label>
-                                            <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Evaluacion
+                                        </label>
+                                        <textarea class="form-control ckeditor" name="evaluacion" id="evaluacion_ie">{{ $personal->evaluacion }}</textarea>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Observaciones
-                                            </label>
-                                            <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ $personal->observaciones }}</textarea>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Observaciones
+                                        </label>
+                                        <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ $personal->observaciones }}</textarea>
                                     </div>
-                                    <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label class="form-label">
-                                                Sugerencias
-                                            </label>
-                                            <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
-                                        </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="form-label">
+                                            Sugerencias
+                                        </label>
+                                        <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
                                     </div>
+                                </div>
                             </div>
                             <div class="w-100 d-flex justify-content-end my-4">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
@@ -207,8 +206,9 @@
             </div>
         </div>
     </div>
-    <input type="hidden" name="" id="departamentohidden" value="{{$personal->departamento}}">
-    <input type="hidden" name="" id="provinciahidden" value="{{$personal->provincia}}"><input type="hidden" name="" id="distritohidden" value="{{$personal->distrito}}">
+    <input type="hidden" name="" id="departamentohidden" value="{{ $personal->departamento }}">
+    <input type="hidden" name="" id="provinciahidden" value="{{ $personal->provincia }}"><input type="hidden"
+        name="" id="distritohidden" value="{{ $personal->distrito }}">
 @endsection
 
 
@@ -226,8 +226,8 @@
         var customtable = null;
         var datos = [];
         $(document).ready(function() {
-           let valordepartamento=$("#departamentohidden").val();
-           console.log(valordepartamento);
+            let valordepartamento = $("#departamentohidden").val();
+            console.log(valordepartamento);
             if (valordepartamento) {
                 $("#distrito_ie").empty();
                 $("#provincia_ie").empty();
@@ -255,7 +255,7 @@
                     getProvincias(valordepartamento);
                 }
             }
-            let valorprovincia=$("#provinciahidden").val();
+            let valorprovincia = $("#provinciahidden").val();
             if (valorprovincia) {
                 $("#distrito_ie").empty();
                 $("#distrito_ie").html("<option value=''>--Seleccione--</option>");
@@ -577,5 +577,6 @@
 
 
         });
+
     </script>
 @endsection
