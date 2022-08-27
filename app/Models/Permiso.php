@@ -24,6 +24,7 @@ class Permiso extends Model
     protected $guarded = [
         'id', 'nombre', 'grupo', 'nivel', 'idx', 'sub', 'hijos'
     ];
+    public $timestamps = false;
 
     public function asignaciones()
     {
