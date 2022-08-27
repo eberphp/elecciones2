@@ -91,7 +91,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Clave', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Clave</label>
@@ -100,7 +99,6 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
                                             @if (in_array('Fecha ingreso', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -902,14 +900,14 @@
                     <div class="card-header bg-secondary">
                         <div class="row">
                             <div class="col-md-6">
-                                <h5 class="text-white">Personal</h5>
+                                <h5 class="text-white">Personal web</h5>
                                 @if (auth()->user()->personal)
                                     <input type="hidden" name="user_autenticated"
                                         value="{{ auth()->user()->personal->id }}" id="user_autenticated">
                                 @endif
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-                              
+                                
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -1929,11 +1927,20 @@
                     });
                     try {
                         formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('evaluacion', CKEDITOR.instances['evaluacion_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('observaciones', CKEDITOR.instances['observaciones_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('sugerencias', CKEDITOR.instances['sugerencias_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('referencias', CKEDITOR.instances['referencias_ic'].getData());
-                    } catch (e) {}
+                        } catch (e) {}
+                    
                     $.ajax({
                         url: $("#createForm").attr("action"),
                         type: "POST",
