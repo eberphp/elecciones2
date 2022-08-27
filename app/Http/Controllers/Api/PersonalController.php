@@ -181,9 +181,14 @@ class PersonalController extends Controller
     {
         try {
             $userexiste = User::where("email", $request->correo)->first();
+            $personalexiste=Personal::where("dni", $request->dni)->first();
+            if($personalexiste) {
+                return response()->json(['success' => false, 'message' => 'El dni  ya esta registrado']);
+            }
             if ($userexiste) {
                 return response()->json(['success' => false, 'message' => 'El correo ya existe']);
             }
+           
             $foto = $request->file("foto");
             $cv = $request->file("cv");
             $save1 = "";

@@ -111,7 +111,12 @@ class AuthPersonalController extends Controller
     public function store(Request $request)
     {
         try {
-
+            $personalexiste=Personal::where("dni", $request->dni)->first();
+            if($personalexiste) {
+                return back()->withErrors([
+                    'dni' => 'El dni ya esta registrado.',
+                ])->withInput();
+            }
             DB::beginTransaction();
             $foto = $request->file("foto");
             $cv = $request->file("cv");
