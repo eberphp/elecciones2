@@ -188,7 +188,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                          
+
                                             @if (in_array('Estado', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -291,7 +291,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tarea</label>
-                                                    <input type="text"  name="nro_mesa" class="form-control"
+                                                    <input type="text" name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ic">
 
                                                 </div>
@@ -521,7 +521,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                           
+
                                             @if (in_array('Función', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -620,7 +620,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tarea</label>
-                                                    <input type="text"  name="nro_mesa" class="form-control"
+                                                    <input type="text" name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ie">
 
                                                 </div>
@@ -909,7 +909,7 @@
                                 @endif
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-                               
+                              
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -1534,7 +1534,7 @@
             },
             {
                 data: "tipo_usuario.nivel",
-                searchable:false,
+                searchable: false,
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -1712,21 +1712,23 @@
             })
             $("#departamento_filter").on("change", function(e) {
                 let value = e.target.value;
+                let lengthtable=columns_datatables.length;
+                let valuef=value ? '^' + value + '$' : ''
                 customtable
-                    .column(30)
-                    .search(value)
+                    .column(lengthtable-3)
+                    .search(valuef,true,false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#provincia_filter").empty();
                 $("#provincia_filter").append("<option value=''>--Todos--</option>");
                 customtable
-                    .column(31)
+                    .column(lengthtable-2)
                     .search("")
                     .draw();
                 $("#distrito_filter").append("<option value=''>--Todos--</option>");
 
                 customtable
-                    .column(32)
+                    .column(lengthtable-1)
                     .search("")
                     .draw();
 
@@ -1751,14 +1753,17 @@
             })
             $("#provincia_filter").on("change", function(e) {
                 let value = e.target.value;
+                
+                let valuef=value ? '^' + value + '$' : ''
+                let lengthtable=columns_datatables.length;
                 customtable
-                    .column(31)
-                    .search(value)
+                    .column(lengthtable-2)
+                    .search(valuef,true,false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#distrito_filter").html("<option value=''>--Todos--</option>");
                 customtable
-                    .column(32)
+                    .column(lengthtable-1)
                     .search("")
                     .draw();
                 if (value) {
@@ -1782,9 +1787,11 @@
             })
             $("#distrito_filter").on("change", function(e) {
                 let value = e.target.value;
+                let valuef=value ? '^' + value + '$' : ''
+                let lengthtable=columns_datatables.length;
                 customtable
-                    .column(32)
-                    .search(value)
+                    .column(lengthtable-1)
+                    .search(valuef,true,false)
                     .draw();
 
             })
@@ -1966,11 +1973,21 @@
                 if (validateFormEdit(objtValues)) {
                     try {
                         objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['sugerencias'] = CKEDITOR.instances['sugerencias_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['referencias'] = CKEDITOR.instances['referencias_ie'].getData();
                     } catch (e) {}
+
+
                     console.log(objtValues);
                     $.ajax({
                         url: `/api/personal/${objtValues.id}`,

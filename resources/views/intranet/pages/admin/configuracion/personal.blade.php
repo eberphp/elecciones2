@@ -91,7 +91,6 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Clave', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Clave</label>
@@ -100,7 +99,6 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
                                             @if (in_array('Fecha ingreso', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -1714,21 +1712,23 @@
             })
             $("#departamento_filter").on("change", function(e) {
                 let value = e.target.value;
+                let lengthtable=columns_datatables.length;
+                let valuef=value ? '^' + value + '$' : ''
                 customtable
-                    .column(30)
-                    .search(value)
+                    .column(lengthtable-3)
+                    .search(valuef,true,false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#provincia_filter").empty();
                 $("#provincia_filter").append("<option value=''>--Todos--</option>");
                 customtable
-                    .column(31)
+                    .column(lengthtable-2)
                     .search("")
                     .draw();
                 $("#distrito_filter").append("<option value=''>--Todos--</option>");
 
                 customtable
-                    .column(32)
+                    .column(lengthtable-1)
                     .search("")
                     .draw();
 
@@ -1753,14 +1753,17 @@
             })
             $("#provincia_filter").on("change", function(e) {
                 let value = e.target.value;
+                
+                let valuef=value ? '^' + value + '$' : ''
+                let lengthtable=columns_datatables.length;
                 customtable
-                    .column(31)
-                    .search(value)
+                    .column(lengthtable-2)
+                    .search(valuef,true,false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#distrito_filter").html("<option value=''>--Todos--</option>");
                 customtable
-                    .column(32)
+                    .column(lengthtable-1)
                     .search("")
                     .draw();
                 if (value) {
@@ -1784,9 +1787,11 @@
             })
             $("#distrito_filter").on("change", function(e) {
                 let value = e.target.value;
+                let valuef=value ? '^' + value + '$' : ''
+                let lengthtable=columns_datatables.length;
                 customtable
-                    .column(32)
-                    .search(value)
+                    .column(lengthtable-1)
+                    .search(valuef,true,false)
                     .draw();
 
             })
@@ -1924,11 +1929,20 @@
                     });
                     try {
                         formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('evaluacion', CKEDITOR.instances['evaluacion_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('observaciones', CKEDITOR.instances['observaciones_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('sugerencias', CKEDITOR.instances['sugerencias_ic'].getData());
+                        } catch (e) {}
+                        try {
                         formData.append('referencias', CKEDITOR.instances['referencias_ic'].getData());
-                    } catch (e) {}
+                        } catch (e) {}
+                    
                     $.ajax({
                         url: $("#createForm").attr("action"),
                         type: "POST",
