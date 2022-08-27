@@ -2152,12 +2152,16 @@
                 }
                 if (item.observaciones && item.sugerencias) {
                     let doc3 = parser.parseFromString(item.observaciones, 'text/html');
-                    let doc4 = parser.parseFromString(item.sugerencias, 'text/html');
                     html3 = doc3.body.firstChild.data;
-                    html4 = doc4.body.firstChild.data;
                     try {
                         CKEDITOR.instances['observaciones_ie'].setData(html3);
                     } catch (e) {}
+
+                }
+                if (item.sugerencias) {
+
+                    let doc4 = parser.parseFromString(item.sugerencias, 'text/html');
+                    html4 = doc4.body.firstChild.data;
                     try {
                         CKEDITOR.instances['sugerencias_ie'].setData(html4);
                     } catch (e) {}
