@@ -837,7 +837,7 @@
                                             </form>
                                         </div>
                                         <div class="col-md-12">
-                                            <embed src="" id="cvPdf" alt="" width="400px"
+                                            <embed src="" id="cvPdf" alt="" width="100%"
                                                 height="500px" type="application/pdf" />
                                         </div>
 

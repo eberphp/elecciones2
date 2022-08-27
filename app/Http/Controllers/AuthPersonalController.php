@@ -281,20 +281,22 @@ class AuthPersonalController extends Controller
                 $save2 = explode('public/', $url);
                 $cv_url = implode("", $save2);
             }
+            $httpv="http";
             $urlfacebook = "";
-            if (isset($request->url_facebook) && strpos($request->url_facebook, "http")) {
+
+            if (isset($request->url_facebook) &&  preg_match("/{$httpv}/i", $request->url_facebook)) {
                 $urlfacebook = $request->url_facebook;
             } else {
                 $urlfacebook = "https://" . $request->url_facebook;
             }
             $url1 = "";
-            if (isset($request->url_1) && strpos($request->url_1, "http")) {
+            if (isset($request->url_1) && preg_match("/{$httpv}/i", $request->url_1)) {
                 $url1 = $request->url_1;
             } else {
                 $url1 = "https://" . $request->url_1;
             }
             $url2 = "";
-            if (isset($request->url_2) && strpos($request->url_2, "http")) {
+            if (isset($request->url_2) && preg_match("/{$httpv}/i", $request->url_2)) {
                 $url2 = $request->url_2;
             } else {
                 $url2 = "https://" . $request->url_2;
