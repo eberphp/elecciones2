@@ -188,21 +188,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Cargo 2', $permisos) || !$personal)
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Puesto</label>
-                                                        <select name="puesto_id" class="form-control" id="puesto_id_ic">
-                                                            <option value=""> -- Seleccione -- </option>
-                                                            @foreach ($puestos as $puesto)
-                                                                <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                    </div>
-                                                </div>
-                                            @endif
+                                          
                                             @if (in_array('Estado', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -304,8 +290,8 @@
                                             @endif
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">Nro. mesa</label>
-                                                    <input type="text" required name="nro_mesa" class="form-control"
+                                                    <label class="form-label">Tarea</label>
+                                                    <input type="text"  name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ic">
 
                                                 </div>
@@ -535,21 +521,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Cargo 2', $permisos) || !$personal)
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Puesto</label>
-                                                        <select name="puesto_id" class="form-control" id="puesto_id_ie">
-                                                            <option value=""> -- Seleccione -- </option>
-                                                            @foreach ($puestos as $puesto)
-                                                                <option value="{{ $puesto->id }}">{{ $puesto->nombre }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-
-                                                    </div>
-                                                </div>
-                                            @endif
+                                           
                                             @if (in_array('Función', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -647,8 +619,8 @@
                                             @endif
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">Nro. mesa</label>
-                                                    <input type="text" required name="nro_mesa" class="form-control"
+                                                    <label class="form-label">Tarea</label>
+                                                    <input type="text"  name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ie">
 
                                                 </div>
@@ -937,7 +909,7 @@
                                 @endif
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-                                
+                               
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -2150,12 +2122,16 @@
                 }
                 if (item.observaciones && item.sugerencias) {
                     let doc3 = parser.parseFromString(item.observaciones, 'text/html');
-                    let doc4 = parser.parseFromString(item.sugerencias, 'text/html');
                     html3 = doc3.body.firstChild.data;
-                    html4 = doc4.body.firstChild.data;
                     try {
                         CKEDITOR.instances['observaciones_ie'].setData(html3);
                     } catch (e) {}
+
+                }
+                if (item.sugerencias) {
+
+                    let doc4 = parser.parseFromString(item.sugerencias, 'text/html');
+                    html4 = doc4.body.firstChild.data;
                     try {
                         CKEDITOR.instances['sugerencias_ie'].setData(html4);
                     } catch (e) {}
@@ -2171,7 +2147,6 @@
                 $("#url_1_ie").val(item.url_1);
                 $("#funcion_id_ie").val(item.funcion_id);
                 $("#url_2_ie").val(item.url_2);
-                $("#puesto_id_ie").val(item.puesto_id);
                 $("#nombreCorto_ie").val(item.nombreCorto);
                 $("#telefono_ie").val(item.telefono);
                 $("#nro_mesa_ie").val(item.nro_mesa);
