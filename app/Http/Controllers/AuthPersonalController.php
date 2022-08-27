@@ -301,6 +301,12 @@ class AuthPersonalController extends Controller
             }
 
             $personal = Personal::find($id);
+            if($foto_url){
+                $personal->foto=$foto_url;
+            }
+            if($cv_url){
+                $personal->cv=$cv_url;
+            }
             if(isset($request->nombres) && $request->nombres){
                 $personal->nombres = $request->nombres;
             }
