@@ -188,7 +188,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                          
+
                                             @if (in_array('Estado', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -291,7 +291,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tarea</label>
-                                                    <input type="text"  name="nro_mesa" class="form-control"
+                                                    <input type="text" name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ic">
 
                                                 </div>
@@ -521,7 +521,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                           
+
                                             @if (in_array('Función', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -620,7 +620,7 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tarea</label>
-                                                    <input type="text"  name="nro_mesa" class="form-control"
+                                                    <input type="text" name="nro_mesa" class="form-control"
                                                         id="nro_mesa_ie">
 
                                                 </div>
@@ -1536,7 +1536,7 @@
             },
             {
                 data: "tipo_usuario.nivel",
-                searchable:false,
+                searchable: false,
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -1968,11 +1968,21 @@
                 if (validateFormEdit(objtValues)) {
                     try {
                         objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['evaluacion'] = CKEDITOR.instances['evaluacion_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['sugerencias'] = CKEDITOR.instances['sugerencias_ie'].getData();
+                    } catch (e) {}
+                    try {
                         objtValues['referencias'] = CKEDITOR.instances['referencias_ie'].getData();
                     } catch (e) {}
+
+
                     console.log(objtValues);
                     $.ajax({
                         url: `/api/personal/${objtValues.id}`,
