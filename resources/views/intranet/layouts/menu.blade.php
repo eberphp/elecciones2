@@ -895,13 +895,14 @@
                         </a>
                         <div class="collapse " id="personal">
                             <ul class="nav ms-4">
-
+                                @if(in_array("Personal intranet",$permisos))
                                 <li class="nav-item ">
                                     <a class="nav-link  {{ request()->is('configuracion/personal') ? 'active' : '' }}"
                                         href="{{ route('configuracion.personal') }}">
                                         <span class="sidenav-normal"> Personal <b class="caret"></b></span>
                                     </a>
                                 </li>
+                                @endif
                                 @if (in_array('Personal web', $permisos))
                                     <li class="nav-item ">
                                         <a class="nav-link  {{ request()->is('configuracion/personal_web') ? 'active' : '' }}"

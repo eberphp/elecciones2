@@ -64,17 +64,17 @@ class PersonalController extends Controller
     }
     public function pagination(Request $request)
     {
-        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
+        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa());
         return DataTables::of($areas)->make(true);
     }
     public function paginationIntranet(Request $request)
     {
-        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","intranet");
+        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en", "intranet");
         return DataTables::of($areas)->make(true);
     }
     public function paginationWeb(Request $request)
     {
-        $areas = Personal::with("_estado","cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en","web");
+        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('datos_empresa_id', idEmpresa())->where("registrado_en", "web");
         return DataTables::of($areas)->make(true);
     }
 
@@ -137,8 +137,7 @@ class PersonalController extends Controller
             if (!Asignacion::where(['personal_id' => $personal->id, 'permiso_id' => $permiso_id])->first()) {
                 if (!Asignacion::create([
                     'personal_id' => $personal->id,
-                    'permiso_id' => $permiso_id,
-                    //'created_by' => auth()->user()->id
+                    'permiso_id' => $permiso_id
                 ]))
                     return response()->json(['success' => 'false', 'errors' => ['message' => self::MSG_ERR_CRTROL]], 503);
             }
@@ -181,14 +180,14 @@ class PersonalController extends Controller
     {
         try {
             $userexiste = User::where("email", $request->correo)->first();
-            $personalexiste=Personal::where("dni", $request->dni)->first();
-            if($personalexiste) {
+            $personalexiste = Personal::where("dni", $request->dni)->first();
+            if ($personalexiste) {
                 return response()->json(['success' => false, 'message' => 'El dni  ya esta registrado']);
             }
             if ($userexiste) {
                 return response()->json(['success' => false, 'message' => 'El correo ya existe']);
             }
-           
+
             $foto = $request->file("foto");
             $cv = $request->file("cv");
             $save1 = "";
@@ -207,20 +206,20 @@ class PersonalController extends Controller
             }
 
             $urlfacebook = "";
-            $httpv="http";
-            if (isset($request->url_facebook) && preg_match("/{$httpv}/i",$request->url_facebook)) {
+            $httpv = "http";
+            if (isset($request->url_facebook) && preg_match("/{$httpv}/i", $request->url_facebook)) {
                 $urlfacebook = $request->url_facebook;
             } else {
                 $urlfacebook = "https://" . $request->url_facebook;
             }
             $url1 = "";
-            if (isset($request->url_1) && preg_match("/{$httpv}/i",$request->url_1)) {
+            if (isset($request->url_1) && preg_match("/{$httpv}/i", $request->url_1)) {
                 $url1 = $request->url_1;
             } else {
                 $url1 = "https://" . $request->url_1;
             }
             $url2 = "";
-            if (isset($request->url_2) && preg_match("/{$httpv}/i",$request->url_2)) {
+            if (isset($request->url_2) && preg_match("/{$httpv}/i", $request->url_2)) {
                 $url2 = $request->url_2;
             } else {
                 $url2 = "https://" . $request->url_2;
@@ -284,6 +283,23 @@ class PersonalController extends Controller
             }
             $personal->empresa_id = $datosempresa->id;
             $personal->save();
+
+            $permiso = Permiso::where("idx", 25)->where("grupo", 3)->first();
+            $permiso2 = Permiso::where("grupo", 3)->where("nivel", 1)->first();
+            if ($permiso) {
+                if (!Asignacion::where(['personal_id' => $personal->id, 'permiso_id' => $permiso->id])->first()) {
+                    if ($permiso2) {
+                        Asignacion::create([
+                            'personal_id' => $personal->id,
+                            'permiso_id' => $permiso2->id
+                        ]);
+                    }
+                    Asignacion::create([
+                        'personal_id' => $personal->id,
+                        'permiso_id' => $permiso->id
+                    ]);
+                }
+            }
 
             $perfil = new Perfil();
             $perfil->id = $lastidperfil;
@@ -354,7 +370,7 @@ class PersonalController extends Controller
     {
         //
         try {
-            $httpv="http";
+            $httpv = "http";
             $urlfacebook = "";
 
             if (isset($request->url_facebook) &&  preg_match("/{$httpv}/i", $request->url_facebook)) {
@@ -375,91 +391,91 @@ class PersonalController extends Controller
                 $url2 = "https://" . $request->url_2;
             }
             $personal = Personal::find($id);
-            if(isset($request->nombres) && $request->nombres){
+            if (isset($request->nombres) && $request->nombres) {
                 $personal->nombres = $request->nombres;
             }
-            if(isset($request->cargo_id) && $request->cargo_id){
+            if (isset($request->cargo_id) && $request->cargo_id) {
                 $personal->cargo_id = $request->cargo_id;
             }
-            if(isset($request->ppd) && $request->ppd){
+            if (isset($request->ppd) && $request->ppd) {
                 $personal->ppd = $request->ppd;
             }
-            if(isset($request->perfil) && $request->perfil){
+            if (isset($request->perfil) && $request->perfil) {
                 $personal->perfil = $request->perfil;
             }
-            if(isset($request->url_facebook) && $request->url_facebook){
+            if (isset($request->url_facebook) && $request->url_facebook) {
                 $personal->url_facebook = $urlfacebook;
             }
-            if(isset($request->url_1) && $request->url_1){
+            if (isset($request->url_1) && $request->url_1) {
 
-                $personal->url_1 = $url1 ;
+                $personal->url_1 = $url1;
             }
-            if(isset($request->url_2) && $request->url_2){
-                $personal->url_2 = $url2 ;
+            if (isset($request->url_2) && $request->url_2) {
+                $personal->url_2 = $url2;
             }
-            if(isset($request->cargo_id) && $request->cargo_id){
+            if (isset($request->cargo_id) && $request->cargo_id) {
                 $personal->puesto_id = $request->cargo_id;
             }
-            if(isset($request->nombreCorto) && $request->nombreCorto){
+            if (isset($request->nombreCorto) && $request->nombreCorto) {
                 $personal->nombreCorto = $request->nombre_corto;
             }
-            if(isset($request->telefono) && $request->telefono){
+            if (isset($request->telefono) && $request->telefono) {
                 $personal->telefono = $request->telefono;
             }
-            if(isset($request->referencias) && $request->referencias){
+            if (isset($request->referencias) && $request->referencias) {
                 $personal->referencias = $request->referencias;
             }
             if ($request->clave) {
                 $personal->password = Hash::make($request->clave);
             }
-            if(isset($request->evaluacion) && $request->evaluacion){
+            if (isset($request->evaluacion) && $request->evaluacion) {
                 $personal->evaluacion = $request->evaluacion;
             }
-            if(isset($request->vinculo_id) && $request->vinculo_id){
+            if (isset($request->vinculo_id) && $request->vinculo_id) {
                 $personal->vinculo_id = $request->vinculo_id;
             }
-            if(isset($request->funcion_id) && $request->funcion_id){
+            if (isset($request->funcion_id) && $request->funcion_id) {
                 $personal->funcion_id = $request->funcion_id;
             }
-            if(isset($request->dni) && $request->dni){
+            if (isset($request->dni) && $request->dni) {
                 $personal->dni = $request->dni;
             }
-            if(isset($request->clave) && $request->clave){
+            if (isset($request->clave) && $request->clave) {
                 $personal->clave = $request->clave;
             }
-            if(isset($request->estado) && $request->estado){
+            if (isset($request->estado) && $request->estado) {
                 $personal->estado = $request->estado;
             }
-            if(isset($request->tipo_ubigeo) && $request->tipo_ubigeo){
+            if (isset($request->tipo_ubigeo) && $request->tipo_ubigeo) {
                 $personal->tipo_ubigeo = $request->tipo_ubigeo;
             }
-            if(isset($request->fecha_ingreso) && $request->fecha_ingreso){
+            if (isset($request->fecha_ingreso) && $request->fecha_ingreso) {
                 $personal->fecha_ingreso = $request->fecha_ingreso;
             }
-            if(isset($request->sugerencias) && $request->sugerencias){
+            if (isset($request->sugerencias) && $request->sugerencias) {
 
-                $personal->sugerencias =  $request->sugerencias ;
+                $personal->sugerencias =  $request->sugerencias;
             }
-            if(isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id){
+            if (isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id) {
 
-                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id ;
+                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id;
             }
-            if(isset($request->observaciones) && $request->observaciones){
+            if (isset($request->observaciones) && $request->observaciones) {
                 $personal->observaciones = $request->observaciones;
             }
-            if(isset($request->departamento) && $request->departamento){
+            if (isset($request->departamento) && $request->departamento) {
                 $personal->departamento = $request->departamento;
             }
-            if(isset($request->nro_mesa) && $request->nro_mesa){
+            if (isset($request->nro_mesa) && $request->nro_mesa) {
                 $personal->nro_mesa = $request->nro_mesa;
             }
-            if(isset($request->provincia) && $request->provincia){
+            if (isset($request->provincia) && $request->provincia) {
                 $personal->provincia = $request->provincia;
             }
-            if(isset($request->observaciones) && $request->observaciones){
+            if (isset($request->observaciones) && $request->observaciones) {
                 $personal->observaciones = $request->observaciones;
             }
-            if(isset($request->distrito) && $request->distrito){
+            if (isset($request->distrito) && $request->distrito) {
                 $personal->distrito = $request->distrito;
             }
             $personal->save();

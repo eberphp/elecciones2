@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Asignacion;
 use App\Models\Boton;
 use App\Models\Cargo;
 use App\Models\DatosEmpresa;
@@ -9,6 +10,7 @@ use App\Models\Departamento;
 use App\Models\EstadoEvaluacion;
 use App\Models\Funcion;
 use App\Models\Perfil;
+use App\Models\Permiso;
 use App\Models\Personal;
 use App\Models\RedesSociales;
 use App\Models\TipoUbigeo;
@@ -111,8 +113,8 @@ class AuthPersonalController extends Controller
     public function store(Request $request)
     {
         try {
-            $personalexiste=Personal::where("dni", $request->dni)->first();
-            if($personalexiste) {
+            $personalexiste = Personal::where("dni", $request->dni)->first();
+            if ($personalexiste) {
                 return back()->withErrors([
                     'dni' => 'El dni ya esta registrado.',
                 ])->withInput();
@@ -202,6 +204,7 @@ class AuthPersonalController extends Controller
             $personal->registrado_en = "web";
             $personal->save();
 
+            
             $lastidperfil = Perfil::max("id");
             $lastidperfil++;
             $perfil = new Perfil();
@@ -281,7 +284,7 @@ class AuthPersonalController extends Controller
                 $save2 = explode('public/', $url);
                 $cv_url = implode("", $save2);
             }
-            $httpv="http";
+            $httpv = "http";
             $urlfacebook = "";
 
             if (isset($request->url_facebook) &&  preg_match("/{$httpv}/i", $request->url_facebook)) {
@@ -303,115 +306,115 @@ class AuthPersonalController extends Controller
             }
 
             $personal = Personal::find($id);
-            if($foto_url){
-                $personal->foto=$foto_url;
+            if ($foto_url) {
+                $personal->foto = $foto_url;
             }
-            if($cv_url){
-                $personal->cv=$cv_url;
+            if ($cv_url) {
+                $personal->cv = $cv_url;
             }
-            if(isset($request->nombres) && $request->nombres){
+            if (isset($request->nombres) && $request->nombres) {
                 $personal->nombres = $request->nombres;
             }
-            if(isset($request->cargo_id) && $request->cargo_id){
+            if (isset($request->cargo_id) && $request->cargo_id) {
                 $personal->cargo_id = $request->cargo_id;
             }
-            if(isset($request->ppd) && $request->ppd){
+            if (isset($request->ppd) && $request->ppd) {
                 $personal->ppd = $request->ppd;
             }
-            if(isset($request->perfil) && $request->perfil){
+            if (isset($request->perfil) && $request->perfil) {
                 $personal->perfil = $request->perfil;
             }
-            if(isset($request->url_facebook) && $request->url_facebook){
+            if (isset($request->url_facebook) && $request->url_facebook) {
                 $personal->url_facebook = $urlfacebook;
             }
-            if(isset($request->url_1) && $request->url_1){
+            if (isset($request->url_1) && $request->url_1) {
 
-                $personal->url_1 = $url1 ;
+                $personal->url_1 = $url1;
             }
-            if(isset($request->url_2) && $request->url_2){
-                $personal->url_2 = $url2 ;
+            if (isset($request->url_2) && $request->url_2) {
+                $personal->url_2 = $url2;
             }
-            if(isset($request->cargo_id) && $request->cargo_id){
+            if (isset($request->cargo_id) && $request->cargo_id) {
                 $personal->puesto_id = $request->cargo_id;
             }
-            if(isset($request->nombreCorto) && $request->nombreCorto){
+            if (isset($request->nombreCorto) && $request->nombreCorto) {
                 $personal->nombreCorto = $request->nombre_corto;
             }
-            if(isset($request->telefono) && $request->telefono){
+            if (isset($request->telefono) && $request->telefono) {
                 $personal->telefono = $request->telefono;
             }
-            if(isset($request->referencias) && $request->referencias){
+            if (isset($request->referencias) && $request->referencias) {
                 $personal->referencias = $request->referencias;
             }
             if ($request->clave) {
                 $personal->password = Hash::make($request->clave);
             }
-            if(isset($request->evaluacion) && $request->evaluacion){
+            if (isset($request->evaluacion) && $request->evaluacion) {
                 $personal->evaluacion = $request->evaluacion;
             }
-            if(isset($request->vinculo_id) && $request->vinculo_id){
+            if (isset($request->vinculo_id) && $request->vinculo_id) {
                 $personal->vinculo_id = $request->vinculo_id;
             }
-            if(isset($request->funcion_id) && $request->funcion_id){
+            if (isset($request->funcion_id) && $request->funcion_id) {
                 $personal->funcion_id = $request->funcion_id;
             }
-            if(isset($request->dni) && $request->dni){
+            if (isset($request->dni) && $request->dni) {
                 $personal->dni = $request->dni;
             }
-            if(isset($request->clave) && $request->clave){
+            if (isset($request->clave) && $request->clave) {
                 $personal->clave = $request->clave;
             }
-            if(isset($request->estado) && $request->estado){
+            if (isset($request->estado) && $request->estado) {
                 $personal->estado = $request->estado;
             }
-            if(isset($request->tipo_ubigeo) && $request->tipo_ubigeo){
+            if (isset($request->tipo_ubigeo) && $request->tipo_ubigeo) {
                 $personal->tipo_ubigeo = $request->tipo_ubigeo;
             }
-            if(isset($request->fecha_ingreso) && $request->fecha_ingreso){
+            if (isset($request->fecha_ingreso) && $request->fecha_ingreso) {
                 $personal->fecha_ingreso = $request->fecha_ingreso;
             }
-            if(isset($request->sugerencias) && $request->sugerencias){
+            if (isset($request->sugerencias) && $request->sugerencias) {
 
-                $personal->sugerencias =  $request->sugerencias ;
+                $personal->sugerencias =  $request->sugerencias;
             }
-            if(isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id){
+            if (isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id) {
 
-                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id ;
+                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id;
             }
-            if(isset($request->observaciones) && $request->observaciones){
+            if (isset($request->observaciones) && $request->observaciones) {
                 $personal->observaciones = $request->observaciones;
             }
-            if(isset($request->departamento) && $request->departamento){
+            if (isset($request->departamento) && $request->departamento) {
                 $personal->departamento = $request->departamento;
             }
-            if(isset($request->nro_mesa) && $request->nro_mesa){
+            if (isset($request->nro_mesa) && $request->nro_mesa) {
                 $personal->nro_mesa = $request->nro_mesa;
             }
-            if(isset($request->provincia) && $request->provincia){
+            if (isset($request->provincia) && $request->provincia) {
                 $personal->provincia = $request->provincia;
             }
-            if(isset($request->observaciones) && $request->observaciones){
+            if (isset($request->observaciones) && $request->observaciones) {
                 $personal->observaciones = $request->observaciones;
             }
-            if(isset($request->distrito) && $request->distrito){
+            if (isset($request->distrito) && $request->distrito) {
                 $personal->distrito = $request->distrito;
             }
             $personal->save();
             if (isset($request->correo) && $request->correo) {
                 $user = User::where("email", $request->correo)->first();
-                if($user){
-                $user->password = Hash::make($request->clave);
-                $user->clave = $request->clave;
-                $user->email = $request->correo;
-                $user->save();
-                $perfil = Perfil::find($user->perfil_id);
-                $perfil->codigo = isset($request->dni) ? $request->dni : "";
-                $perfil->correo = isset($request->correo) ? $request->correo : "";
-                $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
-                $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
-                $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
-                $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
-                $perfil->save();
+                if ($user) {
+                    $user->password = Hash::make($request->clave);
+                    $user->clave = $request->clave;
+                    $user->email = $request->correo;
+                    $user->save();
+                    $perfil = Perfil::find($user->perfil_id);
+                    $perfil->codigo = isset($request->dni) ? $request->dni : "";
+                    $perfil->correo = isset($request->correo) ? $request->correo : "";
+                    $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+                    $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+                    $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+                    $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+                    $perfil->save();
                 }
             }
 

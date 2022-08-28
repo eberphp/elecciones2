@@ -1331,7 +1331,7 @@
                 value: {
                     data: "observaciones",
                     render: function(data) {
-                        console.log(data);
+                        
                         let html = "";
                         if (data) {
                             let parser = new DOMParser();
@@ -1340,7 +1340,7 @@
                         } else {
                             html = "";
                         }
-                        console.log(html);
+                       
                         return `${html}`;
                     }
                 },
@@ -1519,7 +1519,7 @@
             {
                 data: "sugerencias",
                 render: function(data) {
-                    console.log(data);
+                    
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1528,7 +1528,7 @@
                     } else {
                         html = "";
                     }
-                    console.log(html);
+                   
                     return `${html}`;
                 }
             },
@@ -1548,7 +1548,7 @@
             {
                 data: "observaciones",
                 render: function(data) {
-                    console.log(data);
+                    
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1557,7 +1557,7 @@
                     } else {
                         html = "";
                     }
-                    console.log(html);
+                   
                     return `${html}`;
                 }
             },
@@ -1633,8 +1633,6 @@
                             }
                         }
                     })
-                    console.log(columns_datatables);
-                    console.log(columns_datatables_default);
                     renderDatatable();
                 }
             });
@@ -1863,7 +1861,7 @@
             };
             const validateFormEdit = (data) => {
 
-                console.log(data);
+                
                 if (data.dni && data.clave && data.correo) {
                     return true;
                 }
@@ -1909,7 +1907,7 @@
                 objtValues = {};
                 e.preventDefault();
                 let data = $(this).serializeArray();
-                console.log(data);
+                
                 data.forEach(function(item) {
 
                     objtValues[item.name] = item.value;
@@ -1997,7 +1995,7 @@
                     } catch (e) {}
 
 
-                    console.log(objtValues);
+                    
                     $.ajax({
                         url: `/api/personal/${objtValues.id}`,
                         type: "PUT",
@@ -2051,7 +2049,7 @@
                         "url": "/api/personal/pagination_intranet",
                         "type": "POST",
                         "dataSrc": function(data) {
-                            console.log(data);
+                            
                             datos = data.data;
                             return data.data;
                         }
@@ -2083,7 +2081,7 @@
         }
         const handleEditImagen = function(e) {
             let id = $(e).attr("objectid");
-            console.log(id);
+            
             let object = datos.find(x => x.id == id);
             $("#id_ie").val(id);
             $("#perfilImagen").attr("src", `/storage/${object.foto}`);
@@ -2106,7 +2104,6 @@
         const handleViewEvaluacion = function(e) {
             let id = $(e).attr("objectid");
             let object = datos.find(x => x.id == id);
-            console.log(object);
             $("#id_ie").val(id);
             if (object.evaluacion) {
                 let parser = new DOMParser();
@@ -2216,7 +2213,6 @@
                     }
                 }
                 if (item.provincia) {
-                    console.log("provincia existe");
 
                     let value = item.provincia;
                     $("#distrito_ie").empty();
