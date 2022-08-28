@@ -39,7 +39,7 @@ class WebController extends Controller
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('datos_empresa_id', $id)->orderBy('nombre', 'asc')->get();
         $botones = Boton::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
-        $datos = DatosEmpresa::where('datos_empresa_id', $id)->first();
+        $datos = DatosEmpresa::where('id', $id)->first();
         $redes = RedesSociales::where('datos_empresa_id', $id)->first();
         $sliders = Slider::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
         $titulo = Titulo::where('datos_empresa_id', $id)->first();
