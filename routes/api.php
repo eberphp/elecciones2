@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\TipoUbigeoController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Api\LocalVotacionController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -35,7 +36,7 @@ use App\Http\Controllers\AuthController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
+Route::resource("locales_votacion",LocalVotacionController::class);
 Route::get('create-user', [UserController::class, 'createUser']);
 
 Route::post("cargo/pagination", [CargoController::class, "pagination"]);
