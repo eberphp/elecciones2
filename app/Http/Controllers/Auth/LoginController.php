@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
@@ -76,5 +77,23 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         return $this->sendFailedLoginResponse($request);
+    }
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+            return $response;
+        }
+        if (Auth::user()->personal) {
+            return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : redirect()->intended("/configuracion/personal_web");
+        }
+        return $request->wantsJson()
+                ? new JsonResponse([], 204)
+                : redirect()->intended($this->redirectPath());
     }
 }
