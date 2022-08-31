@@ -2,23 +2,26 @@
 @section('style')
     <style>
         @media only screen and (min-width: 768px) {
+
             /* For desktop: */
-            .graf{height: 300px;}
+            .graf {
+                height: 300px;
+            }
         }
     </style>
 @endsection
 @section('content')
     <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
-        $usuario = Auth::user();
-        $personal = $usuario->personal;
-        $permisos = [];
-        if ($personal) {
-            foreach ($personal->asignaciones as $asignacion) {
-                if ($asignacion->permiso->grupo == 4) {
-                    $permisos[] = $asignacion->permiso->nombre;
-                }
+    $usuario = Auth::user();
+    $personal = $usuario->personal;
+    $permisos = [];
+    if ($personal) {
+        foreach ($personal->asignaciones as $asignacion) {
+            if ($asignacion->permiso->grupo == 4) {
+                $permisos[] = $asignacion->permiso->nombre;
             }
         }
+    }
     ?>
     <div class="container-fluid py-2">
         <div class="row mt-2">
@@ -28,15 +31,16 @@
                     <div class="card-header bg-gradient-info ">
                         <div class="row">
                             <div class="col-6">
-                                <h5 class="mb-0 text-white">{{ $encuesta->nombreEncuesta }} - GRÁFICOS / Por Ubicación y
+                                <h5 class="mb-0 text-white">{{ $eleccion->nombre }} - GRÁFICOS / Por Ubicación y
                                     Resultado Total</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                            @if(in_array('Encuestador', $permisos))
-                            <a href="{{ route('Encuesta.encuestador') }}" class="btn btn-info" style="float: right">Volver</a>
-                            @else
-                            <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
-                            @endif
+                                @if (in_array('Encuestador', $permisos))
+                                    <a href="{{ route('elecciones.encuestador') }}" class="btn btn-info"
+                                        style="float: right">Volver</a>
+                                @else
+                                    <a href="{{ route('elecciones') }}" class="btn btn-info" style="float: right">Volver</a>
+                                @endif
 
                             </div>
                         </div>
@@ -50,11 +54,13 @@
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-center align-items-center">
                                         <span class="text-info fw-bold" style="font-size: 14px;">Vigencia: Del
-                                            {{ $encuesta->fechaInicio }} al {{ $encuesta->fechaTermino }}
-                                            @if(in_array('Encuestador', $permisos))
+                                            {{ $eleccion->fecha_inicio }} al {{ $eleccion->fecha_termino }}
+                                            @if (in_array('Encuestador', $permisos))
                                             @else
-                                            <button id="publicacion"
-                                                class="btn btn-sm bg-gradient-{{ $encuesta->publicacion == 'Si' ? 'success' : 'danger' }} mx-1">{{ $encuesta->publicacion == 'Si' ? 'Quitar Publicacion' : 'Publicar' }}</button>
+                                                <a href="{{ route('elecciones_voto') }}" id="volveratras"
+                                                    class="btn bg-gradient-info btn-sm d-none">Volver</a>
+                                                <button id="publicacion"
+                                                    class="btn btn-sm bg-gradient-{{ $eleccion->publicacion == 'Si' ? 'success' : 'danger' }} mx-1">{{ $eleccion->publicacion == 'Si' ? 'Quitar Publicacion' : 'Publicar' }}</button>
                                             @endif
 
                                         </span>
@@ -62,7 +68,7 @@
                                     <div class="col-12 col-md-6">
                                         <select class="form-control" name="resultado" id="resultado">
                                             <option value="Total" selected>Resultado Total</option>
-                                            <option value="Ubicacion">Por Ubicación</option>
+                                            <option value="Ubicacion">Por local de votacion</option>
                                         </select>
                                     </div>
 
@@ -99,26 +105,18 @@
                                                 Ingrese a Votar
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if(in_array('Encuestador', $permisos))
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}">
-                                                    Voto Encuestador
-                                                </a></li>
-                                            @else
-                                            <li><a class="dropdown-item"
-                                                    href="{{ route('Votos.encuestador', ['encuesta' => $encuesta->idEncuesta]) }}">
-                                                    Voto Encuestador
-                                                </a></li>
-                                                @if ($encuesta->encuestaManual == 'Si')
-                                                <li><a class="dropdown-item"
-                                                    href="{{ route('Votos.manual', ['encuesta' => $encuesta->idEncuesta]) }}">
-                                                    Voto Manual
-                                                </a></li>
+
+
+                                                @if ($eleccion->encuesta_manual == 'Si')
+                                                    <li><a class="dropdown-item"
+                                                            href="{{ route('elecciones_voto.manual', ['eleccion' => $eleccion->id]) }}">
+                                                            Voto Manual
+                                                        </a></li>
                                                 @endif
 
-                                            @endif
 
                                             </ul>
+
                                         </div>
 
                                         <span class="d-block fw-bold alertVotoDis d-none" style="font-size: 12px;">Usted ya
@@ -130,68 +128,53 @@
                                         <div class="dropdown mt-2">
                                             <button class="btn bg-gradient-secondary dropdown-toggle" type="button"
                                                 id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Encuestas Anteriores
+                                                Elecciones Anteriores
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                @foreach ($encuestas as $publicado)
+                                                @foreach ($elecciones as $publicado)
                                                     <li><a class="dropdown-item"
-                                                            href="{{ route('Votos.grafico', ['encuesta' => $publicado->idEncuesta]) }}"><span
-                                                                class="badge bg-gradient-primary">{{ $publicado->fechaTermino }}</span>
+                                                            href="{{ route('elecciones_voto.grafico', ['eleccion' => $publicado->id]) }}"><span
+                                                                class="badge bg-gradient-primary">{{ $publicado->fecha_termino }}</span>
                                                             <span
                                                                 class="badge bg-gradient-{{ $publicado->publicacion == 'Si' ? 'success' : 'info' }}">{{ $publicado->publicacion == 'Si' ? 'Publicado' : 'En Proceso' }}</span>
                                                         </a></li>
                                                 @endforeach
                                             </ul>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-12 col-md-4">
-                            @if(in_array('Encuestador', $permisos))
-                            @else
-                                <span class="d-block fw-bold text-info" style="font-size: 14px;">Sumatoria por Tipo de
-                                    Votos.</span>
-                                <div>
-                                    <div class="form-check form-switch d-flex justify-content-between mb-1">
-                                        <input class="form-check-input" type="checkbox" onclick="getSumaVotos()"
-                                            id="vdis" {{ $encuesta->dispositivo == 'Si' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="vdis">Por Dispositivo</label>
-                                        <input type="number" readonly name="vdis"
-                                            value="{{ $porDispositivo[0]['total'] }}"
-                                            class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
-                                    </div>
+                                @if (in_array('Encuestador', $permisos))
+                                @else
+                                    <span class="d-block fw-bold text-info" style="font-size: 14px;">Sumatoria de
+                                        Votos.</span>
+                                    <div>
 
-                                    <div class="form-check form-switch d-flex justify-content-between mb-1">
-                                        <input class="form-check-input" type="checkbox" onclick="getSumaVotos()"
-                                            id="venc" {{ $encuesta->encuestador == 'Si' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="venc">Por Encuestador</label>
-                                        <input type="number" readonly name="venc"
-                                            value="{{ $porEncuestador[0]['total'] }}"
-                                            class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
-                                    </div>
+                                        <div class="form-check form-switch d-flex justify-content-between mb-1">
+                                            <input class="form-check-input" type="checkbox" onclick="getSumaVotos()"
+                                                id="vman" {{ $eleccion->manual == 'Si' ? 'checked' : '' }}>
+                                            <label class="form-check-label" for="vman">Por Registro Manual</label>
+                                            <input type="number" readonly name="vman"
+                                                value="{{ $porManual[0]['total'] }}"
+                                                class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
+                                        </div>
 
-                                    <div class="form-check form-switch d-flex justify-content-between mb-1">
-                                        <input class="form-check-input" type="checkbox" onclick="getSumaVotos()"
-                                            id="vman" {{ $encuesta->manual == 'Si' ? 'checked' : '' }}>
-                                        <label class="form-check-label" for="vman">Por Registro Manual</label>
-                                        <input type="number" readonly name="vman"
-                                            value="{{ $porManual[0]['total'] }}"
-                                            class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
-                                    </div>
+                                        <div class="form-check form-switch d-flex justify-content-between mb-1">
+                                            <label class="form-check-label" for="total">Total</label>
+                                            <input type="number" readonly name="total" id="total"
+                                                class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
 
-                                    <div class="form-check form-switch d-flex justify-content-between mb-1">
-                                        <label class="form-check-label" for="total">Total</label>
-                                        <input type="number" readonly name="total" id="total"
-                                            class="form-control form-control-sm mx-2 text-end" style="width: 100px;">
+                                        </div>
+                                        <button id="btnSumaVotos"
+                                            class="btn btn-sm w-100 mt-1 bg-gradient-dark">Guardar</button>
+                                        <button class="btn btn-sm btn-danger mt-1 w-100 d-none" id="modaluploadfiles"> <i
+                                                class="fa fa-upload" data-backdrop="static"></i> 
+                                            Documentos</button>
 
                                     </div>
-                                    <button id="btnSumaVotos"
-                                        class="btn btn-sm w-100 mt-1 bg-gradient-dark">Guardar</button>
-
-                                </div>
-                            @endif
+                                @endif
                             </div>
 
                         </div>
@@ -226,7 +209,7 @@
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="distrito" class="text-white">Distrito</label>
                                 <select name="distrito" id="distrito" class="form-control" required
-                                    onchange="getZonas(0)">
+                                    onchange="getLocalesVotacion(0)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
@@ -314,6 +297,71 @@
 
 
     </div>
+    <div class="modal fade" id="documentsModal" tabindex="-1" role="dialog" aria-labelledby="documentsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentsModalLabel">Archivos</h5>
+                    <span aria-hidden="true" style="cursor: pointer" onclick="closeModal()"
+                        class="close h4 close-modall" data-dismiss="modal" aria-label="Close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="cvForm">
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="w-100 table-responsive">
+                                    <table class="table">
+
+                                        <head>
+                                            <tr>
+                                                <td>Archivo</td>
+                                                <td>Acción</td>
+                                            </tr>
+                                        </head>
+                                        <tbody id="documentossubidos" style="font-size: .8em!important">
+
+                                        </tbody>
+                                    </table>
+
+                                    <div class="progress d-none" id="progressupload">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <form action="">
+                                    <div class="form-group my-4">
+                                        <label class="btn btn-danger btn-sm" for="document_selected"> <i
+                                                class="fa fa-upload"></i> Subir
+                                            archivo</label>
+                                        <input type="file" accept=".pdf,image/*" onchange="selectFileUpload(this)"
+                                            name="documentoseleccionado" class="form-control d-none"
+                                            id="document_selected">
+
+
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <div id="document_preview"></div>
+
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <input type="hidden" name="provinciaparam" id="provinciaparam">
+    <input type="hidden" name="distritoparam" id="distritoparam">
+    <input type="hidden" name="localparam" id="localparam">
 @endsection
 
 @section('script')
@@ -324,6 +372,123 @@
     <script src="https://unpkg.com/chart.js-plugin-labels-dv@3.0.5/dist/chartjs-plugin-labels.min.js"></script>
 
     <script>
+        function documentPreview(document) {
+            console.log(document);
+            let path = $(document).attr("path");
+            let type = $(document).attr("type");
+            $("#document_preview").empty();
+            if (type == "pdf") {
+                $("#document_preview").html(`<embed src="/storage/${path}"  alt="" width="100%" height="500px"
+                                    type="application/pdf" />`);
+            } else {
+                $("#document_preview").html(`<img src="/storage/${path}"  alt="" width="100%" height="500px" />`);
+            }
+        }
+        async function documentDelete(document) {
+            let id = $(document).attr("id");
+            let response = await fetch(`/locales_votacion/files/delete`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id})
+            });
+            let data = await response.json();
+            if (data.success) {
+                Swal.fire("", "Eliminado correctamente", "success");
+                renderFiles().then(response => {});
+            } else {
+                Swal.fire("", "Error al eliminar!", "error");
+            }
+        }
+        const renderFiles = async function() {
+            $("#document_preview").empty();
+            let local = $("#zona").val();
+            let eleccion = '{{ $eleccion->id }}';
+            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}`, {
+                method: 'GET'
+            });
+            let data = await response.json();
+            if (data.success) {
+                let html = "";
+                data.files.forEach((element) => {
+                    html +=
+                        `<tr> <td>${element.file_name}</td> <td> <a href="/storage/${element.file_path}" download="${element.file_name}"> <i class="fa fa-download"></i>   </a> <i class="fa fa-eye mx-2" path="${element.file_path}" type="${element.file_type}" style="cursor: pointer;" onclick="documentPreview(this)"></i><i class="fa fa-trash text-danger" path="${element.file_path}" id="${element.id}" type="${element.file_type}" style="cursor: pointer;" onclick="documentDelete(this)"></i> </td></tr>`;
+                })
+                $("#documentossubidos").html(html);
+                return true;
+            }
+            return false;
+        }
+
+
+        function selectFileUpload(ev) {
+
+            let local = $("#zona").val();
+            let eleccion = '{{ $eleccion->id }}';
+            let mesa_desbloqueado = $("#resultado").val();
+            if ($(ev)[0].files[0]) {
+                const formData = new FormData();
+                let documents = true;
+                if ($(ev)[0].files[0]) {
+                    formData.append('documento', $(ev)[0].files[0]);
+                    formData.append('local', local);
+                    formData.append('eleccion', eleccion);
+                }
+                $("#progressupload").removeClass("d-none");
+                $.ajax({
+                    url: `/locales_votacion/files`,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire("", "Se a subido correctamente", "success");
+                            renderFiles().then(response => {
+                                console.log(data);
+                            })
+                        } else {
+                            Swal.fire("", data.message, "error");
+                        }
+                        $("#progressupload").addClass("d-none");
+                    },
+                    error: function(data) {
+                        Swal.fire("", data.message, "error");
+                        $("#progressupload").addClass("d-none");
+                    },
+                });
+            } else {
+                alert("seleccione un archivo");
+            }
+        }
+
+        $(document).ready(function() {
+
+            $("#modaluploadfiles").on("click", async function(e) {
+                let local = $("#zona").val();
+                let eleccion = '{{ $eleccion->id }}';
+                let mesa_desbloqueado = $("#resultado").val();
+                if (local && eleccion && mesa_desbloqueado == "Ubicacion") {
+                    renderFiles().then(response => {
+                        $("#documentsModal").modal("show");
+                    });
+
+                } else {
+                    alert("Seleccione una mesa");
+                }
+            });
+
+        });
+
+        function closeModal() {
+            $("#documentsModal").modal("hide");
+        }
         let dataTableSearch;
         let dataVotos = {
             votoReg: [],
@@ -334,7 +499,7 @@
         let sumaVotos = {};
 
         $("#publicacion").click((e) => {
-            const encid = '{{ $encuesta->idEncuesta }}';
+            const encid = '{{ $eleccion->id }}';
             if (encid === '') {
                 Swal.fire({
                     icon: 'info',
@@ -344,7 +509,7 @@
                 return false;
             }
 
-            fetch('/Encuesta/' + encid + '/Publicacion', {
+            fetch('/elecciones/' + encid + '/Publicacion', {
                     method: 'GET',
                     headers: {
                         'X-CSRF-TOKEN': $("input[name='_token']").val(),
@@ -375,7 +540,7 @@
 
 
         $("#btnSumaVotos").click((e) => {
-            const encid = '{{ $encuesta->idEncuesta }}';
+            const encid = '{{ $eleccion->id }}';
             console.log(encid);
             if (encid === '') {
                 Swal.fire({
@@ -386,7 +551,7 @@
                 return false;
             }
 
-            fetch('/Encuesta/' + encid + '/Sumatoria', {
+            fetch('/elecciones/' + encid + '/Sumatoria', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $("input[name='_token']").val(),
@@ -427,7 +592,7 @@
                 $("#zona").html('<option value="">-- TODO --</option>')
             }
 
-            getZonas();
+            getLocalesVotacion();
             getVotosDepartamento();
         })
 
@@ -439,19 +604,7 @@
             buttonsStyling: false
         })
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // dataTableSearch = new simpleDatatables.DataTable("#tbData", {
-            //     searchable: false,
-            //     sortable: false,
-            //     fixedHeight: true,
-            //     responsive: true,
-            // });
-            getSumaVotos();
 
-            $("#departamento").val(1);
-            getProvincias();
-
-        });
 
         const getSumaVotos = () => {
             let tvotos = 0,
@@ -485,7 +638,42 @@
             tvotos = vtd + vte + vtm;
             $("#total").val(tvotos)
         }
+        $(document).ready(function() {
+            let url = window.location.href;
+            let params = url.split('?');
+            console.log(params);
+            if (params.length > 1) {
+                let paramsarray = params[1].split('&');
+                if (paramsarray.length == 4) {
 
+                    let idDepartamento = paramsarray[0].split("=")[1];
+                    let idProvincia = paramsarray[1].split("=")[1];
+                    let idDistrito = paramsarray[2].split("=")[1];
+                    let idLocal = paramsarray[3].split("=")[1];
+                    $("#departamento").val(idDepartamento);
+                    getSumaVotos();
+                    getProvincias();
+                    $("#departamento").attr("disabled", true);
+                    $("#provincia").attr("disabled", true);
+                    $("#distrito").attr("disabled", true);
+                    $("#provinciaparam").val(idProvincia);
+                    $("#distritoparam").val(idDistrito);
+                    $("#localparam").val(idLocal);
+                    $("#dropdownMenuButton").addClass("d-none");
+                    $("#publicacion").addClass("d-none");
+                    $("#volveratras").removeClass("d-none");
+                } else {
+                    getSumaVotos();
+                    $("#departamento").val(1);
+                    getProvincias();
+                }
+            } else {
+                getSumaVotos();
+                $("#departamento").val(1);
+                getProvincias();
+            }
+
+        });
 
         $("#forms").submit((e) => {
             e.preventDefault();
@@ -560,7 +748,10 @@
         }
     </script>
     <script>
+        
+
         function getProvincias() {
+            $("#modaluploadfiles").addClass("d-none");
             let idDepartamento = $('#departamento').val();
             let ip = window.location.origin;
             $.ajax({
@@ -575,7 +766,16 @@
                     }
                     $("#provincia option").remove();
                     $("#provincia").append(fila);
-                    getDistritos(res[0].id);
+
+                    let idprovincia = res[0].id;
+                    if ($("#provinciaparam").val()) {
+                        idprovincia = $("#provinciaparam").val();
+                        $("#provincia").val(idprovincia);
+                    } else {
+                        $("#provincia").val(idprovincia);
+                    }
+
+                    getDistritos(idprovincia);
                 }
             })
         }
@@ -595,30 +795,44 @@
                     }
                     $("#distrito option").remove();
                     $("#distrito").append(fila);
-                    getZonas(res[0].id);
+                    let idDistrito = res[0].id;
+                    if ($("#distritoparam").val()) {
+                        idDistrito = $("#distritoparam").val();
+                        $("#distrito").val(idDistrito);
+                    } else {
+                        $("#distrito").val(idDistrito);
+                    }
+
+                    getLocalesVotacion(idDistrito);
                     getVotosDepartamento();
                 }
             });
+            $("#modaluploadfiles").addClass("d-none");
         }
 
-        const getZonas = (id) => {
+        const getLocalesVotacion = (id) => {
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
             $.ajax({
-                url: "/" + departamento + "/" + provincia + "/" + distrito + "/Zonas",
+                url: "/" + departamento + "/" + provincia + "/" + distrito + "/locales_votacion",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     var fila = "<option value='' selected>-- TODOS --</option>";
                     for (let i = 0; i < res.length; i++) {
-                        fila += '<option value="' + res[i].id + '">' + res[i].zona + '</option>';
+                        fila += '<option value="' + res[i].id + '">' + res[i].nom_local + " - " + res[i]
+                            .num_mesa + '</option>';
 
                     }
                     $("#zona option").remove();
                     $("#zona").append(fila);
+                    if ($("#localparam").val()) {
+                        $("#zona").val($("#localparam").val());
+                    }
 
                     getVotosDepartamento();
+                    $("#modaluploadfiles").removeClass("d-none");
                 }
             });
         };
@@ -628,7 +842,7 @@
             var today = new Date();
             today.setHours(today.getHours() - 5);
             const todaysDate = today.getTime();
-            const futureDate = new Date('{{ $encuesta->fechaTermino }}').getTime();
+            const futureDate = new Date('{{ $eleccion->fecha_termino }}').getTime();
             const timeInMilliSecs = futureDate - todaysDate;
             const nDays = Math.floor(timeInMilliSecs / 1000 / 60 / 60 / 24);
             const nHours = Math.floor(((timeInMilliSecs / 1000 / 60 / 60 / 24) - nDays) * 24);
@@ -647,7 +861,8 @@
         let iDe, iPr, iDi;
 
         //Data maxima a Mostrarse en Graficos 9 = 10 datas;
-        let dataView = 9; dataMax = 10;
+        let dataView = 9;
+        dataMax = 10;
 
         const getVotosDepartamento = () => {
 
@@ -660,13 +875,15 @@
             }
 
             $.ajax({
-                url: "/Votos/{{ $encuesta->idEncuesta }}/" + departamento + "/" + provincia + "/" + distrito +
+                url: "/elecciones_voto/{{ $eleccion->id }}/" + departamento + "/" + provincia + "/" +
+                    distrito +
                     "/" + zona +
                     "/Graficos/Total",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     setGraficos(res);
+
                 }
             });
         }
@@ -684,22 +901,24 @@
             let totalDep = 0,
                 totalPro = 0,
                 totalDis = 0;
-            const urls = 'https://images.pexels.com/photos/6266317/pexels-photo-6266317.jpeg?cs=srgb&dl=pexels-ann-h-6266317.jpg&fm=jpg';
+            const urls =
+                'https://images.pexels.com/photos/6266317/pexels-photo-6266317.jpeg?cs=srgb&dl=pexels-ann-h-6266317.jpg&fm=jpg';
 
             res.forEach(el => {
-                let  fd;
+                let fd;
 
                 if (el.cReg.length > 0) {
 
-                    if(el.cReg[0].visualiza === 'Si'){
-                            fd = (el.cReg[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
-                    }else{
+                    if (el.cReg[0].visualiza === 'Si') {
+                        fd = (el.cReg[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
+                    } else {
                         fd = urls;
                     }
 
                     imgDep.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                            .logotipo,
                         width: 20,
                         height: 24,
                         value: el.Regional[0].total
@@ -708,15 +927,16 @@
 
                 if (el.cPro.length > 0) {
 
-                    if(el.cPro[0].visualiza === 'Si'){
-                            fd = (el.cPro[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
-                    }else{
+                    if (el.cPro[0].visualiza === 'Si') {
+                        fd = (el.cPro[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
+                    } else {
                         fd = urls;
                     }
 
                     imgPro.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                            .logotipo,
                         width: 20,
                         height: 24,
                         value: el.Provincial[0].total
@@ -725,15 +945,16 @@
 
                 if (el.cDis.length > 0) {
 
-                    if(el.cDis[0].visualiza === 'Si'){
-                            fd = (el.cDis[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cDis[0].foto;
-                    }else{
+                    if (el.cDis[0].visualiza === 'Si') {
+                        fd = (el.cDis[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cDis[0].foto;
+                    } else {
                         fd = urls;
                     }
 
                     imgDis.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                            .logotipo,
                         width: 20,
                         height: 24,
                         value: parseInt(el.Distrital[0].total)
@@ -761,7 +982,7 @@
                 return 1;
             })
 
-            dataDeps.forEach((el, key) =>{
+            dataDeps.forEach((el, key) => {
                 let porDep = ((el / totalDep) * 100).toFixed(2);
                 if (isNaN(porDep)) {
                     porDep = 0;
@@ -780,7 +1001,7 @@
                 return 1;
             })
 
-            dataPros.forEach((el, key) =>{
+            dataPros.forEach((el, key) => {
                 let porPro = ((el / totalPro) * 100).toFixed(2);
                 if (isNaN(porPro)) {
                     porPro = 0;
@@ -799,7 +1020,7 @@
                 return 1;
             })
 
-            dataDiss.forEach((el, key) =>{
+            dataDiss.forEach((el, key) => {
                 let porDis = ((el / totalDis) * 100).toFixed(2);
                 if (isNaN(porDis)) {
                     porDis = 0;
@@ -831,38 +1052,66 @@
 
         const moveChartDep = {
             id: "chart-departamento",
-            beforeDraw(chart, args, options){
+            beforeDraw(chart, args, options) {
 
             },
-            afterEvent(chart, args){
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+            afterEvent(chart, args) {
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chart;
 
-                canvas.addEventListener('mousemove', (event)=>{
+                canvas.addEventListener('mousemove', (event) => {
                     const x = args.event.x;
                     const y = args.event.y;
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    } else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else{
+                    } else {
                         canvas.style.cursor = 'default';
                     }
                 })
             },
-            afterDraw(chart, args, pluginOptions){
-                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+            afterDraw(chart, args, pluginOptions) {
+                const {
+                    ctx,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    },
+                    scales: {
+                        x,
+                        y
+                    }
+                } = chart;
 
                 ctx.save();
                 let ims;
                 iDe.forEach((el, index) => {
                     let img = new Image();
                     img.src = iDe[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDe[index].value)) - 10, 9, 9);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDe[index]
+                        .value)) - 10, 9, 9);
                 });
 
-                class CircleChevron{
+                class CircleChevron {
 
-                    draw(ctx, x1, pixel){
+                    draw(ctx, x1, pixel) {
                         const angle = Math.PI / 180;
 
                         ctx.beginPath();
@@ -889,45 +1138,73 @@
                 let drawCiecleLeft = new CircleChevron();
                 drawCiecleLeft.draw(ctx, left, 5);
 
-                let drawCiecleRight= new CircleChevron();
+                let drawCiecleRight = new CircleChevron();
                 drawCiecleRight.draw(ctx, right, -5);
             }
         }
 
         const moveChartPro = {
             id: "chart-departamento",
-            beforeDraw(chart, args, options){
+            beforeDraw(chart, args, options) {
 
             },
-            afterEvent(chart, args){
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+            afterEvent(chart, args) {
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chart;
 
-                canvas.addEventListener('mousemove', (event)=>{
+                canvas.addEventListener('mousemove', (event) => {
                     const x = args.event.x;
                     const y = args.event.y;
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    } else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else{
+                    } else {
                         canvas.style.cursor = 'default';
                     }
                 })
             },
-            afterDraw(chart, args, pluginOptions){
-                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+            afterDraw(chart, args, pluginOptions) {
+                const {
+                    ctx,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    },
+                    scales: {
+                        x,
+                        y
+                    }
+                } = chart;
 
                 ctx.save();
                 let ims;
                 iPr.forEach((el, index) => {
                     let img = new Image();
                     img.src = iPr[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iPr[index].value)) - 10, 9, 9);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iPr[index]
+                        .value)) - 10, 9, 9);
                 });
 
-                class CircleChevron{
+                class CircleChevron {
 
-                    draw(ctx, x1, pixel){
+                    draw(ctx, x1, pixel) {
                         const angle = Math.PI / 180;
 
                         ctx.beginPath();
@@ -954,45 +1231,73 @@
                 let drawCiecleLeft = new CircleChevron();
                 drawCiecleLeft.draw(ctx, left, 5);
 
-                let drawCiecleRight= new CircleChevron();
+                let drawCiecleRight = new CircleChevron();
                 drawCiecleRight.draw(ctx, right, -5);
             }
         }
 
         const moveChartDis = {
             id: "chart-departamento",
-            beforeDraw(chart, args, options){
+            beforeDraw(chart, args, options) {
 
             },
-            afterEvent(chart, args){
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chart;
+            afterEvent(chart, args) {
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chart;
 
-                canvas.addEventListener('mousemove', (event)=>{
+                canvas.addEventListener('mousemove', (event) => {
                     const x = args.event.x;
                     const y = args.event.y;
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    } else if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         canvas.style.cursor = 'pointer';
-                    }else{
+                    } else {
                         canvas.style.cursor = 'default';
                     }
                 })
             },
-            afterDraw(chart, args, pluginOptions){
-                const { ctx, chartArea: {left, right, top, bottom, width, height}, scales:{ x, y} } = chart;
+            afterDraw(chart, args, pluginOptions) {
+                const {
+                    ctx,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    },
+                    scales: {
+                        x,
+                        y
+                    }
+                } = chart;
 
                 ctx.save();
                 let ims;
                 iDi.forEach((el, index) => {
                     let img = new Image();
                     img.src = iDi[index].src1;
-                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDi[index].value)) - 10, 9, 9);
+                    ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDi[index]
+                        .value)) - 10, 9, 9);
                 });
 
-                class CircleChevron{
+                class CircleChevron {
 
-                    draw(ctx, x1, pixel){
+                    draw(ctx, x1, pixel) {
                         const angle = Math.PI / 180;
 
                         ctx.beginPath();
@@ -1019,7 +1324,7 @@
                 let drawCiecleLeft = new CircleChevron();
                 drawCiecleLeft.draw(ctx, left, 5);
 
-                let drawCiecleRight= new CircleChevron();
+                let drawCiecleRight = new CircleChevron();
                 drawCiecleRight.draw(ctx, right, -5);
             }
         }
@@ -1028,7 +1333,9 @@
 
             let dep = document.getElementById("chart-departamento").getContext("2d");
 
-            if (chDep) { chDep.destroy(); }
+            if (chDep) {
+                chDep.destroy();
+            }
 
             chDep = new Chart(dep, {
                 type: "bar",
@@ -1046,8 +1353,8 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout:{
-                        padding:{
+                    layout: {
+                        padding: {
                             right: 16,
                         }
                     },
@@ -1058,13 +1365,18 @@
                         labels: {
                             render: 'image',
                             images: images,
-                            padding: { top: 10}
+                            padding: {
+                                top: 10
+                            }
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 50},
+                            padding: {
+                                bottom: 50
+                            },
                             color: 'black',
-                            text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() +' '+ total
+                            text: 'DEPARTAMENTO: ' + $("#departamento option:selected").text().trim() + ' ' +
+                                total
                         },
                     },
                     scales: {
@@ -1074,31 +1386,44 @@
                         }
                     }
                 },
-                plugins:[ moveChartDep ]
+                plugins: [moveChartDep]
             });
 
             const moveScroll = () => {
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chDep;
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chDep;
 
-                canvas.addEventListener('click', (event)=>{
+                canvas.addEventListener('click', (event) => {
                     const rect = canvas.getBoundingClientRect();
                     const x = event.clientX - rect.left;
                     const y = event.clientY - rect.top;
 
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         chDep.options.scales.x.min = chDep.options.scales.x.min - dataMax;
                         chDep.options.scales.x.max = chDep.options.scales.x.max - dataMax;
-                        if(chDep.options.scales.x.min <= 0){
+                        if (chDep.options.scales.x.min <= 0) {
                             chDep.options.scales.x.min = 0;
                             chDep.options.scales.x.max = dataView;
                         }
                     }
 
 
-                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         chDep.options.scales.x.min = chDep.options.scales.x.min + dataMax;
                         chDep.options.scales.x.max = chDep.options.scales.x.max + dataMax;
-                        if(chDep.options.scales.x.max >= data.length){
+                        if (chDep.options.scales.x.max >= data.length) {
                             chDep.options.scales.x.min = data.length - dataMax;
                             chDep.options.scales.x.max = data.length;
                         }
@@ -1136,8 +1461,8 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout:{
-                        padding:{
+                    layout: {
+                        padding: {
                             right: 16,
                         }
                     },
@@ -1148,13 +1473,17 @@
                         labels: {
                             render: 'image',
                             images: images,
-                            padding: { top: 10}
+                            padding: {
+                                top: 10
+                            }
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 60},
+                            padding: {
+                                bottom: 60
+                            },
                             color: 'black',
-                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() +' '+ total
+                            text: 'PROVINCIA: ' + $("#provincia option:selected").text().trim() + ' ' + total
                         },
                     },
                     scales: {
@@ -1164,31 +1493,44 @@
                         }
                     }
                 },
-                plugins:[moveChartPro]
+                plugins: [moveChartPro]
             });
 
             const moveScroll = () => {
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chPro;
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chPro;
 
-                canvas.addEventListener('click', (event)=>{
+                canvas.addEventListener('click', (event) => {
                     const rect = canvas.getBoundingClientRect();
                     const x = event.clientX - rect.left;
                     const y = event.clientY - rect.top;
 
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         chPro.options.scales.x.min = chPro.options.scales.x.min - dataMax;
                         chPro.options.scales.x.max = chPro.options.scales.x.max - dataMax;
-                        if(chPro.options.scales.x.min <= 0){
+                        if (chPro.options.scales.x.min <= 0) {
                             chPro.options.scales.x.min = 0;
                             chPro.options.scales.x.max = dataView;
                         }
                     }
 
 
-                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         chPro.options.scales.x.min = chPro.options.scales.x.min + dataMax;
                         chPro.options.scales.x.max = chPro.options.scales.x.max + dataMax;
-                        if(chPro.options.scales.x.max >= data.length){
+                        if (chPro.options.scales.x.max >= data.length) {
                             chPro.options.scales.x.min = data.length - dataMax;
                             chPro.options.scales.x.max = data.length;
                         }
@@ -1226,8 +1568,8 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    layout:{
-                        padding:{
+                    layout: {
+                        padding: {
                             right: 16,
                         }
                     },
@@ -1238,13 +1580,17 @@
                         labels: {
                             render: 'image',
                             images: images,
-                            padding: { top: 10 }
+                            padding: {
+                                top: 10
+                            }
                         },
                         title: {
                             display: true,
-                            padding: { bottom: 60},
+                            padding: {
+                                bottom: 60
+                            },
                             color: 'black',
-                            text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() +' '+ total
+                            text: 'DISTRITO: ' + $("#distrito option:selected").text().trim() + ' ' + total
                         },
                     },
                     scales: {
@@ -1254,31 +1600,44 @@
                         }
                     }
                 },
-                plugins:[moveChartDis]
+                plugins: [moveChartDis]
             });
 
             const moveScroll = () => {
-                const { ctx, canvas, chartArea: {left, right, top, bottom, width, height}} = chDis;
+                const {
+                    ctx,
+                    canvas,
+                    chartArea: {
+                        left,
+                        right,
+                        top,
+                        bottom,
+                        width,
+                        height
+                    }
+                } = chDis;
 
-                canvas.addEventListener('click', (event)=>{
+                canvas.addEventListener('click', (event) => {
                     const rect = canvas.getBoundingClientRect();
                     const x = event.clientX - rect.left;
                     const y = event.clientY - rect.top;
 
-                    if(x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= left - 15 && x <= left + 15 && y >= height / 2 + top - 15 && y <= height / 2 +
+                        top + 15) {
                         chDis.options.scales.x.min = chDis.options.scales.x.min - dataMax;
                         chDis.options.scales.x.max = chDis.options.scales.x.max - dataMax;
-                        if(chDis.options.scales.x.min <= 0){
+                        if (chDis.options.scales.x.min <= 0) {
                             chDis.options.scales.x.min = 0;
                             chDis.options.scales.x.max = dataView;
                         }
                     }
 
 
-                    if(x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height / 2 + top + 15 ){
+                    if (x >= right - 15 && x <= right + 15 && y >= height / 2 + top - 15 && y <= height /
+                        2 + top + 15) {
                         chDis.options.scales.x.min = chDis.options.scales.x.min + dataMax;
                         chDis.options.scales.x.max = chDis.options.scales.x.max + dataMax;
-                        if(chDis.options.scales.x.max >= data.length){
+                        if (chDis.options.scales.x.max >= data.length) {
                             chDis.options.scales.x.min = data.length - dataMax;
                             chDis.options.scales.x.max = data.length;
                         }

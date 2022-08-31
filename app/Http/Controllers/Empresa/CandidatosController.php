@@ -8,6 +8,7 @@ use App\Models\Departamento;
 use App\Models\Provincia;
 use App\Models\Distrito;
 use App\Models\Candidato;
+use App\Models\EleccionesVoto;
 use App\Models\Partido;
 use Illuminate\Support\Facades\Log;
 
@@ -238,5 +239,56 @@ class CandidatosController extends Controller
         }
 
         return response()->json($partidos);
+    }
+    
+    public function getCandidatosElecciones(Request $request, $departamento, $provincia, $distrito,$local,$eleccion){
+        $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
+        $data_existe=0;
+        foreach ($partidos as $partido) {
+            $votosregistrados=EleccionesVoto::where("mesa_id",$local)->where("eleccion_id",$eleccion)->where("partido_id",$partido->id)->first();
+            $partido['Regional'] = Candidato::where('idDepartamento', $departamento)->where('tipo', 'Regional')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+            if($votosregistrados){
+                if(count($partido["Regional"])){
+                    $partido["Regional"][0]["votos_departamento"]=$votosregistrados->votos_departamento;
+                }
+                $data_existe=1;
+            }else{
+                if(count($partido["Regional"])){
+                    $partido["Regional"][0]["votos_departamento"]=0;
+                }
+            }
+            $partido['Provincial'] = Candidato::where('idDepartamento', $departamento)
+            ->where('idProvincia', $provincia)->where('tipo', 'Provincial')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+            if($votosregistrados){
+                if(count($partido["Provincial"])){
+                    $partido["Provincial"][0]["votos_provincia"]=$votosregistrados->votos_provincia;
+                }
+                $data_existe=1;
+            }else{
+                if(count($partido["Provincial"])){
+                    $partido["Provincial"][0]["votos_provincia"]=0;
+                }
+            }
+            $partido['Distrital'] = Candidato::where('idDepartamento', $departamento)->where('idProvincia', $provincia)
+            ->where('idDistrito', $distrito)->where('tipo', 'Distrital')
+            ->where('idPartido',$partido->id)->where('estado', 'activo')->get();
+            if($votosregistrados){
+                if(count($partido["Distrital"])){
+                    $partido["Distrital"][0]["votos_distrito"]=$votosregistrados->votos_distrito;
+                }
+                $data_existe=1;
+            }else{
+                if(count($partido["Distrital"])){
+                    $partido["Distrital"][0]["votos_distrito"]=0;
+                }
+            }
+           
+        }
+        
+        return response()->json(["partidos"=>$partidos,"editar"=>$data_existe]);
+
+
     }
 }

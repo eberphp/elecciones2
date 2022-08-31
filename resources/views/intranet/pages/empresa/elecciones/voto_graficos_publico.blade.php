@@ -16,7 +16,7 @@
                     <div class="card-header bg-gradient-info ">
                         <div class="row ">
                             <div class="col-12 col-md-8 mb-3">
-                                <h5 class="mb-0 text-white " style="font-size: 15px;">{{ $encuesta->nombreEncuesta }} -
+                                <h5 class="mb-0 text-white " style="font-size: 15px;">{{ $eleccion->nombre }} -
                                     GRÁFICOS / Por Ubicación y
                                     Resultado Total</h5>
                             </div>
@@ -34,13 +34,13 @@
                                 <div class="row">
                                     <div class="col-12 mb-3 d-flex justify-content-center align-items-center">
                                         <span class="text-info fw-bold" style="font-size: 14px;">Vigencia: Del
-                                            {{ $encuesta->fechaInicio }} al {{ $encuesta->fechaTermino }}
+                                            {{ $eleccion->fecha_inicio }} al {{ $eleccion->fecha_termino }}
                                         </span>
                                     </div>
                                     <div class="col-12 col-md-6 mb-2">
                                         <select class="form-control" name="resultado" id="resultado">
                                             <option value="Total" selected>Resultado Total</option>
-                                            <option value="Ubicacion">Por Ubicación</option>
+                                            <option value="Ubicacion">Por locales de votacion</option>
                                         </select>
                                     </div>
 
@@ -69,10 +69,7 @@
                             <div class="col-12 col-md-3 text-center">
                                 <div class="row">
                                     <div class="col-12 text-center">
-                                        <span id="linkVoto"
-                                            data-url="{{ route('Votos.dispositivo', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
-                                            class="btn btn-sm w-100 bg-gradient-info mx-1">Votar</span>
-
+                                        
                                         <span id="alertVoto"
                                             class="d-block fw-bold d-none text-white btn btn-sm bg-gradient-info"
                                             style="font-size: 14px;">Usted ya
@@ -82,11 +79,11 @@
                                     <div class="col-12 text-center">
 
                                         <select name="anteriores" id="anteriores" class="form-control text-center">
-                                            <option value="">--- Encuestas Anteriores ---</option>
-                                            @foreach ($encuestas as $publicado)
+                                            <option value="">--- Elecciones Anteriores ---</option>
+                                            @foreach ($elecciones as $publicado)
                                                 <option
-                                                    value="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($publicado->idEncuesta)]) }}">
-                                                    {{ $publicado->fechaTermino }} -
+                                                    value="{{ route('elecciones_voto.grafico.publico', ['eleccion' => Crypt::encryptString($publicado->id)]) }}">
+                                                    {{ $publicado->fecha_termino }} -
                                                     {{ $publicado->publicacion == 'Si' ? 'Publicado' : 'En Proceso' }}
                                                 </option>
                                             @endforeach
@@ -104,7 +101,7 @@
                     </div>
 
                 </div>
-                <div class="card mt-3 shadow-lg {{ $encuesta->publicacion == 'Si' ? '' : 'd-none' }}">
+                <div class="card mt-3 shadow-lg {{ $eleccion->publicacion == 'Si' ? '' : 'd-none' }}">
                     <div class="card-header bg-gradient-success text-white">
                         <div class="row">
                             <div class="col-12 col-md-3 mb-3">
@@ -131,15 +128,15 @@
 
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="distrito" class="text-white">Distrito</label>
-                                <select name="distrito" id="distrito" class="form-control" required onchange="getZonas(0)">
+                                <select name="distrito" id="distrito" class="form-control" required onchange="getLocalesVotacion(0)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
                             </div>
 
                             <div class="col-12 col-md-3 mb-3">
-                                <label for="" class="text-white">Zona</label>
-                                <select name="zona" id="zona" class="form-control" required disabled
+                                <label for="" class="text-white">Local Votacion</label>
+                                <select name="localvotacion" id="localvotacion" class="form-control" required disabled
                                     onchange="getVotosDepartamento()">
                                     <option value="" selected>-- TODOS --</option>
                                 </select>
@@ -151,7 +148,7 @@
                 </div>
             </div> <!-- End CArr -->
 
-            @if ($encuesta->publicacion == 'Si')
+            @if ($eleccion->publicacion == 'Si')
                 <div class="row mb-3 mt-3" style="padding-right: 0;">
                     <div class="col-12 col-md-4">
                         <div class="card mb-3">
@@ -204,7 +201,6 @@
                 <div class="toast-body text-white">{{ Session('success') }}</div>
             </div>
         @endif
-
         @if (Session('fail'))
             <div class="toast fade p-2 mt-2 bg-gradient-danger show" role="alert" aria-live="polite" id="dangerToas"
                 aria-atomic="true" data-bs-delay="10">
@@ -230,8 +226,8 @@
     <script src="{{ asset('admin/assets/js/plugins/chartjs.min.js') }}"></script>
     <script src="https://unpkg.com/chart.js-plugin-labels-dv@3.0.5/dist/chartjs-plugin-labels.min.js"></script>
     <script>
-        let ref = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
-        let encuesta = "{{ $encuesta->idEncuesta }}";
+        let ref = "{{ route('elecciones_voto.grafico.publico', ['eleccion' => Crypt::encryptString($eleccion->id)]) }}";
+        let encuesta = "{{ $eleccion->id }}";
     </script>
     <script src="{{ asset('js/indexdb.js') }}"></script>
 
@@ -251,33 +247,21 @@
             }
         })
 
-        const linkVoto = document.getElementById('linkVoto');
-
-        linkVoto.addEventListener('click', (e) => {
-            if (e.target.dataset.url !== '' && veri) {
-                location.href = e.target.dataset.url
-            } else {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Lo Sentimos..',
-                    text: 'Sólo disponible en Móvil',
-                })
-            }
-        })
+     
 
 
         $("#resultado").change((e) => {
 
             if (e.currentTarget.value == 'Ubicacion') {
-                $("#zona").attr('disabled', false);
-                $("#zona option[value='']").attr("selected", true);
-                $("#zona option[value='']").text("-- Selecciona --");
+                $("#localvotacion").attr('disabled', false);
+                $("#localvotacion option[value='']").attr("selected", true);
+                $("#localvotacion option[value='']").text("-- Selecciona --");
             } else {
-                $("#zona").attr('disabled', true);
-                $("#zona").html('<option value="">-- TODO --</option>')
+                $("#localvotacion").attr('disabled', true);
+                $("#localvotacion").html('<option value="">-- TODO --</option>')
             }
 
-            getZonas();
+            getLocalesVotacion();
             getVotosDepartamento();
         })
 
@@ -344,28 +328,28 @@
                     }
                     $("#distrito option").remove();
                     $("#distrito").append(fila);
-                    getZonas(res[0].id);
+                    getLocalesVotacion(res[0].id);
                     getVotosDepartamento();
                 }
             });
         }
 
-        const getZonas = (id) => {
+        const getLocalesVotacion = (id) => {
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
             $.ajax({
-                url: "/" + departamento + "/" + provincia + "/" + distrito + "/Zonas",
+                url: "/" + departamento + "/" + provincia + "/" + distrito + "/locales_votacion",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     var fila = "<option value='' selected>-- TODOS --</option>";
                     for (let i = 0; i < res.length; i++) {
-                        fila += '<option value="' + res[i].id + '">' + res[i].zona + '</option>';
+                        fila += '<option value="' + res[i].id + '">' + res[i].nom_local + " - " + res[i].num_mesa + '</option>';
 
                     }
-                    $("#zona option").remove();
-                    $("#zona").append(fila);
+                    $("#localvotacion option").remove();
+                    $("#localvotacion").append(fila);
 
                     getVotosDepartamento();
                 }
@@ -377,7 +361,7 @@
             var today = new Date();
             today.setHours(today.getHours() - 5);
             const todaysDate = today.getTime();
-            const futureDate = new Date('{{ $encuesta->fechaTermino }}').getTime();
+            const futureDate = new Date('{{ $eleccion->fecha_termino }}').getTime();
             const timeInMilliSecs = futureDate - todaysDate;
             const nDays = Math.floor(timeInMilliSecs / 1000 / 60 / 60 / 24);
             const nHours = Math.floor(((timeInMilliSecs / 1000 / 60 / 60 / 24) - nDays) * 24);
@@ -403,14 +387,14 @@
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
-            let zona = $('#zona').val();
-            if (zona == '') {
-                zona = 'Todos';
+            let localvotacion = $('#localvotacion').val();
+            if (localvotacion == '') {
+                localvotacion = 'Todos';
             }
 
             $.ajax({
-                url: "/Votos/{{ $encuesta->idEncuesta }}/" + departamento + "/" + provincia + "/" + distrito +
-                    "/" + zona +
+                url: "/elecciones_voto/{{ $eleccion->id }}/" + departamento + "/" + provincia + "/" + distrito +
+                    "/" + localvotacion +
                     "/Graficos/Total",
                 type: 'GET',
                 dataType: 'json', // added data type

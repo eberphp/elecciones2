@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Empresa;
 use App\Models\Encuestas;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Eleccion;
+use App\Models\EleccionesVoto;
 use App\Models\Votos;
 
 
@@ -12,18 +14,17 @@ class EleccionesController extends Controller
 {
     public function index(Request $request)
     {
-        $dts = Encuestas::select('idEncuesta', 'nombreEncuesta', 'fechaInicio', 'fechaTermino', 'observaciones', 'encuestaManual', 'estado')
-            ->where('estado', '!=', 'Eliminado')->where('datos_empresa_id', idEmpresa())->orderBy('idEncuesta', 'desc')->get();
-
-        return view('intranet.pages.empresa.elecciones.crear_encuestas', [
-            'encuestas' => $dts,
+        $dts = Eleccion::select("*")
+            ->where('estado', '!=', 'Eliminado')->where('datos_empresa_id', idEmpresa())->orderBy('id', 'desc')->get();
+        return view('intranet.pages.empresa.elecciones.crear_elecciones', [
+            'elecciones' => $dts,
         ]);
     }
 
     public function encuestador(Request $request)
     {
-        $dts = Encuestas::select('idEncuesta', 'nombreEncuesta', 'fechaInicio', 'fechaTermino', 'observaciones', 'encuestaManual', 'estado')
-            ->where('estado', '!=', 'Eliminado')->orderBy('idEncuesta', 'desc')->get();
+        $dts = Encuestas::select('*')
+            ->where('estado', '!=', 'Eliminado')->orderBy('id', 'desc')->get();
 
         return view('intranet.pages.empresa.elecciones.encuestador', [
             'encuestas' => $dts,
@@ -36,36 +37,33 @@ class EleccionesController extends Controller
         $valiData = $request->validate([
             'nombre' => 'required',
             'inicio' => 'required|date',
-            'termino' => 'required|date',
-            'encuesta' => 'required|string',
-            'estado' => 'string',
-            'observacion' => 'min:0',
+            'termino' => 'required|date'
         ]);
 
-        $req = Encuestas::create([
-            'nombreEncuesta' => $valiData['nombre'],
+        $req = Eleccion::create([
+            'nombre' => $valiData['nombre'],
             'datos_empresa_id' => idEmpresa(),
-            'fechaInicio' => $valiData['inicio'],
-            'fechaTermino' => $valiData['termino'],
-            'encuestaManual' => $valiData['encuesta'],
-            'estado' => $valiData['estado'],
-            'observaciones' => $valiData['observacion']
+            'fecha_inicio' => $valiData['inicio'],
+            'fecha_termino' => $valiData['termino'],
+            'encuesta_manual' => "Si",
+            'estado' =>"Activo",
+            'observaciones' => $request->observacion?$request->observacion:""
         ]);
 
         if ($req) {
-            return to_route('Encuesta')->with('success', 'Registrado Correctamente');
+            return to_route('elecciones')->with('success', 'Registrado Correctamente');
         } else {
-            return to_route('Encuesta')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
+            return to_route('elecciones')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
         }
     }
 
-    public function show(Request $request, Encuestas $encuesta)
+    public function show(Request $request, Eleccion $eleccion)
     {
-        if ($encuesta) {
+        if ($eleccion) {
             return response()->json([
                 'status' => true,
                 'message' => 'Encuesta encontrada',
-                'data' => $encuesta,
+                'data' => $eleccion,
             ], 200);
         }
 
@@ -75,65 +73,60 @@ class EleccionesController extends Controller
         ], 402);
     }
 
-    public function update(Request $request, Encuestas $encuesta)
+    public function update(Request $request, Eleccion $eleccion)
     {
         $valiData = $request->validate([
             'nombre' => 'required',
             'inicio' => 'required|date',
             'termino' => 'required|date',
-            'encuesta' => 'required|string',
-            'estado' => 'string',
             'observacion' => 'min:0',
         ]);
 
-        $votos = Votos::where('encuestaId',$encuesta->idEncuesta)->where('tipoEncuesta','Manual')->where('estado','Activo')->get();
+        $votos = EleccionesVoto::where('eleccion_id',$eleccion->id)->where('tipo_voto','Manual')->where('estado','Activo')->get();
 
         if($votos){
 
-            $req = $encuesta->update([
-                'nombreEncuesta' => $valiData['nombre'],
-                'fechaInicio' => $valiData['inicio'],
-                'fechaTermino' => $valiData['termino'],
-                'estado' => $valiData['estado'],
+            $req = $eleccion->update([
+                'nombre' => $valiData['nombre'],
+                'fecha_inicio' => $valiData['inicio'],
+                'fecha_termino' => $valiData['termino'],
+                'estado' => isset($request->estado)?$request->estado:$eleccion->estado,
                 'observaciones' => $valiData['observacion']
             ]);
-
-            return to_route('Encuesta')->with('fail', 'Ya no puedes Cambiar encuesta Manual por tener Votos Manuales');
+            return to_route('elecciones')->with('fail', 'Ya no puedes Cambiar encuesta Manual por tener Votos Manuales');
         }else{
-            $req = $encuesta->update([
-                'nombreEncuesta' => $valiData['nombre'],
-                'fechaInicio' => $valiData['inicio'],
-                'fechaTermino' => $valiData['termino'],
-                'encuestaManual' => $valiData['encuesta'],
-                'estado' => $valiData['estado'],
+            $req = $eleccion->update([
+                'nombre' => $valiData['nombre'],
+                'fecha_inicio' => $valiData['inicio'],
+                'fecha_termino' => $valiData['termino'],
+                'estado' => isset($request->estado)?$request->estado:$eleccion->estado,
                 'observaciones' => $valiData['observacion']
             ]);
 
             if ($req) {
-                return to_route('Encuesta')->with('success', 'Actualizado Correctamente');
+                return to_route('elecciones')->with('success', 'Actualizado Correctamente');
             } else {
-                return to_route('Encuesta')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
+                return to_route('elecciones')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
             }
         }
 
     }
 
-    public function destroy(Request $request, Encuestas $encuesta)
+    public function destroy(Request $request, Eleccion $eleccion)
     {
-        $votos = Votos::where('encuestaId',$encuesta->idEncuesta)->where('estado','Activo')->get();
+        $votos = EleccionesVoto::where('eleccion_id',$eleccion->id)->where('estado','Activo')->get();
 
-        if($votos){
+
+        if(count($votos)){
             return response()->json([
                 'status' => false,
                 'message' => 'No puedes Eliminar esta encuesta por te votos asociados.'
             ], 402);
         }else{
-            if ($encuesta) {
-
-                $req = $encuesta->update([
+            if ($eleccion) {
+                $req = $eleccion->update([
                     'estado' => 'Eliminado',
                 ]);
-
                 if ($req) {
                     return response()->json([
                         'status' => true,
@@ -156,32 +149,30 @@ class EleccionesController extends Controller
 
     }
 
-    public function publicacion(Request $request, Encuestas $encuesta)
+    public function publicacion(Request $request, Eleccion $eleccion)
     {
-        if ($encuesta) {
-            $encuesta->update([
-                'publicacion' => ($encuesta->publicacion == 'Si') ? 'No' : 'Si',
-            ]);
-
+        if ($eleccion) {
+            $eleccion->publicacion = ($eleccion->publicacion == 'Si') ? 'No' : 'Si';
+            $eleccion->save();
             return response()->json([
                 'status' => true,
-                'message' => 'Encuesta Publicada Satisfactoriamente.'
+                'message' => 'Eleccion Publicada Satisfactoriamente.',
+                "eleccion" => $eleccion
             ], 200);
         }
-
         return response()->json([
             'status' => true,
             'message' => 'Sucedio un error. Vuelva a intentarlo'
         ], 402);
     }
 
-    public function sumatoria(Request $request, Encuestas $encuesta)
+    public function sumatoria(Request $request, Eleccion $eleccion)
     {
-        if ($encuesta) {
-            $encuesta->update([
-                'dispositivo' => $request['dispositivo'],
-                'encuestador' => $request['encuestador'],
-                'manual' => $request['manual'],
+        if ($eleccion) {
+            $eleccion->update([
+                'dispositivo' => isset($request['dispositivo'])?$request["dispositivo"]:$eleccion->dispositivo,
+                'encuestador' => isset($request['encuestador'])?$request["encuestador"]:$eleccion->encuestador,
+                'manual' => isset($request['manual'])?$request["manual"]:$eleccion->manual,
             ]);
 
             return response()->json([

@@ -11,22 +11,34 @@ use App\Models\Departamento;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Eleccion;
+use App\Models\EleccionesVoto;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
+use Yajra\DataTables\DataTables;
 
 class EleccionesVotosController extends Controller
 {
     public function index(Request $request)
     {
 
-        $votos = Votos::with('encuesta:idEncuesta,nombreEncuesta,fechaTermino')->with('partido:id,partido,logotipo,observacion')
-            ->with('departamento:id,departamento')
-            ->select('idVoto', 'encuestaId', 'partidoId', 'departamentoId', 'region', DB::raw('IFNULL(SUM(votos),0) as votos'), 'tipoEncuesta', 'fecha', 'estado')->where('datos_empresa_id', idEmpresa())
-            ->groupBy('encuestaId', 'partidoId', 'region')->get();
-
+        $votos = EleccionesVoto::with('eleccion:id,nombre,fecha_termino')->with('partido:id,partido,logotipo,observacion')
+            ->with('_departamento:id,departamento')
+            ->select('id', 'eleccion_id', 'partido_id', 'departamento', 'region', DB::raw('IFNULL(SUM(votos),0) as votos'), 'tipo_voto', 'fecha', 'estado')->where('datos_empresa_id', idEmpresa())
+            ->groupBy('eleccion_id', 'partido_id', 'region')->get();
         return view('intranet.pages.empresa.elecciones.votos_encuesta', [
             'votos' => $votos
         ]);
+    }
+    public function pagination()
+    {
+        $votos = EleccionesVoto::with('eleccion:id,nombre,fecha_termino')->with('partido', '_departamento','_provincia','_distrito',"locales_votacion")
+            ->select('elecciones_votos.id', 'elecciones_votos.eleccion_id',"elecciones_votos.mesa_id" ,'elecciones_votos.partido_id', 'elecciones_votos.departamento',"elecciones_votos.provincia","elecciones_votos.distrito", 'elecciones_votos.region', DB::raw('IFNULL(SUM(votos),0) as votos'),DB::raw('IFNULL(SUM(elecciones_votos.votos_departamento),0) as votos_departamento'),
+            DB::raw('IFNULL(SUM(elecciones_votos.votos_provincia),0) as votos_provincia'),
+            DB::raw('IFNULL(SUM(elecciones_votos.votos_distrito),0) as votos_distrito'),
+            'elecciones_votos.tipo_voto', 'elecciones_votos.fecha', 'elecciones_votos.estado')->where('elecciones_votos.datos_empresa_id', idEmpresa())
+            ->groupBy('elecciones_votos.departamento', 'elecciones_votos.provincia', 'elecciones_votos.distrito',"elecciones_votos.mesa_id","elecciones_votos.partido_id");
+        return DataTables::of($votos)->make(true);
     }
 
     public function store(Request $request)
@@ -37,58 +49,53 @@ class EleccionesVotosController extends Controller
             'provincia' => 'required',
             'distrito' => 'required',
             'zona' => 'required',
-
             'partidoRegional' => 'required',
             'votoRegional' => 'required',
-
             'partidoProvincial' => 'required',
             'votoProvincial' => 'required',
-
             'partidoDistrital' => 'required',
             'votoDistrital' => 'required',
-
-
         ]);
 
 
-        $votoRegional = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
-            'partidoId' => $valiData['partidoRegional'],
+        $votoRegional = EleccionesVoto::create([
+            'eleccion_id' => $valiData['encuesta'],
+            'partido_id' => $valiData['partidoRegional'],
             'departamentoId' => $valiData['departamento'],
             'datos_empresa_id'  => idEmpresa(),
             'zonaId' => $valiData['zona'],
             'region' => 'Regional',
             'votos' => 1,
-            'tipoEncuesta' => 'Encuesta',
+            'tipo_voto' => 'Encuesta',
             'codigo' => 'ENC-00' . Auth::user()->id,
             'fecha' => date('Y-m-d'),
         ]);
 
-        $votoProvincial = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
+        $votoProvincial = EleccionesVoto::create([
+            'eleccion_id' => $valiData['encuesta'],
             'datos_empresa_id'  => idEmpresa(),
-            'partidoId' => $valiData['partidoProvincial'],
+            'partido_id' => $valiData['partidoProvincial'],
             'departamentoId' => $valiData['departamento'],
             'provinciaId' => $valiData['provincia'],
             'zonaId' => $valiData['zona'],
             'region' => 'Provincial',
             'votos' => 1,
-            'tipoEncuesta' => 'Encuesta',
+            'tipo_voto' => 'Encuesta',
             'codigo' => 'ENC-00' . Auth::user()->id,
             'fecha' => date('Y-m-d'),
         ]);
 
-        $votoDistrital = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
-            'partidoId' => $valiData['partidoDistrital'],
+        $votoDistrital = EleccionesVoto::create([
+            'eleccion_id' => $valiData['encuesta'],
+            'partido_id' => $valiData['partidoDistrital'],
             'departamentoId' => $valiData['departamento'],
             'provinciaId' => $valiData['provincia'],
-            'distritoId' => $valiData['distrito'],
+            'distrito' => $valiData['distrito'],
             'datos_empresa_id'  => idEmpresa(),
             'zonaId' => $valiData['zona'],
             'region' => 'Distrital',
             'votos' => 1,
-            'tipoEncuesta' => 'Encuesta',
+            'tipo_voto' => 'Encuesta',
             'codigo' => 'ENC-00' . Auth::user()->id,
             'fecha' => date('Y-m-d'),
         ]);
@@ -105,181 +112,86 @@ class EleccionesVotosController extends Controller
             ], 200);
         }
     }
-
-    public function storeDispositivo(Request $request)
-    {
-        $valiData = $request->validate([
-            'encuesta' => 'required',
-            'departamento' => 'required',
-            'provincia' => 'required',
-            'distrito' => 'required',
-            'zona' => 'required',
-
-            'partidoRegional' => 'required',
-            'votoRegional' => 'required',
-
-            'partidoProvincial' => 'required',
-            'votoProvincial' => 'required',
-
-            'partidoDistrital' => 'required',
-            'votoDistrital' => 'required',
-
-
-        ]);
-
-
-        $votoRegional = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
-            'partidoId' => $valiData['partidoRegional'],
-            'departamentoId' => $valiData['departamento'],
-            'zonaId' => $valiData['zona'],
-            'region' => 'Regional',
-            'votos' => 1,
-            'datos_empresa_id'  => idEmpresa(),
-            'tipoEncuesta' => 'Dispositivo',
-            'codigo' => 'VT-DISP',
-            'fecha' => date('Y-m-d'),
-        ]);
-
-        $votoProvincial = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
-            'partidoId' => $valiData['partidoProvincial'],
-            'departamentoId' => $valiData['departamento'],
-            'provinciaId' => $valiData['provincia'],
-            'zonaId' => $valiData['zona'],
-            'region' => 'Provincial',
-            'votos' => 1,
-            'datos_empresa_id'  => idEmpresa(),
-            'tipoEncuesta' => 'Dispositivo',
-            'codigo' => 'VT-DISP',
-            'fecha' => date('Y-m-d'),
-        ]);
-
-        $votoDistrital = Votos::create([
-            'encuestaId' => $valiData['encuesta'],
-            'partidoId' => $valiData['partidoDistrital'],
-            'departamentoId' => $valiData['departamento'],
-            'provinciaId' => $valiData['provincia'],
-            'distritoId' => $valiData['distrito'],
-            'zonaId' => $valiData['zona'],
-            'region' => 'Distrital',
-            'votos' => 1,
-            'tipoEncuesta' => 'Dispositivo',
-            'codigo' => 'VT-DISP',
-            'fecha' => date('Y-m-d'),
-        ]);
-
-        if ($votoRegional && $votoProvincial && $votoDistrital) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Votos registrados Correctamente',
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => false,
-                'message' => 'Sucedio algo al registrar los votos',
-            ], 200);
-        }
-    }
-
-
 
     public function storeManual(Request $request)
     {
+        try {
 
-
-        $valiData = $request->validate([
-            'encuesta' => 'required',
-            'codigo' => 'required|string',
-            'departamento' => 'required',
-            'provincia' => 'required',
-            'distrito' => 'required',
-            'zona' => 'required',
-
-            'votoReg' => 'required|array',
-
-            'votoPro' => 'required|array',
-
-            'votoDis' => 'required|array',
-
-
-        ]);
-
-        for ($i = 0; $i < count($valiData['votoReg']); $i++) {
-            $votoRegional = Votos::create([
-                'encuestaId' => $valiData['encuesta'],
-                'partidoId' => $valiData['votoReg'][$i][0],
-                'departamentoId' => $valiData['departamento'],
-                'zonaId' => $valiData['zona'],
-                'region' => 'Regional',
-                'datos_empresa_id'  => idEmpresa(),
-                'votos' => $valiData['votoReg'][$i][1],
-                'tipoEncuesta' => 'Manual',
-                'codigo' => $valiData['codigo'],
-                'fecha' => date('Y-m-d'),
+            $valiData = $request->validate([
+                'eleccion' => 'required',
+                'codigo' => 'required|string',
+                'departamento' => 'required',
+                'provincia' => 'required',
+                'distrito' => 'required',
+                'votoReg' => 'required|array',
+                'votoPro' => 'required|array',
+                'votoDis' => 'required|array',
+                "votos" => "required|array",
+                "num_mesa" => "required",
+                "editar" => "required"
             ]);
-        }
 
-        for ($i = 0; $i < count($valiData['votoPro']); $i++) {
-            $votoProvincial = Votos::create([
-                'encuestaId' => $valiData['encuesta'],
-                'partidoId' => $valiData['votoPro'][$i][0],
-                'departamentoId' => $valiData['departamento'],
-                'provinciaId' => $valiData['provincia'],
-                'zonaId' => $valiData['zona'],
-                'datos_empresa_id'  => idEmpresa(),
-                'region' => 'Provincial',
-                'votos' => $valiData['votoPro'][$i][1],
-                'tipoEncuesta' => 'Manual',
-                'codigo' => $valiData['codigo'],
-                'fecha' => date('Y-m-d'),
-            ]);
-        }
+            if ($valiData && $valiData["editar"] ) {
+                $votosguardados=true;
+                for ($i = 0; $i < count($valiData['votos']); $i++) {
+                    $votoexiste = EleccionesVoto::where("eleccion_id", $valiData["eleccion"])
+                        ->where("partido_id", $valiData['votos'][$i]["partido_id"])
+                        ->where("mesa_id", $request->num_mesa)->first();
+                    $votoexiste->votos_departamento = $valiData["votos"][$i]["votos_departamento"];
+                    $votoexiste->votos_provincia = $valiData["votos"][$i]["votos_provincia"];
+                    $votoexiste->votos_distrito = $valiData["votos"][$i]["votos_distrito"];
+                    $votoexiste->votos = $valiData['votos'][$i]['totalvotos'];
+                    $votoexiste->save();
+                }
+            } else if ($valiData && !$valiData['editar']) {
+                for ($i = 0; $i < count($valiData['votos']); $i++) {
+                    $votosguardados = EleccionesVoto::create([
+                        'eleccion_id' => $valiData['eleccion'],
+                        'partido_id' => $valiData['votos'][$i]["partido_id"],
+                        'departamento' => $valiData['departamento'],
+                        'provincia' => $valiData['provincia'],
+                        'distrito' => $valiData['distrito'],
+                        'datos_empresa_id'  => idEmpresa(),
+                        'mesa_id' => $request->num_mesa,
+                        'region' => 'Distrital',
+                        'votos' => $valiData['votos'][$i]['totalvotos'],
+                        'tipo_voto' => 'Manual',
+                        'codigo' => $valiData['codigo'],
+                        "votos_departamento" => $valiData["votos"][$i]["votos_departamento"],
+                        "votos_provincia" => $valiData["votos"][$i]["votos_provincia"],
+                        "votos_distrito" => $valiData["votos"][$i]["votos_distrito"],
+                        'fecha' => date('Y-m-d'),
+                    ]);
+                }
+            }
 
-        for ($i = 0; $i < count($valiData['votoDis']); $i++) {
-            $votoDistrital = Votos::create([
-                'encuestaId' => $valiData['encuesta'],
-                'partidoId' => $valiData['votoDis'][$i][0],
-                'departamentoId' => $valiData['departamento'],
-                'provinciaId' => $valiData['provincia'],
-                'distritoId' => $valiData['distrito'],
-                'datos_empresa_id'  => idEmpresa(),
-                'zonaId' => $valiData['zona'],
-                'region' => 'Distrital',
-                'votos' => $valiData['votoDis'][$i][1],
-                'tipoEncuesta' => 'Manual',
-                'codigo' => $valiData['codigo'],
-                'fecha' => date('Y-m-d'),
-            ]);
-        }
-
-        if ($votoRegional && $votoProvincial && $votoDistrital) {
-            return response()->json([
-                'status' => true,
-                'message' => 'Votos registrados Correctamente',
-            ], 200);
-        } else {
+            if ($votosguardados) {
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Votos registrados Correctamente',
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Sucedio algo al registrar los votos',
+                ], 200);
+            }
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'Sucedio algo al registrar los votos',
-            ], 200);
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 
-    public function getVotosDepartamentos(Request $request, $encuesta, $departamento, $provincia, $distrito, $zona)
+    public function getVotosDepartamentos(Request $request, $eleccion, $departamento, $provincia, $distrito, $zona)
     {
         $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
-
-        $siEncuesta = Encuestas::where('idEncuesta', $encuesta)->first();
-
+        $siEleccion = Eleccion::where('id', $eleccion)->first();
         $tVotos = [];
-
-
-        ($siEncuesta->dispositivo == "Si") ? array_push($tVotos, 'Dispositivo') : '';
-        ($siEncuesta->encuestador == "Si") ? array_push($tVotos, 'Encuesta') : '';
-        ($siEncuesta->manual == "Si") ? array_push($tVotos, 'Manual')  : '';
-
-
+        ($siEleccion->dispositivo == "Si") ? array_push($tVotos, 'Dispositivo') : '';
+        ($siEleccion->encuestador == "Si") ? array_push($tVotos, 'Encuesta') : '';
+        ($siEleccion->manual == "Si") ? array_push($tVotos, 'Manual')  : '';
         // dd($zona);
         $variacion = '=';
         if ($zona == '' || $zona == 'Todos') {
@@ -288,33 +200,24 @@ class EleccionesVotosController extends Controller
         }
 
         foreach ($partidos as $partido) {
-            $partido['Regional'] = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-                ->where(function ($query) use ($tVotos) {
-                    $query->whereIn('tipoEncuesta', $tVotos);
-                })
-                ->where('departamentoId', $departamento)
-                ->where('partidoId', $partido->id)->where('zonaId', $variacion, $zona)
-                ->where('encuestaId', $siEncuesta->idEncuesta)
-                ->where('estado', 'Activo')->where('region', 'Regional')->get();
+            $partido['Regional'] = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos_departamento),0) as total'))
+                ->where('departamento', $departamento)
+                ->where('partido_id', $partido->id)->where('mesa_id', $variacion, $zona)
+                ->where('eleccion_id', $siEleccion->id)
+                ->where('estado', 'Activo')->get();
 
-            $partido['Provincial'] = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-                ->where(function ($query) use ($tVotos) {
-                    $query->whereIn('tipoEncuesta', $tVotos);
-                })
-                ->where('departamentoId', $departamento)->where('provinciaId', $provincia)
-                ->where('partidoId', $partido->id)->where('zonaId', $variacion, $zona)
-                ->where('encuestaId', $siEncuesta->idEncuesta)
-                ->where('estado', 'Activo')->where('region', 'Provincial')->get();
+            $partido['Provincial'] = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos_provincia),0) as total'))
+                ->where('departamento', $departamento)->where('provincia', $provincia)
+                ->where('partido_id', $partido->id)->where('mesa_id', $variacion, $zona)
+                ->where('eleccion_id', $siEleccion->id)
+                ->where('estado', 'Activo')->get();
 
-            $partido['Distrital'] = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-                ->where(function ($query) use ($tVotos) {
-                    $query->whereIn('tipoEncuesta', $tVotos);
-                })
-                ->where('departamentoId', $departamento)->where('provinciaId', $provincia)->where('distritoId', $distrito)
-                ->where('partidoId', $partido->id)->where('zonaId', $variacion, $zona)
-                ->where('encuestaId', $siEncuesta->idEncuesta)
-                ->where('estado', 'Activo')->where('region', 'Distrital')->get();
-
+            $partido['Distrital'] = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos_distrito),0) as total'))
+                ->where('departamento', $departamento)->where('provincia', $provincia)->where('distrito', $distrito)
+                ->where('partido_id', $partido->id)->where('mesa_id', $variacion, $zona)
+                ->where('eleccion_id', $siEleccion->id)
+                ->where('estado', 'Activo')->get();
+                
             // Candidatos Foto
             $partido['cReg'] = Candidato::select('foto', 'visualiza')->where('idDepartamento', $departamento)->where('tipo', 'Regional')
                 ->where('idPartido', $partido->id)->where('estado', 'activo')->get();
@@ -331,7 +234,6 @@ class EleccionesVotosController extends Controller
         return response()->json($partidos);
     }
 
-
     public function encuestador(Request $request, Encuestas $encuesta)
     {
         $departamentos = Departamento::where('estado', 'activo')->get();
@@ -345,7 +247,7 @@ class EleccionesVotosController extends Controller
     {
         $id = Crypt::decryptString($encuesta);
 
-        $encuesta = Encuestas::where('idEncuesta', $id)->first();
+        $encuesta = Eleccion::where('id', $id)->first();
 
         $departamentos = Departamento::where('estado', 'activo')->get();
         return view('intranet.pages.empresa.elecciones.voto_dispositivo', [
@@ -354,32 +256,32 @@ class EleccionesVotosController extends Controller
         ]);
     }
 
-    public function manual(Request $request, Encuestas $encuesta)
+    public function manual(Request $request, Eleccion $eleccion)
     {
         $departamentos = Departamento::where('estado', 'activo')->get();
         return view('intranet.pages.empresa.elecciones.voto_manual', [
-            'encuesta' => $encuesta,
+            'eleccion' => $eleccion,
             'departamentos' => $departamentos,
         ]);
     }
 
-    public function grafico(Request $request, Encuestas $encuesta)
+    public function grafico(Request $request, Eleccion $eleccion)
     {
         $departamentos = Departamento::where('estado', 'activo')->get();
-        $encuestas = Encuestas::where('estado', 'Activo')->orderBy('idEncuesta','desc')->get();;
+        $elecciones = Eleccion::where('estado', 'Activo')->orderBy('id', 'desc')->get();;
 
-        $porDispositivo = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Dispositivo')->where('encuestaId', $encuesta->idEncuesta)->get();
+        $porDispositivo = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Dispositivo')->where('eleccion_id', $eleccion->id)->get();
 
-        $porEncuestador = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Encuesta')->where('encuestaId', $encuesta->idEncuesta)->get();
+        $porEncuestador = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Encuesta')->where('eleccion_id', $eleccion->id)->get();
 
-        $porManual = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Manual')->where('encuestaId', $encuesta->idEncuesta)->get();
+        $porManual = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Manual')->where('eleccion_id', $eleccion->id)->get();
 
         return view('intranet.pages.empresa.elecciones.voto_graficos', [
-            'encuesta' => $encuesta,
-            'encuestas' => $encuestas,
+            'eleccion' => $eleccion,
+            'elecciones' => $elecciones,
             'porDispositivo' => $porDispositivo,
             'porEncuestador' => $porEncuestador,
             'porManual' => $porManual,
@@ -387,30 +289,29 @@ class EleccionesVotosController extends Controller
         ]);
     }
 
-    public function graficoPublico(Request $request,  $encuesta)
+    public function graficoPublico(Request $request,  $eleccion)
     {
-        $id = Crypt::decryptString($encuesta);
+        $id = Crypt::decryptString($eleccion);
 
-        $encuesta = Encuestas::where('idEncuesta', $id)->where('datos_empresa_id', idEmpresa())->first();
-        if(!$encuesta){
+        $_eleccion = Eleccion::where('id', $id)->where('datos_empresa_id', idEmpresa())->first();
+        if (!$_eleccion) {
             abort(404);
         }
 
         $departamentos = Departamento::where('estado', 'activo')->get();
-        $encuestas = Encuestas::where('estado', 'Activo')->where('datos_empresa_id', idEmpresa())->orderBy('idEncuesta','desc')->get();;
+        $_elecciones = Eleccion::where('estado', 'Activo')->where('datos_empresa_id', idEmpresa())->orderBy('id', 'desc')->get();;
 
-        $porDispositivo = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Dispositivo')->where('encuestaId', $encuesta->idEncuesta)->get();
+        $porDispositivo = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Dispositivo')->where('eleccion_id', $_eleccion->id)->get();
 
-        $porEncuestador = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Encuesta')->where('encuestaId', $encuesta->idEncuesta)->get();
+        $porEncuestador = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Encuesta')->where('eleccion_id', $_eleccion->id)->get();
 
-        $porManual = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
-            ->where('tipoEncuesta', 'Manual')->where('encuestaId', $encuesta->idEncuesta)->get();
-
+        $porManual = EleccionesVoto::select(DB::raw('IFNULL(SUM(votos),0) as total'))
+            ->where('tipo_voto', 'Manual')->where('eleccion_id', $_eleccion->id)->get();
         return view('intranet.pages.empresa.elecciones.voto_graficos_publico', [
-            'encuesta' => $encuesta,
-            'encuestas' => $encuestas,
+            'eleccion' => $_eleccion,
+            'elecciones' => $_elecciones,
             'porDispositivo' => $porDispositivo,
             'porEncuestador' => $porEncuestador,
             'porManual' => $porManual,

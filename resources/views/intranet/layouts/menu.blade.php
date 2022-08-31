@@ -546,55 +546,39 @@
                     </a>
                     <div class="collapse " id="elecciones">
                         <ul class="nav ms-4">
-                            <li class="nav-item ">
-                                <a class="nav-link  {{ request()->is('datos-empresa') ? 'active' : '' }}"
-                                    href="{{ route('datos.empresa') }}">
-                                    <span class="sidenav-mini-icon"> DE </span>
-                                    <span class="sidenav-normal"> Datos de la Empresa <b class="caret"></b></span>
+                           
+                        
+                            <li class="nav-item">
+                                <a href="{{ route('elecciones') }}"
+                                    class="nav-link {{ request()->is('elecciones') ? 'active' : '' }}">
+                                    <div
+                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Crear elecciones</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('redes-sociales') ? 'active' : '' }}"
-                                    href="{{ route('redes.empresa') }}">
-                                    <span class="sidenav-mini-icon"> RS </span>
-                                    <span class="sidenav-normal"> Redes Sociales <b class="caret"></b></span>
+                            <li class="nav-item">
+                                <a href="{{ route('elecciones_voto') }}"
+                                    class="nav-link {{ request()->is('elecciones_voto') ? 'active' : '' }}">
+                                    <div
+                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Votos</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('sliders') ? 'active' : '' }}"
-                                    href="{{ route('sliders.index') }}">
-                                    <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Sliders <b class="caret"></b></span>
+                            <li class="nav-item">
+                                <a href="{{ route('locales_votacion.view') }}"
+                                    class="nav-link {{ request()->is('locales_votacion') ? 'active' : '' }}">
+                                    <div
+                                        class="icon icon-shape icon-sm text-center d-flex align-items-center justify-content-center">
+                                        <i class="ni ni-ungroup text-warning text-sm opacity-10"></i>
+                                    </div>
+                                    <span class="nav-link-text ms-1">Locales votacion</span>
                                 </a>
                             </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('publicaciones') ? 'active' : '' }}"
-                                    href="{{ route('publicaciones.index') }}">
-                                    <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Publicaciones <b class="caret"></b></span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('botones') ? 'active' : '' }}"
-                                    href="{{ route('botones.index') }}">
-                                    <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Botones <b class="caret"></b></span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('servicios') ? 'active' : '' }}"
-                                    href="{{ route('servicios.index') }}">
-                                    <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Servicios <b class="caret"></b></span>
-                                </a>
-                            </li>
-                            <li class="nav-item ">
-                                <a class="nav-link {{ request()->is('testimonios') ? 'active' : '' }}"
-                                    href="{{ route('testimonios.index') }}">
-                                    <span class="sidenav-mini-icon"> S </span>
-                                    <span class="sidenav-normal"> Testimonios <b class="caret"></b></span>
-                                </a>
-                            </li>
+                         
                         </ul>
                     </div>
                 </li>

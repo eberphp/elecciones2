@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Api\LocalVotacionController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Empresa\EleccionesVotosController;
 
 /*
 |--------------------------------------------------------------------------
@@ -106,6 +107,12 @@ Route::get('/encuesta', 'App\Http\Controllers\Api\ApiEncuestaController@index');
 Route::post('/encuesta', 'App\Http\Controllers\Api\ApiEncuestaController@store');
 Route::put('/encuesta/{id}', 'App\Http\Controllers\Api\ApiEncuestaController@update');
 Route::delete('/encuesta/{id}', 'App\Http\Controllers\Api\ApiEncuestaController@destroy');
+Route::post("/votos_elecciones/pagination",[EleccionesVotosController::class,"pagination"]);
+Route::post("/locales_votacion/pagination",[LocalVotacionController::class,"pagination"]);
+Route::get('/elecciones', 'App\Http\Controllers\Api\ApiEleccionesController@index');
+Route::post('/elecciones', 'App\Http\Controllers\Api\ApiEleccionesController@store');
+Route::put('/elecciones/{id}', 'App\Http\Controllers\Api\ApiEleccionesController@update');
+Route::delete('/elecciones/{id}', 'App\Http\Controllers\Api\ApiEleccionesController@destroy');
 
 Route::get('/lista/candidatos/{departamento}/{provincia}/{distrito}', 'App\Http\Controllers\Api\CandidatoController@list');
 

@@ -1,7 +1,8 @@
 @extends('intranet.layouts.layout')
 @section('style')
     <style>
-        .table td, .table th {
+        .table td,
+        .table th {
             white-space: inherit !important;
         }
     </style>
@@ -15,22 +16,27 @@
                     <div class="card-header bg-gradient-info ">
                         <div class="row">
                             <div class="col-6">
-                                <h5 class="mb-0 text-white">Voto Manual</h5>
+                                <h5 class="mb-0 text-white">Ingresar votos de manera Manual</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                                <a href="{{ route('Votos.grafico',['encuesta'=>$encuesta->idEncuesta]) }}" class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
-                                <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
+                                <a href="{{ route('elecciones_voto.grafico', ['eleccion' => $eleccion->id]) }}"
+                                    class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+                                <a href="{{ route('elecciones') }}" class="btn btn-info" style="float: right">Volver</a>
+                                <button class="btn btn-danger mx-2 d-none" id="modaluploadfiles"> <i class="fa fa-upload"
+                                        data-backdrop="static"></i> Subir documentos</button>
                             </div>
                         </div>
                         <p class="text-sm mb-0">
                         </p>
                     </div>
-
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 mb-1 text-center">
-                                <span class="text-danger text-center text-white bg-gradient-primary p-2" style="border-radius: 25px;">CODIGO DE DOCUMENTO</span>
-                                <input type="text" class="form-control text-center text-md fw-bold" readonly name="codigo" value="{{ Str::upper(Str::random(8)); }}"></div>
+                                <span class="text-danger text-center text-white bg-gradient-primary p-2"
+                                    style="border-radius: 25px;">CODIGO DE DOCUMENTO</span>
+                                <input type="text" class="form-control text-center text-md fw-bold" readonly
+                                    name="codigo" value="{{ Str::upper(Str::random(8)) }}">
+                            </div>
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="">Departamento</label>
                                 <select name="departamento" id="departamento" class="form-control" required
@@ -55,16 +61,17 @@
 
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="">Distrito</label>
-                                <select name="distrito" id="distrito" class="form-control" required onchange="getZonas(0)">
+                                <select name="distrito" id="distrito" class="form-control" required
+                                    onchange="getLocalesVotacion(0)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
                             </div>
 
                             <div class="col-12 col-md-3 mb-3">
-                                <label for="">Zona</label>
-                                <select name="zona" id="zona" class="form-control" required
-                                    onchange="getCandidatos()">
+                                <label for="">Mesa</label>
+                                <select name="num_mesa" id="num_mesa" class="form-control" required
+                                    onchange="getCandidatos(this)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
@@ -77,10 +84,10 @@
                     <div class="card-header bg-gradient-success text-white">
                         <h6 class="text-white">Listado de Partidos Politicos</h6>
                     </div>
-                    <form action="{{ route('Votos.store') }}" method="post" id="forms" class="needs-validation"
-                        novalidate>
+                    <form action="{{ route('elecciones_voto.store') }}" method="post" id="forms"
+                        class="needs-validation" novalidate>
                         @csrf
-                        <input type="hidden" name="idencuesta" value="{{ $encuesta->idEncuesta }}">                        
+                        <input type="hidden" name="ideleccion" id="ideleccion" value="{{ $eleccion->id }}">
                         <div class="row">
 
                             <div class="col-12 mb-3">
@@ -140,8 +147,68 @@
                 <div class="toast-body text-white">{{ Session('fail') }}</div>
             </div>
         @endif
+    </div>
+    <input type="hidden" name="typeaction" id="typeaction">
+    <div class="modal fade" id="documentsModal" tabindex="-1" role="dialog" aria-labelledby="documentsModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentsModalLabel">Archivos</h5>
+                    <span aria-hidden="true" style="cursor: pointer" onclick="closeModal()"
+                        class="close h4 close-modall" data-dismiss="modal" aria-label="Close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="cvForm">
+                        <div class="row">
+
+                            <div class="col-md-5">
+                                <div class="w-100 table-responsive">
+                                    <table class="table">
+                                        <head>
+                                            <tr>
+                                                <td>Archivo</td>
+                                                <td>Acción</td>
+                                            </tr>
+                                        </head>
+                                        <tbody id="documentossubidos" style="font-size: .8em!important">
+                                          
+                                        </tbody>
+                                    </table>
+                                   
+                                    <div class="progress d-none" id="progressupload">
+                                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                                            role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
+                                            style="width: 75%"></div>
+                                    </div>
+                                </div>
+                                <form action="">
+                                    <div class="form-group my-4">
+                                        <label class="btn btn-danger btn-sm" for="document_selected"> <i
+                                                class="fa fa-upload"></i> Subir
+                                            archivo</label>
+                                        <input type="file" accept=".pdf,image/*" onchange="selectFileUpload(this)"
+                                            name="documentoseleccionado" class="form-control d-none"
+                                            id="document_selected">
 
 
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <div id="document_preview"></div>
+                               
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
     </div>
 @endsection
 
@@ -164,18 +231,121 @@
                 cancelButton: 'btn bg-gradient-danger'
             },
             buttonsStyling: false
-        })
+        });
+        function documentPreview(document){
+            console.log(document);
+            let path=$(document).attr("path");
+            let type=$(document).attr("type");
+            $("#document_preview").empty();
+            if(type == "pdf"){
+            $("#document_preview").html(`<embed src="/storage/${path}"  alt="" width="100%" height="500px"
+                                    type="application/pdf" />`);
+            }else{
+                $("#document_preview").html(`<img src="/storage/${path}"  alt="" width="100%" height="500px" />`);
+            }
+        }
+        async function documentDelete(document) {
+            let id = $(document).attr("id");
+            let response = await fetch(`/locales_votacion/files/delete`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id})
+            });
+            let data = await response.json();
+            if (data.success) {
+                Swal.fire("", "Eliminado correctamente", "success");
+                renderFiles().then(response => {});
+            } else {
+                Swal.fire("", "Error al eliminar!", "error");
+            }
+        }
+        const renderFiles = async function() {
+            let local = $("#num_mesa").val();
+            let eleccion = $("#ideleccion").val();
+            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}`, {
+                method: 'GET'
+            });
+            let data = await response.json();
+            if (data.success) {
+                let html = "";
+                data.files.forEach((element) => {
+                    html +=
+                        `<tr> <td>${element.file_name}</td> <td> <a href="/storage/${element.file_path}" download="${element.file_name}"> <i class="fa fa-download"></i>   </a> <i class="fa fa-eye mx-2" path="${element.file_path}" type="${element.file_type}" style="cursor: pointer;" onclick="documentPreview(this)"></i><i class="fa fa-trash text-danger" path="${element.file_path}" id="${element.id}" type="${element.file_type}" style="cursor: pointer;" onclick="documentDelete(this)"></i> </td></tr>`;
+                })
+                $("#documentossubidos").html(html);
+                return true;
+            }
+            return false;
+        }
 
-        window.addEventListener('DOMContentLoaded', (event) => {
-            // dataTableSearch = new simpleDatatables.DataTable("#tbData", {
-            //     searchable: false,
-            //     sortable: false,
-            //     fixedHeight: true,
-            //     responsive: true,
-            // });
+
+        function selectFileUpload(ev) {
+
+            let local = $("#num_mesa").val();
+            let eleccion = $("#ideleccion").val();
+            if ($(ev)[0].files[0]) {
+                const formData = new FormData();
+                let documents = true;
+                if ($(ev)[0].files[0]) {
+                    formData.append('documento', $(ev)[0].files[0]);
+                    formData.append('local', local);
+                    formData.append('eleccion', eleccion);
+                }
+                $("#progressupload").removeClass("d-none");
+                $.ajax({
+                    url: `/locales_votacion/files`,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    data: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                    },
+                    success: function(data) {
+                        if (data.success) {
+                            Swal.fire("", "Se a subido correctamente", "success");
+                            renderFiles().then(response => {
+                                console.log(data);
+                            })
+                        } else {
+                            Swal.fire("", data.message, "error");
+                        }
+                        $("#progressupload").addClass("d-none");
+                    },
+                    error: function(data) {
+                        Swal.fire("", data.message, "error");
+                        $("#progressupload").addClass("d-none");
+                    },
+                });
+            } else {
+                alert("seleccione un archivo");
+            }
+        }
+
+        $(document).ready(function() {
+
+            $("#modaluploadfiles").on("click", async function(e) {
+                let local = $("#num_mesa").val();
+                let eleccion = $("#ideleccion").val();
+                if (local && eleccion) {
+                    renderFiles().then(response => {
+                        $("#documentsModal").modal("show");
+                    });
+
+                } else {
+                    alert("Seleccione una mesa");
+                }
+            });
 
         });
-        
+
+        function closeModal() {
+            $("#documentsModal").modal("hide");
+        }
 
         $(document).on('change', '.allRegional', (e) => {
             getDataVotos();
@@ -185,51 +355,56 @@
             getDataVotos();
         });
 
-        $(document).on('change', '.allDistrital', (e) => {            
+        $(document).on('change', '.allDistrital', (e) => {
             getDataVotos();
         });
 
-        const getDataVotos = () =>{
+        const getDataVotos = () => {
 
             dataVotos.votoReg = [];
             dataVotos.votoPro = [];
             dataVotos.votoDis = [];
 
-            $(".allPartidos").each((key, el)=>{
-                if(el.parentNode.parentNode.children[2].children[0]){  
-                    const voto = parseInt(el.parentNode.parentNode.children[2].children[0].children[0].children[0].value)
-                    dataVotos.votoReg.push( [el.value, voto]);           
-                }else{
-                    dataVotos.votoReg.push( [el.value, 0]);
+            $(".allPartidos").each((key, el) => {
+                if (el.parentNode.parentNode.children[2].children[0]) {
+                    const voto = parseInt(el.parentNode.parentNode.children[2].children[0].children[0].children[
+                        0].value)
+                    dataVotos.votoReg.push([el.value, voto]);
+                } else {
+                    dataVotos.votoReg.push([el.value, 0]);
                 }
 
-                if(el.parentNode.parentNode.children[3].children[0]){  
-                    const voto = parseInt(el.parentNode.parentNode.children[3].children[0].children[0].children[0].value)
-                    dataVotos.votoPro.push( [el.value, voto]);           
-                }else{
-                    dataVotos.votoPro.push( [el.value, 0]);
+                if (el.parentNode.parentNode.children[3].children[0]) {
+                    const voto = parseInt(el.parentNode.parentNode.children[3].children[0].children[0].children[
+                        0].value)
+                    dataVotos.votoPro.push([el.value, voto]);
+                } else {
+                    dataVotos.votoPro.push([el.value, 0]);
                 }
 
-                if(el.parentNode.parentNode.children[4].children[0]){  
-                    const voto = parseInt(el.parentNode.parentNode.children[4].children[0].children[0].children[0].value)
-                    dataVotos.votoDis.push( [el.value, voto]);           
-                }else{
-                    dataVotos.votoDis.push( [el.value, 0]);
+                if (el.parentNode.parentNode.children[4].children[0]) {
+                    const voto = parseInt(el.parentNode.parentNode.children[4].children[0].children[0].children[
+                        0].value)
+                    dataVotos.votoDis.push([el.value, voto]);
+                } else {
+                    dataVotos.votoDis.push([el.value, 0]);
                 }
             });
         }
 
         $("#forms").submit((e) => {
-            e.preventDefault();            
+            e.preventDefault();
 
             dataVotos.departamento = $("#departamento").val();
             dataVotos.provincia = $("#provincia").val();
             dataVotos.distrito = $("#distrito").val();
-            dataVotos.zona = $("#zona").val();
-            dataVotos.encuesta = $("input[name='idencuesta']").val();
+            dataVotos.num_mesa = $("#num_mesa").val();
+            dataVotos.eleccion = $("input[name='ideleccion']").val();
             dataVotos.codigo = $("input[name='codigo']").val();
-
+            dataVotos.editar = $("#typeaction").val();
+            console.log(dataVotos);
             if (dataVotos.votoReg.length <= 0 || dataVotos.votoPro <= 0 || dataVotos.votoDis.length <= 0) {
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -238,18 +413,41 @@
                 console.log(dataVotos);
                 return false;
             }
+            let join_data = [];
+            dataVotos.votoReg.forEach((element, index) => {
+                let valuedep = dataVotos.votoReg[index][0];
+                let valuepro = dataVotos.votoPro[index][0];
+                let valuedis = dataVotos.votoDis[index][0];
+
+                let totalvotos = 0;
+                if (valuedep == valuepro && valuedep == valuedis) {
+
+                    totalvotos += dataVotos.votoDis[index][1];
+                    totalvotos += dataVotos.votoPro[index][1];
+                    totalvotos += dataVotos.votoReg[index][1];
+                    join_data.push({
+                        partido_id: valuedep,
+                        votos_distrito: dataVotos.votoDis[index][1],
+                        votos_departamento: dataVotos.votoReg[index][1],
+                        votos_provincia: dataVotos.votoPro[index][1],
+                        totalvotos: totalvotos
+                    });
+                }
+            });
+            dataVotos.votos = join_data;
+            console.log(join_data);
 
             swalWithBootstrapButtons.fire({
                 title: 'Estas por ingresar votos a la  Encuesta?',
-                text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: "+dataVotos.codigo,
+                text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: " +
+                    dataVotos.codigo,
                 icon: 'info',
                 showCancelButton: true,
                 confirmButtonText: 'Si, Guardar',
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-
-                    fetch('/Votos/Manuales', {
+                    fetch('/elecciones_voto/Manuales', {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': $("input[name='_token']").val(),
@@ -298,6 +496,8 @@
     <script>
         function getProvincias() {
             let idDepartamento = $('#departamento').val();
+
+            $("#modaluploadfiles").addClass("d-none");
             let ip = window.location.origin;
             $.ajax({
                 url: ip + "/getProvincias/" + idDepartamento,
@@ -318,6 +518,8 @@
 
         function getDistritos(id) {
             let idProvincia = $('#provincia').val();
+
+            $("#modaluploadfiles").addClass("d-none");
             let ip = window.location.origin;
             $.ajax({
                 url: ip + "/getDistritos/" + idProvincia,
@@ -331,49 +533,57 @@
                     }
                     $("#distrito option").remove();
                     $("#distrito").append(fila);
-                    getZonas(res[0].id);
+                    getLocalesVotacion(res[0].id);
                     $("#tbDataCandidatos").html('')
                 }
             });
         }
 
-        const getZonas = (id) => {
+        const getLocalesVotacion = (id) => {
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
             $.ajax({
-                url: "/" + departamento + "/" + provincia + "/" + distrito + "/Zonas",
+                url: "/" + departamento + "/" + provincia + "/" + distrito + "/locales_votacion",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     var fila = "<option value='' >-- Seleccione --</option>";
                     for (let i = 0; i < res.length; i++) {
-                        fila += '<option value="' + res[i].id + '">' + res[i].zona + '</option>';
-
+                        fila += '<option value="' + res[i].id + '">' + res[i].nom_local + " - " + res[i]
+                            .num_mesa + '</option>';
                     }
-                    $("#zona option").remove();
-                    $("#zona").append(fila);
+                    $("#num_mesa option").remove();
+                    $("#num_mesa").append(fila);
                     $("#tbDataCandidatos").html('')
                 }
             });
         };
 
-        const getCandidatos = () => {
+        const getCandidatos = (ev) => {
 
-            if ($('#zona').val() === '') {
+            if ($('#num_mesa').val() === '') {
                 $("#tbDataCandidatos").html('');
+                $("#modaluploadfiles").addClass("d-none");
                 return false;
             }
+
+            $("#modaluploadfiles").addClass("d-none");
 
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
+            let local_votacion = $(ev).val();
+            let ideleccion = $("#ideleccion").val();
             $.ajax({
-                url: "/" + departamento + "/" + provincia + "/" + distrito + "/Candidatos",
+                url: "/" + departamento + "/" + provincia + "/" + distrito + "/" + local_votacion + "/" +
+                    ideleccion + "/candidatos_elecciones",
                 type: 'GET',
                 dataType: 'json', // added data type
-                success: function(res) {
+                success: function(data_server) {
                     var fila = "";
+                    $("#typeaction").val(data_server.editar);
+                    let res = data_server.partidos;
                     const url = "{{ asset('img/logotipos/') }}";
                     const urlCandidato = "{{ asset('img/fotos/') }}";
                     for (let i = 0; i < res.length; i++) {
@@ -395,7 +605,7 @@
                             fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center">
-                                            <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="0" min="0" required />
+                                            <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="${res[i].Regional[0].votos_departamento}" min="0" required />
                                         </div>
                                         <div class="d-flex flex-column justify-content-center mt-1" >
                                             <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombreCorto}</h6></label>
@@ -410,7 +620,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="0" min="0" required />
+                                        <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
@@ -424,7 +634,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="0" min="0" required />
+                                        <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>
@@ -437,6 +647,7 @@
 
                     }
                     $("#tbDataCandidatos").html(fila);
+                    $("#modaluploadfiles").removeClass("d-none");
                 }
             });
         };

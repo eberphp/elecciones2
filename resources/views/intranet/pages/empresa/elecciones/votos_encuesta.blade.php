@@ -28,10 +28,7 @@
                                 @endif
 
                             </div>
-                            <div class="col-6" style="text-align: right">
-                                <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">Nuevo</button>
-                            </div>
+
                         </div>
                         <p class="text-sm mb-0">
                         </p>
@@ -39,73 +36,23 @@
                     <div class="table-responsive">
                         <table class="table table-flush" id="tbData">
                             <thead class="thead-light">
-                                <tr>
-                                    <th style="font-size: .65rem;">IdEncuesta</th>
-                                    <th style="font-size: .65rem;">Encuesta</th>
-                                    <th style="font-size: .65rem;">Partdido</th>
-                                    <th style="font-size: .65rem;">Departamento</th>
-                                    <th style="font-size: .65rem;">Región</th>
-                                    <th style="font-size: .65rem;">Voto</th>
-                                    <th style="font-size: .65rem;">Tipo de Encuesta</th>
-                                    <th style="font-size: .65rem;">Fecha</th>
-                                    <th style="font-size: .65rem;">Estado</th>
-                                    <th style="font-size: .65rem;">&nbsp;</th>
+                                <tr style="text-transform: uppercase !important">
+                                    <th style="font-size: .80rem;">Id</th>
+                                    <th style="font-size: .80rem;">Elecciones</th>
+                                    <th style="font-size: .80rem;">Partido</th>
+                                    <th style="font-size: .80rem;">Local</th>
+
+                                    <th style="font-size: .80rem;">Mesa</th>
+                                    <th style="font-size: .80rem;">Departamento</th>
+                                    <th style="font-size: .80rem;">Provincia</th>
+                                    <th style="font-size: .80rem;">Distrito</th>
+                                    <th style="font-size: .80rem;">Total votos</th>
+                                    <th style="font-size: .80rem;">Fecha</th>
+                                    <th style="font-size: .80rem;">&nbsp;</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @foreach ($votos as $voto)
-                                    <tr style="font-size: 14px;color:black;">
-                                        <td>{{ $voto->encuesta->idEncuesta }}</td>
-                                        <td><span
-                                                class="badge badge-md bg-gradient-success">{{ $voto->encuesta->nombreEncuesta }}</span>
-                                        </td>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('img/logotipos/'.$voto->partido->logotipo)}}" class="avatar avatar-sm me-3"
-                                                        alt="user1">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">{{ $voto->partido->partido }}</h6>
-                                                    <p class="text-xs text-secondary mb-0">{{ $voto->partido->observacion }}</p>
-                                                </div>
-                                            </div>                                            
-                                        </td>
-                                        <td><span
-                                            class="badge badge-md bg-gradient-secondary">{{ $voto->departamento->departamento }}</span>   
-                                        </td>
-                                        <td><span
-                                            class="badge badge-md bg-gradient-secondary">{{ $voto->region }}</span></td>
-                                        <td><span
-                                            class="badge badge-md bg-gradient-dark">{{ $voto->votos }}</span></td>
-                                        <td><span
-                                            class="badge badge-md bg-gradient-primary">{{ $voto->tipoEncuesta }}</span></td>
-                                        <td><span
-                                            class="badge badge-md bg-gradient-info">{{ $voto->fecha }}</span></td>
-                                        <td>
-                                            @if ($voto->estado == 'Activo')
-                                            <span
-                                            class="badge badge-md bg-gradient-success">{{ $voto->estado }}</span>
-                                            @else
-                                            <span
-                                            class="badge badge-md bg-gradient-danger">{{ $voto->estado }}</span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="d-flex align-items-center"> 
+                            <tbody style="font-size: .8em !important">
 
-                                                <a href="#"
-                                                    class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
-                                                    style="cursor:pointer;" data-item="{{ $voto->encuesta->idEncuesta }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Grafico de Votos">
-                                                    <i class="fas fa-chart-bar text-white opacity-10 "
-                                                        style="cursor:pointer;"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -124,7 +71,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('Encuesta.store') }}" method="post" id="forms" enctype="multipart/form-data"
+                <form action="{{ route('elecciones.store') }}" method="post" id="forms" enctype="multipart/form-data"
                     class="needs-validation" novalidate>
                     @csrf
                     <input type="hidden" name="idencuesta">
@@ -183,134 +130,179 @@
 @endsection
 
 @section('script')
-    <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
-    <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
-
+    <script src="{{ asset('admin/assets/js/plugins/xlsx.full.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('admin/assets/js/plugins/tableexport.min.js') }}"></script>
     <script>
-        let dataTableSearch;
-        window.addEventListener('DOMContentLoaded', (event) => {
-            dataTableSearch = new simpleDatatables.DataTable("#tbData", {
-                searchable: true,
-                fixedHeight: true,
-                responsive: true,
+        var customtable = null;
+        var datos = [];
+        $(document).ready(function() {
+
+            customtable = $("#tbData").DataTable({
+
+                "serverSide": true,
+                "ajax": {
+                    "url": "/api/votos_elecciones/pagination",
+                    "type": "POST",
+                    "dataSrc": function(data) {
+                        console.log(data);
+                        datos = data.data;
+                        return data.data;
+                    }
+                },
+                "columns": [{
+                        data: "id",
+                        name: "id",
+
+                        className: 'dt-body-center'
+                    },
+                    {
+                        data: "eleccion.nombre",
+                        name: "eleccion.nombre",
+                        render: function(data) {
+                            return `${data}`;
+                        }
+                    }, {
+                        data: "partido.partido",
+                        name: "partido.partido",
+                        render: function(data, type, row) {
+                            return ` <div class="d-flex px-2 py-1">
+                                                <div>
+                                                    <img src="/img/logotipos/${row.partido.logotipo}" class="avatar avatar-sm me-3"
+                                                        alt="user1">
+                                                </div>
+                                                <div class="d-flex flex-column justify-content-center">
+                                                    <h6 class="mb-0 text-sm">${data}</h6>
+                                                    <p class="text-xs text-secondary mb-0">${row.partido.observacion?row.partido.observacion:"" }</p>
+                                                </div>
+                                            </div>  `;
+                        }
+                    },
+                    {
+                        data: "locales_votacion.nom_local",
+                        name: "locales_votacion.nom_local",
+                        render: function(data, type, row) {
+                            return `${data}`;
+                        },
+
+                    },
+                    {
+                        data: "locales_votacion.num_mesa",
+                        name: "locales_votacion.num_mesa",
+                        render: function(data, type, row) {
+                            return `${data}`;
+                        },
+                        className: 'dt-body-center dt-head-center'
+                    }, {
+                        data: "_departamento.departamento",
+                        name: "_departamento.departamento",
+                        render: function(data, type, row) {
+                            return `${data} -  ${row.votos_departamento}`;
+                        },
+                        className: 'dt-head-center'
+
+                    }, {
+                        data: "_provincia.provincia",
+                        name: "_provincia.provincia",
+                        render: function(data, type, row) {
+                            return `${data} -  ${row.votos_provincia} `;
+                        },
+                        className: 'dt-head-center'
+                    },
+                    {
+                        data: "_distrito.distrito",
+                        name: "_distrito.distrito",
+                        render: function(data, type, row) {
+                            return `${data} -  ${row.votos_distrito} `;
+                        },
+                        className: 'dt-head-center'
+                    }, {
+                        data: "votos",
+                        name: "votos",
+                        render: function(data) {
+                            return `<span class="badge badge-md bg-gradient-success" style="min-width:140px">${data}</span>`;
+                        },
+                        className: 'dt-body-center'
+                    }, {
+                        data: "fecha",
+                        name: "fecha",
+                        render: function(data) {
+                            return `${data}`;
+                        },
+                        className: 'dt-body-center'
+                    }, {
+                        data: "eleccion.id",
+                        name: "eleccion.id",
+                        render: function(data,type,row ) {
+                            let departamento=row.departamento;
+                            let provincia=row.provincia;
+                            let distrito=row.distrito;
+                            let local=row.mesa_id;
+                            return `<div class="d-flex align-items-center"><a href="/elecciones_voto/${data}/Grafico?d=${departamento}&p=${provincia}&d=${distrito}&l=${local}" class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
+                                        style="cursor:pointer;" data-item="${ data }" data-bs-toggle="tooltip" data-bs-placement="top" title="Grafico de Votos">
+                                            <i class="fas fa-chart-bar text-white opacity-10 "
+                                                style="cursor:pointer;"></i>
+                                        </a>
+                                    </div>`;
+                        }
+                    }
+                ],
+                "processing": true,
+                "pagingType": "numbers",
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
+                }
+
             });
-
-            (function() {
-                'use strict'
-
-                // Fetch all the forms we want to apply custom Bootstrap validation styles to
-                var forms = document.querySelectorAll('.needs-validation')
-
-                // Loop over them and prevent submission
-                Array.prototype.slice.call(forms)
-                    .forEach(function(form) {
-                        form.addEventListener('submit', function(event) {
-                            if (!form.checkValidity()) {
-                                event.preventDefault()
-                                event.stopPropagation()
-                            }
-
-                            form.classList.add('was-validated')
-                        }, false)
-                    })
-            })();
-
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            })
-
-        });
-
-        $(document).on('click', '.btnEditar', (e) => {
-            const ids = e.currentTarget.dataset.item
-            if (ids !== '') {
-                fetch('/Encuesta/' + ids + '/show', {
-                        credentials: 'include',
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then((response) => {
-                        if (response.status) {
-
-                            $("#exampleModalLabel")[0].parentNode.classList.remove('bg-success');
-                            $("#exampleModalLabel")[0].parentNode.classList.add('bg-info');
-                            $("#exampleModalLabel").text('Editar Encuesta');
-
-                            $("#btnSubmit").text('Actualizar');
-
-                            $("#forms")[0].attributes[0].value = '/Encuesta/' + response.data.idEncuesta +
-                                '/update';
-                            $("#forms")[0].attributes[1].value = 'POST';
-
-                            $("#forms input[name=idencuesta]").val(response.data.idEncuesta);
-                            $("#forms input[name=nombre]").val(response.data.nombreEncuesta);
-                            $("#forms input[name=inicio]").val(response.data.fechaInicio);
-                            $("#forms input[name=termino]").val(response.data.fechaTermino);
-                            $("#forms select[name=encuesta]").val(response.data.encuestaManual);
-                            $("#forms select[name=estado]").val(response.data.estado);
-                            $("#forms textarea[name=observacion]").val(response.data.observaciones);
-
-                            $("#exampleModal").modal('show');
-                        } else {
-
-                        }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
+            customtable.on('draw', function() {
+                initTooltip();
+            });
+            const initTooltip = function() {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
             }
-        });
+            $("#exportToExcel").on("click", function() {
+                if (typeof XLSX == 'undefined') XLSX = require('xlsx');
+                var ws = XLSX.utils.table_to_sheet(document.getElementById('datatable'));
+                var wb = XLSX.utils.book_new();
+                XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
+                XLSX.writeFile(wb, "reporte.xlsx");
+            });
+            $('#tbData thead tr').clone(true).appendTo('#tbData thead');
 
-        $(document).on('click', '.btnEliminar', (e) => {
-            const ids = e.currentTarget.dataset.item
-            if (ids !== '') {
-                fetch('/Encuesta/' + ids + '/destroy', {
-                        credentials: 'include',
-                        method: 'GET',
-                        headers: {
-                            'Content-Type': 'application/json'
+            $('#tbData thead tr:eq(1) th').each(function(i) {
+                if (i != 10 && i != 0 && i != 9) {
+                    $(this).html(
+                        '<input type="text" class="form-control form-control-sm mx-0" placeholder="buscar" />'
+                    );
+
+                    $('input', this).on('keyup change', function() {
+                        if (customtable.column(i).search() !== this.value) {
+                            customtable
+                                .column(i)
+                                .search(this.value)
+                                .draw();
                         }
-                    })
-                    .then(response => response.json())
-                    .then((response) => {
-                        if (response.status) {
-                            location.reload();
-                        } else {
-                            location.reload();
+                    });
+                } else if (i == 9) {
+                    $(this).html(
+                        '<input type="date" class="form-control form-control-sm mx-0" placeholder="buscar" />'
+                    );
+
+                    $('input', this).on('keyup change', function() {
+                        if (customtable.column(i).search() !== this.value) {
+                            customtable
+                                .column(i)
+                                .search(this.value)
+                                .draw();
                         }
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    })
-            }
+                    });
+                } else {
+                    $(this).html("");
+                }
+            });
         });
-
-        $('#exampleModal').on('hidden.bs.modal', function(e) {
-            $("#exampleModalLabel")[0].parentNode.classList.remove('bg-info');
-            $("#exampleModalLabel")[0].parentNode.classList.add('bg-success');
-            $("#exampleModalLabel").text('Crear Encuesta');
-
-            $("#btnSubmit").text('Crear');
-
-            $("#forms")[0].classList.remove('was-validated');
-            $("#forms")[0].reset();
-            $('#forms').trigger("reset");
-
-            $("#forms")[0].attributes[0].value = '/Encuesta';
-            $("#forms")[0].attributes[1].value = 'POST';
-        });
-    </script>
-    <script>
-        var win = navigator.platform.indexOf('Win') > -1;
-        if (win && document.querySelector('#sidenav-scrollbar')) {
-            var options = {
-                damping: '0.5'
-            }
-            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-        }
     </script>
 @endsection
