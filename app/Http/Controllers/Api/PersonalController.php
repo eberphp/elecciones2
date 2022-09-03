@@ -15,7 +15,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+
+use Illuminate\Support\Str;
+
 use Response;
 //use Auth;
 
@@ -87,9 +91,17 @@ class PersonalController extends Controller
                     unlink($personal->cv);
                 }
             }
-            $url = $request->file('cv')->store('public/documents/personal/cv');
+        /*     $url = $request->file('cv')->store('public/documents/personal/cv');
             $save = explode('public/', $url);
-            $personal->cv = implode("", $save);
+            $personal->cv = implode("", $save); */
+            $cvfile = $request->file("cv");
+            $nombreDocumento = Str::slug($cvfile->getClientOriginalName() . microtime()) . "." . $cvfile->getClientOriginalExtension();
+            $rutasave = "public/images/personal";
+            $path = Storage::putFileAs($rutasave, $cvfile, $nombreDocumento);
+            $url_cv = $rutasave . "/" .  $nombreDocumento;
+            $acv_url = explode("public/", $url_cv);
+            $cv_url = implode("", $acv_url);
+            $personal->cv = $cv_url;
             $personal->save();
             return response()->json(["success" => true, "message" => "cv cargado correctamente"], 200);
         } catch (Exception $e) {
@@ -105,9 +117,17 @@ class PersonalController extends Controller
                     unlink($personal->image);
                 }
             }
-            $url = $request->file('image')->store('public/images/personal');
+            /*  $url = $request->file('image')->store('public/images/personal');
             $save = explode('public/', $url);
-            $personal->foto = implode("", $save);
+            $personal->foto = implode("", $save); */
+            $foto = $request->file("image");
+            $nombreDocumento = Str::slug($foto->getClientOriginalName() . microtime()) . "." . $foto->getClientOriginalExtension();
+            $rutasave = "public/images/personal";
+            $path = Storage::putFileAs($rutasave, $foto, $nombreDocumento);
+            $url_foto = $rutasave . "/" .  $nombreDocumento;
+            $afoto_url = explode("public/", $url_foto);
+            $foto_url = implode("", $afoto_url);
+            $personal->foto = $foto_url;
             $personal->save();
             return response()->json(["success" => true, "message" => "imagen cargada correctamente"], 200);
         } catch (Exception $e) {
@@ -193,16 +213,26 @@ class PersonalController extends Controller
             $save1 = "";
             $foto_url = "";
             if ($foto) {
-                $url = $foto->store('public/images/personal');
-                $save1 = explode('public/', $url);
-                $foto_url = implode("", $save1);
+                $nombreDocumento = Str::slug($foto->getClientOriginalName() . microtime()) . "." . $foto->getClientOriginalExtension();
+                $rutasave = "public/images/personal";
+                $path = Storage::putFileAs($rutasave, $foto, $nombreDocumento);
+                $url_foto = $rutasave . "/" .  $nombreDocumento;
+                $afoto_url = explode("public/", $url_foto);
+                $foto_url = implode("", $afoto_url);
             }
             $cv_url = "";
             $save2 = "";
-            if ($cv) {
+            if ($cv) {/* 
                 $url = $cv->store('public/documents/personal/cv');
                 $save2 = explode('public/', $url);
-                $cv_url = implode("", $save2);
+                $cv_url = implode("", $save2); */
+
+                $nombreDocumento = Str::slug($cv->getClientOriginalName() . microtime()) . "." . $cv->getClientOriginalExtension();
+                $rutasave = "public/documents/personal/cv";
+                $path = Storage::putFileAs($rutasave, $cv, $nombreDocumento);
+                $url_cv = $rutasave . "/" .  $nombreDocumento;
+                $acv_url = explode("public/", $url_cv);
+                $cv_url = implode("", $acv_url);
             }
 
             $urlfacebook = "";

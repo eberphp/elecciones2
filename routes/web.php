@@ -223,7 +223,7 @@ Route::middleware(['auth'])->controller(EleccionesController::class)->prefix('el
 Route::get("locales_votacion", [LocalVotacionController::class, "view"])->name("locales_votacion.view");
 
 Route::post("locales_votacion/files/delete", [LocalVotacionController::class, "deleteFile"]);
-Route::get("locales_votacion/files/{local}/{eleccion}", [LocalVotacionController::class, "filesLocalVotacion"]);
+Route::get("locales_votacion/files/{local}/{eleccion}/{tipo}", [LocalVotacionController::class, "filesLocalVotacion"]);
 Route::post("locales_votacion/files", [LocalVotacionController::class, "uploadFiles"]);
 // RUTAS DE VOTOS
 Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')->group(function () {

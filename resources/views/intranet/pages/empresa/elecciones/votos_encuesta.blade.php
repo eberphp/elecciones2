@@ -27,6 +27,10 @@
                                     </div>
                                 @endif
 
+
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                <button class="btn btn-success btn-sm" id="exportToExcel"> <i class="fa fa-file-pdf"></i> Exportar</button>
                             </div>
 
                         </div>
@@ -47,7 +51,10 @@
                                     <th style="font-size: .80rem;">Provincia</th>
                                     <th style="font-size: .80rem;">Distrito</th>
                                     <th style="font-size: .80rem;">Total votos</th>
+
                                     <th style="font-size: .80rem;">Fecha</th>
+                                    <th style="font-size: .80rem;">Creado por</th>
+                                    <th style="font-size: .80rem;">Actualizado por</th>
                                     <th style="font-size: .80rem;">&nbsp;</th>
                                 </tr>
                             </thead>
@@ -223,21 +230,37 @@
                             return `<span class="badge badge-md bg-gradient-success" style="min-width:140px">${data}</span>`;
                         },
                         className: 'dt-body-center'
-                    }, {
+                    },
+
+                    {
                         data: "fecha",
                         name: "fecha",
                         render: function(data) {
                             return `${data}`;
                         },
                         className: 'dt-body-center'
+                    },
+                    {
+                        data: "creador.email",
+                        name: "creador.email",
+                        render: function(data) {
+                            return data ? data : '';
+                        }
                     }, {
+                        data: "editor.email",
+                        name: "editor.email",
+                        render: function(data) {
+                            return data ? data : '';
+                        }
+                    },
+                    {
                         data: "eleccion.id",
                         name: "eleccion.id",
-                        render: function(data,type,row ) {
-                            let departamento=row.departamento;
-                            let provincia=row.provincia;
-                            let distrito=row.distrito;
-                            let local=row.mesa_id;
+                        render: function(data, type, row) {
+                            let departamento = row.departamento;
+                            let provincia = row.provincia;
+                            let distrito = row.distrito;
+                            let local = row.mesa_id;
                             return `<div class="d-flex align-items-center"><a href="/elecciones_voto/${data}/Grafico?d=${departamento}&p=${provincia}&d=${distrito}&l=${local}" class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
                                         style="cursor:pointer;" data-item="${ data }" data-bs-toggle="tooltip" data-bs-placement="top" title="Grafico de Votos">
                                             <i class="fas fa-chart-bar text-white opacity-10 "
@@ -251,8 +274,8 @@
                 "pagingType": "numbers",
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
-                }
-
+                },
+                "lengthMenu": [10, 50, 250, 500, 1000]
             });
             customtable.on('draw', function() {
                 initTooltip();
@@ -265,7 +288,7 @@
             }
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');
-                var ws = XLSX.utils.table_to_sheet(document.getElementById('datatable'));
+                var ws = XLSX.utils.table_to_sheet(document.getElementById('tbData'));
                 var wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
                 XLSX.writeFile(wb, "reporte.xlsx");
@@ -273,7 +296,7 @@
             $('#tbData thead tr').clone(true).appendTo('#tbData thead');
 
             $('#tbData thead tr:eq(1) th').each(function(i) {
-                if (i != 10 && i != 0 && i != 9) {
+                if (i != 12 && i != 0 && i != 9) {
                     $(this).html(
                         '<input type="text" class="form-control form-control-sm mx-0" placeholder="buscar" />'
                     );

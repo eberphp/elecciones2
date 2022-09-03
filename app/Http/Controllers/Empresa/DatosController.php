@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Empresa;
 use App\Http\Controllers\Controller;
 use App\Models\DatosEmpresa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class DatosController extends Controller
@@ -27,27 +28,19 @@ class DatosController extends Controller
         $datos = DatosEmpresa::find($id);
 
         if ($request->file("favicon")) {
-
             $imagen = $request->file("favicon");
-            $nombreimagenFavicon = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
-            $ruta = public_path("img/favicon/");
-
-            $imagen->move($ruta, $nombreimagenFavicon);
-            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
-            //$post->imagen = $nombreimagen;
-
+            $nombreimagenFavicon = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/favicon/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFavicon);
         } else {
             $nombreimagenFavicon = $datos->favicon;
         }
 
         if ($request->file("bannerPrincipal")) {
-
             $imagen = $request->file("bannerPrincipal");
-            $nombreimagenBanner = $imagen->getClientOriginalName(); //.".".$imagen->guessExtension();
-            $ruta = public_path("img/bannerPrincipal/");
-
-            $imagen->move($ruta, $nombreimagenBanner);
+            $nombreimagenBanner = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/bannerPrincipal/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenBanner);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;

@@ -11,7 +11,8 @@ use App\Models\Candidato;
 use App\Models\EleccionesVoto;
 use App\Models\Partido;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CandidatosController extends Controller
 {
@@ -57,10 +58,9 @@ class CandidatosController extends Controller
         if ($request->hasFile("foto")) {
 
             $imagen = $request->file("foto");
-            $nombreimagenFoto = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
-            $ruta = public_path("img/fotos/");
-
-            $imagen->move($ruta, $nombreimagenFoto);
+            $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/fotos/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
@@ -153,10 +153,10 @@ class CandidatosController extends Controller
         if ($request->file("foto")) {
 
             $imagen = $request->file("foto");
-            $nombreimagenFoto = $imagen->getClientOriginalName() . "." . $imagen->guessExtension();
-            $ruta = public_path("img/fotos/");
-
-            $imagen->move($ruta, $nombreimagenFoto);
+            
+            $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/fotos/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;

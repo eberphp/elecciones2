@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Place favicon.png in the root directory -->
-    <link rel="shortcut icon" href="{{ asset('img/favicon/' . $datos->favicon) }}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('storage/img/favicon/' . $datos->favicon) }}" type="image/x-icon" />
     <!-- Font Icons css -->
     {{-- <link rel="stylesheet" href="{{ asset('web/css/font-icons.css')}}">
     <!-- plugins css -->
@@ -122,7 +122,7 @@
 
             <!-- Logo -->
             <a class="logo" href="{{ route('/') }}">
-                <img src="{{ asset('img/bannerPrincipal/' . $datos->bannerPrincipal) }}" alt="logo">
+                <img src="{{ asset('storage/img/bannerPrincipal/' . $datos->bannerPrincipal) }}" alt="logo">
             </a>
 
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Imagen;
 use App\Models\Publicacion;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ImagenController extends Controller
@@ -20,10 +21,10 @@ class ImagenController extends Controller
         if($request->hasFile("imagen")){
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/publicaciones/galeria");
-
-            $imagen->move($ruta,$nombreimagen);
+            
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/publicaciones/galeria";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;

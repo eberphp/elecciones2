@@ -11,7 +11,10 @@ use App\Models\Provincia;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
+
+use Illuminate\Support\Str;
 
 class LocalVotacionController extends Controller
 {
@@ -46,9 +49,9 @@ class LocalVotacionController extends Controller
         //
 
     }
-    public function filesLocalVotacion(Request $request, $local, $eleccion)
+    public function filesLocalVotacion(Request $request, $local, $eleccion, $tipo)
     {
-        $files = DocumentosMesa::where("mesa_id", $local)->where("eleccion_id", $eleccion)->get();
+        $files = DocumentosMesa::where("mesa_id", $local)->where("eleccion_id", $eleccion)->where("tipo", $tipo)->where("status", "activo")->get();
         return response()->json(["success" => true, "files" => $files]);
     }
     public function uploadFiles(Request $request)
@@ -58,17 +61,25 @@ class LocalVotacionController extends Controller
             $local = $request->local;
             $documentosMesa = new DocumentosMesa();
 
-            $url = $request->file('documento')->store('public/votaciones/actas');
+            $docfile = $request->file('documento');
+
+            $nombreDocumento = Str::slug($docfile->getClientOriginalName() . microtime()) . "." . $docfile->getClientOriginalExtension();
+            $rutasave = "public/votaciones/actas";
+            $path = Storage::putFileAs($rutasave, $docfile, $nombreDocumento);
+
+            $url = $rutasave . "/" . $nombreDocumento;
             $save = explode('public/', $url);
             $documentosMesa->file_path = implode("", $save);
             $documentosMesa->file_name = $request->file("documento")->getClientOriginalName();
             $documentosMesa->file_type = $request->file("documento")->getClientOriginalExtension();
             $documentosMesa->eleccion_id = $eleccion;
             $documentosMesa->mesa_id = $local;
+            $documentosMesa->user_id = $request->user() ? $request->user()->id : 1;
+            $documentosMesa->tipo = $request->tipo;
             $documentosMesa->save();
             return response()->json(["success" => true, "message" => "imagen cargada correctamente"], 200);
         } catch (Exception $e) {
-            return response()->json(["message" => $e->getMessage(), "success" => false]);
+            return response()->json(["message" => "El archivo no se puede subir", "success" => false]);
         }
     }
     public function deleteFile(Request $request)
@@ -76,12 +87,14 @@ class LocalVotacionController extends Controller
         try {
             $documentoMesa =  DocumentosMesa::find($request->id);
             if ($documentoMesa) {
-                if ($documentoMesa->file_path) {
-                    if (file_exists(public_path("storage/".$documentoMesa->file_path))) {
-                        unlink(public_path("storage/".$documentoMesa->file_path));
+                /* if ($documentoMesa->file_path) {
+                    if (file_exists(public_path("storage/" . $documentoMesa->file_path))) {
+                        unlink(public_path("storage/" . $documentoMesa->file_path));
                     }
-                }
-                $documentoMesa->delete();
+                } */
+                $documentoMesa->status = "eliminado";
+                $documentoMesa->delated_by = $request->user()->id;
+                $documentoMesa->save();
             }
             return response()->json(["success" => true, "message" => "Eliminado correctamente"]);
         } catch (Exception $e) {

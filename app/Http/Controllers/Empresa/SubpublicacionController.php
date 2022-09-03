@@ -6,35 +6,35 @@ use App\Http\Controllers\Controller;
 use App\Models\Publicacion;
 use Illuminate\Http\Request;
 use App\Models\Subpublicacion;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SubpublicacionController extends Controller
 {
-    public function index($id){
-        $subpublicaciones = Subpublicacion::where('pubicacion_id',$id)->orderBy('orden', 'asc')->get();
+    public function index($id)
+    {
+        $subpublicaciones = Subpublicacion::where('pubicacion_id', $id)->orderBy('orden', 'asc')->get();
         $publicacion = Publicacion::find($id);
         return view('intranet.pages.empresa.web.subpublicaciones.index')->with(compact('subpublicaciones', 'publicacion'));
     }
 
-    public function create($id){
+    public function create($id)
+    {
         $publicacion = Publicacion::find($id);
         return view('intranet.pages.empresa.web.subpublicaciones.create')->with(compact('publicacion'));
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         //dd($request);
-        if($request->hasFile("imagen")){
-
+        if ($request->hasFile("imagen")) {
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/subpublicaciones/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/subpublicaciones/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
             //$post->imagen = $nombreimagen;
-
-        }else{
+        } else {
             $nombreimagen = null;
         }
 
@@ -56,25 +56,26 @@ class SubpublicacionController extends Controller
         return redirect()->route('subpublicaciones.index', $request->pubicacion_id);
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
         $subpublicacion = Subpublicacion::find($id);
         return view('intranet.pages.empresa.web.subpublicaciones.edit')->with(compact('subpublicacion'));
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
         $subpublicacion = Subpublicacion::find($id);
-        if($request->hasFile("imagen")){
+        if ($request->hasFile("imagen")) {
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/subpublicaciones/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/subpublicaciones/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
 
-        }else{
+        } else {
             $nombreimagen = $subpublicacion->imagen;
         }
         $subpublicacion->codigo = $request->id;
@@ -92,7 +93,8 @@ class SubpublicacionController extends Controller
         return redirect()->route('subpublicaciones.index', $subpublicacion->pubicacion_id);
     }
 
-    public function destroy($id){
+    public function destroy($id)
+    {
         $subpublicacion = Subpublicacion::find($id);
         $subpublicacion->delete();
         return back();

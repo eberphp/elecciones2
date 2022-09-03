@@ -49,7 +49,7 @@
                             {{$dep->departamento}}
                         </td>
                         <td class="text-sm font-weight-normal">
-                            <img src="{{ asset('img/logotipos/'.$partido->logotipo)}}" alt="" style="width:auto; height: 65px;;">
+                            <img src="{{ asset('storage/img/logotipos/'.$partido->logotipo)}}" alt="" style="width:auto; height: 65px;;">
                         </td>
                         <td class="text-sm font-weight-normal">{{$partido->observacion}}</td>
                     </tr>

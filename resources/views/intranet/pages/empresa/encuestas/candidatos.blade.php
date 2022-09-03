@@ -156,7 +156,7 @@
 
                                             <td class="text-sm font-weight-normal">
                                                 <img style="height: 50px"
-                                                    src="{{ asset('img/fotos/' . $candidato->foto) }}" alt="">
+                                                    src="{{ asset('storage/img/fotos/' . $candidato->foto) }}" alt="">
                                             </td>
                                             <td class="text-sm font-weight-normal">{{ $candidato->observaciones }}</td>
 

@@ -169,9 +169,16 @@
                                         </div>
                                         <button id="btnSumaVotos"
                                             class="btn btn-sm w-100 mt-1 bg-gradient-dark">Guardar</button>
-                                        <button class="btn btn-sm btn-danger mt-1 w-100 d-none" id="modaluploadfiles"> <i
-                                                class="fa fa-upload" data-backdrop="static"></i> 
-                                            Documentos</button>
+                                        <div class="w-100 d-flex">
+                                            <button class="btn btn-sm btn-danger mt-1 d-none" id="modaluploadfiles"> <i
+                                                    class="fa fa-upload" data-backdrop="static"></i> Actas
+                                            </button>
+                                            <button class="btn btn-danger mx-2 d-none" id="modaluploadevidencias"> <i
+                                                    class="fa fa-upload" data-backdrop="static"></i> Evidencias
+                                            </button>
+                                        </div>
+
+
 
                                     </div>
                                 @endif
@@ -362,6 +369,8 @@
     <input type="hidden" name="provinciaparam" id="provinciaparam">
     <input type="hidden" name="distritoparam" id="distritoparam">
     <input type="hidden" name="localparam" id="localparam">
+
+    <input type="hidden" name="tipo_upload" id="tipo_upload">
 @endsection
 
 @section('script')
@@ -393,7 +402,9 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id})
+                body: JSON.stringify({
+                    id
+                })
             });
             let data = await response.json();
             if (data.success) {
@@ -403,11 +414,11 @@
                 Swal.fire("", "Error al eliminar!", "error");
             }
         }
-        const renderFiles = async function() {
+        const renderFiles = async function(tipo = "actas") {
             $("#document_preview").empty();
             let local = $("#zona").val();
             let eleccion = '{{ $eleccion->id }}';
-            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}`, {
+            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}/${tipo}`, {
                 method: 'GET'
             });
             let data = await response.json();
@@ -429,6 +440,7 @@
             let local = $("#zona").val();
             let eleccion = '{{ $eleccion->id }}';
             let mesa_desbloqueado = $("#resultado").val();
+            let tipo_upload = $("#tipo_upload").val();
             if ($(ev)[0].files[0]) {
                 const formData = new FormData();
                 let documents = true;
@@ -436,6 +448,7 @@
                     formData.append('documento', $(ev)[0].files[0]);
                     formData.append('local', local);
                     formData.append('eleccion', eleccion);
+                    formData.append('tipo', tipo_upload);
                 }
                 $("#progressupload").removeClass("d-none");
                 $.ajax({
@@ -475,7 +488,9 @@
                 let eleccion = '{{ $eleccion->id }}';
                 let mesa_desbloqueado = $("#resultado").val();
                 if (local && eleccion && mesa_desbloqueado == "Ubicacion") {
-                    renderFiles().then(response => {
+
+                    $("#tipo_upload").val("actas");
+                    renderFiles("actas").then(response => {
                         $("#documentsModal").modal("show");
                     });
 
@@ -483,6 +498,19 @@
                     alert("Seleccione una mesa");
                 }
             });
+            $("#modaluploadevidencias").on("click", async function(e) {
+                let local = $("#zona").val();
+                let eleccion = '{{ $eleccion->id }}';
+                if (local && eleccion) {
+                    $("#tipo_upload").val("evidencias");
+                    renderFiles("evidencias").then(response => {
+                        $("#documentsModal").modal("show");
+                    });
+                } else {
+                    alert("Seleccione una mesa");
+                }
+
+            })
 
         });
 
@@ -748,10 +776,9 @@
         }
     </script>
     <script>
-        
-
         function getProvincias() {
             $("#modaluploadfiles").addClass("d-none");
+            $("#modaluploadevidencias").addClass("d-none");
             let idDepartamento = $('#departamento').val();
             let ip = window.location.origin;
             $.ajax({
@@ -808,12 +835,16 @@
                 }
             });
             $("#modaluploadfiles").addClass("d-none");
+
+            $("#modaluploadevidencias").addClass("d-none");
         }
 
         const getLocalesVotacion = (id) => {
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
+
+            $("#modaluploadevidencias").addClass("d-none");
             $.ajax({
                 url: "/" + departamento + "/" + provincia + "/" + distrito + "/locales_votacion",
                 type: 'GET',
@@ -832,7 +863,7 @@
                     }
 
                     getVotosDepartamento();
-                    $("#modaluploadfiles").removeClass("d-none");
+
                 }
             });
         };
@@ -883,7 +914,13 @@
                 dataType: 'json', // added data type
                 success: function(res) {
                     setGraficos(res);
-
+                    let zona = $('#zona').val();
+                    let resultado_por = $("#resultado").val();
+                    console.log("zona" + zona);
+                    if (resultado_por == "Ubicacion" && zona != "") {
+                        $("#modaluploadfiles").removeClass("d-none");
+                        $("#modaluploadevidencias").removeClass("d-none");
+                    }
                 }
             });
         }
@@ -910,14 +947,16 @@
                 if (el.cReg.length > 0) {
 
                     if (el.cReg[0].visualiza === 'Si') {
-                        fd = (el.cReg[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
+                        fd = (el.cReg[0].foto === "") ? urls : `{{ asset('storage/img/fotos/') }}/` + el.cReg[
+                            0].foto;
                     } else {
                         fd = urls;
                     }
 
                     imgDep.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` +
+                            el
                             .logotipo,
                         width: 20,
                         height: 24,
@@ -928,14 +967,16 @@
                 if (el.cPro.length > 0) {
 
                     if (el.cPro[0].visualiza === 'Si') {
-                        fd = (el.cPro[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
+                        fd = (el.cPro[0].foto === "") ? urls : `{{ asset('storage/img/fotos/') }}/` + el.cPro[
+                            0].foto;
                     } else {
                         fd = urls;
                     }
 
                     imgPro.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` +
+                            el
                             .logotipo,
                         width: 20,
                         height: 24,
@@ -946,14 +987,16 @@
                 if (el.cDis.length > 0) {
 
                     if (el.cDis[0].visualiza === 'Si') {
-                        fd = (el.cDis[0].foto === "") ? urls : `{{ asset('img/fotos/') }}/` + el.cDis[0].foto;
+                        fd = (el.cDis[0].foto === "") ? urls : `{{ asset('storage/img/fotos/') }}/` + el.cDis[
+                            0].foto;
                     } else {
                         fd = urls;
                     }
 
                     imgDis.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` +
+                            el
                             .logotipo,
                         width: 20,
                         height: 24,

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Empresa;
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class SliderController extends Controller
@@ -41,18 +42,12 @@ class SliderController extends Controller
     {
         //dd($request);
 
-        if($request->hasFile("imagen")){
-
+        if ($request->hasFile("imagen")) {
             $imagen = $request->file("imagen");
-            $nombreimagen = Str::slug($request->nombre).".".$imagen->guessExtension();
-            $ruta = public_path("img/sliders/");
-
-            $imagen->move($ruta,$nombreimagen);
-            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
-            //$post->imagen = $nombreimagen;
-
-        }else{
+            $nombreimagen = Str::slug($request->nombre) . Str::slug(microtime() . "") . "." . $imagen->guessExtension();
+            $rutasave = "public/img/sliders/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
+        } else {
             $nombreimagen = null;
         }
 
@@ -103,18 +98,17 @@ class SliderController extends Controller
     public function update(Request $request, $id)
     {
         $slider = Slider::find($id);
-        if($request->hasFile("imagen")){
+        if ($request->hasFile("imagen")) {
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/sliders/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/sliders/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
 
-        }else{
+        } else {
             $nombreimagen = $slider->imagen;
         }
 
@@ -128,7 +122,6 @@ class SliderController extends Controller
         $slider->save();
 
         return redirect()->route('sliders.index');
-
     }
 
     /**

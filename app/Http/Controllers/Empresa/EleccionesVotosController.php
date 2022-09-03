@@ -32,12 +32,27 @@ class EleccionesVotosController extends Controller
     }
     public function pagination()
     {
-        $votos = EleccionesVoto::with('eleccion:id,nombre,fecha_termino')->with('partido', '_departamento','_provincia','_distrito',"locales_votacion")
-            ->select('elecciones_votos.id', 'elecciones_votos.eleccion_id',"elecciones_votos.mesa_id" ,'elecciones_votos.partido_id', 'elecciones_votos.departamento',"elecciones_votos.provincia","elecciones_votos.distrito", 'elecciones_votos.region', DB::raw('IFNULL(SUM(votos),0) as votos'),DB::raw('IFNULL(SUM(elecciones_votos.votos_departamento),0) as votos_departamento'),
-            DB::raw('IFNULL(SUM(elecciones_votos.votos_provincia),0) as votos_provincia'),
-            DB::raw('IFNULL(SUM(elecciones_votos.votos_distrito),0) as votos_distrito'),
-            'elecciones_votos.tipo_voto', 'elecciones_votos.fecha', 'elecciones_votos.estado')->where('elecciones_votos.datos_empresa_id', idEmpresa())
-            ->groupBy('elecciones_votos.departamento', 'elecciones_votos.provincia', 'elecciones_votos.distrito',"elecciones_votos.mesa_id","elecciones_votos.partido_id");
+        $votos = EleccionesVoto::with('eleccion:id,nombre,fecha_termino')->with('partido', '_departamento', '_provincia', '_distrito', "locales_votacion", "creador", "editor")
+            ->select(
+                'elecciones_votos.id',
+                'elecciones_votos.eleccion_id',
+                "elecciones_votos.mesa_id",
+                'elecciones_votos.partido_id',
+                'elecciones_votos.departamento',
+                "elecciones_votos.provincia",
+                "elecciones_votos.distrito",
+                'elecciones_votos.region',
+                DB::raw('IFNULL(SUM(votos),0) as votos'),
+                DB::raw('IFNULL(SUM(elecciones_votos.votos_departamento),0) as votos_departamento'),
+                DB::raw('IFNULL(SUM(elecciones_votos.votos_provincia),0) as votos_provincia'),
+                DB::raw('IFNULL(SUM(elecciones_votos.votos_distrito),0) as votos_distrito'),
+                'elecciones_votos.tipo_voto',
+                'elecciones_votos.fecha',
+                'elecciones_votos.estado',
+                "elecciones_votos.created_by",
+                "elecciones_votos.updated_by"
+            )->where('elecciones_votos.datos_empresa_id', idEmpresa())
+            ->groupBy('elecciones_votos.departamento', 'elecciones_votos.provincia', 'elecciones_votos.distrito', "elecciones_votos.mesa_id", "elecciones_votos.partido_id");
         return DataTables::of($votos)->make(true);
     }
 
@@ -116,7 +131,7 @@ class EleccionesVotosController extends Controller
     public function storeManual(Request $request)
     {
         try {
-
+            $usuario_action = $request->user();
             $valiData = $request->validate([
                 'eleccion' => 'required',
                 'codigo' => 'required|string',
@@ -131,8 +146,8 @@ class EleccionesVotosController extends Controller
                 "editar" => "required"
             ]);
 
-            if ($valiData && $valiData["editar"] ) {
-                $votosguardados=true;
+            if ($valiData && $valiData["editar"]) {
+                $votosguardados = true;
                 for ($i = 0; $i < count($valiData['votos']); $i++) {
                     $votoexiste = EleccionesVoto::where("eleccion_id", $valiData["eleccion"])
                         ->where("partido_id", $valiData['votos'][$i]["partido_id"])
@@ -141,6 +156,7 @@ class EleccionesVotosController extends Controller
                     $votoexiste->votos_provincia = $valiData["votos"][$i]["votos_provincia"];
                     $votoexiste->votos_distrito = $valiData["votos"][$i]["votos_distrito"];
                     $votoexiste->votos = $valiData['votos'][$i]['totalvotos'];
+                    $votoexiste->updated_by = $usuario_action->id;
                     $votoexiste->save();
                 }
             } else if ($valiData && !$valiData['editar']) {
@@ -160,6 +176,8 @@ class EleccionesVotosController extends Controller
                         "votos_departamento" => $valiData["votos"][$i]["votos_departamento"],
                         "votos_provincia" => $valiData["votos"][$i]["votos_provincia"],
                         "votos_distrito" => $valiData["votos"][$i]["votos_distrito"],
+                        "created_by" => $usuario_action->id,
+                        "updated_by" => $usuario_action->id,
                         'fecha' => date('Y-m-d'),
                     ]);
                 }
@@ -169,11 +187,13 @@ class EleccionesVotosController extends Controller
                 return response()->json([
                     'status' => true,
                     'message' => 'Votos registrados Correctamente',
+                    'usuario' => $usuario_action
                 ], 200);
             } else {
                 return response()->json([
                     'status' => false,
                     'message' => 'Sucedio algo al registrar los votos',
+                    'usuario' => $usuario_action
                 ], 200);
             }
         } catch (\Exception $e) {
@@ -217,7 +237,7 @@ class EleccionesVotosController extends Controller
                 ->where('partido_id', $partido->id)->where('mesa_id', $variacion, $zona)
                 ->where('eleccion_id', $siEleccion->id)
                 ->where('estado', 'Activo')->get();
-                
+
             // Candidatos Foto
             $partido['cReg'] = Candidato::select('foto', 'visualiza')->where('idDepartamento', $departamento)->where('tipo', 'Regional')
                 ->where('idPartido', $partido->id)->where('estado', 'activo')->get();

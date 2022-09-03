@@ -692,14 +692,14 @@
                 if (el.cReg.length > 0) {
 
                     if(el.cReg[0].visualiza === 'Si'){
-                            fd = (el.cReg[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cReg[0].foto;
+                            fd = (el.cReg[0].foto === "") ?  urls : `{{ asset('storage/img/fotos/') }}/` + el.cReg[0].foto;
                     }else{
                         fd = urls;
                     }
 
                     imgDep.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: el.Regional[0].total
@@ -709,14 +709,14 @@
                 if (el.cPro.length > 0) {
 
                     if(el.cPro[0].visualiza === 'Si'){
-                            fd = (el.cPro[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cPro[0].foto;
+                            fd = (el.cPro[0].foto === "") ?  urls : `{{ asset('storage/img/fotos/') }}/` + el.cPro[0].foto;
                     }else{
                         fd = urls;
                     }
 
                     imgPro.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: el.Provincial[0].total
@@ -726,14 +726,14 @@
                 if (el.cDis.length > 0) {
 
                     if(el.cDis[0].visualiza === 'Si'){
-                            fd = (el.cDis[0].foto === "") ?  urls : `{{ asset('img/fotos/') }}/` + el.cDis[0].foto;
+                            fd = (el.cDis[0].foto === "") ?  urls : `{{ asset('storage/img/fotos/') }}/` + el.cDis[0].foto;
                     }else{
                         fd = urls;
                     }
 
                     imgDis.push({
                         src: fd,
-                        src1: (el.logotipo === "") ? urls : `{{ asset('img/logotipos/') }}/` + el.logotipo,
+                        src1: (el.logotipo === "") ? urls : `{{ asset('storage/img/logotipos/') }}/` + el.logotipo,
                         width: 20,
                         height: 24,
                         value: parseInt(el.Distrital[0].total)

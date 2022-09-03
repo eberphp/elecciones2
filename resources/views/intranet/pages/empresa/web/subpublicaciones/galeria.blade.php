@@ -39,7 +39,7 @@
                       </td>
                       <td class="text-sm font-weight-normal">{{$key+1}}</td>
                       <td class="text-sm font-weight-normal">
-                          <img src="{{ asset('img/subpublicaciones/galeria/'.$imagen->imagen)}}" alt="" style="height: 100px;">
+                          <img src="{{ asset('storage/img/subpublicaciones/galeria/'.$imagen->imagen)}}" alt="" style="height: 100px;">
                         </td>
                     </tr>
                 @endforeach

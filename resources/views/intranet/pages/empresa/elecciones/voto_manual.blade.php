@@ -23,7 +23,9 @@
                                     class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
                                 <a href="{{ route('elecciones') }}" class="btn btn-info" style="float: right">Volver</a>
                                 <button class="btn btn-danger mx-2 d-none" id="modaluploadfiles"> <i class="fa fa-upload"
-                                        data-backdrop="static"></i> Subir documentos</button>
+                                        data-backdrop="static"></i> Subir actas</button>
+                                <button class="btn btn-danger mx-2 d-none" id="modaluploadevidencias"> <i
+                                        class="fa fa-upload" data-backdrop="static"></i> Subir evidencias</button>
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -165,6 +167,7 @@
                             <div class="col-md-5">
                                 <div class="w-100 table-responsive">
                                     <table class="table">
+
                                         <head>
                                             <tr>
                                                 <td>Archivo</td>
@@ -172,10 +175,10 @@
                                             </tr>
                                         </head>
                                         <tbody id="documentossubidos" style="font-size: .8em!important">
-                                          
+
                                         </tbody>
                                     </table>
-                                   
+
                                     <div class="progress d-none" id="progressupload">
                                         <div class="progress-bar progress-bar-striped progress-bar-animated"
                                             role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
@@ -190,15 +193,12 @@
                                         <input type="file" accept=".pdf,image/*" onchange="selectFileUpload(this)"
                                             name="documentoseleccionado" class="form-control d-none"
                                             id="document_selected">
-
-
                                     </div>
-
                                 </form>
                             </div>
                             <div class="col-md-7">
                                 <div id="document_preview"></div>
-                               
+
                             </div>
 
 
@@ -210,6 +210,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="tipo_upload" id="tipo_upload">
 @endsection
 
 @section('script')
@@ -232,15 +233,16 @@
             },
             buttonsStyling: false
         });
-        function documentPreview(document){
+
+        function documentPreview(document) {
             console.log(document);
-            let path=$(document).attr("path");
-            let type=$(document).attr("type");
+            let path = $(document).attr("path");
+            let type = $(document).attr("type");
             $("#document_preview").empty();
-            if(type == "pdf"){
-            $("#document_preview").html(`<embed src="/storage/${path}"  alt="" width="100%" height="500px"
+            if (type == "pdf") {
+                $("#document_preview").html(`<embed src="/storage/${path}"  alt="" width="100%" height="500px"
                                     type="application/pdf" />`);
-            }else{
+            } else {
                 $("#document_preview").html(`<img src="/storage/${path}"  alt="" width="100%" height="500px" />`);
             }
         }
@@ -253,7 +255,9 @@
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id})
+                body: JSON.stringify({
+                    id
+                })
             });
             let data = await response.json();
             if (data.success) {
@@ -263,10 +267,10 @@
                 Swal.fire("", "Error al eliminar!", "error");
             }
         }
-        const renderFiles = async function() {
+        const renderFiles = async function(tipo = "actas") {
             let local = $("#num_mesa").val();
             let eleccion = $("#ideleccion").val();
-            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}`, {
+            let response = await fetch(`/locales_votacion/files/${local}/${eleccion}/${tipo}`, {
                 method: 'GET'
             });
             let data = await response.json();
@@ -287,6 +291,7 @@
 
             let local = $("#num_mesa").val();
             let eleccion = $("#ideleccion").val();
+            let tipo_file = $("#tipo_upload").val();
             if ($(ev)[0].files[0]) {
                 const formData = new FormData();
                 let documents = true;
@@ -294,6 +299,7 @@
                     formData.append('documento', $(ev)[0].files[0]);
                     formData.append('local', local);
                     formData.append('eleccion', eleccion);
+                    formData.append('tipo', tipo_file);
                 }
                 $("#progressupload").removeClass("d-none");
                 $.ajax({
@@ -308,7 +314,8 @@
                     success: function(data) {
                         if (data.success) {
                             Swal.fire("", "Se a subido correctamente", "success");
-                            renderFiles().then(response => {
+                            let tipo = $("#tipo_upload").val();
+                            renderFiles(tipo).then(response => {
                                 console.log(data);
                             })
                         } else {
@@ -332,14 +339,27 @@
                 let local = $("#num_mesa").val();
                 let eleccion = $("#ideleccion").val();
                 if (local && eleccion) {
-                    renderFiles().then(response => {
+                    $("#tipo_upload").val("actas");
+                    renderFiles("actas").then(response => {
                         $("#documentsModal").modal("show");
                     });
-
                 } else {
                     alert("Seleccione una mesa");
                 }
             });
+            $("#modaluploadevidencias").on("click", async function(e) {
+                let local = $("#num_mesa").val();
+                let eleccion = $("#ideleccion").val();
+                if (local && eleccion) {
+                    $("#tipo_upload").val("evidencias");
+                    renderFiles("evidencias").then(response => {
+                        $("#documentsModal").modal("show");
+                    });
+                } else {
+                    alert("Seleccione una mesa");
+                }
+
+            })
 
         });
 
@@ -570,6 +590,7 @@
 
             $("#modaluploadfiles").addClass("d-none");
 
+            $("#modaluploadevidencias").addClass("d-none");
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
@@ -584,8 +605,8 @@
                     var fila = "";
                     $("#typeaction").val(data_server.editar);
                     let res = data_server.partidos;
-                    const url = "{{ asset('img/logotipos/') }}";
-                    const urlCandidato = "{{ asset('img/fotos/') }}";
+                    const url = "{{ asset('storage/img/logotipos/') }}";
+                    const urlCandidato = "{{ asset('storage/img/fotos/') }}";
                     for (let i = 0; i < res.length; i++) {
                         fila += `
                             <tr style="font-size:14px;">
@@ -648,6 +669,8 @@
                     }
                     $("#tbDataCandidatos").html(fila);
                     $("#modaluploadfiles").removeClass("d-none");
+
+                    $("#modaluploadevidencias").removeClass("d-none");
                 }
             });
         };

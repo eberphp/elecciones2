@@ -67,7 +67,7 @@
         <div class="swiper-wrapper altutra">
             @foreach ($sliders as $slider)
             <div class="swiper-slide">
-                <div class="bg-img valign" data-background="{{ asset('img/sliders/'.$slider->imagen)}}" data-overlay-dark="6">
+                <div class="bg-img valign" data-background="{{ asset('storage/img/sliders/'.$slider->imagen)}}" data-overlay-dark="6">
                     <div class="container">
                         <div class="row justify-content-center" style="float: left!important;">
                             <div class="col-lg-8 col-md-10">
@@ -197,7 +197,7 @@
                             <div class="swiper-slide">
                                 <div class="content wow noraidus fadeInUp" data-wow-delay=".3s">
                                     <div class="item-img bg-img wow imago" style="text-align: center">
-                                        <img src="{{ asset('img/testimonios/'.$testimonio->imagen)}}" alt="" style="height: 200px;width: auto;">
+                                        <img src="{{ asset('storage/img/testimonios/'.$testimonio->imagen)}}" alt="" style="height: 200px;width: auto;">
                                         
                                         <p>{!!$testimonio->texto!!}</p>
                                         <h6 class="color-font">{{$testimonio->nombre}}</h6>

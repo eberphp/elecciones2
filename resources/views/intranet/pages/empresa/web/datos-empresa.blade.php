@@ -37,7 +37,7 @@
                                 <label for="">Favicon</label>
                                 {{--<input type="text" name="favicon" class="multisteps-form__input form-control" value="{{$datos->favicon}}">--}}
                                 <input type="file" name="favicon" class="multisteps-form__input form-control">
-                                <img src="{{ asset('img/favicon/'.$datos->favicon)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
+                                <img src="{{ asset('storage/img/favicon/'.$datos->favicon)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -45,7 +45,7 @@
                                 <label for="">Banner Principal</label>
                                 {{--<input type="text" name="bannerPrincipal" class="multisteps-form__input form-control" value="{{$datos->bannerPrincipal}}">--}}
                                 <input type="file" name="bannerPrincipal" class="multisteps-form__input form-control">
-                                <img src="{{ asset('img/bannerPrincipal/'.$datos->bannerPrincipal)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
+                                <img src="{{ asset('storage/img/bannerPrincipal/'.$datos->bannerPrincipal)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
                             </div>
                         </div>
                         <div class="row mt-3">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Titulo;
 use App\Models\Testimonio;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class TestimonioController extends Controller
@@ -19,7 +20,7 @@ class TestimonioController extends Controller
     {
         $titulos = Titulo::where('datos_empresa_id', idEmpresa())->first();
         $testimonios = Testimonio::where('datos_empresa_id', idEmpresa())->orderBy('orden', 'asc')->get();
-        return view('intranet.pages.empresa.web.testimonios.index')->with(compact('titulos','testimonios'));
+        return view('intranet.pages.empresa.web.testimonios.index')->with(compact('titulos', 'testimonios'));
     }
 
     /**
@@ -42,13 +43,12 @@ class TestimonioController extends Controller
     {
         //dd($request);
 
-        if($request->hasFile("imagen")){
+        if ($request->hasFile("imagen")) {
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/testimonios/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/testimonios/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
@@ -102,18 +102,17 @@ class TestimonioController extends Controller
     public function update(Request $request, $id)
     {
         $testimonio = Testimonio::find($id);
-        if($request->hasFile("imagen")){
+        if ($request->hasFile("imagen")) {
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/sliders/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/sliders/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
 
-        }else{
+        } else {
             $nombreimagen = $testimonio->imagen;
         }
         $testimonio->codigo = $request->id;

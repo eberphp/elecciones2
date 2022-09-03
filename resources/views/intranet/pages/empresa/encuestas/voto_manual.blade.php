@@ -374,8 +374,8 @@
                 dataType: 'json', // added data type
                 success: function(res) {
                     var fila = "";
-                    const url = "{{ asset('img/logotipos/') }}";
-                    const urlCandidato = "{{ asset('img/fotos/') }}";
+                    const url = "{{ asset('storage/img/logotipos/') }}";
+                    const urlCandidato = "{{ asset('storage/img/fotos/') }}";
                     for (let i = 0; i < res.length; i++) {
                         fila += `
                             <tr style="font-size:14px;">

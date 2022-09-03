@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Empresa;
 use App\Http\Controllers\Controller;
 use App\Models\Publicacion;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PublicacionController extends Controller
@@ -41,10 +42,12 @@ class PublicacionController extends Controller
         if($request->hasFile("imagen")){
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/publicaciones/");
 
-            $imagen->move($ruta,$nombreimagen);
+    
+            
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/publicaciones/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;
@@ -109,10 +112,9 @@ class PublicacionController extends Controller
         if($request->hasFile("imagen")){
 
             $imagen = $request->file("imagen");
-            $nombreimagen = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/publicaciones/");
-
-            $imagen->move($ruta,$nombreimagen);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/publicaciones/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
             //$post->imagen = $nombreimagen;

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Departamento;
 use Illuminate\Http\Request;
 use App\Models\Partido;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PartidosController extends Controller
 {
@@ -16,7 +18,7 @@ class PartidosController extends Controller
      */
     public function index()
     {
-        $partidos = Partido::where('estado','activo')->where('datos_empresa_id', idEmpresa())->get();
+        $partidos = Partido::where('estado', 'activo')->where('datos_empresa_id', idEmpresa())->get();
         $departamentos = Departamento::where('estado', 'activo')->get();
         return view('intranet.pages.empresa.encuestas.partidos')->with(compact('partidos', 'departamentos'));
     }
@@ -40,23 +42,24 @@ class PartidosController extends Controller
     public function store(Request $request)
     {
 
-        if($request->hasFile("logotipo")){
+        if ($request->hasFile("logotipo")) {
 
             $imagen = $request->file("logotipo");
-            $nombreimagenLogotipo = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/logotipos/");
 
-            $imagen->move($ruta,$nombreimagenLogotipo);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/logotipos/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
             //$post->imagen = $nombreimagen;
 
+        } else {
+            $nombreimagen = "";
         }
         //dd($request);
         $partido = new Partido();
         $partido->partido = $request->partido;
         $partido->idDepartamento = $request->idDepartamento;
-        $partido->logotipo = $nombreimagenLogotipo;
+        $partido->logotipo = $nombreimagen;
         $partido->estado = 'activo';
         $partido->datos_empresa_id = idEmpresa();
         $partido->observacion = $request->observacion;
@@ -103,23 +106,19 @@ class PartidosController extends Controller
     public function update(Request $request, $id)
     {
         $partido = Partido::find($id);
-        if($request->hasFile("logotipo")){
-
+        if ($request->hasFile("logotipo")) {
             $imagen = $request->file("logotipo");
-            $nombreimagenLogotipo = $imagen->getClientOriginalName().".".$imagen->guessExtension();
-            $ruta = public_path("img/logotipos/");
-
-            $imagen->move($ruta,$nombreimagenLogotipo);
+            $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/logotipos/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
             //$post->imagen = $nombreimagen;
-
-        }else{
-            $nombreimagenLogotipo = $partido->logotipo;
+        } else {
+            $nombreimagen = $partido->logotipo;
         }
         $partido->partido = $request->partido;
         $partido->idDepartamento = $request->idDepartamento;
-        $partido->logotipo = $nombreimagenLogotipo;
+        $partido->logotipo = $nombreimagen;
         $partido->observacion = $request->observacion;
         $partido->save();
 
@@ -135,13 +134,12 @@ class PartidosController extends Controller
     public function destroy($id)
     {
         $partido = Partido::find($id);
-//         if ($partido->estado == 'activo') {
-//             $partido->estado = 'inactivo';
-//         } else {
-//             $partido->estado = 'activo';
-//         }
+        //         if ($partido->estado == 'activo') {
+        //             $partido->estado = 'inactivo';
+        //         } else {
+        //             $partido->estado = 'activo';
+        //         }
         $partido->delete();
         return back();
-
     }
 }
