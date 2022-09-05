@@ -35,7 +35,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">Nombres</label>
+                                                    <label class="form-label">Nombres y Apellidos</label>
                                                     <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
                                                     <input type="text" name="nombres" class="form-control"
                                                         id="nombres_ic">
@@ -83,14 +83,14 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Fecha ingreso</label>
                                                     <input type="date" name="fecha_ingreso" class="form-control"
                                                         id="fecha_ingreso_ic">
 
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
@@ -118,7 +118,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo de usuario</label>
                                                     <select name="tipo_usuarios_id" class="form-control"
@@ -143,7 +143,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Funcion</label>
@@ -323,7 +323,7 @@
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
-                                                    <label class="form-label">Nombres</label>
+                                                    <label class="form-label">Nombres y Apellidos</label>
                                                     <input type="hidden" name="id" class="form-control"
                                                         id="id_ie">
                                                     <input type="text" name="nombres" class="form-control"
@@ -371,13 +371,13 @@
                                                         id="clave_ie">
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Fecha ingreso</label>
                                                     <input type="date" name="fecha_ingreso" class="form-control"
                                                         id="fecha_ingreso_ie">
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Cargo</label>
@@ -407,7 +407,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            {{-- <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo de usuario</label>
                                                     <select name="tipo_usuarios_id" class="form-control"
@@ -421,7 +421,6 @@
 
                                                 </div>
                                             </div>
-
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tipo ubigeo</label>
@@ -433,7 +432,7 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Funcion</label>
@@ -785,7 +784,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5 class="text-white">Personal web</h5>
-                               
+
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
 
@@ -834,51 +833,21 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th>Accion</th>
-
                                     <th> id</th>
-
-
                                     <th> Nombres y Apellidos</th>
-
-
                                     <th> Estado</th>
-
-
-
-
-                                    <th> Perfil</th>
-
-
-                                    <th> Foto</th>
-
-
-                                    <th> Cv</th>
-
-
-                                    <th>Evaluacion</th>
-
-
+                                    <th> Tarea </th>
                                     <th> PPD</th>
-
-
+                                    <th> Perfil</th>
+                                    <th> Foto</th>
+                                    <th> Cv</th>
+                                    <th>Evaluacion</th>
                                     <th> URL_facebook</th>
-
-
                                     <th> URL_1</th>
-
-
                                     <th> URL_1</th>
-
-
                                     <th>Función</th>
-
-
                                     <th> Nombre Corto</th>
-
-
                                     <th> Telefono</th>
-
-
                                     <th> Referencias</th>
 
 
@@ -891,8 +860,7 @@
 
                                     <th> Clave</th>
 
-
-                                    <th> Fec.Ingreso</th>
+                                    {{-- <th> Fec.Ingreso</th> --}}
 
 
                                     <th> Correo</th>
@@ -900,8 +868,7 @@
 
                                     <th> Sugerencias</th>
 
-
-                                    <th>Tipo de Usuario</th>
+                                    {{-- <th>Tipo de Usuario</th> --}}
 
 
                                     <th> Asignar Usuarios</th>
@@ -909,8 +876,7 @@
 
                                     <th> Observaciones</th>
 
-
-                                    <th> Tipo Ubigeo</th>
+                                    {{-- <th> Tipo Ubigeo</th> --}}
 
 
 
@@ -954,270 +920,6 @@
         var datos = [];
         var permisos_table = [];
         var columns_datatables = [];
-        var columns_reference = [{
-                name: "Personal",
-                level: 1,
-                value: {}
-            },
-            {
-                name: "Id",
-                level: 2,
-                value: {
-                    data: "id"
-                }
-            },
-            {
-                name: "Nombres y apellidos",
-                level: 2,
-                value: {
-                    data: "nombres",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Estado",
-                level: 2,
-                value: {
-                    data: "_estado.nombre",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-
-            },
-
-            {
-                name: "Perfil",
-                level: 2,
-                value: {
-                    data: "perfil",
-                    render: function(data, row, type) {
-                        return `<span objectid="${type.id}"  onclick="handleViewProfile(this)" class="btn btn-primary btn-sm" >Perfil</span>`;
-                    }
-
-                },
-            },
-            {
-                name: "Foto",
-                level: 2,
-                value: {
-                    data: "foto",
-                    render: function(data, row, type) {
-                        return `<span objectid="${type.id}"  onclick="handleEditImagen(this)" class="btn btn-primary btn-sm" >Foto</span>`;
-                    }
-                },
-            },
-            {
-                name: "CV",
-                level: 2,
-                value: {
-                    data: "cv",
-                    render: function(data, row, type) {
-                        return `<span objectid="${type.id}"  onclick="handleEditCv(this)" class="btn btn-primary btn-sm" >CV</span>`;
-                    }
-                },
-            },
-            {
-                name: "Evaluación",
-                level: 2,
-                value: {
-                    data: "evaluacion",
-                    render: function(data, row, type) {
-                        return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
-                    }
-                },
-            }, {
-                name: "PPD",
-                level: 2,
-                value: {
-                    data: "ppd",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Facebook",
-                level: 2,
-                value: {
-                    data: "url_facebook",
-                    render: function(data) {
-                        return `<a href="${data}" target="_blank">${data}</a>`
-                    }
-                },
-
-            },
-            {
-                name: "WhatsApp",
-                level: 2,
-                value: {
-                    data: "url_1",
-                    render: function(data) {
-
-                        return `<a href="${data}" target="_blank">${data}</a>`
-                    }
-                },
-
-            },
-            {
-                name: "Instagram",
-                level: 2,
-                value: {
-                    data: "url_2",
-                    render: function(data) {
-
-                        return `<a href="${data}" target="_blank">${data}</a>`
-                    }
-                }
-            },
-            {
-                name: "Cargo 2",
-                level: 2,
-                value: {
-                    data: "funcion.nombre",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Nombre corto",
-                level: 2,
-                value: {
-                    data: "nombreCorto",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Teléfono",
-                level: 2,
-                value: {
-                    data: "telefono",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Referencias",
-                level: 2,
-                value: {
-                    data: "referencias",
-                    render: function(data) {
-                        if (data) {
-                            let parser = new DOMParser();
-                            let doc = parser.parseFromString(data, 'text/html');
-                            let html = doc.body.firstChild.data;
-                            return html;
-                        }
-                        return "";
-                    }
-                }
-
-            },
-            {
-                name: "Vínculo",
-                level: 2,
-                value: {
-                    data: "vinculo.nombre",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-
-            },
-            {
-                name: "DNI",
-                level: 2,
-                value: {
-                    data: "dni",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            },
-            {
-                name: "Fecha ingreso",
-                level: 2,
-                value: {
-                    data: "fecha_ingreso",
-                    render: function(data) {
-
-                        return data ? moment(data).format('DD/MM/YY') : moment().format(
-                            'DD/MM/YY');
-                    }
-                }
-
-            },
-            {
-                name: "Correo",
-                level: 2,
-                value: {
-                    data: "correo",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                }
-
-            },
-            {
-                name: "Observaciones",
-                level: 2,
-                value: {
-                    data: "observaciones",
-                    render: function(data) {
-                        
-                        let html = "";
-                        if (data) {
-                            let parser = new DOMParser();
-                            let doc = parser.parseFromString(data, 'text/html');
-                            html = doc.body.firstChild.data;
-                        } else {
-                            html = "";
-                        }
-                        
-                        return `${html}`;
-                    }
-                },
-
-            },
-            {
-                name: "Departamento",
-                level: 2,
-                value: {
-                    data: "_departamento.departamento",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-
-            },
-            {
-                name: "Provincia",
-                level: 2,
-                value: {
-                    data: "_provincia.provincia",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-
-            },
-            {
-                name: "Distrito",
-                level: 2,
-                value: {
-                    data: "_distrito.distrito",
-                    render: function(data) {
-                        return data ? data : "";
-                    }
-                },
-            }
-        ];
         var columns_datatables_default = [{
                 data: "id",
                 name: "id",
@@ -1236,6 +938,18 @@
                 }
             }, {
                 data: "_estado.nombre",
+                render: function(data) {
+                    return data ? data : "";
+                },
+                orderable:false
+            }, {
+                data: "nro_mesa",
+                render: function(data) {
+                    return data ? data : "";
+                }
+            },
+            {
+                data: "ppd",
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -1263,12 +977,6 @@
                 data: "evaluacion",
                 render: function(data, row, type) {
                     return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
-                }
-            },
-            {
-                data: "ppd",
-                render: function(data) {
-                    return data ? data : "";
                 }
             },
             {
@@ -1326,7 +1034,8 @@
                 data: "vinculo.nombre",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable:false,
             },
             {
                 data: "dni",
@@ -1341,14 +1050,15 @@
                     return data ? data : "";
                 }
             },
-            {
-                data: "fecha_ingreso",
-                render: function(data) {
+            /* 
+                        {
+                            data: "fecha_ingreso",
+                            render: function(data) {
 
-                    return data ? moment(data).format('DD/MM/YY') : moment().format(
-                        'DD/MM/YY');
-                }
-            },
+                                return data ? moment(data).format('DD/MM/YY') : moment().format(
+                                    'DD/MM/YY');
+                            }
+                        }, */
             {
                 data: "correo",
                 render: function(data) {
@@ -1358,7 +1068,7 @@
             {
                 data: "sugerencias",
                 render: function(data) {
-                    
+
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1367,17 +1077,17 @@
                     } else {
                         html = "";
                     }
-                    
+
                     return `${html}`;
                 }
             },
-            {
+            /* {
                 data: "tipo_usuario.nivel",
                 searchable: false,
                 render: function(data) {
                     return data ? data : "";
                 }
-            },
+            }, */
             {
                 data: "asignar_usuarios",
                 render: function(data) {
@@ -1387,7 +1097,7 @@
             {
                 data: "observaciones",
                 render: function(data) {
-                    
+
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1396,34 +1106,38 @@
                     } else {
                         html = "";
                     }
-                    
+
                     return `${html}`;
                 }
             },
-            {
-                data: "tipos_ubigeo.nombre",
-                render: function(data) {
-                    return data ? data : "";
-                }
-            },
-           
+            /* 
+                        {
+                            data: "tipos_ubigeo.nombre",
+                            render: function(data) {
+                                return data ? data : "";
+                            }
+                        }, */
+
             {
                 data: "_departamento.departamento",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable:false,
             },
             {
                 data: "_provincia.provincia",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable:false,
             },
             {
                 data: "_distrito.distrito",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable:false,
             }
 
         ];
@@ -1707,7 +1421,7 @@
                 objtValues = {};
                 e.preventDefault();
                 let data = $(this).serializeArray();
-                
+
                 data.forEach(function(item) {
 
                     objtValues[item.name] = item.value;
@@ -1848,7 +1562,7 @@
                         "url": "/api/personal/pagination_web",
                         "type": "POST",
                         "dataSrc": function(data) {
-                            
+
                             datos = data.data;
                             return data.data;
                         }

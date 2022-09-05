@@ -41,7 +41,7 @@
                                             @if (in_array('Nombres y apellidos', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">Nombres</label>
+                                                        <label class="form-label">Nombres y Apellidos</label>
                                                         <input type="hidden" name="user_id"
                                                             value="{{ auth()->user()->id }}">
                                                         <input type="text" name="nombres" class="form-control"
@@ -91,15 +91,15 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                                <div class="col-md-4">
-                                                    <div class="form-group">
-                                                        <label class="form-label">Clave</label>
-                                                        <input type="text" required name="clave" class="form-control"
-                                                            id="clave_ic">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="form-label">Clave</label>
+                                                    <input type="text" required name="clave" class="form-control"
+                                                        id="clave_ic">
 
-                                                    </div>
                                                 </div>
-                                            @if (in_array('Fecha ingreso', $permisos) || !$personal)
+                                            </div>
+                                            {{-- @if (in_array('Fecha ingreso', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Fecha ingreso</label>
@@ -108,7 +108,7 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                             @if (in_array('Cargo 2', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -140,7 +140,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Tipo usuario', $permisos) || !$personal)
+                                            {{-- @if (in_array('Tipo usuario', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Tipo de usuario</label>
@@ -155,8 +155,8 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
-                                            @if (in_array('Tipo ubigeo', $permisos) || !$personal)
+                                            @endif --}}
+                                            {{-- @if (in_array('Tipo ubigeo', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Tipo ubigeo</label>
@@ -170,13 +170,12 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                             @if (in_array('Cargo 2', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Funcion</label>
-                                                        <select name="funcion_id" class="form-control"
-                                                            id="funcion_id_ic">
+                                                        <select name="funcion_id" class="form-control" id="funcion_id_ic">
                                                             <option value=""> -- Seleccione -- </option>
                                                             @foreach ($funciones as $funcion)
                                                                 <option value="{{ $funcion->id }}">
@@ -387,7 +386,7 @@
                                             @if (in_array('Nombres y apellidos', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label class="form-label">Nombres</label>
+                                                        <label class="form-label">Nombres y Apellidos</label>
                                                         <input type="hidden" name="id" class="form-control"
                                                             id="id_ie">
                                                         <input type="text" name="nombres" class="form-control"
@@ -445,7 +444,7 @@
                                                 </div>
                                             </div>
 
-                                            @if (in_array('Fecha ingreso', $permisos) || !$personal)
+                                            {{-- @if (in_array('Fecha ingreso', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Fecha ingreso</label>
@@ -453,7 +452,7 @@
                                                             id="fecha_ingreso_ie">
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                             @if (in_array('Cargo 2', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
@@ -488,7 +487,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Tipo usuario', $permisos) || !$personal)
+                                            {{-- @if (in_array('Tipo usuario', $permisos) || !$personal)
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="form-label">Tipo de usuario</label>
@@ -518,7 +517,7 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
 
                                             @if (in_array('Función', $permisos) || !$personal)
                                                 <div class="col-md-4">
@@ -965,8 +964,10 @@
                                         @if (in_array('Estado', $permisos))
                                             <th> Estado</th>
                                         @endif
-
-
+                                        <th>Tarea</th>
+                                        @if (in_array('PPD', $permisos))
+                                            <th> PPD</th>
+                                        @endif
                                         @if (in_array('Perfil', $permisos))
                                             <th> Perfil</th>
                                         @endif
@@ -979,9 +980,7 @@
                                         @if (in_array('Evaluación', $permisos))
                                             <th>Evaluacion</th>
                                         @endif
-                                        @if (in_array('PPD', $permisos))
-                                            <th> PPD</th>
-                                        @endif
+
                                         @if (in_array('Facebook', $permisos))
                                             <th> URL_facebook</th>
                                         @endif
@@ -1013,27 +1012,27 @@
                                         @if (in_array('Clave', $permisos))
                                             <th> Clave</th>
                                         @endif
-                                        @if (in_array('Fecha ingreso', $permisos))
+                                        {{-- @if (in_array('Fecha ingreso', $permisos))
                                             <th> Fec.Ingreso</th>
-                                        @endif
+                                        @endif --}}
                                         @if (in_array('Correo', $permisos))
                                             <th> Correo</th>
                                         @endif
                                         @if (in_array('Sugerencias', $permisos))
                                             <th> Sugerencias</th>
                                         @endif
-                                        @if (in_array('Tipo usuario', $permisos))
+                                        {{-- @if (in_array('Tipo usuario', $permisos))
                                             <th>Tipo de Usuario</th>
-                                        @endif
+                                        @endif --}}
                                         @if (in_array('Asignar usuarios', $permisos))
                                             <th> Asignar Usuarios</th>
                                         @endif
                                         @if (in_array('Observaciones', $permisos))
                                             <th> Observaciones</th>
                                         @endif
-                                        @if (in_array('Tipo ubigeo', $permisos))
+                                        {{-- @if (in_array('Tipo ubigeo', $permisos))
                                             <th> Tipo Ubigeo</th>
-                                        @endif
+                                        @endif --}}
                                         @if (in_array('Roles', $permisos))
                                             <th> Roles</th>
                                         @endif
@@ -1058,28 +1057,29 @@
 
 
                                         <th> Estado</th>
+                                        <th>Tarea</th>
+                                        <th> PPD</th>
                                         <th> Perfil</th>
                                         <th> Foto</th>
                                         <th> Cv</th>
                                         <th>Evaluacion</th>
-                                        <th> PPD</th>
-                                        <th> URL_facebook</th>
-                                        <th> URL_1</th>
-                                        <th> URL_1</th>
+                                        <th> URL Facebook</th>
+                                        <th> URL 1</th>
+                                        <th> URL 2</th>
                                         <th>Función</th>
                                         <th> Nombre Corto</th>
                                         <th> Telefono</th>
                                         <th> Referencias</th>
                                         <th>Vinculo</th>
                                         <th> Dni</th>
-                                        <th> Clave</th>
-                                        <th> Fec.Ingreso</th>
+                                        <th> Clave</th>{{-- 
+                                        <th> Fec.Ingreso</th> --}}
                                         <th> Correo</th>
-                                        <th> Sugerencias</th>
-                                        <th>Tipo de Usuario</th>
+                                        <th> Sugerencias</th>{{-- 
+                                        <th>Tipo de Usuario</th> --}}
                                         <th> Asignar Usuarios</th>
-                                        <th> Observaciones</th>
-                                        <th> Tipo Ubigeo</th>
+                                        <th> Observaciones</th>{{-- 
+                                        <th> Tipo Ubigeo</th> --}}
                                         <th> Roles</th>
                                         <th> Departamento</th>
                                         <th> Provincia</th>
@@ -1144,9 +1144,20 @@
                     data: "_estado.nombre",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
 
+
+            }, {
+                name: "PPD",
+                level: 2,
+                value: {
+                    data: "ppd",
+                    render: function(data) {
+                        return data ? data : "";
+                    }
+                },
             },
 
             {
@@ -1187,15 +1198,6 @@
                     data: "evaluacion",
                     render: function(data, row, type) {
                         return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
-                    }
-                },
-            }, {
-                name: "PPD",
-                level: 2,
-                value: {
-                    data: "ppd",
-                    render: function(data) {
-                        return data ? data : "";
                     }
                 },
             },
@@ -1240,7 +1242,8 @@
                     data: "funcion.nombre",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
             },
             {
@@ -1287,7 +1290,8 @@
                     data: "vinculo.nombre",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
 
             },
@@ -1301,7 +1305,7 @@
                     }
                 },
             },
-            {
+            /* {
                 name: "Fecha ingreso",
                 level: 2,
                 value: {
@@ -1313,7 +1317,7 @@
                     }
                 }
 
-            },
+            }, */
             {
                 name: "Correo",
                 level: 2,
@@ -1331,7 +1335,7 @@
                 value: {
                     data: "observaciones",
                     render: function(data) {
-                        
+
                         let html = "";
                         if (data) {
                             let parser = new DOMParser();
@@ -1340,7 +1344,7 @@
                         } else {
                             html = "";
                         }
-                       
+
                         return `${html}`;
                     }
                 },
@@ -1353,7 +1357,8 @@
                     data: "_departamento.departamento",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
 
             },
@@ -1364,7 +1369,8 @@
                     data: "_provincia.provincia",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
 
             },
@@ -1375,7 +1381,8 @@
                     data: "_distrito.distrito",
                     render: function(data) {
                         return data ? data : "";
-                    }
+                    },
+                    orderable: false,
                 },
             }
         ];
@@ -1397,6 +1404,19 @@
                 }
             }, {
                 data: "_estado.nombre",
+                render: function(data) {
+                    return data ? data : "";
+                },
+                orderable: false,
+            },
+            {
+                data: "nro_mesa",
+                render: function(data) {
+                    return data ? data : "";
+                }
+            },
+            {
+                data: "ppd",
                 render: function(data) {
                     return data ? data : "";
                 }
@@ -1427,12 +1447,6 @@
                 }
             },
             {
-                data: "ppd",
-                render: function(data) {
-                    return data ? data : "";
-                }
-            },
-            {
                 data: "url_facebook",
                 render: function(data) {
                     return `<a href="${data}" target="_blank">${data}</a>`
@@ -1456,7 +1470,8 @@
                 data: "funcion.nombre",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable: false,
             },
             {
                 data: "nombreCorto",
@@ -1487,7 +1502,8 @@
                 data: "vinculo.nombre",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable: false,
             },
             {
                 data: "dni",
@@ -1502,14 +1518,14 @@
                     return data ? data : "";
                 }
             },
-            {
-                data: "fecha_ingreso",
-                render: function(data) {
+            /*  {
+                 data: "fecha_ingreso",
+                 render: function(data) {
 
-                    return data ? moment(data).format('DD/MM/YY') : moment().format(
-                        'DD/MM/YY');
-                }
-            },
+                     return data ? moment(data).format('DD/MM/YY') : moment().format(
+                         'DD/MM/YY');
+                 }
+             }, */
             {
                 data: "correo",
                 render: function(data) {
@@ -1519,7 +1535,7 @@
             {
                 data: "sugerencias",
                 render: function(data) {
-                    
+
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1528,17 +1544,17 @@
                     } else {
                         html = "";
                     }
-                   
+
                     return `${html}`;
                 }
             },
-            {
+            /* {
                 data: "tipo_usuario.nivel",
                 searchable: false,
                 render: function(data) {
                     return data ? data : "";
                 }
-            },
+            }, */
             {
                 data: "asignar_usuarios",
                 render: function(data) {
@@ -1548,7 +1564,7 @@
             {
                 data: "observaciones",
                 render: function(data) {
-                    
+
                     let html = "";
                     if (data) {
                         let parser = new DOMParser();
@@ -1557,21 +1573,23 @@
                     } else {
                         html = "";
                     }
-                   
+
                     return `${html}`;
                 }
             },
-            {
-                data: "tipos_ubigeo.nombre",
-                render: function(data) {
-                    return data ? data : "";
-                }
-            },
+            /*  {
+                 data: "tipos_ubigeo.nombre",
+                 render: function(data) {
+                     return data ? data : "";
+                 }
+             }, */
             {
                 data: "roles",
                 render: function(data, row, type) {
                     return `<span objectid="${type.id}" onclick="handleRoles(this)" class="btn btn-primary btn-sm">Asignar roles</span>`;
-                }
+                },
+                searchable: false,
+                orderable: false,
             },
             {
                 data: "_departamento.departamento",
@@ -1583,13 +1601,15 @@
                 data: "_provincia.provincia",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable: false,
             },
             {
                 data: "_distrito.distrito",
                 render: function(data) {
                     return data ? data : "";
-                }
+                },
+                orderable: false,
             }
 
         ];
@@ -1627,7 +1647,10 @@
                     columns_datatables_default.forEach((item, index) => {
                         if (index == 0) {
                             columns_datatables.push(item);
-                        } else {
+                        }else if(index==4){
+                            columns_datatables.push(item);
+                        }
+                         else {
                             if (tablecolumns.find((item2) => item2.data == item.data)) {
                                 columns_datatables.push(item);
                             }
@@ -1710,23 +1733,23 @@
             })
             $("#departamento_filter").on("change", function(e) {
                 let value = e.target.value;
-                let lengthtable=columns_datatables.length;
-                let valuef=value ? '^' + value + '$' : ''
+                let lengthtable = columns_datatables.length;
+                let valuef = value ? '^' + value + '$' : ''
                 customtable
-                    .column(lengthtable-3)
-                    .search(valuef,true,false)
+                    .column(lengthtable - 3)
+                    .search(valuef, true, false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#provincia_filter").empty();
                 $("#provincia_filter").append("<option value=''>--Todos--</option>");
                 customtable
-                    .column(lengthtable-2)
+                    .column(lengthtable - 2)
                     .search("")
                     .draw();
                 $("#distrito_filter").append("<option value=''>--Todos--</option>");
 
                 customtable
-                    .column(lengthtable-1)
+                    .column(lengthtable - 1)
                     .search("")
                     .draw();
 
@@ -1751,17 +1774,17 @@
             })
             $("#provincia_filter").on("change", function(e) {
                 let value = e.target.value;
-                
-                let valuef=value ? '^' + value + '$' : ''
-                let lengthtable=columns_datatables.length;
+
+                let valuef = value ? '^' + value + '$' : ''
+                let lengthtable = columns_datatables.length;
                 customtable
-                    .column(lengthtable-2)
-                    .search(valuef,true,false)
+                    .column(lengthtable - 2)
+                    .search(valuef, true, false)
                     .draw();
                 $("#distrito_filter").empty();
                 $("#distrito_filter").html("<option value=''>--Todos--</option>");
                 customtable
-                    .column(lengthtable-1)
+                    .column(lengthtable - 1)
                     .search("")
                     .draw();
                 if (value) {
@@ -1785,11 +1808,11 @@
             })
             $("#distrito_filter").on("change", function(e) {
                 let value = e.target.value;
-                let valuef=value ? '^' + value + '$' : ''
-                let lengthtable=columns_datatables.length;
+                let valuef = value ? '^' + value + '$' : ''
+                let lengthtable = columns_datatables.length;
                 customtable
-                    .column(lengthtable-1)
-                    .search(valuef,true,false)
+                    .column(lengthtable - 1)
+                    .search(valuef, true, false)
                     .draw();
 
             })
@@ -1861,7 +1884,7 @@
             };
             const validateFormEdit = (data) => {
 
-                
+
                 if (data.dni && data.clave && data.correo) {
                     return true;
                 }
@@ -1907,7 +1930,7 @@
                 objtValues = {};
                 e.preventDefault();
                 let data = $(this).serializeArray();
-                
+
                 data.forEach(function(item) {
 
                     objtValues[item.name] = item.value;
@@ -1927,20 +1950,20 @@
                     });
                     try {
                         formData.append('perfil', CKEDITOR.instances['perfil_ic'].getData());
-                        } catch (e) {}
-                        try {
+                    } catch (e) {}
+                    try {
                         formData.append('evaluacion', CKEDITOR.instances['evaluacion_ic'].getData());
-                        } catch (e) {}
-                        try {
+                    } catch (e) {}
+                    try {
                         formData.append('observaciones', CKEDITOR.instances['observaciones_ic'].getData());
-                        } catch (e) {}
-                        try {
+                    } catch (e) {}
+                    try {
                         formData.append('sugerencias', CKEDITOR.instances['sugerencias_ic'].getData());
-                        } catch (e) {}
-                        try {
+                    } catch (e) {}
+                    try {
                         formData.append('referencias', CKEDITOR.instances['referencias_ic'].getData());
-                        } catch (e) {}
-                    
+                    } catch (e) {}
+
                     $.ajax({
                         url: $("#createForm").attr("action"),
                         type: "POST",
@@ -1995,7 +2018,7 @@
                     } catch (e) {}
 
 
-                    
+
                     $.ajax({
                         url: `/api/personal/${objtValues.id}`,
                         type: "PUT",
@@ -2049,7 +2072,7 @@
                         "url": "/api/personal/pagination_intranet",
                         "type": "POST",
                         "dataSrc": function(data) {
-                            
+
                             datos = data.data;
                             return data.data;
                         }
@@ -2081,7 +2104,7 @@
         }
         const handleEditImagen = function(e) {
             let id = $(e).attr("objectid");
-            
+
             let object = datos.find(x => x.id == id);
             $("#id_ie").val(id);
             $("#perfilImagen").attr("src", `/storage/${object.foto}`);
