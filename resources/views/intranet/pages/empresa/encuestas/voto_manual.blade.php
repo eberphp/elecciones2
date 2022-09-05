@@ -229,15 +229,15 @@
             dataVotos.encuesta = $("input[name='idencuesta']").val();
             dataVotos.codigo = $("input[name='codigo']").val();
 
-            if (dataVotos.votoReg.length <= 0 || dataVotos.votoPro <= 0 || dataVotos.votoDis.length <= 0) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'No tienes ningun voto, por favor ingrese sus votos.',
-                });
-                console.log(dataVotos);
-                return false;
-            }
+            //if (dataVotos.votoReg.length <= 0 || dataVotos.votoPro <= 0 || dataVotos.votoDis.length <= 0) {
+               // Swal.fire({
+                    //icon: 'error',
+                    //title: 'Oops...',
+                    //text: 'No tienes ningun voto, por favor ingrese sus votos.',
+                //});
+                //console.log(dataVotos);
+                //return false;
+            //}
 
             swalWithBootstrapButtons.fire({
                 title: 'Estas por ingresar votos a la  Encuesta?',
