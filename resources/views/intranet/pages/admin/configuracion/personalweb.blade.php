@@ -929,7 +929,9 @@
             },
 
             {
-                data: "id"
+                data: "created_at",
+                sercheable: false,
+                orderable: false,
             },
             {
                 data: "nombres",
@@ -941,7 +943,7 @@
                 render: function(data) {
                     return data ? data : "";
                 },
-                orderable:false
+                orderable: false
             }, {
                 data: "nro_mesa",
                 render: function(data) {
@@ -1035,7 +1037,7 @@
                 render: function(data) {
                     return data ? data : "";
                 },
-                orderable:false,
+                orderable: false,
             },
             {
                 data: "dni",
@@ -1123,21 +1125,21 @@
                 render: function(data) {
                     return data ? data : "";
                 },
-                orderable:false,
+                orderable: false,
             },
             {
                 data: "_provincia.provincia",
                 render: function(data) {
                     return data ? data : "";
                 },
-                orderable:false,
+                orderable: false,
             },
             {
                 data: "_distrito.distrito",
                 render: function(data) {
                     return data ? data : "";
                 },
-                orderable:false,
+                orderable: false,
             }
 
         ];
@@ -1576,6 +1578,15 @@
                     }
 
                 });
+                customtable.on('order.dt search.dt', function() {
+                    let i = 1;
+                    customtable.cells(null, 1, {
+                        search: 'applied',
+                        order: 'applied'
+                    }).every(function(cell) {
+                        this.data(i++);
+                    });
+                })
             }
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');

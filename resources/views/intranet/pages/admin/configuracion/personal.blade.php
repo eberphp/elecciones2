@@ -1052,7 +1052,7 @@
                                 @else
                                     <tr>
                                         <th>Accion</th>
-                                        <th> id</th>
+                                        <th>Id</th>
                                         <th> Nombres y Apellidos</th>
 
 
@@ -1072,14 +1072,11 @@
                                         <th> Referencias</th>
                                         <th>Vinculo</th>
                                         <th> Dni</th>
-                                        <th> Clave</th>{{-- 
-                                        <th> Fec.Ingreso</th> --}}
+                                        <th> Clave</th>{{-- <th> Fec.Ingreso</th> --}}
                                         <th> Correo</th>
-                                        <th> Sugerencias</th>{{-- 
-                                        <th>Tipo de Usuario</th> --}}
+                                        <th> Sugerencias</th>{{-- <th>Tipo de Usuario</th> --}}
                                         <th> Asignar Usuarios</th>
-                                        <th> Observaciones</th>{{-- 
-                                        <th> Tipo Ubigeo</th> --}}
+                                        <th> Observaciones</th>{{-- <th> Tipo Ubigeo</th> --}}
                                         <th> Roles</th>
                                         <th> Departamento</th>
                                         <th> Provincia</th>
@@ -1393,9 +1390,10 @@
                     return ` <i class="fa fa-edit c-p" objectid="${data}" onclick="handleEdit(this)"></i><i class="fa fa-trash c-p text-danger mx-2" onclick="handleDelete(this)" objectid="${data}"></i>`
                 }
             },
-
             {
-                data: "id"
+                data:"updated_at",
+                searchable: false,
+                orderable: false,
             },
             {
                 data: "nombres",
@@ -1647,10 +1645,9 @@
                     columns_datatables_default.forEach((item, index) => {
                         if (index == 0) {
                             columns_datatables.push(item);
-                        }else if(index==4){
+                        } else if (index == 4) {
                             columns_datatables.push(item);
-                        }
-                         else {
+                        } else {
                             if (tablecolumns.find((item2) => item2.data == item.data)) {
                                 columns_datatables.push(item);
                             }
@@ -2086,7 +2083,17 @@
                     }
 
                 });
+                customtable.on('order.dt search.dt', function() {
+                let i = 1;
+                customtable.cells(null, 1, {
+                    search: 'applied',
+                    order: 'applied'
+                }).every(function(cell) {
+                    this.data(i++);
+                });
+            }).draw();
             }
+            
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');
                 var ws = XLSX.utils.table_to_sheet(document.getElementById('datatable'));
