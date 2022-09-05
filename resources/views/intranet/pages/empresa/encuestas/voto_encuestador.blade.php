@@ -351,15 +351,15 @@
             dataVotos.zona = $("#zona").val();
             dataVotos.encuesta = $("input[name='idencuesta']").val();
 
-            if (dataVotos.partidoRegional === '' || dataVotos.partidoProvincial === '' || dataVotos
-                .partidoDistrital == '') {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'No tienes ningun voto, por favor ingrese sus votos.',
-                })
-                return false;
-            }
+            //if (dataVotos.partidoRegional === '' || dataVotos.partidoProvincial === '' || dataVotos
+                //.partidoDistrital == '') {
+                //Swal.fire({
+                    //icon: 'error',
+                   //title: 'Oops...',
+                    //text: 'No tienes ningun voto, por favor ingrese sus votos.',
+                //})
+                //return false;
+            //}
 
             swalWithBootstrapButtons.fire({
                 title: 'Estas por ingresar votos a la  Encuesta?',
