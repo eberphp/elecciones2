@@ -182,6 +182,7 @@ class AuthPersonalController extends Controller
             $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
             $personal->telefono = isset($request->telefono) ? $request->telefono : "";
             $personal->referencias = isset($request->referencias) ? $request->referencias : "";
+            $personal->nro_mesa = isset($request->nro_mesa) ? $request->nro_mesa : "";
             $personal->estado = isset($request->estado) ? $request->estado : "";
             $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
             $personal->dni =  $request->dni;
@@ -202,9 +203,10 @@ class AuthPersonalController extends Controller
             $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
             $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
             $personal->registrado_en = "web";
+
             $personal->save();
 
-            
+
             $lastidperfil = Perfil::max("id");
             $lastidperfil++;
             $perfil = new Perfil();

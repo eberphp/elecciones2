@@ -10,15 +10,7 @@
                             <h1>Perfil</h1>
                             @csrf
                             <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label class="form-label">N° mesa</label>
-                                        <input type="text" name="id" class="form-control" id="id_ie"
-                                            value="{{ $personal->nro_mesa }}" readonly>
-                                        <div class="invalid-feedback" id="invalidNombresCreate">
-                                        </div>
-                                    </div>
-                                </div>
+                              
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Nombres</label>
@@ -149,6 +141,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
+                                        <label class="form-label">Tarea</label>
+                                        <input type="text" name="nro_mesa" class="form-control" id="nro_mesa_ie"
+                                            value="{{ $personal->nro_mesa }}">
+                                        <div class="invalid-feedback" id="invalidNombresCreate">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
                                         <label class="form-label">PPD</label>
                                         <input type="text" name="ppd" class="form-control" id="ppd_ie"
                                             value="{{ $personal->ppd }}">
@@ -172,7 +173,7 @@
                                         <textarea class="form-control ckeditor" name="perfil" id="perfil_ie">{{ $personal->perfil }}</textarea>
                                     </div>
                                 </div>
-                                
+
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">
@@ -509,7 +510,7 @@
                     if ($("#perfil_ie")) {
                         objtValues['perfil'] = CKEDITOR.instances['perfil_ie'].getData();
                     }
-                    
+
                     if ($("#observaciones_ie")) {
                         objtValues['observaciones'] = CKEDITOR.instances['observaciones_ie'].getData();
                     }
@@ -549,9 +550,9 @@
                                 $("#editModal").modal("hide");
                                 Swal.fire("", "Tus datos fueron actualizados correctamente",
                                     "success");
-                               /*  setTimeout(() => {
-                                    location.reload();
-                                }, 100); */
+                                /*  setTimeout(() => {
+                                     location.reload();
+                                 }, 100); */
                             } else {
                                 Swal.fire("", "No se a podido actualizar", "error");
                             }
@@ -566,6 +567,5 @@
 
 
         });
-
     </script>
 @endsection

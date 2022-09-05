@@ -27,7 +27,7 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label class="form-label">Nombres <span class="text-danger">*</span> </label>
+                                <label class="form-label">Nombres y Apellidos <span class="text-danger">*</span> </label>
                                 <input type="hidden" name="id" class="form-control" id="id_ie">
                                 <input type="text" required name="nombres" value="{{ old('nombres') }}"
                                     class="form-control" id="nombres_ie">
@@ -70,14 +70,14 @@
                                     class="form-control" id="clave_ie">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Fecha ingreso</label>
                                 <input type="date" name="fecha_ingreso" value="{{ old('fecha_ingreso') }}"
                                     class="form-control" id="fecha_ingreso_ie">
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Tipo ubigeo</label>
                                 <select name="tipo_ubigeo" value="{{ old('tipo_ubigeo') }}" class="form-control"
@@ -89,7 +89,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -125,16 +125,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Foto</label>
-                                <input type="file" name="foto" class="form-control"
-                                    id="foto_ic">
+                                <input type="file" name="foto" class="form-control" id="foto_ic">
 
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Cv</label>
-                                <input type="file" name="cv" class="form-control"
-                                    id="cv_ic">
+                                <input type="file" name="cv" class="form-control" id="cv_ic">
 
                             </div>
                         </div>
@@ -146,7 +144,22 @@
 
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">Tarea</label>
+                                <input type="text" name="nro_mesa" value="{{ old('nro_mesa') }}"
+                                    class="form-control" id="nro_mesa_ie">
 
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="form-label">PPD</label>
+                                <input type="text" name="ppd" value="{{ old('ppd') }}" class="form-control"
+                                    id="ppd_ie">
+
+                            </div>
+                        </div>
 
 
                         <div class="col-md-12">
@@ -154,16 +167,18 @@
                                 <label class="form-label">
                                     Referencias
                                 </label>
-                                <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">@if (old('referencias'))
-                                    {{ old('referencias') }}
-                                    @else
-                                    <p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
+                                <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">
+@if (old('referencias'))
+{{ old('referencias') }}
+@else
+<p>&nbsp;<strong>Nombre dos personas cercanas a nuestro partido politico que den referencia de usted (Incluir números de celular):</strong></p>
                                     
                                     <ol>
                                         <li><strong>&nbsp;</strong></li>
                                         <li>&nbsp;</li>
                                     </ol>
-                                    @endif</textarea>
+@endif
+</textarea>
 
 
                             </div>
@@ -210,7 +225,6 @@
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/tableexport.min.js') }}"></script>
     <script>
-        
         var customtable = null;
         var datos = [];
         $(document).ready(function() {
