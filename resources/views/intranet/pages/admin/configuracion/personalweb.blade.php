@@ -835,6 +835,7 @@
                                     <th>Accion</th>
                                     <th> id</th>
                                     <th> Nombres y Apellidos</th>
+                                    <th>Función</th>
                                     <th> Estado</th>
                                     <th> Tarea </th>
                                     <th> PPD</th>
@@ -845,7 +846,6 @@
                                     <th> URL_facebook</th>
                                     <th> URL_1</th>
                                     <th> URL_1</th>
-                                    <th>Función</th>
                                     <th> Nombre Corto</th>
                                     <th> Telefono</th>
                                     <th> Referencias</th>
@@ -939,12 +939,20 @@
                     return data ? data : "";
                 }
             }, {
-                data: "_estado.nombre",
+                data: "funcion.nombre",
                 render: function(data) {
                     return data ? data : "";
                 },
                 orderable: false
             }, {
+                data: "_estado.nombre",
+                render: function(data) {
+                    return data ? data : "";
+                },
+                orderable: false
+            },
+           
+            {
                 data: "nro_mesa",
                 render: function(data) {
                     return data ? data : "";
@@ -999,12 +1007,6 @@
                 render: function(data) {
 
                     return `<a href="${data}" target="_blank">${data}</a>`
-                }
-            },
-            {
-                data: "funcion.nombre",
-                render: function(data) {
-                    return data ? data : "";
                 }
             },
             {
@@ -1578,15 +1580,18 @@
                     }
 
                 });
-                customtable.on('order.dt search.dt', function() {
+                customtable.on('draw', function(ev) {
                     let i = 1;
+                    if (customtable.context[0]) {
+                        i += customtable.context[0]._iDisplayStart;
+                    }
                     customtable.cells(null, 1, {
                         search: 'applied',
-                        order: 'applied'
+                        order: 'applied',
                     }).every(function(cell) {
                         this.data(i++);
                     });
-                })
+                }).draw();
             }
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');

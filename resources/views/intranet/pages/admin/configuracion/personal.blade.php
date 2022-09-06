@@ -961,6 +961,9 @@
                                         @if (in_array('Nombres y apellidos', $permisos))
                                             <th> Nombres y Apellidos</th>
                                         @endif
+                                        @if (in_array('Cargo 2', $permisos))
+                                        <th>Función</th>
+                                    @endif
                                         @if (in_array('Estado', $permisos))
                                             <th> Estado</th>
                                         @endif
@@ -990,9 +993,7 @@
                                         @if (in_array('Instagram', $permisos))
                                             <th> URL_1</th>
                                         @endif
-                                        @if (in_array('Cargo 2', $permisos))
-                                            <th>Función</th>
-                                        @endif
+                                       
                                         @if (in_array('Nombre corto', $permisos))
                                             <th> Nombre Corto</th>
                                         @endif
@@ -1055,6 +1056,7 @@
                                         <th>Id</th>
                                         <th> Nombres y Apellidos</th>
 
+                                        <th>Función</th>
 
                                         <th> Estado</th>
                                         <th>Tarea</th>
@@ -1066,7 +1068,6 @@
                                         <th> URL Facebook</th>
                                         <th> URL 1</th>
                                         <th> URL 2</th>
-                                        <th>Función</th>
                                         <th> Nombre Corto</th>
                                         <th> Telefono</th>
                                         <th> Referencias</th>
@@ -1391,7 +1392,7 @@
                 }
             },
             {
-                data:"updated_at",
+                data: "updated_at",
                 searchable: false,
                 orderable: false,
             },
@@ -1400,6 +1401,13 @@
                 render: function(data) {
                     return data ? data : "";
                 }
+            },
+            {
+                data: "funcion.nombre",
+                render: function(data) {
+                    return data ? data : "";
+                },
+                orderable: false,
             }, {
                 data: "_estado.nombre",
                 render: function(data) {
@@ -1463,13 +1471,6 @@
 
                     return `<a href="${data}" target="_blank">${data}</a>`
                 }
-            },
-            {
-                data: "funcion.nombre",
-                render: function(data) {
-                    return data ? data : "";
-                },
-                orderable: false,
             },
             {
                 data: "nombreCorto",
@@ -2083,23 +2084,29 @@
                     }
 
                 });
-                customtable.on('order.dt search.dt', function() {
-                let i = 1;
-                customtable.cells(null, 1, {
-                    search: 'applied',
-                    order: 'applied'
-                }).every(function(cell) {
-                    this.data(i++);
-                });
-            }).draw();
+                customtable.on('draw', function(ev) {
+                    let i = 1;
+                    if (customtable.context[0]) {
+                        i += customtable.context[0]._iDisplayStart;
+                    }
+                    customtable.cells(null, 1, {
+                        search: 'applied',
+                        order: 'applied',
+                    }).every(function(cell) {
+                        this.data(i++);
+                    });
+                }).draw();
             }
-            
+
             $("#exportToExcel").on("click", function() {
                 if (typeof XLSX == 'undefined') XLSX = require('xlsx');
                 var ws = XLSX.utils.table_to_sheet(document.getElementById('datatable'));
                 var wb = XLSX.utils.book_new();
                 XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
                 XLSX.writeFile(wb, "reporte.xlsx");
+            });
+            $('#datatable').on('draw.dt', function() {
+                // do action here
             });
         });
         const handleEditCv = function(e) {
