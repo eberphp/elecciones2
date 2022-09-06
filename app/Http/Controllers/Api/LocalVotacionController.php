@@ -35,7 +35,7 @@ class LocalVotacionController extends Controller
     }
     public function pagination(Request $request)
     {
-        $locales = LocalVotacion::select(["*"]);
+        $locales = DB::table("locales_votacion")->select(["*"]);
         return DataTables::of($locales)->make(true);
     }
 
@@ -99,6 +99,23 @@ class LocalVotacionController extends Controller
             return response()->json(["success" => true, "message" => "Eliminado correctamente"]);
         } catch (Exception $e) {
             return response()->json(["message" => "error: " . $e->getMessage(), "success" => false]);
+        }
+    }
+    public function validatePassword(Request $request)
+    {
+        try {
+            $local = $request->local;
+            $clave = $request->password;
+            $localexiste = LocalVotacion::find($local);
+            if ($localexiste) {
+                if ($localexiste->clave == $clave) {
+                    return response()->json(["success" => true, "message" => "Acceso permitido"]);
+                }
+                return response()->json(["success" => false, "message" => "La contraseña ingresada es incorrecta"]);
+            }
+            return response()->json(["success" => false, "message" => "Local de votacion no encontrado"]);
+        } catch (Exception $e) {
+            return response()->json(["message" => $e->getMessage(), "success" => false]);
         }
     }
     /**

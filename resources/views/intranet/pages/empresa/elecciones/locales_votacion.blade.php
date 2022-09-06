@@ -95,6 +95,7 @@
                                     <th>Distrito</th>
                                     <th>Nombre local</th>
                                     <th>Numero de mesa</th>
+                                    <th>Clave</th>
                                     {{-- <th>Accion</th> --}}
                                 </tr>
                             </thead>
@@ -161,6 +162,9 @@
                         data: "num_mesa",
                         name: "num_mesa",
                         
+                    },{
+                        data:"clave",
+                        name:"clave"
                     }
                 ],
                 "processing": true,

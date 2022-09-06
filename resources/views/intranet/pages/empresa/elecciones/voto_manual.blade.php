@@ -73,7 +73,7 @@
                             <div class="col-12 col-md-3 mb-3">
                                 <label for="">Mesa</label>
                                 <select name="num_mesa" id="num_mesa" class="form-control" required
-                                    onchange="getCandidatos(this)">
+                                    onchange="validateAccessModal(this)">
                                     <option value="">-- Seleccione --</option>
                                 </select>
                                 <div class="invalid-feedback">Campo requerido*</div>
@@ -210,6 +210,29 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="modalAutentication" tabindex="-1" role="dialog"
+        aria-labelledby="modalAutenticationLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalAutenticationLabel">Autenticación - Local de votación</h5>
+                    <span aria-hidden="true" style="cursor: pointer" onclick="closeModalAutentication()"
+                        class="close h4 close-modall" data-dismiss="modal" aria-label="Close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <form id="validationPasswordMesa">
+                        <div class="form-group">
+                            <label for="" class="form-label">Ingrese su contraseña</label>
+                            <input type="password" class="form-control" id="password_mesa" name="password_mesa">
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Siguiente" class="btn btn-success">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <input type="hidden" name="tipo_upload" id="tipo_upload">
 @endsection
 
@@ -285,7 +308,40 @@
             }
             return false;
         }
+        const closeModalAutentication = function() {
+            $("#modalAutentication").modal("hide");
+        }
+        const validateAccessModal = function(ev) {
+            let localid = $(ev).val();
+            if (localid) {
+                $("#modalAutentication").modal("show");
+            }
+        }
 
+        async function sendValitationTable(password, local) {
+            let response = await fetch("/locales_votacion/validate_password", {
+                body: JSON.stringify({
+                    password,
+                    local
+                }),
+                method: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                    "Content-Type": "application/json",
+                }
+            });
+            let dataresponse = await response.json();
+            if (dataresponse.success) {
+                getCandidatos(local);
+
+                $("#modalAutentication").modal("hide");
+                Swal.fire("", "Bienvenido", "success");
+            } else {
+                Swal.fire("", dataresponse.message, "error")
+            }
+            return dataresponse;
+
+        }
 
         function selectFileUpload(ev) {
 
@@ -334,7 +390,18 @@
         }
 
         $(document).ready(function() {
+            $("#validationPasswordMesa").on("submit", function(event) {
+                event.preventDefault();
+                let password = $("#password_mesa").val();
+                let mesaid = $("#num_mesa").val();
+                if (password && mesaid) {
+                    sendValitationTable(password, mesaid).then(response => {
 
+                    });
+                } else {
+                    Swal.fire("Ingrese datos validos");
+                }
+            })
             $("#modaluploadfiles").on("click", async function(e) {
                 let local = $("#num_mesa").val();
                 let eleccion = $("#ideleccion").val();
@@ -503,8 +570,7 @@
 
             console.log('Enviado Votos');
         });
-    </script>
-    <script>
+
         var win = navigator.platform.indexOf('Win') > -1;
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {
@@ -512,8 +578,7 @@
             }
             Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
         }
-    </script>
-    <script>
+
         function getProvincias() {
             let idDepartamento = $('#departamento').val();
 
@@ -580,7 +645,7 @@
             });
         };
 
-        const getCandidatos = (ev) => {
+        const getCandidatos = (local_id) => {
 
             if ($('#num_mesa').val() === '') {
                 $("#tbDataCandidatos").html('');
@@ -594,7 +659,7 @@
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
-            let local_votacion = $(ev).val();
+            let local_votacion = local_id;
             let ideleccion = $("#ideleccion").val();
             $.ajax({
                 url: "/" + departamento + "/" + provincia + "/" + distrito + "/" + local_votacion + "/" +
