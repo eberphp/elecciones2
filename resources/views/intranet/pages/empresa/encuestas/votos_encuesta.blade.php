@@ -61,7 +61,7 @@ if ($personal) {
                                     <th style="font-size: .65rem;">Tipo de Encuesta</th>
                                     <th style="font-size: .65rem;">Fecha</th>
                                     <th style="font-size: .65rem;">Estado</th>
-                                    <th style="font-size: .65rem;">&nbsp;</th>
+                                    <th style="font-size: .65rem;">&nbsp;&nbsp;</th>
                                 </tr>
                             </thead>
                             <tbody>
