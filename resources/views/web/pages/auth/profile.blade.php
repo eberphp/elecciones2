@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-9">
+            <div class="col-md-9">
                 <div class="card container mx-auto px-4">
                     <div class="card-body">
                         <form action="" class="card-body p-4" id="editForm">
@@ -198,13 +198,15 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
+            <div class="col-md-3">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="h4">Elecciones</h1>
                         <div class="list-group" style="cursor: pointer">
                             @foreach ($elecciones as $eleccion)
-                                <a class="list-group-item" href="{{route('elecciones_voto.manual_web',['eleccion'=>$eleccion->id])}}">{{ $eleccion->nombre }} </a>
+                                <a class="list-group-item"
+                                    href="{{ route('elecciones_voto.manual_web', ['eleccion' => $eleccion->id]) }}">{{ $eleccion->nombre }}
+                                </a>
                             @endforeach
                         </div>
                     </div>
