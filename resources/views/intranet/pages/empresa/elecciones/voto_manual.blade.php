@@ -330,9 +330,7 @@
         }
         const validateAccessModal = function(ev) {
             let localid = $(ev).val();
-            if (localid) {
-                $("#modalAutentication").modal("show");
-            }
+            getCandidatos(localid);
         }
 
         async function sendValitationTable(password, local) {
@@ -410,8 +408,9 @@
             $("#validationPasswordMesa").on("submit", function(event) {
                 event.preventDefault();
                 let password = $("#password_mesa").val();
-                let mesaid = $("#num_mesa").val();
+
                 if (password && mesaid) {
+                    let mesaid = $("#num_mesa").val();
                     sendValitationTable(password, mesaid).then(response => {
 
                     });
