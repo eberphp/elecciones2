@@ -1,5 +1,17 @@
 @extends('intranet.layouts.layout')
 @section('content')
+<?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+$usuario = Auth::user();
+$personal = $usuario->personal;
+$permisos = [];
+if ($personal) {
+    foreach ($personal->asignaciones as $asignacion) {
+        if ($asignacion->permiso->grupo == 7) {
+            $permisos[] = $asignacion->permiso->nombre;
+        }
+    }
+}
+?>
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-12">
