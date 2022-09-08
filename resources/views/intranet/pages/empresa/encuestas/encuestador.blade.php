@@ -87,7 +87,7 @@
                                                             style="cursor:pointer;"></i>
                                                     </a>
                                                 @endif
-
+                                                @if (in_array('Grafico', $permisos))
                                                 <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
                                                     class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
                                                     style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
@@ -96,7 +96,7 @@
                                                     <i class="fas fa-chart-bar text-white opacity-10 "
                                                         style="cursor:pointer;"></i>
                                                 </a>
-
+                                                @endif
 
                                             </div>
                                         </td>

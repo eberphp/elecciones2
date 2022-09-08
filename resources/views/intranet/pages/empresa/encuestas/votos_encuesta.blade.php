@@ -1,5 +1,17 @@
 @extends('intranet.layouts.layout')
 @section('content')
+<?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+$usuario = Auth::user();
+$personal = $usuario->personal;
+$permisos = [];
+if ($personal) {
+    foreach ($personal->asignaciones as $asignacion) {
+        if ($asignacion->permiso->grupo == 4) {
+            $permisos[] = $asignacion->permiso->nombre;
+        }
+    }
+}
+?>
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <div class="col-12">
@@ -93,7 +105,7 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center"> 
-
+                                                @if (in_array('Grafico', $permisos))
                                                 <a href="#"
                                                     class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
                                                     style="cursor:pointer;" data-item="{{ $voto->encuesta->idEncuesta }}"
@@ -102,6 +114,7 @@
                                                     <i class="fas fa-chart-bar text-white opacity-10 "
                                                         style="cursor:pointer;"></i>
                                                 </a>
+                                                @endif
                                             </div>
                                         </td>
                                     </tr>
