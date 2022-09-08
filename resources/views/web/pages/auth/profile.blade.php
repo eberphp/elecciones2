@@ -3,14 +3,14 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-9">
                 <div class="card container mx-auto px-4">
                     <div class="card-body">
                         <form action="" class="card-body p-4" id="editForm">
-                            <h1>Perfil</h1>
+                            <h1 class="h4">Perfil</h1>
                             @csrf
                             <div class="row">
-                              
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label">Nombres</label>
@@ -197,6 +197,19 @@
                         </form>
                     </div>
                 </div>
+            </div>
+            <div class="col-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h1 class="h4">Elecciones</h1>
+                        <div class="list-group" style="cursor: pointer">
+                            @foreach ($elecciones as $eleccion)
+                                <a class="list-group-item" href="{{route('elecciones_voto.manual_web',['eleccion'=>$eleccion->id])}}">{{ $eleccion->nombre }} </a>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

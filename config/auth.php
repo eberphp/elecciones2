@@ -70,7 +70,7 @@ return [
         ],
         'personal'=>[
             'driver' =>"eloquent",
-            'model'=>App\Models\Personal::class
+            'model'=>App\Models\User::class
         ]
 
         // 'users' => [

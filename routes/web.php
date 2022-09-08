@@ -168,9 +168,9 @@ Route::get('candidatos', [CandidatosController::class, 'index'])->name('candidat
 Route::post('candidatos-store', [CandidatosController::class, 'store'])->name('candidatos.store');
 Route::put('candidatos-update/{id}', [CandidatosController::class, 'update'])->name('candidatos.update');
 Route::get('candidato/eliminar/{id}', [CandidatosController::class, 'destroy'])->name('elimina-candidatos');
+Route::get('/{numero_mesa}/{eleccion}/candidatos_elecciones_web', [CandidatosController::class, 'getCandidatosEleccionesWeb']);
 Route::get('/{departamento}/{provincia}/{distrito}/Candidatos', [CandidatosController::class, 'getCandidatos']);
 Route::get('/{departamento}/{provincia}/{distrito}/{local}/{eleccion}/candidatos_elecciones', [CandidatosController::class, 'getCandidatosElecciones']);
-
 
 //roles
 Route::get('roles', [RolController::class, 'index'])->name('roles.index');
@@ -225,6 +225,9 @@ Route::post("locales_votacion/validate_password", [LocalVotacionController::clas
 Route::post("locales_votacion/files/delete", [LocalVotacionController::class, "deleteFile"]);
 Route::get("locales_votacion/files/{local}/{eleccion}/{tipo}", [LocalVotacionController::class, "filesLocalVotacion"]);
 Route::post("locales_votacion/files", [LocalVotacionController::class, "uploadFiles"]);
+
+Route::post("locales_votacion_web/files/delete", [LocalVotacionController::class, "deleteFileWeb"]);
+Route::post("locales_votacion_web/files", [LocalVotacionController::class, "uploadFilesWeb"]);
 // RUTAS DE VOTOS
 Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')->group(function () {
     Route::get('/', 'index')->name('Votos');
@@ -249,10 +252,14 @@ Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')
         ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });
 // RUTAS DE VOTOS Elecciones
+
+Route::get('elecciones_voto/{eleccion}/Manual_web', [EleccionesVotosController::class, 'manualWeb'])->name('elecciones_voto.manual_web');
+Route::post('elecciones_voto/Manuales_web', [EleccionesVotosController::class, 'storeManualWeb'])->name('elecciones_voto.manuales_web');
 Route::middleware(['auth'])->controller(EleccionesVotosController::class)->prefix('elecciones_voto')->group(function () {
     Route::get('/', 'index')->name('elecciones_voto');
     Route::get('/{eleccion}/Encuestador', 'encuestador')->name('elecciones_voto.encuestador');
     Route::get('/{eleccion}/Manual', 'manual')->name('elecciones_voto.manual');
+
     Route::get('/{eleccion}/Grafico', 'grafico')->name('elecciones_voto.grafico');
     //Vista Publico
     Route::get('/{eleccion}/Grafico/Publico', 'graficoPublico')->name('elecciones_voto.grafico.publico')->withoutMiddleware(['auth']);

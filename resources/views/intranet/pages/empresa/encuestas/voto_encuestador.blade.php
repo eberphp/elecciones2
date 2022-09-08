@@ -1,61 +1,56 @@
 @extends('intranet.layouts.layout')
 @section('style')
-<style>
-    .cc-selector {
-        /* background-color: var(--bs-success); */
-        min-width: 45px;
-        height: 45px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+    <style>
+        .cc-selector {
+            /* background-color: var(--bs-success); */
+            min-width: 45px;
+            height: 45px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .cc-selector input {
-        margin: 0;
-        padding: 0;
-    }
+        .cc-selector input {
+            margin: 0;
+            padding: 0;
+        }
 
-    .cc-selector-2 input {
-        position: absolute;
-        z-index: 999;
-    }
+        .cc-selector-2 input {
+            position: absolute;
+            z-index: 999;
+        }
 
-    .cc-selector-2 input:active+.drinkcard-cc,
-    .cc-selector input:active+.drinkcard-cc {
+        .cc-selector-2 input:active+.drinkcard-cc,
+        .cc-selector input:active+.drinkcard-cc {}
 
-    }
+        .cc-selector-2 input:checked+.drinkcard-cc,
+        .cc-selector input:checked+.drinkcard-cc {}
 
-    .cc-selector-2 input:checked+.drinkcard-cc,
-    .cc-selector input:checked+.drinkcard-cc {
+        .drinkcard-cc {
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            /* -webkit-transition: all 100ms ease-in; */
+            /* -moz-transition: all 100ms ease-in; */
+            /* transition: all 100ms ease-in; */
+            /* -webkit-filter: brightness(1.8) grayscale(1) opacity(.7); */
+            /* -moz-filter: brightness(1.8) grayscale(1) opacity(.7); */
+            /* filter: brightness(1.8) grayscale(1) opacity(.7); */
+        }
 
-    }
+        .drinkcard-cc:hover {}
 
-    .drinkcard-cc {
-        cursor: pointer;
-        background-size: contain;
-        background-repeat: no-repeat;
-        display: inline-block;
-        width: 50px;
-        height: 50px;
-        /* -webkit-transition: all 100ms ease-in; */
-        /* -moz-transition: all 100ms ease-in; */
-        /* transition: all 100ms ease-in; */
-        /* -webkit-filter: brightness(1.8) grayscale(1) opacity(.7); */
-        /* -moz-filter: brightness(1.8) grayscale(1) opacity(.7); */
-        /* filter: brightness(1.8) grayscale(1) opacity(.7); */
-    }
-
-    .drinkcard-cc:hover {
-
-    }
-
-    .table td, .table th {
-        white-space: inherit !important;
-    }
-</style>
+        .table td,
+        .table th {
+            white-space: inherit !important;
+        }
+    </style>
 @endsection
 @section('content')
-<?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
     $usuario = Auth::user();
     $personal = $usuario->personal;
     $permisos = [];
@@ -66,112 +61,120 @@
             }
         }
     }
-?>
-<div class="container-fluid py-2">
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="card shadow-lg">
-                <!-- Card header -->
-                <div class="card-header bg-gradient-info ">
-                    <div class="row">
-                        <div class="col-6">
-                            <h5 class="mb-0 text-white">Voto Encuestador</h5>
-                        </div>
-                        <div class="col-6" style="text-align: right">
-                        @if(in_array('Encuestador', $permisos))
-                            <a href="{{ route('Votos.grafico',['encuesta'=>$encuesta->idEncuesta]) }}" class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
-                            <a href="{{ route('Encuesta.encuestador') }}" class="btn btn-info" style="float: right">Volver</a>
-                        @else
-                            <a href="{{ route('Votos.grafico',['encuesta'=>$encuesta->idEncuesta]) }}" class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
-                            <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
-                        @endif
+    ?>
+    <div class="container-fluid py-2">
+        <div class="row mt-2">
+            <div class="col-12">
+                <div class="card shadow-lg">
+                    <!-- Card header -->
+                    <div class="card-header bg-gradient-info ">
+                        <div class="row">
+                            <div class="col-6">
+                                <h5 class="mb-0 text-white">Voto Encuestador</h5>
+                            </div>
+                            <div class="col-6" style="text-align: right">
 
-                        </div>
-                    </div>
-                    <p class="text-sm mb-0">
-                    </p>
-                </div>
+                                @if (in_array('Encuestador', $permisos))
+                                    @if (in_array('Grafico', $permisos))
+                                        <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
+                                            class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+                                    @endif
+                                    <a href="{{ route('Encuesta.encuestador') }}" class="btn btn-info"
+                                        style="float: right">Volver</a>
+                                @else
+                                    @if (in_array('Grafico', $permisos))
+                                        <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
+                                            class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+                                    @endif
+                                    <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
+                                @endif
 
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-12 col-md-3 mb-3">
-                            <label for="">Departamento</label>
-                            <select name="departamento" id="departamento" class="form-control" required
-                                onchange="getProvincias(departamento)">
-                                <option value="">-- Seleccione --</option>
-                                @foreach ($departamentos as $departamento)
-                                    <option value="{{ $departamento->id }}">{{ $departamento->departamento }}
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="invalid-feedback">Campo requerido*</div>
-                        </div>
-
-                        <div class="col-12 col-md-3 mb-3">
-                            <label for="">Provincia</label>
-                            <select name="provincia" id="provincia" class="form-control" required
-                                onchange="getDistritos()">
-                                <option value="">-- Seleccione --</option>
-                            </select>
-                            <div class="invalid-feedback">Campo requerido*</div>
-                        </div>
-
-                        <div class="col-12 col-md-3 mb-3">
-                            <label for="">Distrito</label>
-                            <select name="distrito" id="distrito" class="form-control" required onchange="getZonas(0)">
-                                <option value="">-- Seleccione --</option>
-                            </select>
-                            <div class="invalid-feedback">Campo requerido*</div>
-                        </div>
-
-                        <div class="col-12 col-md-3 mb-3">
-                            <label for="">Zona</label>
-                            <select name="zona" id="zona" class="form-control" required
-                                onchange="getCandidatos()">
-                                <option value="">-- Seleccione --</option>
-                            </select>
-                            <div class="invalid-feedback">Campo requerido*</div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="card mt-3 shadow-lg">
-                <div class="card-header bg-gradient-success text-white">
-                    <h6 class="text-white">Listado de Partidos Politicos</h6>
-                </div>
-                <form action="{{ route('Votos.store') }}" method="post" id="forms" class="needs-validation"
-                    novalidate>
-                    @csrf
-                    <input type="hidden" name="idencuesta" value="{{ $encuesta->idEncuesta }}">
-                    <div class="row">
-
-                        <div class="col-12 mb-3">
-                            <div class="table-responsive">
-                                <table class="table align-items-center mb-0" id="tbDataVoto">
-                                    <thead class="thead-light">
-                                        <tr class="text-center">
-                                            <th style="font-size: .85rem;">Partidos</th>
-                                            <th style="font-size: .85rem;">Logo Tipo</th>
-                                            <th style="font-size: .85rem;">Región</th>
-                                            <th style="font-size: .85rem;">Provincia</th>
-                                            <th style="font-size: .85rem;">Distrito</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="tbDataCandidatos"></tbody>
-                                </table>
                             </div>
                         </div>
+                        <p class="text-sm mb-0">
+                        </p>
+                    </div>
 
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12 col-md-3 mb-3">
+                                <label for="">Departamento</label>
+                                <select name="departamento" id="departamento" class="form-control" required
+                                    onchange="getProvincias(departamento)">
+                                    <option value="">-- Seleccione --</option>
+                                    @foreach ($departamentos as $departamento)
+                                        <option value="{{ $departamento->id }}">{{ $departamento->departamento }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">Campo requerido*</div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label for="">Provincia</label>
+                                <select name="provincia" id="provincia" class="form-control" required
+                                    onchange="getDistritos()">
+                                    <option value="">-- Seleccione --</option>
+                                </select>
+                                <div class="invalid-feedback">Campo requerido*</div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label for="">Distrito</label>
+                                <select name="distrito" id="distrito" class="form-control" required onchange="getZonas(0)">
+                                    <option value="">-- Seleccione --</option>
+                                </select>
+                                <div class="invalid-feedback">Campo requerido*</div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label for="">Zona</label>
+                                <select name="zona" id="zona" class="form-control" required
+                                    onchange="getCandidatos()">
+                                    <option value="">-- Seleccione --</option>
+                                </select>
+                                <div class="invalid-feedback">Campo requerido*</div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn bg-gradient-success" id="btnSubmit">Guardar Votos</button>
+
+                </div>
+                <div class="card mt-3 shadow-lg">
+                    <div class="card-header bg-gradient-success text-white">
+                        <h6 class="text-white">Listado de Partidos Politicos</h6>
                     </div>
-                </form>
-            </div>
-        </div> <!-- End CArr -->
+                    <form action="{{ route('Votos.store') }}" method="post" id="forms" class="needs-validation"
+                        novalidate>
+                        @csrf
+                        <input type="hidden" name="idencuesta" value="{{ $encuesta->idEncuesta }}">
+                        <div class="row">
+
+                            <div class="col-12 mb-3">
+                                <div class="table-responsive">
+                                    <table class="table align-items-center mb-0" id="tbDataVoto">
+                                        <thead class="thead-light">
+                                            <tr class="text-center">
+                                                <th style="font-size: .85rem;">Partidos</th>
+                                                <th style="font-size: .85rem;">Logo Tipo</th>
+                                                <th style="font-size: .85rem;">Región</th>
+                                                <th style="font-size: .85rem;">Provincia</th>
+                                                <th style="font-size: .85rem;">Distrito</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tbDataCandidatos"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn bg-gradient-success" id="btnSubmit">Guardar Votos</button>
+                        </div>
+                    </form>
+                </div>
+            </div> <!-- End CArr -->
+        </div>
     </div>
-</div>
 
 
     <div class="position-fixed top-0 start-50 translate-middle-x z-index-2">
@@ -243,9 +246,10 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
-            $(".allRegional").each((key, el)=>{
+            $(".allRegional").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
             })
 
             if (dataVotos.partidoRegional === '' || dataVotos.partidoRegional !== partido) {
@@ -254,7 +258,8 @@
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -262,13 +267,15 @@
                     dataVotos.partidoRegional = '';
                     dataVotos.votoRegional = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -277,9 +284,10 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
-            $(".allProvincial").each((key, el)=>{
+            $(".allProvincial").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
             })
 
 
@@ -289,7 +297,8 @@
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -297,13 +306,15 @@
                     dataVotos.partidoProvincial = '';
                     dataVotos.votoProvincial = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -312,9 +323,10 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
-            $(".allDistrital").each((key, el)=>{
+            $(".allDistrital").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
             })
 
             if (dataVotos.partidoDistrital === '' || dataVotos.partidoDistrital !== partido) {
@@ -323,7 +335,8 @@
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -331,13 +344,15 @@
                     dataVotos.partidoDistrital = '';
                     dataVotos.votoDistrital = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -352,13 +367,13 @@
             dataVotos.encuesta = $("input[name='idencuesta']").val();
 
             //if (dataVotos.partidoRegional === '' || dataVotos.partidoProvincial === '' || dataVotos
-                //.partidoDistrital == '') {
-                //Swal.fire({
-                    //icon: 'error',
-                   //title: 'Oops...',
-                    //text: 'No tienes ningun voto, por favor ingrese sus votos.',
-                //})
-                //return false;
+            //.partidoDistrital == '') {
+            //Swal.fire({
+            //icon: 'error',
+            //title: 'Oops...',
+            //text: 'No tienes ningun voto, por favor ingrese sus votos.',
+            //})
+            //return false;
             //}
 
             swalWithBootstrapButtons.fire({

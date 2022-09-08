@@ -7,6 +7,18 @@
     </style>
 @endsection
 @section('content')
+<?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+$usuario = Auth::user();
+$personal = $usuario->personal;
+$permisos = [];
+if ($personal) {
+    foreach ($personal->asignaciones as $asignacion) {
+        if ($asignacion->permiso->grupo == 4) {
+            $permisos[] = $asignacion->permiso->nombre;
+        }
+    }
+}
+?>
     <div class="container-fluid py-2">
         <div class="row mt-2">
             <div class="col-12">
@@ -18,7 +30,10 @@
                                 <h5 class="mb-0 text-white">Voto Manual</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
+                                
+                                @if (in_array('Grafico', $permisos))
                                 <a href="{{ route('Votos.grafico',['encuesta'=>$encuesta->idEncuesta]) }}" class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+                                @endif
                                 <a href="{{ route('Encuesta') }}" class="btn btn-info" style="float: right">Volver</a>
                             </div>
                         </div>

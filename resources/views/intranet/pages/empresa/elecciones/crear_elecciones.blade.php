@@ -6,7 +6,7 @@
     $permisos = [];
     if ($personal) {
         foreach ($personal->asignaciones as $asignacion) {
-            if ($asignacion->permiso->grupo == 4) {
+            if ($asignacion->permiso->grupo == 7) {
                 $permisos[] = $asignacion->permiso->nombre;
             }
         }
@@ -34,8 +34,8 @@
                         </p>
                     </div>
                     <div class="card-body table-responsive">
-                        
-                        
+
+
                         <table class="table table-flush" id="tbData">
                             <thead class="thead-light">
                                 <tr>
@@ -81,16 +81,18 @@
                                         </td>
                                         <td>
                                             <div class="d-flex align-items-center">
-
-                                                <span
-                                                    data-url="{{ route('elecciones_voto.grafico.publico', ['eleccion' => Crypt::encryptString($eleccion->id)]) }}"
-                                                    class="icon icon-shape icon-sm me-1 bg-gradient-success shadow text-center"
-                                                    style="cursor:pointer;" data-item="{{ $eleccion->id }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Enlace"
-                                                    id="enlacePublico" onclick="copiarAlPortapapeles('enlacePublico')">
-                                                    <i class="fas fa-link text-white opacity-10 "
-                                                        style="cursor:pointer;"></i>
-                                                </span>
+                                                @if (in_array('Grafico', $permisos) || !$personal)
+                                                    <span
+                                                        data-url="{{ route('elecciones_voto.grafico.publico', ['eleccion' => Crypt::encryptString($eleccion->id)]) }}"
+                                                        class="icon icon-shape icon-sm me-1 bg-gradient-success shadow text-center"
+                                                        style="cursor:pointer;" data-item="{{ $eleccion->id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Copiar Enlace" id="enlacePublico"
+                                                        onclick="copiarAlPortapapeles('enlacePublico')">
+                                                        <i class="fas fa-link text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </span>
+                                                @endif
 
                                                 @if (date('Y-m-d') <= $eleccion->fecha_termino)
                                                     @if (in_array('Editar', $permisos) || !$personal)
@@ -116,7 +118,7 @@
                                                 @endif
 
 
-                                              {{--   @if (date('Y-m-d') <= $eleccion->fecha_termino)
+                                                {{-- @if (date('Y-m-d') <= $eleccion->fecha_termino)
                                                     <a href="{{ route('elecciones_voto.encuestador', ['eleccion' => $eleccion->id]) }}"
                                                         class="icon icon-shape icon-sm me-1 bg-gradient-dark shadow text-center"
                                                         style="cursor:pointer;" data-item="{{ $eleccion->id }}"
@@ -140,15 +142,16 @@
                                                     @endif
                                                 @endif
 
-
-                                                <a href="{{ route('elecciones_voto.grafico', ['eleccion' => $eleccion->id]) }}"
-                                                    class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
-                                                    style="cursor:pointer;" data-item="{{ $eleccion->id }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Grafico de Votos">
-                                                    <i class="fas fa-chart-bar text-white opacity-10 "
-                                                        style="cursor:pointer;"></i>
-                                                </a>
+                                                @if (in_array('Grafico', $permisos) || !$personal)
+                                                    <a href="{{ route('elecciones_voto.grafico', ['eleccion' => $eleccion->id]) }}"
+                                                        class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
+                                                        style="cursor:pointer;" data-item="{{ $eleccion->id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Grafico de Votos">
+                                                        <i class="fas fa-chart-bar text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>

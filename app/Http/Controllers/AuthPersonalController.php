@@ -7,8 +7,11 @@ use App\Models\Boton;
 use App\Models\Cargo;
 use App\Models\DatosEmpresa;
 use App\Models\Departamento;
+use App\Models\Eleccion;
+use App\Models\EleccionesVoto;
 use App\Models\EstadoEvaluacion;
 use App\Models\Funcion;
+use App\Models\LocalVotacion;
 use App\Models\Perfil;
 use App\Models\Permiso;
 use App\Models\Personal;
@@ -17,6 +20,7 @@ use App\Models\TipoUbigeo;
 use App\Models\TipoUsuario;
 use App\Models\User;
 use App\Models\Vinculo;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,7 +42,7 @@ class AuthPersonalController extends Controller
             }
         }
         $credentialsauth = [
-            "correo" => $request->email,
+            "email" => $request->email,
             "password" => $request->password,
             "clave" => $request->password
         ];
@@ -74,7 +78,7 @@ class AuthPersonalController extends Controller
     {
         $id = idEmpresa();
         $redes = RedesSociales::where('datos_empresa_id', $id)->first();
-        $personal = Personal::find(Auth::guard('personal')->user()->id);
+        $personal = Personal::where("id",Auth::guard('personal')->user()->idPersonal)->first();
         $cargos = Cargo::all();
         $puestos = $cargos;
         $vinculos = Vinculo::all();
@@ -83,7 +87,27 @@ class AuthPersonalController extends Controller
         $tipoUbigeos = TipoUbigeo::all();
         $estadoEvaluaciones = EstadoEvaluacion::all();
         $departamentos = Departamento::all();
-        return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal"));
+        $elecciones = [];
+        $idlocal = 0;
+        $nmesa = $personal->nro_mesa;
+        if ($nmesa) {
+            $elecciones = DB::table("elecciones")->whereYear("created_at", intval(date("Y")))->get();
+            $local = DB::table("locales_votacion")->where("num_mesa", $nmesa)->first();
+          /*   if (!$local) {
+                $elecciones = [];
+            } else {
+                $idlocal = $local->id;
+            } */
+        }
+
+        /* foreach ($elecciones as $eleccion) {
+            $votosregistrados = EleccionesVoto::where("mesa_id", $idlocal)->where("eleccion_id", $eleccion)->first();
+            if ($votosregistrados) {
+                $eleccion->enviado = true;
+            }
+        } */
+
+        return view("web.pages.auth.profile", compact("funciones", "tipoUbigeos", "tipoUsuarios", "cargos", "puestos", "vinculos", "departamentos", "estadoEvaluaciones", "personal", "elecciones"));
     }
 
     /**

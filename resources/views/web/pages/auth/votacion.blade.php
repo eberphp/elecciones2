@@ -1,4 +1,4 @@
-@extends('intranet.layouts.layout')
+@extends('layouts.appweb')
 @section('style')
     <style>
         .table td,
@@ -6,25 +6,17 @@
             white-space: inherit !important;
         }
     </style>
+
+    <link id="pagestyle" href="{{ asset('admin/assets/css/argon-dashboard.min790f.css?v=2.0.1') }}" rel="stylesheet" />
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="{{ asset('admin/kit.fontawesome.com/42d5adcbca.js') }}" crossorigin="anonymous"></script>
 @endsection
 @section('content')
-    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
-    $usuario = Auth::user();
-    $personal = $usuario->personal;
-    $permisos = [];
-    if ($personal) {
-        foreach ($personal->asignaciones as $asignacion) {
-            if ($asignacion->permiso->grupo == 7) {
-                $permisos[] = $asignacion->permiso->nombre;
-            }
-        }
-    }
-    ?>
     <div class="container-fluid py-2">
         <div class="row mt-2">
             <div class="col-12">
                 <div class="card shadow-lg">
-                    <!-- Card header -->
                     <div class="card-header bg-gradient-info ">
                         <div class="row">
                             <div class="col-6">
@@ -32,10 +24,7 @@
                             </div>
                             <div class="col-6" style="text-align: right">
 
-                                @if (in_array('Grafico', $permisos))
-                                    <a href="{{ route('elecciones_voto.grafico', ['eleccion' => $eleccion->id]) }}"
-                                        class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
-                                @endif
+
 
                                 <a href="{{ route('elecciones') }}" class="btn btn-info" style="float: right">Volver</a>
                                 <button class="btn btn-danger mx-2 d-none" id="modaluploadfiles"> <i class="fa fa-upload"
@@ -46,6 +35,24 @@
                         </div>
                         <p class="text-sm mb-0">
                         </p>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <p class="text-white fw-bold text-center">Departamento</p>
+                                <p class="text-white fw-bold text-center" id="departamento_value"></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-white fw-bold text-center">Provincia</p>
+                                <p class="text-white fw-bold text-center" id="provincia_value"></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-white fw-bold text-center">Distrito</p>
+                                <p class="text-white fw-bold text-center" id="distrito_value"></p>
+                            </div>
+                            <div class="col-md-3">
+                                <p class="text-white fw-bold text-center"> Numero de mesa</p>
+                                <p class="text-white fw-bold text-center" id="local_value"></p>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -54,45 +61,6 @@
                                     style="border-radius: 25px;">CODIGO DE DOCUMENTO</span>
                                 <input type="text" class="form-control text-center text-md fw-bold" readonly
                                     name="codigo" value="{{ Str::upper(Str::random(8)) }}">
-                            </div>
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Departamento</label>
-                                <select name="departamento" id="departamento" class="form-control" required
-                                    onchange="getProvincias(departamento)">
-                                    <option value="">-- Seleccione --</option>
-                                    @foreach ($departamentos as $departamento)
-                                        <option value="{{ $departamento->id }}">{{ $departamento->departamento }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <div class="invalid-feedback">Campo requerido*</div>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Provincia</label>
-                                <select name="provincia" id="provincia" class="form-control" required
-                                    onchange="getDistritos()">
-                                    <option value="">-- Seleccione --</option>
-                                </select>
-                                <div class="invalid-feedback">Campo requerido*</div>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Distrito</label>
-                                <select name="distrito" id="distrito" class="form-control" required
-                                    onchange="getLocalesVotacion(0)">
-                                    <option value="">-- Seleccione --</option>
-                                </select>
-                                <div class="invalid-feedback">Campo requerido*</div>
-                            </div>
-
-                            <div class="col-12 col-md-3 mb-3">
-                                <label for="">Mesa</label>
-                                <select name="num_mesa" id="num_mesa" class="form-control" required
-                                    onchange="validateAccessModal(this)">
-                                    <option value="">-- Seleccione --</option>
-                                </select>
-                                <div class="invalid-feedback">Campo requerido*</div>
                             </div>
                         </div>
                     </div>
@@ -226,30 +194,13 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="modalAutentication" tabindex="-1" role="dialog"
-        aria-labelledby="modalAutenticationLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalAutenticationLabel">Autenticación - Local de votación</h5>
-                    <span aria-hidden="true" style="cursor: pointer" onclick="closeModalAutentication()"
-                        class="close h4 close-modall" data-dismiss="modal" aria-label="Close">&times;</span>
-                </div>
-                <div class="modal-body">
-                    <form id="validationPasswordMesa">
-                        <div class="form-group">
-                            <label for="" class="form-label">Ingrese su contraseña</label>
-                            <input type="password" class="form-control" id="password_mesa" name="password_mesa">
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Siguiente" class="btn btn-success">
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <input type="hidden" name="tipo_upload" id="tipo_upload">
+    <input type="hidden" id="mesa_id_usuario" value="{{ auth('personal')->user()->personal->nro_mesa }}">
+    <input type="hidden" id="local_votacion_id">
+    <input type="hidden" id="departamento_id_v">
+    <input type="hidden" id="provincia_id_v">
+    <input type="hidden" id="distrito_id_v">
 @endsection
 
 @section('script')
@@ -287,7 +238,7 @@
         }
         async function documentDelete(document) {
             let id = $(document).attr("id");
-            let response = await fetch(`/locales_votacion/files/delete`, {
+            let response = await fetch(`/locales_votacion_web/files/delete`, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': $("input[name='_token']").val(),
@@ -308,7 +259,7 @@
             }
         }
         const renderFiles = async function(tipo = "actas") {
-            let local = $("#num_mesa").val();
+            let local = $("#local_votacion_id").val();
             let eleccion = $("#ideleccion").val();
             let response = await fetch(`/locales_votacion/files/${local}/${eleccion}/${tipo}`, {
                 method: 'GET'
@@ -362,7 +313,7 @@
 
         function selectFileUpload(ev) {
 
-            let local = $("#num_mesa").val();
+            let local = $("#local_votacion_id").val();
             let eleccion = $("#ideleccion").val();
             let tipo_file = $("#tipo_upload").val();
             if ($(ev)[0].files[0]) {
@@ -376,7 +327,7 @@
                 }
                 $("#progressupload").removeClass("d-none");
                 $.ajax({
-                    url: `/locales_votacion/files`,
+                    url: `/locales_votacion_web/files`,
                     type: "POST",
                     contentType: false,
                     processData: false,
@@ -410,7 +361,7 @@
             $("#validationPasswordMesa").on("submit", function(event) {
                 event.preventDefault();
                 let password = $("#password_mesa").val();
-                let mesaid = $("#num_mesa").val();
+                let mesaid = $("#local_votacion_id").val();
                 if (password && mesaid) {
                     sendValitationTable(password, mesaid).then(response => {
 
@@ -420,7 +371,7 @@
                 }
             })
             $("#modaluploadfiles").on("click", async function(e) {
-                let local = $("#num_mesa").val();
+                let local = $("#local_votacion_id").val();
                 let eleccion = $("#ideleccion").val();
                 if (local && eleccion) {
                     $("#tipo_upload").val("actas");
@@ -432,7 +383,7 @@
                 }
             });
             $("#modaluploadevidencias").on("click", async function(e) {
-                let local = $("#num_mesa").val();
+                let local = $("#local_votacion_id").val();
                 let eleccion = $("#ideleccion").val();
                 if (local && eleccion) {
                     $("#tipo_upload").val("evidencias");
@@ -498,11 +449,10 @@
 
         $("#forms").submit((e) => {
             e.preventDefault();
-
-            dataVotos.departamento = $("#departamento").val();
-            dataVotos.provincia = $("#provincia").val();
-            dataVotos.distrito = $("#distrito").val();
-            dataVotos.num_mesa = $("#num_mesa").val();
+            dataVotos.departamento = $("#departamento_id_v").val();
+            dataVotos.provincia = $("#provincia_id_v").val();
+            dataVotos.distrito = $("#distrito_id_v").val();
+            dataVotos.num_mesa = $("#local_votacion_id").val();
             dataVotos.eleccion = $("input[name='ideleccion']").val();
             dataVotos.codigo = $("input[name='codigo']").val();
             dataVotos.editar = $("#typeaction").val();
@@ -551,7 +501,7 @@
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    fetch('/elecciones_voto/Manuales', {
+                    fetch('/elecciones_voto/Manuales_web', {
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': $("input[name='_token']").val(),
@@ -655,8 +605,8 @@
                         fila += '<option value="' + res[i].id + '">' + res[i].nom_local + " - " + res[i]
                             .num_mesa + '</option>';
                     }
-                    $("#num_mesa option").remove();
-                    $("#num_mesa").append(fila);
+                    $("#local_votacion_id option").remove();
+                    $("#local_votacion_id").append(fila);
                     $("#tbDataCandidatos").html('')
                 }
             });
@@ -664,33 +614,44 @@
 
         const getCandidatos = (local_id) => {
 
-            if ($('#num_mesa').val() === '') {
-                $("#tbDataCandidatos").html('');
-                $("#modaluploadfiles").addClass("d-none");
-                return false;
-            }
-
+            /* if ($('#local_votacion_id').val() === '') {
+                            $("#tbDataCandidatos").html('');
+                            $("#modaluploadfiles").addClass("d-none");
+                            return false;
+                        }
+             */
             $("#modaluploadfiles").addClass("d-none");
 
             $("#modaluploadevidencias").addClass("d-none");
-            let departamento = $('#departamento').val();
-            let provincia = $('#provincia').val();
-            let distrito = $('#distrito').val();
-            let local_votacion = local_id;
+            let local_votacion = $("#mesa_id_usuario").val();
             let ideleccion = $("#ideleccion").val();
             $.ajax({
-                url: "/" + departamento + "/" + provincia + "/" + distrito + "/" + local_votacion + "/" +
-                    ideleccion + "/candidatos_elecciones",
+                url: "/" + local_votacion + "/" +
+                    ideleccion + "/candidatos_elecciones_web",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(data_server) {
                     var fila = "";
-                    $("#typeaction").val(data_server.editar);
-                    let res = data_server.partidos;
-                    const url = "{{ asset('storage/img/logotipos/') }}";
-                    const urlCandidato = "{{ asset('storage/img/fotos/') }}";
-                    for (let i = 0; i < res.length; i++) {
-                        fila += `
+                    if (data_server.editar) {
+                        window.location.href = "/auth/profile";
+                        Swal.fire("", "Ya se a subido datos en este local de votación", "warning");
+                    } else {
+                        $("#local_votacion_id").val(data_server.local.id);
+                        $("#local_value").html(data_server.local.num_mesa);
+                        $("#departamento_value").html(data_server.local.departamento);
+                        $("#provincia_value").html(data_server.local.provincia);
+                        $("#distrito_value").html(data_server.local.distrito);
+                        $("#typeaction").val(data_server.editar);
+                        $("#distrito_id_v").val(data_server.distrito);
+
+                        $("#provincia_id_v").val(data_server.provincia);
+
+                        $("#departamento_id_v").val(data_server.departamento);
+                        let res = data_server.partidos;
+                        const url = "{{ asset('storage/img/logotipos/') }}";
+                        const urlCandidato = "{{ asset('storage/img/fotos/') }}";
+                        for (let i = 0; i < res.length; i++) {
+                            fila += `
                             <tr style="font-size:14px;">
                                 <td class="text-center">
                                     <input type="hidden" class="allPartidos" name="partido[]" value="${res[i].id}">
@@ -704,8 +665,8 @@
                                     </div> 
                                 </td>
                                 <td>`;
-                        if (res[i].Regional.length > 0) {
-                            fila += ` 
+                            if (res[i].Regional.length > 0) {
+                                fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center">
                                             <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="${res[i].Regional[0].votos_departamento}" min="0" required />
@@ -715,12 +676,12 @@
                                         </div>
                                     </div>                                    
                                     `;
-                        }
-                        fila += `</td>
+                            }
+                            fila += `</td>
                                 <td>`;
 
-                        if (res[i].Provincial.length > 0) {
-                            fila += `
+                            if (res[i].Provincial.length > 0) {
+                                fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
                                         <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
@@ -729,12 +690,12 @@
                                         <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
-                        }
+                            }
 
-                        fila += `</td>
+                            fila += `</td>
                                 <td>`;
-                        if (res[i].Distrital.length > 0) {
-                            fila += `
+                            if (res[i].Distrital.length > 0) {
+                                fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
                                         <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
@@ -743,18 +704,20 @@
                                         <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
-                        }
-                        fila += `</td>
+                            }
+                            fila += `</td>
                             </tr>
                         `;
 
-                    }
-                    $("#tbDataCandidatos").html(fila);
-                    $("#modaluploadfiles").removeClass("d-none");
+                        }
+                        $("#tbDataCandidatos").html(fila);
+                        $("#modaluploadfiles").removeClass("d-none");
 
-                    $("#modaluploadevidencias").removeClass("d-none");
+                        $("#modaluploadevidencias").removeClass("d-none");
+                    }
                 }
             });
         };
+        getCandidatos(0);
     </script>
 @endsection

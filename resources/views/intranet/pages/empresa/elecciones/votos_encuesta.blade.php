@@ -30,7 +30,8 @@
 
                             </div>
                             <div class="col-6 d-flex justify-content-end">
-                                <button class="btn btn-success btn-sm" id="exportToExcel"> <i class="fa fa-file-pdf"></i> Exportar</button>
+                                <button class="btn btn-success btn-sm" id="exportToExcel"> <i class="fa fa-file-pdf"></i>
+                                    Exportar</button>
                             </div>
 
                         </div>
@@ -134,6 +135,10 @@
             </div>
         </div>
     </div>
+
+    @if (in_array('Locales de votación', $permisos))
+        <input type="hidden" name="permiso_vergrafico" id="permiso_vergrafico" value="1234">
+    @endif
 @endsection
 
 @section('script')
@@ -261,12 +266,16 @@
                             let provincia = row.provincia;
                             let distrito = row.distrito;
                             let local = row.mesa_id;
-                            return `<div class="d-flex align-items-center"><a href="/elecciones_voto/${data}/Grafico?d=${departamento}&p=${provincia}&d=${distrito}&l=${local}" class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
+                            let permiso = $("#permiso_vergrafico");
+                            if (permiso) {
+                                return `<div class="d-flex align-items-center"><a href="/elecciones_voto/${data}/Grafico?d=${departamento}&p=${provincia}&d=${distrito}&l=${local}" class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
                                         style="cursor:pointer;" data-item="${ data }" data-bs-toggle="tooltip" data-bs-placement="top" title="Grafico de Votos">
                                             <i class="fas fa-chart-bar text-white opacity-10 "
                                                 style="cursor:pointer;"></i>
                                         </a>
                                     </div>`;
+                            }
+                            return "";
                         }
                     }
                 ],

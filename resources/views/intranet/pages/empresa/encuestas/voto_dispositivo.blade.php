@@ -11,28 +11,26 @@
         }
 
         .cc-selector input {
-            margin:0;padding:0;
-    -webkit-appearance:none;
-       -moz-appearance:none;
-            appearance:none;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .cc-selector-2 input {
-            margin:0;padding:0;
-    -webkit-appearance:none;
-       -moz-appearance:none;
-            appearance:none;
+            margin: 0;
+            padding: 0;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         .cc-selector-2 input:active+.drinkcard-cc,
-        .cc-selector input:active+.drinkcard-cc {
-            
-        }
+        .cc-selector input:active+.drinkcard-cc {}
 
         .cc-selector-2 input:checked+.drinkcard-cc,
-        .cc-selector input:checked+.drinkcard-cc {
-           
-        }
+        .cc-selector input:checked+.drinkcard-cc {}
 
         .drinkcard-cc {
             cursor: pointer;
@@ -49,17 +47,27 @@
             /* filter: brightness(1.8) grayscale(1) opacity(.7); */
         }
 
-        .drinkcard-cc:hover {
-                       
+        .drinkcard-cc:hover {}
+
+        .table td,
+        .table th {
+            white-space: inherit !important;
         }
-        
-        .table td, .table th {
-           white-space: inherit !important;
-        }
-    
     </style>
 @endsection
 @section('content')
+    <?php $perfil = App\Models\Perfil::find(auth()->user()->perfil_id);
+    $usuario = Auth::user();
+    $personal = $usuario->personal;
+    $permisos = [];
+    if ($personal) {
+        foreach ($personal->asignaciones as $asignacion) {
+            if ($asignacion->permiso->grupo == 4) {
+                $permisos[] = $asignacion->permiso->nombre;
+            }
+        }
+    }
+    ?>
     <div class="container-fluid py-2">
         <div class="row mt-2">
             <div class="col-12">
@@ -71,8 +79,11 @@
                                 <h5 class="mb-0 text-white"> {{ $encuesta->nombreEncuesta }} - Votar</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                                <a href="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
-                                    class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+
+                                @if (in_array('Grafico', $permisos))
+                                    <a href="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
+                                        class="btn bg-gradient-secondary mx-2" style="float: right">Ver Grafico</a>
+                                @endif
                             </div>
                         </div>
                         <p class="text-sm mb-0">
@@ -213,7 +224,7 @@
             partidoDistrital: '',
         };
 
-        
+
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -223,21 +234,22 @@
             buttonsStyling: false
         })
 
-        window.addEventListener('DOMContentLoaded', (event) => { 
-            verificarVoto();         
+        window.addEventListener('DOMContentLoaded', (event) => {
+            verificarVoto();
             alertaGrafico();
 
         });
-        
+
 
         $(document).on('click', '.allRegional', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
-            
-            $(".allRegional").each((key, el)=>{
+
+            $(".allRegional").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
+            })
 
             if (dataVotos.partidoRegional === '' || dataVotos.partidoRegional !== partido) {
 
@@ -245,7 +257,8 @@
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -253,13 +266,15 @@
                     dataVotos.partidoRegional = '';
                     dataVotos.votoRegional = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoRegional = partido;
                     dataVotos.votoRegional = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -268,11 +283,12 @@
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
 
-            $(".allProvincial").each((key, el)=>{
+            $(".allProvincial").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
-            
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
+            })
+
 
             if (dataVotos.partidoProvincial === '' || dataVotos.partidoProvincial !== partido) {
 
@@ -280,7 +296,8 @@
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -288,13 +305,15 @@
                     dataVotos.partidoProvincial = '';
                     dataVotos.votoProvincial = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoProvincial = partido;
                     dataVotos.votoProvincial = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -302,11 +321,12 @@
         $(document).on('click', '.allDistrital', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
-            
-            $(".allDistrital").each((key, el)=>{
+
+            $(".allDistrital").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
-            }) 
+                el.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                    .classList.remove('text-white')
+            })
 
             if (dataVotos.partidoDistrital === '' || dataVotos.partidoDistrital !== partido) {
 
@@ -314,7 +334,8 @@
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             } else {
                 if ($("#" + e.currentTarget.id).prop('checked')) {
@@ -322,13 +343,15 @@
                     dataVotos.partidoDistrital = '';
                     dataVotos.votoDistrital = 0;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.remove('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.remove('text-white')
                 } else {
                     e.currentTarget.checked = true;
                     dataVotos.partidoDistrital = partido;
                     dataVotos.votoDistrital = 1;
                     e.currentTarget.parentNode.parentNode.parentNode.classList.add('bg-gradient-success')
-                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0].classList.add('text-white')
+                    e.currentTarget.parentNode.parentNode.parentNode.children[0].children[1].children[0].children[0]
+                        .classList.add('text-white')
                 }
             }
         });
@@ -378,10 +401,11 @@
                                     title: 'Felicidades',
                                     text: response.message,
                                 })
-                                
-                                localStorage.setItem("voto"+encuesta, encuesta);
-                                
-                                location.href = "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
+
+                                localStorage.setItem("voto" + encuesta, encuesta);
+
+                                location.href =
+                                    "{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}";
                             } else {
                                 Swal.fire({
                                     icon: 'danger',
@@ -402,7 +426,7 @@
         });
     </script>
     <script>
-        var win = navigator.platform.indexOf('Win') > -1;       
+        var win = navigator.platform.indexOf('Win') > -1;
 
         if (win && document.querySelector('#sidenav-scrollbar')) {
             var options = {

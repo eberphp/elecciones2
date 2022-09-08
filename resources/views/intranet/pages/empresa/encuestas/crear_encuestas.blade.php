@@ -24,9 +24,9 @@
                                 <h5 class="mb-0">Encuestas</h5>
                             </div>
                             <div class="col-6" style="text-align: right">
-                                @if(in_array("Nuevo",$permisos) || !$personal)
-                                <button type="button" class="btn btn-success" style="float: right" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">Nuevo</button>
+                                @if (in_array('Nuevo', $permisos) || !$personal)
+                                    <button type="button" class="btn btn-success" style="float: right"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal">Nuevo</button>
                                 @endif
                             </div>
                         </div>
@@ -80,35 +80,39 @@
                                         <td>
                                             <div class="d-flex align-items-center">
 
-                                                <span
-                                                    data-url="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
-                                                    class="icon icon-shape icon-sm me-1 bg-gradient-success shadow text-center"
-                                                    style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top" title="Copiar Enlace"
-                                                    id="enlacePublico" onclick="copiarAlPortapapeles('enlacePublico')">
-                                                    <i class="fas fa-link text-white opacity-10 "
-                                                        style="cursor:pointer;"></i>
-                                                </span>
+                                                @if (in_array('Grafico', $permisos) || !$personal)
+                                                    <span
+                                                        data-url="{{ route('Votos.grafico.publico', ['encuesta' => Crypt::encryptString($encuesta->idEncuesta)]) }}"
+                                                        class="icon icon-shape icon-sm me-1 bg-gradient-success shadow text-center"
+                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Copiar Enlace" id="enlacePublico"
+                                                        onclick="copiarAlPortapapeles('enlacePublico')">
+                                                        <i class="fas fa-link text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </span>
+                                                @endif
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
-                                                    @if(in_array("Editar",$permisos) || !$personal)
-                                                    <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
-                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
-                                                        <i class="fas fa-pencil-alt text-white opacity-10 "
-                                                            style="cursor:pointer;"></i>
-                                                    </div>
+                                                    @if (in_array('Editar', $permisos) || !$personal)
+                                                        <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
+                                                            style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Editar">
+                                                            <i class="fas fa-pencil-alt text-white opacity-10 "
+                                                                style="cursor:pointer;"></i>
+                                                        </div>
                                                     @endif
                                                 @endif
 
                                                 @if (date('Y-m-d') <= $encuesta->fechaTermino)
-                                                    @if(in_array("Eliminar",$permisos) || !$personal)
-                                                    <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
-                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
-                                                        data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar">
-                                                        <i class="far fa-trash-alt text-white opacity-10 "
-                                                            style="cursor:pointer;"></i>
-                                                    </div>
+                                                    @if (in_array('Eliminar', $permisos) || !$personal)
+                                                        <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
+                                                            style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                            data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Eliminar">
+                                                            <i class="far fa-trash-alt text-white opacity-10 "
+                                                                style="cursor:pointer;"></i>
+                                                        </div>
                                                     @endif
                                                 @endif
 
@@ -138,14 +142,16 @@
                                                 @endif
 
 
-                                                <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
-                                                    class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
-                                                    style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
-                                                    data-bs-toggle="tooltip" data-bs-placement="top"
-                                                    title="Grafico de Votos">
-                                                    <i class="fas fa-chart-bar text-white opacity-10 "
-                                                        style="cursor:pointer;"></i>
-                                                </a>
+                                                @if (in_array('Grafico', $permisos) || !$personal)
+                                                    <a href="{{ route('Votos.grafico', ['encuesta' => $encuesta->idEncuesta]) }}"
+                                                        class="icon icon-shape icon-sm me-1 bg-gradient-primary shadow text-center"
+                                                        style="cursor:pointer;" data-item="{{ $encuesta->idEncuesta }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="top"
+                                                        title="Grafico de Votos">
+                                                        <i class="fas fa-chart-bar text-white opacity-10 "
+                                                            style="cursor:pointer;"></i>
+                                                    </a>
+                                                @endif
                                             </div>
                                         </td>
                                         <td>

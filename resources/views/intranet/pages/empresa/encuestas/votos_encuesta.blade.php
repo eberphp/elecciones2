@@ -40,7 +40,7 @@
                         <table class="table table-flush" id="tbData">
                             <thead class="thead-light">
                                 <tr>
-                                    <th style="font-size: .65rem;">IdEncuesta</th>
+                                    <th style="font-size: .65rem;">IdEncuestas</th>
                                     <th style="font-size: .65rem;">Encuesta</th>
                                     <th style="font-size: .65rem;">Partdido</th>
                                     <th style="font-size: .65rem;">Departamento</th>

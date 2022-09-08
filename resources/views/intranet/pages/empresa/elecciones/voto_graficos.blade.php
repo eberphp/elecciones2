@@ -409,7 +409,8 @@
             let data = await response.json();
             if (data.success) {
                 Swal.fire("", "Eliminado correctamente", "success");
-                renderFiles().then(response => {});
+                let tipo = $("#tipo_upload").val();
+                renderFiles(tipo).then(response => {});
             } else {
                 Swal.fire("", "Error al eliminar!", "error");
             }

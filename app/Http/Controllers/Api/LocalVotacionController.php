@@ -101,6 +101,48 @@ class LocalVotacionController extends Controller
             return response()->json(["message" => "error: " . $e->getMessage(), "success" => false]);
         }
     }
+    public function uploadFilesWeb(Request $request)
+    {
+        try {
+            $eleccion = $request->eleccion;
+            $local = $request->local;
+            $documentosMesa = new DocumentosMesa();
+
+            $docfile = $request->file('documento');
+
+            $nombreDocumento = Str::slug($docfile->getClientOriginalName() . microtime()) . "." . $docfile->getClientOriginalExtension();
+            $rutasave = "public/votaciones/actas";
+            $path = Storage::putFileAs($rutasave, $docfile, $nombreDocumento);
+
+            $url = $rutasave . "/" . $nombreDocumento;
+            $save = explode('public/', $url);
+            $documentosMesa->file_path = implode("", $save);
+            $documentosMesa->file_name = $request->file("documento")->getClientOriginalName();
+            $documentosMesa->file_type = $request->file("documento")->getClientOriginalExtension();
+            $documentosMesa->eleccion_id = $eleccion;
+            $documentosMesa->mesa_id = $local;
+            $documentosMesa->user_id = $request->user("personal") ? $request->user("personal")->id : 1;
+            $documentosMesa->tipo = $request->tipo;
+            $documentosMesa->save();
+            return response()->json(["success" => true, "message" => "imagen cargada correctamente"], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => "El archivo no se puede subir", "success" => false]);
+        }
+    }
+    public function deleteFileWeb(Request $request)
+    {
+        try {
+            $documentoMesa =  DocumentosMesa::find($request->id);
+            if ($documentoMesa) {
+                $documentoMesa->status = "eliminado";
+                $documentoMesa->delated_by = $request->user("personal")->id;
+                $documentoMesa->save();
+            }
+            return response()->json(["success" => true, "message" => "Eliminado correctamente"]);
+        } catch (Exception $e) {
+            return response()->json(["message" => "error: " . $e->getMessage(), "success" => false]);
+        }
+    }
     public function validatePassword(Request $request)
     {
         try {
