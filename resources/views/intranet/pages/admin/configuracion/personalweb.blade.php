@@ -924,7 +924,7 @@
                 data: "id",
                 name: "id",
                 render: function(data) {
-                    return ` <i class="fa fa-edit c-p" objectid="${data}" onclick="handleEdit(this)"></i><i class="fa fa-trash c-p text-danger mx-2" onclick="handleDelete(this)" objectid="${data}"></i>`
+                    return ` <i class="fa fa-edit c-p" objectid="${data}" onclick="handleEdit(this)"></i>`
                 }
             },
 

@@ -105,18 +105,7 @@
                                                     @endif
                                                 @endif
 
-                                                @if (date('Y-m-d') <= $eleccion->fecha_termino)
-                                                    @if (in_array('Eliminar', $permisos) || !$personal)
-                                                        <div class="icon icon-shape icon-sm me-1 bg-gradient-danger shadow text-center btnEliminar"
-                                                            style="cursor:pointer;" data-item="{{ $eleccion->id }}"
-                                                            data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="Eliminar">
-                                                            <i class="far fa-trash-alt text-white opacity-10 "
-                                                                style="cursor:pointer;"></i>
-                                                        </div>
-                                                    @endif
-                                                @endif
-
+                                               
 
                                                 {{-- @if (date('Y-m-d') <= $eleccion->fecha_termino)
                                                     <a href="{{ route('elecciones_voto.encuestador', ['eleccion' => $eleccion->id]) }}"
