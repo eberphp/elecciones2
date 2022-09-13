@@ -63,10 +63,8 @@ class CandidatosController extends Controller
             $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
             $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
-            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
-            //$post->imagen = $nombreimagen;
-
+        }else{
+            $nombreimagenFoto="";
         }
 
         if ($request->tipo === 'Regional') {
