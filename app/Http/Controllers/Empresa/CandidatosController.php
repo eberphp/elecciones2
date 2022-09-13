@@ -55,11 +55,11 @@ class CandidatosController extends Controller
      */
     public function store(Request $request)
     {
-        $nombreimagenFoto = "";
+        $nombreimagenFoto="";
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-            $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
-            $rutasave = "/public/img/fotos/";
+            $nombreimagenFoto = Str::slug(random_int(100000,20000000) . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
         }
 
@@ -147,14 +147,13 @@ class CandidatosController extends Controller
         $candidato = Candidato::find($id);
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-             $rutasave = "public/img/fotos/";
-            $fileruta = $request->file("foto")->store($rutasave);
-            /* $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto); */
-            $arrayruta = explode("/", $fileruta);
-            $nombreimagen = $arrayruta[count($arrayruta) - 1];
-            $candidato->foto = $fileruta;
+            $nombreimagenFoto = Str::slug(random_int(100000,20000000) . microtime()) . "." . $imagen->guessExtension();
+            $rutasave = "public/img/fotos/";
+            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
+            $candidato->foto = $nombreimagenFoto;
             //$post->imagen = $nombreimagen;
-        }
+
+        } 
 
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
@@ -163,7 +162,7 @@ class CandidatosController extends Controller
         //$candidato->idDistrito = $request->idDistrito;
         $candidato->idPartido = $request->idPartido;
         $candidato->nombresApellidos = $request->nombresApellidos;
-        //$request->foto;
+         //$request->foto;
         $candidato->observaciones = $request->observacion;
         $candidato->save();
 
