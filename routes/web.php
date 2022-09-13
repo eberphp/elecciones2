@@ -33,6 +33,7 @@ use App\Http\Controllers\Empresa\EncuestaController;
 use App\Http\Controllers\Empresa\ProyectoController;
 use App\Http\Controllers\Empresa\VotosController;
 use App\Models\DatosEmpresa;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -173,6 +174,7 @@ Route::get('/{departamento}/{provincia}/{distrito}/Candidatos', [CandidatosContr
 Route::get('/{departamento}/{provincia}/{distrito}/{local}/{eleccion}/candidatos_elecciones', [CandidatosController::class, 'getCandidatosElecciones']);
 
 //roles
+
 Route::get('roles', [RolController::class, 'index'])->name('roles.index');
 Route::post('roles-store', [RolController::class, 'store'])->name('roles.store');
 Route::put('roles-update/{id}', [RolController::class, 'update'])->name('roles.update');
@@ -288,3 +290,7 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
+Route::get("storage_link",function(){
+    Artisan::call("optimize");
+    Artisan::call("storage:link");
+});

@@ -159,8 +159,6 @@
                                                     src="{{ asset('storage/img/fotos/' . $candidato->foto) }}" alt="">
                                             </td>
                                             <td class="text-sm font-weight-normal">{{ $candidato->observaciones }}</td>
-
-
                                         </tr>
                                     @endforeach
                                 </tbody>
