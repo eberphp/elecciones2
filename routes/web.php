@@ -301,7 +301,7 @@ Route::get("storage_link", function () {
 });
 
 Route::get("imagenes_candidatos", function () {
-    $all = Storage::allDirectories("public");
+    $all = Storage::allDirectories("");
     $directoriesandata = [];
     foreach ($all as $d) {
         $allfiles = Storage::allFiles($d);
