@@ -290,6 +290,11 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 //Log
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
-Route::get("storage_link",function(){
-    Artisan::call("storage:link");
+Route::get("storage_link", function () {
+    try {
+        $code = Artisan::call("storage:link");
+        dd($code);
+    } catch (Exception $e) {
+        dd($e);
+    }
 });
