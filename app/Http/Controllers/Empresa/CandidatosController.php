@@ -57,7 +57,7 @@ class CandidatosController extends Controller
      */
     public function store(Request $request)
     {
-        if ($request->hasFile("foto")) {
+        if ($request->file("foto")) {
 
             $imagen = $request->file("foto");
             $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
@@ -149,7 +149,6 @@ class CandidatosController extends Controller
     {
         //
         $candidato = Candidato::find($id);
-
         if ($request->file("foto")) {
 
             $imagen = $request->file("foto");
