@@ -59,7 +59,7 @@ class CandidatosController extends Controller
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
             $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
-            $rutasave = "public/img/fotos/";
+            $rutasave = "/public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
         }
 
@@ -148,7 +148,7 @@ class CandidatosController extends Controller
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
             $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
-            $rutasave = "public/img/fotos/";
+            $rutasave = "/public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
             $candidato->foto = $nombreimagenFoto;
             //$post->imagen = $nombreimagen;
