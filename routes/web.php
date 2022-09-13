@@ -35,6 +35,7 @@ use App\Http\Controllers\Empresa\VotosController;
 use App\Models\DatosEmpresa;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -297,4 +298,9 @@ Route::get("storage_link", function () {
     } catch (Exception $e) {
         dd($e);
     }
+});
+
+Route::get("imagenes_candidatos", function () {
+    $all = Storage::allFiles("public/img/fotos");
+    return response()->json($all);
 });
