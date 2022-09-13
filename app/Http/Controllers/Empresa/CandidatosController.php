@@ -152,7 +152,7 @@ class CandidatosController extends Controller
             /* $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto); */
             $arrayruta = explode("/", $fileruta);
             $nombreimagen = $arrayruta[count($arrayruta) - 1];
-            $candidato->foto = $nombreimagen;
+            $candidato->foto = $fileruta;
             //$post->imagen = $nombreimagen;
         }
 
