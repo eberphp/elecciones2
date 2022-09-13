@@ -301,6 +301,18 @@ Route::get("storage_link", function () {
 });
 
 Route::get("imagenes_candidatos", function () {
-    $all = Storage::allFiles("public/img/fotos/");
-    return response()->json($all);
+    $all = Storage::allDirectories("public");
+    $directoriesandata = [];
+    foreach ($all as $d) {
+        $allfiles = Storage::allFiles($d);
+        $directoriesandata[$d] = $allfiles;
+      /*   $subdirectories = Storage::allDirectories($d);
+        $directoriesandatasub = [];
+        foreach ($subdirectories as $sub) {
+            $allfiles = Storage::allFiles($sub);
+            $directoriesandatasub[$d] = $allfiles;
+        }
+        $directoriesandata[$d]["subdirectories"] = $directoriesandatasub; */
+    }
+    return response()->json($directoriesandata);
 });
