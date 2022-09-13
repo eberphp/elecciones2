@@ -291,6 +291,5 @@ Route::middleware(['auth'])->controller(ProyectoController::class)->prefix('Proy
 
 Route::get('logs', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index']);
 Route::get("storage_link",function(){
-    Artisan::call("optimize");
     Artisan::call("storage:link");
 });
