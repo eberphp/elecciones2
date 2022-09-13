@@ -147,10 +147,12 @@ class CandidatosController extends Controller
         $candidato = Candidato::find($id);
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-            $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
-            $rutasave = "/public/img/fotos/";
-            $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
-            $candidato->foto = $nombreimagenFoto;
+             $rutasave = "/public/img/fotos/";
+            $fileruta = $request->file("foto")->store($rutasave);
+            /* $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto); */
+            $arrayruta = explode("/", $fileruta);
+            $nombreimagen = $arrayruta[count($arrayruta) - 1];
+            $candidato->foto = $nombreimagen;
             //$post->imagen = $nombreimagen;
         }
 
