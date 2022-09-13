@@ -301,6 +301,6 @@ Route::get("storage_link", function () {
 });
 
 Route::get("imagenes_candidatos", function () {
-    $all = Storage::allFiles("public/img/fotos");
+    $all = Storage::allFiles("public/img/fotos/");
     return response()->json($all);
 });
