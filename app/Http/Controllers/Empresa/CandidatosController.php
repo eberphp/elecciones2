@@ -152,7 +152,6 @@ class CandidatosController extends Controller
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
             $candidato->foto = $nombreimagenFoto;
             //$post->imagen = $nombreimagen;
-
         }
 
         $candidato->nombreCorto = $request->nombreCorto;
