@@ -57,14 +57,12 @@ class CandidatosController extends Controller
      */
     public function store(Request $request)
     {
+        $nombreimagenFoto="";
         if ($request->file("foto")) {
-
             $imagen = $request->file("foto");
             $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
             $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
-        }else{
-            $nombreimagenFoto="";
         }
 
         if ($request->tipo === 'Regional') {
@@ -149,10 +147,9 @@ class CandidatosController extends Controller
     {
         //
         $candidato = Candidato::find($id);
+        $nombreimagenFoto = $candidato->foto;
         if ($request->file("foto")) {
-
             $imagen = $request->file("foto");
-
             $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
             $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
@@ -160,9 +157,7 @@ class CandidatosController extends Controller
 
             //$post->imagen = $nombreimagen;
 
-        } else {
-            $nombreimagenFoto = $candidato->foto;
-        }
+        } 
 
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
