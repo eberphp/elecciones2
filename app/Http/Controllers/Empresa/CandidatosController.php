@@ -9,10 +9,8 @@ use App\Models\Provincia;
 use App\Models\Distrito;
 use App\Models\Candidato;
 use App\Models\EleccionesVoto;
-use App\Models\LocalVotacion;
 use App\Models\Partido;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -57,10 +55,10 @@ class CandidatosController extends Controller
      */
     public function store(Request $request)
     {
-        $nombreimagenFoto="";
+        $nombreimagenFoto = "";
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-            $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
             $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
         }
@@ -147,17 +145,15 @@ class CandidatosController extends Controller
     {
         //
         $candidato = Candidato::find($id);
-        $nombreimagenFoto = $candidato->foto;
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-            $nombreimagenFoto = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
+            $nombreimagenFoto = Str::slug(random_int(100000, 20000000) . "-" . microtime()) . "." . $imagen->getClientOriginalExtension();
             $rutasave = "public/img/fotos/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto);
-            //copy($imagen->getRealPath(),$ruta.$nombreimagen);
-
+            $candidato->foto = $nombreimagenFoto;
             //$post->imagen = $nombreimagen;
 
-        } 
+        }
 
         $candidato->nombreCorto = $request->nombreCorto;
         $candidato->tipo = $request->tipo;
@@ -166,7 +162,7 @@ class CandidatosController extends Controller
         //$candidato->idDistrito = $request->idDistrito;
         $candidato->idPartido = $request->idPartido;
         $candidato->nombresApellidos = $request->nombresApellidos;
-        $candidato->foto = $nombreimagenFoto; //$request->foto;
+        //$request->foto;
         $candidato->observaciones = $request->observacion;
         $candidato->save();
 
