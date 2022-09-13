@@ -147,7 +147,7 @@ class CandidatosController extends Controller
         $candidato = Candidato::find($id);
         if ($request->file("foto")) {
             $imagen = $request->file("foto");
-             $rutasave = "/public/img/fotos/";
+             $rutasave = "public/img/fotos/";
             $fileruta = $request->file("foto")->store($rutasave);
             /* $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFoto); */
             $arrayruta = explode("/", $fileruta);
