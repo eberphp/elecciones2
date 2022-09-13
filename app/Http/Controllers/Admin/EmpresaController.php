@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\DatosEmpresa;
 use App\Models\RedesSociales;
 use App\Models\Titulo;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
@@ -66,7 +67,7 @@ class EmpresaController extends Controller
             foreach ($respuesta as $d) {
                 $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
             }
-
+            Artisan::call("storage:link");
             return $nueva_lista;
         } catch (\Throwable $th) {
             return $th->getMessage();
