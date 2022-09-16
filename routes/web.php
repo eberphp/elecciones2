@@ -251,7 +251,7 @@ Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')
     Route::get('/{encuesta}/destroy', 'destroy')->name('Votos.destroy');
 
 
-    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/Graficos/Total', 'getVotosDepartamentos')
+    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/{tiporesultado}/Graficos/Total', 'getVotosDepartamentos')
         ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });
 // RUTAS DE VOTOS Elecciones
@@ -275,7 +275,7 @@ Route::middleware(['auth'])->controller(EleccionesVotosController::class)->prefi
     Route::get('/{eleccion}/destroy', 'destroy')->name('elecciones_voto.destroy');
 
 
-    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/{tiporesultado}/Graficos/Total', 'getVotosDepartamentos')
+    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/Graficos/Total', 'getVotosDepartamentos')
         ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });
 
