@@ -265,7 +265,7 @@ class VotosController extends Controller
         }
     }
 
-    public function getVotosDepartamentos(Request $request, $encuesta, $departamento, $provincia, $distrito, $zona)
+    public function getVotosDepartamentos(Request $request, $encuesta, $departamento, $provincia, $distrito, $zona, $tipoResultado)
     {
         $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
 
@@ -273,23 +273,21 @@ class VotosController extends Controller
 
         $tVotos = [];
 
-
         ($siEncuesta->dispositivo == "Si") ? array_push($tVotos, 'Dispositivo') : '';
         ($siEncuesta->encuestador == "Si") ? array_push($tVotos, 'Encuesta') : '';
         ($siEncuesta->manual == "Si") ? array_push($tVotos, 'Manual')  : '';
-        
 
         foreach ($partidos as $partido) {
             $partido['Regional'] = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
                 ->where(function ($query) use ($tVotos) {
                     $query->whereIn('tipoEncuesta', $tVotos);
                 })
-                ->where('departamentoId', $departamento)
+                ->where('departamentoId', $departamento)                
                 ->where('partidoId', $partido->id)
                 ->where(function ($query) use ($zona){
                     if($zona !== 'Todos'){
                         if($zona !== ''){
-                            $query->where('zonaId', $zona);
+                            $query->where('zonaId', $zona); 
                         }else{
                             $query->where('zonaId','>',0);
                         }
@@ -298,7 +296,14 @@ class VotosController extends Controller
                     }
                 })
                 ->where('encuestaId', $siEncuesta->idEncuesta)
-                ->where('estado', 'Activo')->where('region', 'Regional')->get();
+                ->where('estado', 'Activo')
+                ->where(function($query) use ($tipoResultado, $provincia){
+                    if($tipoResultado == 'Provincia'){
+                        $query->where('provinciaId', $provincia)->whereIn('region', ['Regional','Provincial']);
+                    }else{
+                        $query->where('region', 'Regional');
+                    }
+                })->get();
 
             $partido['Provincial'] = Votos::select(DB::raw('IFNULL(SUM(votos),0) as total'))
                 ->where('departamentoId', $departamento)->where('provinciaId', $provincia)
@@ -356,7 +361,7 @@ class VotosController extends Controller
                 ->where('tipo', 'Distrital')
                 ->where('idPartido', $partido->id)->where('estado', 'activo')->get();
         }
-
+        
         return response()->json($partidos);
     }
 
