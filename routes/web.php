@@ -275,7 +275,7 @@ Route::middleware(['auth'])->controller(EleccionesVotosController::class)->prefi
     Route::get('/{eleccion}/destroy', 'destroy')->name('elecciones_voto.destroy');
 
 
-    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/{tipoResultado}/Graficos/Total', 'getVotosDepartamentos')
+    Route::get('/{encuesta}/{departamento}/{provincia}/{distrito}/{zona}/{tiporesultado}/Graficos/Total', 'getVotosDepartamentos')
         ->name('Votos.graficos.departamento')->withoutMiddleware(['auth']);
 });
 
