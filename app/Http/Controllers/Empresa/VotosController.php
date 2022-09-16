@@ -265,7 +265,7 @@ class VotosController extends Controller
         }
     }
 
-    public function getVotosDepartamentos(Request $request, $encuesta, $departamento, $provincia, $distrito, $zona, $tipoResultado)
+    public function getVotosDepartamentos(Request $request, $encuesta, $departamento, $provincia, $distrito, $zona, $tiporesultado)
     {
         $partidos = Partido::select('id', 'partido', 'logotipo')->where('idDepartamento', $departamento)->where('estado', 'activo')->get();
 
@@ -297,8 +297,8 @@ class VotosController extends Controller
                 })
                 ->where('encuestaId', $siEncuesta->idEncuesta)
                 ->where('estado', 'Activo')
-                ->where(function($query) use ($tipoResultado, $provincia){
-                    if($tipoResultado == 'Provincia'){
+                ->where(function($query) use ($tiporesultado, $provincia){
+                    if($tiporesultado == 'Provincia'){
                         $query->where('provinciaId', $provincia)->whereIn('region', ['Regional','Provincial']);
                     }else{
                         $query->where('region', 'Regional');
