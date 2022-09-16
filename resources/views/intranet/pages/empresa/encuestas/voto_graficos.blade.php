@@ -63,6 +63,7 @@
                                         <select class="form-control" name="resultado" id="resultado">
                                             <option value="Total" selected>Resultado Total</option>
                                             <option value="Ubicacion">Por Ubicación</option>
+                                            <option value="Provincia">Por Provincia</option>
                                         </select>
                                     </div>
 
@@ -427,10 +428,16 @@
                 console.log($("#distrito"));
                 setTimeout(() => {
                     $("#distrito option[value='Todos']").remove();
-                }, 800);                 
+                }, 800);
+
+            }else if(e.currentTarget.value == 'Provincia'){
+                $("#zona").attr('disabled', true);
+                $("#distrito").attr('disabled',true);
             } else {
                 $("#zona").attr('disabled', true);
-                $("#zona").html('<option value="">-- TODO --</option>')
+                $("#zona").html('<option value="">-- TODO --</option>');
+
+                $("#distrito").append('<option value="Todos">TODOS</option>')
             }
 
             getZonas();
@@ -667,6 +674,7 @@
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
+            let tipoResultado = $('#resultado').val();
             let zona = $('#zona').val();
             if (zona == '') {
                 zona = 'Todos';
@@ -674,7 +682,7 @@
 
             $.ajax({
                 url: "/Votos/{{ $encuesta->idEncuesta }}/" + departamento + "/" + provincia + "/" + distrito +
-                    "/" + zona +
+                    "/" + zona + "/" + tipoResultado +
                     "/Graficos/Total",
                 type: 'GET',
                 dataType: 'json', // added data type
