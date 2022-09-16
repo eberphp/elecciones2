@@ -420,8 +420,14 @@
 
             if (e.currentTarget.value == 'Ubicacion') {
                 $("#zona").attr('disabled', false);
-                $("#zona option[value='']").attr("selected", true);
-                $("#zona option[value='']").text("-- Selecciona --");
+                setTimeout(() => {
+                    $("#zona")[0][0].attr('selected',true);
+                }, 800);
+                
+                console.log($("#distrito"));
+                setTimeout(() => {
+                    $("#distrito option[value='Todos']").remove();
+                }, 800);                 
             } else {
                 $("#zona").attr('disabled', true);
                 $("#zona").html('<option value="">-- TODO --</option>')
@@ -588,11 +594,15 @@
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    var fila = "";
+                   var fila = "";
                     for (let i = 0; i < res.length; i++) {
                         fila += '<option value="' + res[i].id + '">' + res[i].distrito + '</option>';
 
                     }
+                    const resultado = $('#resultado').val();
+                    if (resultado !== 'Ubicacion') {
+                        fila += '<option value="Todos">TODOS</option>';
+                    } 
                     $("#distrito option").remove();
                     $("#distrito").append(fila);
                     getZonas(res[0].id);
@@ -610,10 +620,13 @@
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    var fila = "<option value='' selected>-- TODOS --</option>";
+                   const resultado = $('#resultado').val();
+                    let fila = "<option value='' selected>-- TODOS --</option>";
+                    if (resultado === 'Ubicacion') {
+                        fila = '';
+                    }                    
                     for (let i = 0; i < res.length; i++) {
                         fila += '<option value="' + res[i].id + '">' + res[i].zona + '</option>';
-
                     }
                     $("#zona option").remove();
                     $("#zona").append(fila);
