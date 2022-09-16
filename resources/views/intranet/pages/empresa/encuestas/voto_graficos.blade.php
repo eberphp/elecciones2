@@ -684,7 +684,7 @@
             let totalDep = 0,
                 totalPro = 0,
                 totalDis = 0;
-            const urls = 'https://images.pexels.com/photos/6266317/pexels-photo-6266317.jpeg?cs=srgb&dl=pexels-ann-h-6266317.jpg&fm=jpg';
+            const urls = '';
 
             res.forEach(el => {
                 let  fd;
