@@ -421,6 +421,7 @@
 
             if (e.currentTarget.value == 'Ubicacion') {
                 $("#zona").attr('disabled', false);
+                $("#distrito").attr('disabled', false);
                 setTimeout(() => {
                     $("#zona")[0][0].attr('selected',true);
                 }, 800);
