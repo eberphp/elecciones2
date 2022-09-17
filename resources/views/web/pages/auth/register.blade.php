@@ -144,7 +144,7 @@
 
                             </div>
                         </div> --}}
-                      {{--   <div class="col-md-4">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Tarea</label>
                                 <input type="text" name="nro_mesa" value="{{ old('nro_mesa') }}"
@@ -160,7 +160,7 @@
 
                             </div>
                         </div>
- --}}
+
 
                         {{-- <div class="col-md-12">
                             <div class="form-group">
