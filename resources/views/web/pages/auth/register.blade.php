@@ -122,7 +122,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Foto</label>
                                 <input type="file" name="foto" class="form-control" id="foto_ic">
@@ -143,8 +143,8 @@
                                     class="form-control" id="url_facebook_ie">
 
                             </div>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                      {{--   <div class="col-md-4">
                             <div class="form-group">
                                 <label class="form-label">Tarea</label>
                                 <input type="text" name="nro_mesa" value="{{ old('nro_mesa') }}"
@@ -160,9 +160,9 @@
 
                             </div>
                         </div>
+ --}}
 
-
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
                                     Referencias
@@ -190,7 +190,7 @@
                                 </label>
                                 <textarea class="form-control ckeditor" name="perfil" id="perfil_ie"></textarea>
                             </div>
-                        </div>
+                        </div> --}}
 
                         <div class="col-md-12">
                             <div class="form-group">
@@ -200,14 +200,14 @@
                                 <textarea class="form-control ckeditor" name="observaciones" id="observaciones_ie">{{ old('observaciones') }}</textarea>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">
                                     Sugerencias
                                 </label>
                                 <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ old('sugerencias') }}</textarea>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="w-100 d-flex justify-content-end my-4">
                         <button class="btn btn-primary" type="submit">Guardar</button>
