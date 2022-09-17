@@ -63,6 +63,7 @@
                                         <select class="form-control" name="resultado" id="resultado">
                                             <option value="Total" selected>Resultado Total</option>
                                             <option value="Ubicacion">Por Ubicación</option>
+                                            <option value="Provincia">Por Provincia</option>
                                         </select>
                                     </div>
 
@@ -420,11 +421,24 @@
 
             if (e.currentTarget.value == 'Ubicacion') {
                 $("#zona").attr('disabled', false);
-                $("#zona option[value='']").attr("selected", true);
-                $("#zona option[value='']").text("-- Selecciona --");
+                $("#distrito").attr('disabled', false);
+                setTimeout(() => {
+                    $("#zona")[0][0].attr('selected',true);
+                }, 800);
+                
+                console.log($("#distrito"));
+                setTimeout(() => {
+                    $("#distrito option[value='Todos']").remove();
+                }, 800);
+
+            }else if(e.currentTarget.value == 'Provincia'){
+                $("#zona").attr('disabled', true);
+                $("#distrito").attr('disabled',true);
             } else {
                 $("#zona").attr('disabled', true);
-                $("#zona").html('<option value="">-- TODO --</option>')
+                $("#zona").html('<option value="">-- TODO --</option>');
+
+                $("#distrito").append('<option value="Todos">TODOS</option>')
             }
 
             getZonas();
@@ -588,11 +602,15 @@
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    var fila = "";
+                   var fila = "";
                     for (let i = 0; i < res.length; i++) {
                         fila += '<option value="' + res[i].id + '">' + res[i].distrito + '</option>';
 
                     }
+                    const resultado = $('#resultado').val();
+                    if (resultado !== 'Ubicacion') {
+                        fila += '<option value="Todos">TODOS</option>';
+                    } 
                     $("#distrito option").remove();
                     $("#distrito").append(fila);
                     getZonas(res[0].id);
@@ -610,10 +628,13 @@
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    var fila = "<option value='' selected>-- TODOS --</option>";
+                   const resultado = $('#resultado').val();
+                    let fila = "<option value='' selected>-- TODOS --</option>";
+                    if (resultado === 'Ubicacion') {
+                        fila = '';
+                    }                    
                     for (let i = 0; i < res.length; i++) {
                         fila += '<option value="' + res[i].id + '">' + res[i].zona + '</option>';
-
                     }
                     $("#zona option").remove();
                     $("#zona").append(fila);
@@ -654,6 +675,7 @@
             let departamento = $('#departamento').val();
             let provincia = $('#provincia').val();
             let distrito = $('#distrito').val();
+            let tipoResultado = $('#resultado').val();
             let zona = $('#zona').val();
             if (zona == '') {
                 zona = 'Todos';
@@ -661,7 +683,7 @@
 
             $.ajax({
                 url: "/Votos/{{ $encuesta->idEncuesta }}/" + departamento + "/" + provincia + "/" + distrito +
-                    "/" + zona +
+                    "/" + zona + "/" + tipoResultado +
                     "/Graficos/Total",
                 type: 'GET',
                 dataType: 'json', // added data type
@@ -684,7 +706,7 @@
             let totalDep = 0,
                 totalPro = 0,
                 totalDis = 0;
-            const urls = 'https://images.pexels.com/photos/6266317/pexels-photo-6266317.jpeg?cs=srgb&dl=pexels-ann-h-6266317.jpg&fm=jpg';
+            const urls = '';
 
             res.forEach(el => {
                 let  fd;
