@@ -15,6 +15,7 @@ if (!function_exists('idEmpresa')) {
             $texto      = url('');
             $domain     = explode("//", $texto);
             $domain_aux = $domain[1];
+            $domain_aux = str_replace(['www.', "https"], '', $domain[1]);
 
             if (Cache::has($domain_aux)) {
                 return Cache::get($domain_aux);
@@ -22,7 +23,7 @@ if (!function_exists('idEmpresa')) {
 
             $empresa = DatosEmpresa::where('dominio', $domain_aux)->first();
 
-            dd($domain_aux, $empresa);
+           // dd($domain_aux, $empresa);
 
             if ($empresa) {
                 Cache::forever($domain_aux, $empresa->id);
