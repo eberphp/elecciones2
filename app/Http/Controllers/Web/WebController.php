@@ -20,6 +20,7 @@ class WebController extends Controller
     public function index()
     {
         $id = idEmpresa();
+        dd(idEmpresa());
         $publicaciones = Publicacion::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
         //dd($publicaciones[0]->modeloBloque == 'Bloque 1');
         $servicios = Servicio::where('datos_empresa_id', $id)->orderBy('nombre', 'asc')->get();
