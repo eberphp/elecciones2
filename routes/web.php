@@ -58,7 +58,10 @@ Route::get("auth/profile", [AuthPersonalController::class, "profile"])->name("we
 Route::post("auth/profile/{id}", [AuthPersonalController::class, "update"])->name("web.profile.update");
 Route::get("auth/register", [AuthPersonalController::class, "create"])->name("web.register.view");
 Route::post("auth/register", [AuthPersonalController::class, "store"])->name("web.register.post");
-Route::get('/', [WebController::class, 'index'])->name('/');
+//Route::get('/', [WebController::class, 'index'])->name('/');
+Route::get('/', function(){
+    dd(idEmpresa(), 'bjar');
+})->name('/');
 Route::get('nosotros', [WebController::class, 'nosotros'])->name('nosotros');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
