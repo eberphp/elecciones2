@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-
+use App\Imports\PersonalWeb;
 use App\Models\Asignacion;
 use App\Models\DatosEmpresa;
 use App\Models\Perfil;
@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
@@ -37,6 +39,31 @@ class PersonalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function importData(Request $request)
+    {
+        try {
+            $validation = $request->validate([
+                "file_excel" => "required"
+            ]);
+            try {
+                $file = $request->file("file_excel");
+                Excel::import(new PersonalWeb(Auth::user()->id ? Auth::user()->id : 1), $file);
+                return response()->json(['success' => true, 'message' => "Data importada correctamente"]);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+                $rows = "";
+                $atributos = "";
+                foreach ($failures as $failure) {
+                    $rows = $failure->row();
+                    $atributos .=  $failure->attribute() . ",\n";
+                }
+                return response()->json(["success" => false, "message" => $atributos]);
+            }
+        } catch (Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()]);
+        }
+    }
     public function clearPersonal()
     {
         $permisos = Asignacion::where('datos_empresa_id', idEmpresa())->get();
@@ -91,7 +118,7 @@ class PersonalController extends Controller
                     unlink($personal->cv);
                 }
             }
-        /*     $url = $request->file('cv')->store('public/documents/personal/cv');
+            /*     $url = $request->file('cv')->store('public/documents/personal/cv');
             $save = explode('public/', $url);
             $personal->cv = implode("", $save); */
             $cvfile = $request->file("cv");

@@ -83,7 +83,6 @@ Route::resource("estadoProceso", EstadoProcesoController::class);
 
 Route::post("evaluacion/pagination", [EvaluacionController::class, "pagination"]);
 Route::resource("evaluacion", EvaluacionController::class);
-
 Route::post("personal/cv", [PersonalController::class, "uploadCv"]);
 Route::post("personal/image", [PersonalController::class, "uploadImage"]);
 

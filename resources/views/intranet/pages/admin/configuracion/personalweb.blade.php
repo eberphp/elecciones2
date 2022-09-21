@@ -778,6 +778,39 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="importarModal" tabindex="-1" role="dialog"
+                    aria-labelledby="importarModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="importarModalLabel">Importar personal</h5>
+                                <span aria-hidden="true" class="close c-p close-modall" data-dismiss="modal"
+                                    aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formImportData" action="" method="POST">
+                                    <div class="form-group">
+                                        <a href="{{ asset('importar.xlsx') }}" target="_blank" download="plantilla importar.xlsx" class="btn btn-success"> <i
+                                                class="fa fa-download"></i> Descargar plantilla</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Seleccione archivo</label>
+                                        <input type="file" name="archivo_excel" id="archivo_excel"
+                                            class="form-control"
+                                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="w-100 d-flex justify-content-end my-2">
+                                            <button type="submit" id="button_upload_excel" class="btn btn-danger"> <i
+                                                    class="fa fa-save"></i>
+                                                Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card">
 
                     <div class="card-header bg-secondary">
@@ -787,7 +820,9 @@
 
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
-
+                                <button class="btn btn-success btn-xs mx-2" id="importFromExcel"><i
+                                        class="fa fa-file-excel"></i>
+                                    Importar excel</button>
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -951,7 +986,7 @@
                 },
                 orderable: false
             },
-           
+
             {
                 data: "nro_mesa",
                 render: function(data) {
@@ -1145,7 +1180,45 @@
             }
 
         ];
+
+
         $(document).ready(function() {
+            $("#importFromExcel").on("click", function(e) {
+                $("#importarModal").modal("show");
+            })
+            $("#formImportData").on("submit", async function(e) {
+                e.preventDefault();
+                if ($("#archivo_excel")) {
+                    if ($("#archivo_excel")[0]) {
+                        if ($("#archivo_excel")[0].files[0]) {
+                            const formData = new FormData();
+                            formData.append('file_excel', $("#archivo_excel")[0].files[0]);
+                            const resp = await fetch(`/personal_web/importData`, {
+                                method: 'post',
+                                body: formData,
+                                headers: {
+                                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                        "content"
+                                    ),
+                                }
+                            })
+                            let dataresp = await resp.json();
+                            if (dataresp.success) {
+                                Swal.fire("Success", "Importado correctamente", "success");
+                                $("#importarModal").modal("hide");
+                                customtable.ajax.reload();
+                            } else {
+                                console.log(dataresp);
+                                Swal.fire("Error", "Error al importar", "error");
+                            }
+                        }
+                    }
+                }
+
+            })
+            $("#button_upload_excel").on("click", function(e) {
+                console.log(e);
+            })
             const handlePermisos = async function() {
                 return [];
             };
@@ -1167,6 +1240,7 @@
                 $("#evaluacionModal").modal("hide");
                 $("#perfilModal").modal("hide");
                 $("#rolesModal").modal("hide");
+                $("#importarModal").modal("hide");
             })
             //validaciones
             $("#nombre_ic").on("keyup", function(e) {
