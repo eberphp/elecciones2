@@ -2,8 +2,13 @@
 
 namespace App\Imports;
 
+use App\Models\Departamento;
+use App\Models\Distrito;
+use App\Models\EstadoEvaluacion;
+use App\Models\Funcion;
 use App\Models\Perfil;
 use App\Models\Personal;
+use App\Models\Provincia;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -24,7 +29,7 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
     {
         $this->usuario_creador = $usuario_creador;
     }
-   
+
 
     public function model(array $row)
     {
@@ -49,18 +54,36 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         $personal->dni =  $row["dni"];
         $personal->clave = isset($row["clave"]) ? $row["clave"] : "";
         $personal->cargo_id =  0;
-        $personal->funcion_id =  0;
-        $personal->ppd ="";
+        if (isset($row["funcion"]) && $row["funcion"]) {
+            $funcion = Funcion::where("nombre", $row["funcion"])->first();
+            if ($funcion) {
+                $personal->funcion_id = $funcion->id;
+            } else {
+                $personal->funcion_id = 0;
+            }
+        } else {
+            $personal->funcion_id =  0;
+        }
+        $personal->ppd = "";
         $personal->perfil =  "";
         $personal->evaluacion = "";
-        $personal->foto ="";
+        $personal->foto = "";
         $personal->cv = "";
         $personal->url_facebook =  "";
         $personal->url_1 =  "";
         $personal->url_2 =  "";
         $personal->puesto_id =  0;
         $personal->referencias = "";
-        $personal->estado = "";
+        if (isset($row["estado"]) && $row["estado"]) {
+            $estado = EstadoEvaluacion::where('nombre', $row["estado"])->first();
+            if ($estado) {
+                $personal->estado = $estado->id;
+            } else {
+                $personal->estado = 0;
+            }
+        } else {
+            $personal->estado = 0;
+        }
         $personal->vinculo_id =  0;
         $personal->sugerencias =  "";
         $personal->tipo_usuarios_id =  0;
@@ -72,9 +95,36 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         $personal->observaciones =  "";
         $personal->tipo_ubigeo = 0;
         $personal->rol_id = 1;
-        $personal->departamento =  0;
-        $personal->provincia = 0;
-        $personal->distrito =  0;
+        if (isset($row["departamento"]) && $row["departamento"]) {
+            $departamento = Departamento::where('departamento', $row["departamento"])->first();
+            if ($departamento) {
+                $personal->departamento = $departamento->id;
+            } else {
+                $personal->departamento = 0;
+            }
+        } else {
+            $personal->departamento = 0;
+        }
+        if (isset($row["provincia"]) && $row["provincia"]) {
+            $provincia = Provincia::where('provincia', $row["provincia"])->first();
+            if ($provincia) {
+                $personal->provincia = $provincia->id;
+            } else {
+                $personal->provincia = 0;
+            }
+        } else {
+            $personal->provincia = 0;
+        }
+        if (isset($row["distrito"]) && $row["distrito"]) {
+            $distrito = Distrito::where('distrito', $row["distrito"])->first();
+            if ($distrito) {
+                $personal->distrito = $distrito->id;
+            } else {
+                $personal->distrito = 0;
+            }
+        } else {
+            $personal->distrito = 0;
+        }
         $personal->registrado_en = "web";
 
         $personal->save();
