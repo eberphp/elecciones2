@@ -64,7 +64,11 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         } else {
             $personal->funcion_id =  0;
         }
-        $personal->ppd = "";
+        if (isset($row["local_de_votacion"]) && $row["local_de_votacion"]) {
+            $personal->ppd=$row["local_de_votacion"];
+        } else {
+            $personal->ppd =  "";
+        }
         $personal->perfil =  "";
         $personal->evaluacion = "";
         $personal->foto = "";
