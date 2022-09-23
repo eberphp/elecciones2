@@ -42,6 +42,7 @@ class PersonalController extends Controller
 
     public function importData(Request $request)
     {
+        set_time_limit(10000000);
         try {
             $validation = $request->validate([
                 "file_excel" => "required"
