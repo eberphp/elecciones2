@@ -35,10 +35,25 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
     {
         $personalexiste = Personal::where("dni", $row["dni"])->first();
         if ($personalexiste) {
+            
+            if(isset($row["nro_mesa"]) && $row["nro_mesa"]) {
+                $personalexiste->nro_mesa=$row["nro_mesa"];
+            }
+            if(isset($row["local_de_votacion"]) && $row["local_de_votacion"]) {
+                $personalexiste->ppd=$row["local_de_votacion"];
+            }
+            $personalexiste->save();
             return null;
         }
         $correoregistrado = Personal::where("correo", $row["correo"])->first();
         if ($correoregistrado) {
+            if(isset($row["nro_mesa"]) && $row["nro_mesa"]) {
+                $correoregistrado->nro_mesa=$row["nro_mesa"];
+            }
+            if(isset($row["local_de_votacion"]) && $row["local_de_votacion"]) {
+                $correoregistrado->ppd=$row["local_de_votacion"];
+            }
+            $correoregistrado->save();
             return null;
         }
         $lastidpersonal = Personal::max("id");
