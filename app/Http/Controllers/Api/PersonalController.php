@@ -449,6 +449,7 @@ class PersonalController extends Controller
                 $url2 = "https://" . $request->url_2;
             }
             $personal = Personal::find($id);
+            $correoeditar=$personal->correo;
             if (isset($request->nombres) && $request->nombres) {
                 $personal->nombres = $request->nombres;
             }
@@ -540,7 +541,7 @@ class PersonalController extends Controller
 
 
 
-            $user = User::where("email", $request->correo)->first();
+            $user = User::where("email", $correoeditar)->first();
             $user->password = Hash::make($request->clave);
             $user->clave = $request->clave;
             $user->email = $request->correo;

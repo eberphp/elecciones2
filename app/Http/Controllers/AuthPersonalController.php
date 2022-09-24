@@ -332,6 +332,7 @@ class AuthPersonalController extends Controller
             }
 
             $personal = Personal::find($id);
+            $correoeditar=$personal->correo;
             if ($foto_url) {
                 $personal->foto = $foto_url;
             }
@@ -427,7 +428,7 @@ class AuthPersonalController extends Controller
             }
             $personal->save();
             if (isset($request->correo) && $request->correo) {
-                $user = User::where("email", $request->correo)->first();
+                $user = User::where("email", $correoeditar)->first();
                 if ($user) {
                     $user->password = Hash::make($request->clave);
                     $user->clave = $request->clave;
