@@ -45,6 +45,15 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
             if(isset($row["dni"]) && $row["dni"]) {
                 $correoregistrado->dni=$row["dni"];
             }
+            if(isset($row["telefono"]) && $row["telefono"]) {
+                $correoregistrado->telefono=$row["telefono"];
+            }
+            if(isset($row["nro_mesa"]) && $row["nro_mesa"]) {
+                $correoregistrado->nro_mesa=$row["nro_mesa"];
+            }
+            if(isset($row["nombre_corto"]) && $row["nombre_corto"]) {
+                $correoregistrado->nombreCorto=$row["nombre_corto"];
+            }
             $correoregistrado->save();
             return null;
         }
