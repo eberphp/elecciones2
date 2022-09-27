@@ -33,18 +33,7 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
 
     public function model(array $row)
     {
-        $personalexiste = Personal::where("dni", $row["dni"])->first();
-        if ($personalexiste) {
-            
-            if(isset($row["nro_mesa"]) && $row["nro_mesa"]) {
-                $personalexiste->nro_mesa=$row["nro_mesa"];
-            }
-            if(isset($row["local_de_votacion"]) && $row["local_de_votacion"]) {
-                $personalexiste->ppd=$row["local_de_votacion"];
-            }
-            $personalexiste->save();
-            return null;
-        }
+     
         $correoregistrado = Personal::where("correo", $row["correo"])->first();
         if ($correoregistrado) {
             if(isset($row["nro_mesa"]) && $row["nro_mesa"]) {
@@ -52,6 +41,9 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
             }
             if(isset($row["local_de_votacion"]) && $row["local_de_votacion"]) {
                 $correoregistrado->ppd=$row["local_de_votacion"];
+            }
+            if(isset($row["dni"]) && $row["dni"]) {
+                $correoregistrado->dni=$row["dni"];
             }
             $correoregistrado->save();
             return null;
@@ -114,9 +106,11 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         $personal->observaciones =  "";
         $personal->tipo_ubigeo = 0;
         $personal->rol_id = 1;
+        $departamentoid=0;
         if (isset($row["departamento"]) && $row["departamento"]) {
             $departamento = Departamento::where('departamento', $row["departamento"])->first();
             if ($departamento) {
+                $departamentoid=$departamento->id;
                 $personal->departamento = $departamento->id;
             } else {
                 $personal->departamento = 0;
@@ -124,9 +118,11 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         } else {
             $personal->departamento = 0;
         }
+        $provinciaid=0;
         if (isset($row["provincia"]) && $row["provincia"]) {
-            $provincia = Provincia::where('provincia', $row["provincia"])->first();
+            $provincia = Provincia::where('provincia', $row["provincia"])->where("idDepartamento",$departamentoid)->first();
             if ($provincia) {
+                $provinciaid=$provincia->id;
                 $personal->provincia = $provincia->id;
             } else {
                 $personal->provincia = 0;
@@ -135,7 +131,7 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
             $personal->provincia = 0;
         }
         if (isset($row["distrito"]) && $row["distrito"]) {
-            $distrito = Distrito::where('distrito', $row["distrito"])->first();
+            $distrito = Distrito::where('distrito', $row["distrito"])->where("idDepartamento",$departamentoid)->where("idProvincia",$provinciaid)->first();
             if ($distrito) {
                 $personal->distrito = $distrito->id;
             } else {
