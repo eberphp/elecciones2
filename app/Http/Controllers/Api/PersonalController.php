@@ -67,12 +67,10 @@ class PersonalController extends Controller
     }
     public function clearPersonal()
     {
-        $permisos = Asignacion::where('datos_empresa_id', idEmpresa())->get();
-        foreach ($permisos as $permiso) {
-            $permiso->delete();
-        }
-        $personal = Personal::where('datos_empresa_id', idEmpresa())->get();
+
+        $personal = Personal::where('datos_empresa_id', idEmpresa())->where("registrado_en", "web")->get();
         foreach ($personal as $value) {
+            DB::statement("DELETE FROM `asignaciones` WHERE personal_id=?", [$value->id]);
             $user = User::where("idPersonal", $value->id)->first();
             if ($user) {
                 if ($user->idPersonal) {
@@ -449,7 +447,7 @@ class PersonalController extends Controller
                 $url2 = "https://" . $request->url_2;
             }
             $personal = Personal::find($id);
-            $correoeditar=$personal->correo;
+            $correoeditar = $personal->correo;
             if (isset($request->nombres) && $request->nombres) {
                 $personal->nombres = $request->nombres;
             }
@@ -599,5 +597,21 @@ class PersonalController extends Controller
             'permisos.required' => 'Debes seleccionar, al menos, un rol.',
             'permisos.array' => 'La lista de permisos ingresada no tiene un formato válido.',
         ];
+    }
+    public function deletePersonal()
+    {
+        try {
+            $personal = Personal::where('datos_empresa_id', idEmpresa())->where("registrado_en", "web")->get();
+            foreach ($personal as $personal) {
+                $user = User::where("email", $personal->correo)->first();
+                $perfil = Perfil::find($user->perfil_id);
+                $perfil->delete();
+                $user->delete();
+                $personal->delete();
+            }
+            return response()->json(["succes" => true, "message" => "Eliminado correctamente"]);
+        } catch (Exception $e) {
+            return response()->json(["success" => false, "message" => $personal]);
+        }
     }
 }
