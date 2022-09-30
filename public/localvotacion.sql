@@ -632,7 +632,7 @@ INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `
 (626, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IE AGRO INDUSTRIAL JOSE GABRIEL CONDORCANQUI', '900096\r', ''),
 (627, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IE AGRO INDUSTRIAL JOSE GABRIEL CONDORCANQUI', '900097\r', ''),
 (628, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IE AGRO INDUSTRIAL JOSE GABRIEL CONDORCANQUI', '900098\r', '');
-INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
+INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (629, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IEP 16318', '275\r', ''),
 (630, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IEP 16318', '276\r', ''),
 (631, 'AMAZONAS', 'BAGUA', 'IMAZA', 'IEP 16318', '277\r', ''),
@@ -1264,7 +1264,7 @@ INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, 
 (1258, 'AMAZONAS', 'CHACHAPOYAS', 'CHACHAPOYAS', 'EBE MONSEÑOR OCTAVIO ORTIZ ARRIETA', '000070\r', ''),
 (1259, 'AMAZONAS', 'CHACHAPOYAS', 'CHACHAPOYAS', 'IE 002 RAQUEL ROBLES DE ROMAN', '000031\r', ''),
 (1260, 'AMAZONAS', 'CHACHAPOYAS', 'CHACHAPOYAS', 'IE 002 RAQUEL ROBLES DE ROMAN', '000032\r', '');
-INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
+INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (1261, 'AMAZONAS', 'CHACHAPOYAS', 'CHACHAPOYAS', 'IE 002 RAQUEL ROBLES DE ROMAN', '000033\r', ''),
 (1262, 'AMAZONAS', 'CHACHAPOYAS', 'CHACHAPOYAS', 'IE 18006', '000069\r', ''),
 (1263, 'AMAZONAS', 'CHACHAPOYAS', 'ASUNCION', 'IE 18010', '000071\r', ''),
@@ -1884,7 +1884,7 @@ INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, 
 (1877, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '596\r', ''),
 (1878, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '597\r', ''),
 (1879, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '598\r', '');
-INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
+INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (1880, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '599\r', ''),
 (1881, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '600\r', ''),
 (1882, 'AMAZONAS', 'CONDORCANQUI', 'NIEVA', 'IE 16296 PRIMARIO', '601\r', ''),
