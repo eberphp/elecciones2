@@ -1,34 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 5.1.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 29-09-2022 a las 00:35:03
--- Versión del servidor: 8.0.27
--- Versión de PHP: 7.4.26
+
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de datos: `elecciones`
---
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `locl`
---
-
-
-
 
 INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (2, 'AMAZONAS', 'BONGARA', 'JUMBILLA', 'IE 18079', '335\r', ''),
@@ -2388,6 +2362,3 @@ INSERT INTO `locl` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, 
 (2354, 'AMAZONAS', 'UTCUBAMBA', 'YAMON', 'IE VICTOR ANDRES BELAUNDE', '946\r', '');
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

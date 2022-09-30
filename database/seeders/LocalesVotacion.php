@@ -15,7 +15,7 @@ class LocalesVotacion extends Seeder
      */
     public function run()
     {
-        $path = public_path('locales_votacion.sql');
+        $path = public_path('localvotacion.sql');
         $sql = file_get_contents($path);
         DB::unprepared($sql);
     
