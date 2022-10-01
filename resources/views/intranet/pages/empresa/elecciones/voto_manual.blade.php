@@ -517,14 +517,20 @@
             data = await response.json();
             if (data.success) {
                 $("#departamento").val(data.departamento.id);
+                $("#provincia").empty();
                 $("#provincia").append(`
                     <option value="${data.provincia.id}">${data.provincia.provincia}</option>
                 `);
+
                 $("#provincia").val(data.provincia.id);
+                $("#distrito").empty();
                 $("#distrito").append(`
                     <option value="${data.distrito.id}">${data.distrito.distrito}</option>
                 `);
+                
                 $("#distrito").val(data.distrito.id);
+                
+                $("#num_mesa").empty();
                 $("#num_mesa").append(`
                 <option value="${data.local.id}">${data.local.nom_local} - ${data.local.num_mesa} </option>
                 `);
