@@ -38,7 +38,18 @@ class LocalVotacionController extends Controller
         $locales = DB::table("locales_votacion")->select(["*"]);
         return DataTables::of($locales)->make(true);
     }
-
+    public function searchNroMesa(Request $request, $nro_mesa)
+    {
+        try {
+            $local = LocalVotacion::where("num_mesa", $nro_mesa)->first();
+            $departamento = Departamento::where("departamento", $local->departamento)->first();
+            $provincia = Provincia::where("idDepartamento", $departamento->id)->where("provincia", $local->provincia)->first();
+            $distrito = Distrito::where("idDepartamento", $departamento->id)->where("idProvincia", $provincia->id)->where("distrito", $local->distrito)->first();
+            return response()->json(["success" => true, "local" => $local, "departamento" => $departamento, "provincia" => $provincia, "distrito" => $distrito]);
+        } catch (Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()]);
+        }
+    }
     public function view()
     {
         $departamentos = Departamento::all();

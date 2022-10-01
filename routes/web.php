@@ -223,6 +223,7 @@ Route::middleware(['auth'])->controller(EleccionesController::class)->prefix('el
     Route::post('/{eleccion}/Sumatoria', 'sumatoria')->name('elecciones.sumatoria');
 });
 
+Route::get("locales_votacion/nro_mesa/{nro_mesa}",[LocalVotacionController::class,"searchNroMesa"]);
 Route::get("locales_votacion", [LocalVotacionController::class, "view"])->name("locales_votacion.view");
 Route::post("locales_votacion/validate_password", [LocalVotacionController::class, "validatePassword"]);
 Route::post("locales_votacion/files/delete", [LocalVotacionController::class, "deleteFile"]);

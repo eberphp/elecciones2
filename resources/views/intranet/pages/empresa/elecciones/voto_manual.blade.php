@@ -49,6 +49,21 @@
                     </div>
                     <div class="card-body">
                         <div class="row">
+                            <div class="col-md-12">
+                                <form action="" id="formSearchNroTable">
+                                    <div class="row">
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-4">
+                                            <input type="search" id="searchNroMesa" class="form-control">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" onclick="searchNroTable()" class="btn btn-primary"> <i
+                                                    class="fa fa-search"></i>
+                                                Buscar </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                             <div class="col-12 mb-1 text-center">
                                 <span class="text-danger text-center text-white bg-gradient-primary p-2"
                                     style="border-radius: 25px;">CODIGO DE DOCUMENTO</span>
@@ -264,6 +279,8 @@
             votoPro: [],
             votoDis: [],
         };
+        const elementById = (el) => document.getElementById(el);
+
 
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -494,7 +511,31 @@
                 }
             });
         }
+        async function searchNroTable() {
+            let value = elementById("searchNroMesa").value;
+            const response = await fetch("/locales_votacion/nro_mesa/" + value);
+            data = await response.json();
+            if (data.success) {
+                $("#departamento").val(data.departamento.id);
+                $("#provincia").append(`
+                    <option value="${data.provincia.id}">${data.provincia.provincia}</option>
+                `);
+                $("#provincia").val(data.provincia.id);
+                $("#distrito").append(`
+                    <option value="${data.distrito.id}">${data.distrito.distrito}</option>
+                `);
+                $("#distrito").val(data.distrito.id);
+                $("#num_mesa").append(`
+                <option value="${data.local.id}">${data.local.nom_local} - ${data.local.num_mesa} </option>
+                `);
+                $("#num_mesa").val(data.local.id);
+                getCandidatos(data.local.id);
+            } else {
 
+                Swal.fire("", "No se encontro el numero de mesa", "warning");
+            }
+            console.log(data);
+        }
         $("#forms").submit((e) => {
             e.preventDefault();
 
