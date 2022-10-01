@@ -63,7 +63,7 @@ class EleccionesVotosController extends Controller
                 "elecciones_votos.created_by",
                 "elecciones_votos.updated_by"
             )->where('elecciones_votos.datos_empresa_id', idEmpresa())
-            ->groupBy('elecciones_votos.departamento', 'elecciones_votos.provincia', 'elecciones_votos.distrito', "elecciones_votos.mesa_id", "elecciones_votos.partido_id");
+            ->groupBy('elecciones_votos.departamento', 'elecciones_votos.provincia', 'elecciones_votos.distrito', "elecciones_votos.mesa_id");
         return DataTables::of($votos)->make(true);
     }
 

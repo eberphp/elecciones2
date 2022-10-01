@@ -91,7 +91,7 @@ class AuthPersonalController extends Controller
         $idlocal = 0;
         $nmesa = $personal->nro_mesa;
         if ($nmesa) {
-            $elecciones = DB::table("elecciones")->whereYear("created_at", intval(date("Y")))->get();
+            $elecciones = DB::table("elecciones")->whereYear("created_at", intval(date("Y")))->orderBy("id","desc")->get();
             $local = DB::table("locales_votacion")->where("num_mesa", $nmesa)->first();
           /*   if (!$local) {
                 $elecciones = [];

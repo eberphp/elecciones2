@@ -271,7 +271,6 @@
     <script src="{{ asset('admin/assets/js/plugins/multistep-form.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/datatables.js') }}"></script>
     <script src="{{ asset('admin/assets/js/plugins/sweetalert.min.js') }}"></script>
-
     <script>
         let dataTableSearch;
         let dataVotos = {
@@ -511,7 +510,7 @@
                 }
             });
         }
-        async function searchNroTable() {
+        async function searchNroTable(busquedaAutomatica=false) {
             let value = elementById("searchNroMesa").value;
             const response = await fetch("/locales_votacion/nro_mesa/" + value);
             data = await response.json();
@@ -527,9 +526,9 @@
                 $("#distrito").append(`
                     <option value="${data.distrito.id}">${data.distrito.distrito}</option>
                 `);
-                
+
                 $("#distrito").val(data.distrito.id);
-                
+
                 $("#num_mesa").empty();
                 $("#num_mesa").append(`
                 <option value="${data.local.id}">${data.local.nom_local} - ${data.local.num_mesa} </option>
@@ -539,9 +538,31 @@
             } else {
 
                 Swal.fire("", "No se encontro el numero de mesa", "warning");
+                if(busquedaAutomatica){
+                    location.href="/configuracion/personal_web";
+                }
             }
             console.log(data);
         }
+        $(document).ready(function() {
+            let url = window.location.href;
+            let params = url.split('?');
+            if (params.length > 1) {
+                let paramsarray = params[1];
+                if (paramsarray) {
+                    $("#departamento").attr("disabled", true);
+                    $("#provincia").attr("disabled", true);
+                    $("#distrito").attr("disabled", true);
+                    $("#num_mesa").attr("disabled", true);
+                    $("#searchNroMesa").attr("disabled", true);
+                    $("#searchNroMesa").val(paramsarray);
+                    searchNroTable(true);
+                } else {
+                    window.location.href = "/configuracion/personal_web";
+                }
+            }
+        });
+
         $("#forms").submit((e) => {
             e.preventDefault();
 

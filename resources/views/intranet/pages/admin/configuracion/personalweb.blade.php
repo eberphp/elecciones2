@@ -683,9 +683,7 @@
                                             <img src="" id="perfilImagen" style="width: 100px;height:100px"
                                                 alt="">
                                         </div>
-
                                     </div>
-
                                 </form>
                             </div>
 
@@ -790,7 +788,8 @@
                             <div class="modal-body">
                                 <form id="formImportData" action="" method="POST">
                                     <div class="form-group">
-                                        <a href="{{ asset('importar.xlsx') }}" target="_blank" download="plantilla importar.xlsx" class="btn btn-success"> <i
+                                        <a href="{{ asset('importar.xlsx') }}" target="_blank"
+                                            download="plantilla importar.xlsx" class="btn btn-success"> <i
                                                 class="fa fa-download"></i> Descargar plantilla</a>
                                     </div>
                                     <div class="form-group">
@@ -807,6 +806,23 @@
                                         </div>
                                     </div>
                                 </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="eleccionesModal" tabindex="-1" role="dialog"
+                    aria-labelledby="eleccionesModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="eleccionesModalLabel">Elecciones</h5>
+                                <span aria-hidden="true" class="close c-p close-modall" data-dismiss="modal"
+                                    aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex flex-wrap" id="content_elecciones">
+
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -873,6 +889,7 @@
                                     <th>Función</th>
                                     <th> Estado</th>
                                     <th> Tarea </th>
+                                    <th>Votacion</th>
                                     <th> PPD</th>
                                     <th> Perfil</th>
                                     <th> Foto</th>
@@ -962,7 +979,6 @@
                     return ` <i class="fa fa-edit c-p" objectid="${data}" onclick="handleEdit(this)"></i>`
                 }
             },
-
             {
                 data: "created_at",
                 sercheable: false,
@@ -986,12 +1002,21 @@
                 },
                 orderable: false
             },
-
             {
                 data: "nro_mesa",
                 render: function(data) {
                     return data ? data : "";
                 }
+            },
+            {
+                data: "nro_mesa",
+                render: function(data) {
+                    if (data) {
+                        return `<button  idvalue="${data}"  class='btn btn-success' onclick="modalElecciones(this)" >Ir a votar</button>`
+                    }
+                    return "<button class='btn btn-danger' disabled>Ir a votar</button>"
+                },
+                orderable: false
             },
             {
                 data: "ppd",
@@ -1675,6 +1700,22 @@
                 XLSX.writeFile(wb, "reporte.xlsx");
             });
         });
+        async function modalElecciones(ev) {
+            let value = $(ev).attr("idvalue");
+            let response = await fetch("/get_elecciones_vigentes");
+            let dataresponse = await response.json();
+            if (dataresponse.status) {
+                let buttons = "";
+                dataresponse.data.forEach((elecion) => {
+                    buttons +=
+                        `<a class="btn btn-primary mx-2 my-2" href="/elecciones_voto/${elecion.id}/Manual?${value}" target="_blank">${elecion.nombre}</a>`;
+                });
+                $("#content_elecciones").append(buttons);
+                $("#eleccionesModal").modal("show");
+            }
+            console.log(dataresponse);
+        }
+
         const handleEditCv = function(e) {
             let id = $(e).attr("objectid");
             let object = datos.find(x => x.id == id);

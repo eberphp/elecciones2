@@ -56,7 +56,6 @@ if ($personal) {
                                 <tr style="text-transform: uppercase !important">
                                     <th style="font-size: .80rem;">Id</th>
                                     <th style="font-size: .80rem;">Elecciones</th>
-                                    <th style="font-size: .80rem;">Partido</th>
                                     <th style="font-size: .80rem;">Local</th>
 
                                     <th style="font-size: .80rem;">Mesa</th>
@@ -186,7 +185,8 @@ if ($personal) {
                         render: function(data) {
                             return `${data}`;
                         }
-                    }, {
+                    }, 
+                   /*  {
                         data: "partido.partido",
                         name: "partido.partido",
                         render: function(data, type, row) {
@@ -201,7 +201,7 @@ if ($personal) {
                                                 </div>
                                             </div>  `;
                         }
-                    },
+                    }, */
                     {
                         data: "locales_votacion.nom_local",
                         name: "locales_votacion.nom_local",

@@ -8,7 +8,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Eleccion;
 use App\Models\EleccionesVoto;
 use App\Models\Votos;
-
+use Exception;
+use Illuminate\Support\Facades\DB;
 
 class EleccionesController extends Controller
 {
@@ -19,6 +20,15 @@ class EleccionesController extends Controller
         return view('intranet.pages.empresa.elecciones.crear_elecciones', [
             'elecciones' => $dts,
         ]);
+    }
+    public function getElecciones()
+    {
+        try {
+            $elecciones = DB::table("elecciones")->orderBy("id", "desc")->get();
+            return response()->json(["status" => true, "data" => $elecciones]);
+        } catch (Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()]);
+        }
     }
 
     public function encuestador(Request $request)
@@ -46,8 +56,8 @@ class EleccionesController extends Controller
             'fecha_inicio' => $valiData['inicio'],
             'fecha_termino' => $valiData['termino'],
             'encuesta_manual' => "Si",
-            'estado' =>"Activo",
-            'observaciones' => $request->observacion?$request->observacion:""
+            'estado' => "Activo",
+            'observaciones' => $request->observacion ? $request->observacion : ""
         ]);
 
         if ($req) {
@@ -82,24 +92,24 @@ class EleccionesController extends Controller
             'observacion' => 'min:0',
         ]);
 
-        $votos = EleccionesVoto::where('eleccion_id',$eleccion->id)->where('tipo_voto','Manual')->where('estado','Activo')->get();
+        $votos = EleccionesVoto::where('eleccion_id', $eleccion->id)->where('tipo_voto', 'Manual')->where('estado', 'Activo')->get();
 
-        if($votos){
+        if ($votos) {
 
             $req = $eleccion->update([
                 'nombre' => $valiData['nombre'],
                 'fecha_inicio' => $valiData['inicio'],
                 'fecha_termino' => $valiData['termino'],
-                'estado' => isset($request->estado)?$request->estado:$eleccion->estado,
+                'estado' => isset($request->estado) ? $request->estado : $eleccion->estado,
                 'observaciones' => $valiData['observacion']
             ]);
             return to_route('elecciones')->with('fail', 'Ya no puedes Cambiar encuesta Manual por tener Votos Manuales');
-        }else{
+        } else {
             $req = $eleccion->update([
                 'nombre' => $valiData['nombre'],
                 'fecha_inicio' => $valiData['inicio'],
                 'fecha_termino' => $valiData['termino'],
-                'estado' => isset($request->estado)?$request->estado:$eleccion->estado,
+                'estado' => isset($request->estado) ? $request->estado : $eleccion->estado,
                 'observaciones' => $valiData['observacion']
             ]);
 
@@ -109,20 +119,19 @@ class EleccionesController extends Controller
                 return to_route('elecciones')->with('fail', 'Sucedio un error. Vuelva a intentarlo');
             }
         }
-
     }
 
     public function destroy(Request $request, Eleccion $eleccion)
     {
-        $votos = EleccionesVoto::where('eleccion_id',$eleccion->id)->where('estado','Activo')->get();
+        $votos = EleccionesVoto::where('eleccion_id', $eleccion->id)->where('estado', 'Activo')->get();
 
 
-        if(count($votos)){
+        if (count($votos)) {
             return response()->json([
                 'status' => false,
                 'message' => 'No puedes Eliminar esta encuesta por te votos asociados.'
             ], 402);
-        }else{
+        } else {
             if ($eleccion) {
                 $req = $eleccion->update([
                     'estado' => 'Eliminado',
@@ -145,8 +154,6 @@ class EleccionesController extends Controller
                 ], 402);
             }
         }
-
-
     }
 
     public function publicacion(Request $request, Eleccion $eleccion)
@@ -170,9 +177,9 @@ class EleccionesController extends Controller
     {
         if ($eleccion) {
             $eleccion->update([
-                'dispositivo' => isset($request['dispositivo'])?$request["dispositivo"]:$eleccion->dispositivo,
-                'encuestador' => isset($request['encuestador'])?$request["encuestador"]:$eleccion->encuestador,
-                'manual' => isset($request['manual'])?$request["manual"]:$eleccion->manual,
+                'dispositivo' => isset($request['dispositivo']) ? $request["dispositivo"] : $eleccion->dispositivo,
+                'encuestador' => isset($request['encuestador']) ? $request["encuestador"] : $eleccion->encuestador,
+                'manual' => isset($request['manual']) ? $request["manual"] : $eleccion->manual,
             ]);
 
             return response()->json([

@@ -212,6 +212,8 @@ Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encu
     Route::post('/{encuesta}/Sumatoria', 'sumatoria')->name('Encuesta.sumatoria');
 });
 
+Route::get("get_elecciones_vigentes",[EleccionesController::class,"getElecciones"]);
+
 Route::middleware(['auth'])->controller(EleccionesController::class)->prefix('elecciones')->group(function () {
     Route::get('/', 'index')->name('elecciones');
     Route::get('/Encuestador', 'encuestador')->name('elecciones.encuestador');

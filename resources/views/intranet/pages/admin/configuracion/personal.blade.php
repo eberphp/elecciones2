@@ -770,6 +770,23 @@
                     </div>
                 </div>
                 <!-- Roles: Fin -->
+                <div class="modal fade" id="eleccionesModal" tabindex="-1" role="dialog"
+                    aria-labelledby="eleccionesModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="eleccionesModalLabel">Elecciones</h5>
+                                <span aria-hidden="true" class="close c-p close-modall" data-dismiss="modal"
+                                    aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex flex-wrap" id="content_elecciones">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="imagenModal" tabindex="-1" role="dialog"
                     aria-labelledby="imagenModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -962,8 +979,8 @@
                                             <th> Nombres y Apellidos</th>
                                         @endif
                                         @if (in_array('Cargo 2', $permisos))
-                                        <th>Función</th>
-                                    @endif
+                                            <th>Función</th>
+                                        @endif
                                         @if (in_array('Estado', $permisos))
                                             <th> Estado</th>
                                         @endif
@@ -993,7 +1010,7 @@
                                         @if (in_array('Instagram', $permisos))
                                             <th> URL_1</th>
                                         @endif
-                                       
+
                                         @if (in_array('Nombre corto', $permisos))
                                             <th> Nombre Corto</th>
                                         @endif
@@ -1157,7 +1174,6 @@
                     }
                 },
             },
-
             {
                 name: "Perfil",
                 level: 2,
@@ -1384,7 +1400,19 @@
                 },
             }
         ];
-        var columns_datatables_default = [{
+        var columns_datatables_default = [
+
+            {
+                data: "nro_mesa",
+                render: function(data) {
+                    if (data) {
+                        return `<button  idvalue="${data}"  class='btn btn-success' onclick="modalElecciones(this)" >Ir a votar</button>`
+                    }
+                    return "<button class='btn btn-danger' disabled>Ir a votar</button>"
+                },
+                orderable: false
+            },
+            {
                 data: "id",
                 name: "id",
                 render: function(data) {
@@ -1644,7 +1672,7 @@
                     })
                     columns_datatables = [];
                     columns_datatables_default.forEach((item, index) => {
-                        if (index == 0) {
+                        if (index == 0 || index == 1) {
                             columns_datatables.push(item);
                         } else if (index == 4) {
                             columns_datatables.push(item);
@@ -1657,7 +1685,7 @@
                     renderDatatable();
                 }
             });
-
+            
             $("#crear").on("click", function() {
                 $("#newModal").modal("show");
             })
