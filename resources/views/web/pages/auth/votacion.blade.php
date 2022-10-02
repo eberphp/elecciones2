@@ -633,26 +633,23 @@
                 dataType: 'json', // added data type
                 success: function(data_server) {
                     var fila = "";
-                    if (data_server.editar) {
-                        window.location.href = "/auth/profile";
-                        Swal.fire("", "Ya se a subido datos en este local de votación", "warning");
-                    } else {
-                        $("#local_votacion_id").val(data_server.local.id);
-                        $("#local_value").html(data_server.local.num_mesa);
-                        $("#departamento_value").html(data_server.local.departamento);
-                        $("#provincia_value").html(data_server.local.provincia);
-                        $("#distrito_value").html(data_server.local.distrito);
-                        $("#typeaction").val(data_server.editar);
-                        $("#distrito_id_v").val(data_server.distrito);
 
-                        $("#provincia_id_v").val(data_server.provincia);
+                    $("#local_votacion_id").val(data_server.local.id);
+                    $("#local_value").html(data_server.local.num_mesa);
+                    $("#departamento_value").html(data_server.local.departamento);
+                    $("#provincia_value").html(data_server.local.provincia);
+                    $("#distrito_value").html(data_server.local.distrito);
+                    $("#typeaction").val(data_server.editar);
+                    $("#distrito_id_v").val(data_server.distrito);
 
-                        $("#departamento_id_v").val(data_server.departamento);
-                        let res = data_server.partidos;
-                        const url = "{{ asset('storage/img/logotipos/') }}";
-                        const urlCandidato = "{{ asset('storage/img/fotos/') }}";
-                        for (let i = 0; i < res.length; i++) {
-                            fila += `
+                    $("#provincia_id_v").val(data_server.provincia);
+
+                    $("#departamento_id_v").val(data_server.departamento);
+                    let res = data_server.partidos;
+                    const url = "{{ asset('storage/img/logotipos/') }}";
+                    const urlCandidato = "{{ asset('storage/img/fotos/') }}";
+                    for (let i = 0; i < res.length; i++) {
+                        fila += `
                             <tr style="font-size:14px;">
                                 <td class="text-center">
                                     <input type="hidden" class="allPartidos" name="partido[]" value="${res[i].id}">
@@ -666,8 +663,8 @@
                                     </div> 
                                 </td>
                                 <td>`;
-                            if (res[i].Regional.length > 0) {
-                                fila += ` 
+                        if (res[i].Regional.length > 0) {
+                            fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center">
                                             <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="${res[i].Regional[0].votos_departamento}" min="0" required />
@@ -677,12 +674,12 @@
                                         </div>
                                     </div>                                    
                                     `;
-                            }
-                            fila += `</td>
+                        }
+                        fila += `</td>
                                 <td>`;
 
-                            if (res[i].Provincial.length > 0) {
-                                fila += `
+                        if (res[i].Provincial.length > 0) {
+                            fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
                                         <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
@@ -691,12 +688,12 @@
                                         <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
-                            }
+                        }
 
-                            fila += `</td>
+                        fila += `</td>
                                 <td>`;
-                            if (res[i].Distrital.length > 0) {
-                                fila += `
+                        if (res[i].Distrital.length > 0) {
+                            fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
                                         <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
@@ -705,18 +702,18 @@
                                         <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>
                                     </div>
                                 </div>`;
-                            }
-                            fila += `</td>
+                        }
+                        fila += `</td>
                             </tr>
                         `;
 
-                        }
-                        $("#tbDataCandidatos").html(fila);
-                        $("#modaluploadfiles").removeClass("d-none");
-
-                        $("#modaluploadevidencias").removeClass("d-none");
                     }
+                    $("#tbDataCandidatos").html(fila);
+                    $("#modaluploadfiles").removeClass("d-none");
+
+                    $("#modaluploadevidencias").removeClass("d-none");
                 }
+
             });
         };
         getCandidatos(0);

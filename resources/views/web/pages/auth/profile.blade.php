@@ -4,7 +4,7 @@
     <div class="container">
         <div class="d-flex flex-wrap">
             @foreach ($elecciones as $eleccion)
-                <a class="btn btn-primary"
+                <a class="btn btn-primary mx-2 my-1"
                     href="{{ route('elecciones_voto.manual_web', ['eleccion' => $eleccion->id]) }}">{{ $eleccion->nombre }}
                 </a>
             @endforeach
