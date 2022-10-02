@@ -24,7 +24,7 @@ class EleccionesController extends Controller
     public function getElecciones()
     {
         try {
-            $elecciones = DB::table("elecciones")->orderBy("id", "desc")->get();
+            $elecciones = DB::table("elecciones")->where("datos_empresa_id",idEmpresa())->orderBy("id", "desc")->get();
             return response()->json(["status" => true, "data" => $elecciones]);
         } catch (Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()]);

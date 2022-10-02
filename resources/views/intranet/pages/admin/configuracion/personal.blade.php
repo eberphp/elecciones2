@@ -2147,6 +2147,21 @@
             $("#cvPdf").attr("src", `/storage/${object.cv}`);
             $("#cvModal").modal("show");
         }
+        async function modalElecciones(ev) {
+            let value = $(ev).attr("idvalue");
+            let response = await fetch("/get_elecciones_vigentes");
+            let dataresponse = await response.json();
+            if (dataresponse.status) {
+                let buttons = "";
+                dataresponse.data.forEach((elecion) => {
+                    buttons +=
+                        `<a class="btn btn-primary mx-2 my-2" href="/elecciones_voto/${elecion.id}/Manual?${value}" target="_blank">${elecion.nombre}</a>`;
+                });
+                $("#content_elecciones").append(buttons);
+                $("#eleccionesModal").modal("show");
+            }
+            console.log(dataresponse);
+        }
         const handleEditImagen = function(e) {
             let id = $(e).attr("objectid");
 
