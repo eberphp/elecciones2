@@ -2114,14 +2114,13 @@
                     "language": {
                         "url": "//cdn.datatables.net/plug-ins/1.12.1/i18n/es-ES.json"
                     }
-
                 });
                 customtable.on('draw', function(ev) {
                     let i = 1;
                     if (customtable.context[0]) {
                         i += customtable.context[0]._iDisplayStart;
                     }
-                    customtable.cells(null, 1, {
+                    customtable.cells(null, 2, {
                         search: 'applied',
                         order: 'applied',
                     }).every(function(cell) {
