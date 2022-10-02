@@ -1700,6 +1700,7 @@
                 $("#evaluacionModal").modal("hide");
                 $("#perfilModal").modal("hide");
                 $("#rolesModal").modal("hide");
+                $("#eleccionesModal").modal("hide");
             })
             //validaciones
             $("#nombre_ic").on("keyup", function(e) {

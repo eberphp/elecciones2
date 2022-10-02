@@ -1266,6 +1266,7 @@
                 $("#perfilModal").modal("hide");
                 $("#rolesModal").modal("hide");
                 $("#importarModal").modal("hide");
+                $("#eleccionesModal").modal("hide");
             })
             //validaciones
             $("#nombre_ic").on("keyup", function(e) {
