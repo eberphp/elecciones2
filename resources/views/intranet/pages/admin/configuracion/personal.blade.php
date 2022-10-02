@@ -971,6 +971,8 @@
                             <thead class="thead-light">
                                 @if ($personal)
                                     <tr>
+                                        
+                                        <th>Votacion</th>
                                         <th>Accion</th>
                                         @if (in_array('Id', $permisos))
                                             <th> id</th>
@@ -1069,6 +1071,7 @@
                                     </tr>
                                 @else
                                     <tr>
+                                        <th>Votacion</th>
                                         <th>Accion</th>
                                         <th>Id</th>
                                         <th> Nombres y Apellidos</th>
