@@ -403,6 +403,8 @@
                             Swal.fire("", "Se a subido correctamente", "success");
                             let tipo = $("#tipo_upload").val();
                             renderFiles(tipo).then(response => {
+                                
+                                $("#documentsModal").modal("hide");
                                 console.log(data);
                             })
                         } else {

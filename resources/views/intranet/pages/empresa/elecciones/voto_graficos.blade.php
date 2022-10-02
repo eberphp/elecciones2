@@ -465,6 +465,7 @@
                         if (data.success) {
                             Swal.fire("", "Se a subido correctamente", "success");
                             renderFiles().then(response => {
+                                $("#documentsModal").modal("hide");
                                 console.log(data);
                             })
                         } else {

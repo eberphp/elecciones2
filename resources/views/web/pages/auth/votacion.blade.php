@@ -341,6 +341,7 @@
                             let tipo = $("#tipo_upload").val();
                             renderFiles(tipo).then(response => {
                                 console.log(data);
+                                $("#documentsModal").modal("hide");
                             })
                         } else {
                             Swal.fire("", data.message, "error");
