@@ -2157,6 +2157,7 @@
                     buttons +=
                         `<a class="btn btn-primary mx-2 my-2" href="/elecciones_voto/${elecion.id}/Manual?${value}" target="_blank">${elecion.nombre}</a>`;
                 });
+                $("#content_elecciones").empty();
                 $("#content_elecciones").append(buttons);
                 $("#eleccionesModal").modal("show");
             }
