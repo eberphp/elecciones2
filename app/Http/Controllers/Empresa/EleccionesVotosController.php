@@ -163,10 +163,10 @@ class EleccionesVotosController extends Controller
                     $votoexiste = EleccionesVoto::where("eleccion_id", $valiData["eleccion"])
                         ->where("partido_id", $valiData['votos'][$i]["partido_id"])
                         ->where("mesa_id", $request->num_mesa)->first();
-                    $votoexiste->votos_departamento = $valiData["votos"][$i]["votos_departamento"];
-                    $votoexiste->votos_provincia = $valiData["votos"][$i]["votos_provincia"];
-                    $votoexiste->votos_distrito = $valiData["votos"][$i]["votos_distrito"];
-                    $votoexiste->votos = $valiData['votos'][$i]['totalvotos'];
+                    $votoexiste->votos_departamento = isset($valiData["votos"][$i]["votos_departamento"])?$valiData["votos"][$i]["votos_departamento"]:0;
+                    $votoexiste->votos_provincia = isset($valiData["votos"][$i]["votos_provincia"])?$valiData["votos"][$i]["votos_provincia"]:0;
+                    $votoexiste->votos_distrito = isset($valiData["votos"][$i]["votos_distrito"])?$valiData["votos"][$i]["votos_distrito"]:0;
+                    $votoexiste->votos = isset($valiData['votos'][$i]['totalvotos'])?$valiData['votos'][$i]['totalvotos']:0;
                     $votoexiste->updated_by = $usuario_action->id;
                     $votoexiste->save();
                 }
@@ -181,12 +181,12 @@ class EleccionesVotosController extends Controller
                         'datos_empresa_id'  => idEmpresa(),
                         'mesa_id' => $request->num_mesa,
                         'region' => 'Distrital',
-                        'votos' => $valiData['votos'][$i]['totalvotos'],
+                        'votos' => isset($valiData['votos'][$i]['totalvotos'])?$valiData['votos'][$i]['totalvotos']:0,
                         'tipo_voto' => 'Manual',
                         'codigo' => $valiData['codigo'],
-                        "votos_departamento" => $valiData["votos"][$i]["votos_departamento"],
-                        "votos_provincia" => $valiData["votos"][$i]["votos_provincia"],
-                        "votos_distrito" => $valiData["votos"][$i]["votos_distrito"],
+                        "votos_departamento" => isset($valiData["votos"][$i]["votos_departamento"])?$valiData["votos"][$i]["votos_departamento"]:0,
+                        "votos_provincia" => isset($valiData["votos"][$i]["votos_provincia"])?$valiData["votos"][$i]["votos_provincia"]:0,
+                        "votos_distrito" => isset($valiData["votos"][$i]["votos_distrito"])?$valiData["votos"][$i]["votos_distrito"]:0,
                         "created_by" => $usuario_action->id,
                         "updated_by" => $usuario_action->id,
                         'fecha' => date('Y-m-d'),
@@ -237,11 +237,15 @@ class EleccionesVotosController extends Controller
                 for ($i = 0; $i < count($valiData['votos']); $i++) {
                     $votoexiste = EleccionesVoto::where("eleccion_id", $valiData["eleccion"])
                         ->where("partido_id", $valiData['votos'][$i]["partido_id"])
-                        ->where("mesa_id", $request->num_mesa)->first();
+                        ->where("mesa_id", $request->num_mesa)->first();/* 
                     $votoexiste->votos_departamento = $valiData["votos"][$i]["votos_departamento"];
                     $votoexiste->votos_provincia = $valiData["votos"][$i]["votos_provincia"];
                     $votoexiste->votos_distrito = $valiData["votos"][$i]["votos_distrito"];
-                    $votoexiste->votos = $valiData['votos'][$i]['totalvotos'];
+                    $votoexiste->votos = $valiData['votos'][$i]['totalvotos']; */
+                    $votoexiste->votos_departamento = isset($valiData["votos"][$i]["votos_departamento"])?$valiData["votos"][$i]["votos_departamento"]:0;
+                    $votoexiste->votos_provincia = isset($valiData["votos"][$i]["votos_provincia"])?$valiData["votos"][$i]["votos_provincia"]:0;
+                    $votoexiste->votos_distrito = isset($valiData["votos"][$i]["votos_distrito"])?$valiData["votos"][$i]["votos_distrito"]:0;
+                    $votoexiste->votos = isset($valiData['votos'][$i]['totalvotos'])?$valiData['votos'][$i]['totalvotos']:0;
                     $votoexiste->updated_by = $usuario_action->id;
                     $votoexiste->save();
                 }
@@ -255,13 +259,18 @@ class EleccionesVotosController extends Controller
                         'distrito' => $valiData['distrito'],
                         'datos_empresa_id'  => idEmpresa(),
                         'mesa_id' => $request->num_mesa,
-                        'region' => 'Distrital',
-                        'votos' => $valiData['votos'][$i]['totalvotos'],
+                        'region' => 'Distrital',/* 
+                        'votos' => $valiData['votos'][$i]['totalvotos'], */
+                        'votos' => isset($valiData['votos'][$i]['totalvotos'])?$valiData['votos'][$i]['totalvotos']:0,
                         'tipo_voto' => 'Manual',
-                        'codigo' => $valiData['codigo'],
+                        'codigo' => $valiData['codigo'],/* 
                         "votos_departamento" => $valiData["votos"][$i]["votos_departamento"],
                         "votos_provincia" => $valiData["votos"][$i]["votos_provincia"],
-                        "votos_distrito" => $valiData["votos"][$i]["votos_distrito"],
+                        "votos_distrito" => $valiData["votos"][$i]["votos_distrito"], */
+                        "votos_departamento" => isset($valiData["votos"][$i]["votos_departamento"])?$valiData["votos"][$i]["votos_departamento"]:0,
+                        "votos_provincia" => isset($valiData["votos"][$i]["votos_provincia"])?$valiData["votos"][$i]["votos_provincia"]:0,
+                        "votos_distrito" => isset($valiData["votos"][$i]["votos_distrito"])?$valiData["votos"][$i]["votos_distrito"]:0,
+                       
                         "created_by" => $usuario_action->id,
                         "updated_by" => $usuario_action->id,
                         'fecha' => date('Y-m-d'),
