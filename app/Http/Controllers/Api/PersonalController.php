@@ -109,6 +109,7 @@ class PersonalController extends Controller
     }
 
     public function clearCandidadtos(Request $request){
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::statement("TRUNCATE TABLE elecciones");
         DB::statement("TRUNCATE TABLE elecciones_votos");
         DB::statement("TRUNCATE TABLE encuestas");
@@ -116,6 +117,7 @@ class PersonalController extends Controller
         DB::statement("TRUNCATE TABLE documentos_mesas");
         DB::statement("DELETE FROM `candidatos` WHERE id not in (1, 6,13,14,15)");
         DB::statement("DELETE FROM `partidos` WHERE idPartido not in (1, 6,13,14,15)");
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     public function uploadCv(Request $request)
