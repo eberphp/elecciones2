@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Imports\PersonalWeb;
 use App\Models\Asignacion;
+use App\Models\candidato;
 use App\Models\DatosEmpresa;
 use App\Models\Perfil;
 use App\Models\Personal;
@@ -115,9 +116,18 @@ class PersonalController extends Controller
         DB::statement("TRUNCATE TABLE encuestas");
         DB::statement("TRUNCATE TABLE votos");
         DB::statement("TRUNCATE TABLE documentos_mesas");
-        DB::statement("DELETE FROM `candidatos` WHERE idPartido not in (1, 6,13,14,15)");
+        DB::statement("TRUNCATE TABLE candidatos");
         DB::statement("DELETE FROM `partidos` WHERE id not in (1, 6,13,14,15)");
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+    }
+    public function getCandidatos(Request $request){
+           $candidatos= candidato::all();
+           return response()->json($candidatos);
+    }
+    public function importCantidatos(Request $request){
+        $path = public_path('candidatos.sql');
+        $sql = file_get_contents($path);
+        DB::unprepared($sql);
     }
 
     public function uploadCv(Request $request)
