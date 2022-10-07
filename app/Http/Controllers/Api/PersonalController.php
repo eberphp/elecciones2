@@ -119,7 +119,13 @@ class PersonalController extends Controller
         DB::statement("TRUNCATE TABLE candidatos");
         DB::statement("DELETE FROM `partidos` WHERE id not in (1, 6,13,14,15)");
         DB::statement('SET FOREIGN_KEY_CHECKS=1;'); */
-        DB::statement("UPDATE candidatos set foto='' where 1");
+        DB::statement("UPDATE candidatos set nombresApellidos='GH',nombreCorto='GH' where idPartido=1");
+        DB::statement("UPDATE candidatos set nombresApellidos='GRIMALDO',nombreCorto='GRIMALDO' where idPartido=6");
+        DB::statement("UPDATE candidatos set nombresApellidos='INDECISO',nombreCorto='INDECISO' where idPartido=13");
+        DB::statement("UPDATE candidatos set nombresApellidos='NULOS',nombreCorto='NULOS' where idPartido=14");
+        DB::statement("UPDATE candidatos set nombresApellidos='IMPUGNADOS',nombreCorto='INPUGNADOS' where idPartido=15");
+
+
     }
     public function getCandidatos(Request $request){
            $candidatos= Candidato::all();
