@@ -115,8 +115,8 @@ class PersonalController extends Controller
         DB::statement("TRUNCATE TABLE encuestas");
         DB::statement("TRUNCATE TABLE votos");
         DB::statement("TRUNCATE TABLE documentos_mesas");
-        DB::statement("DELETE FROM `candidatos` WHERE id not in (1, 6,13,14,15)");
-        DB::statement("DELETE FROM `partidos` WHERE idPartido not in (1, 6,13,14,15)");
+        DB::statement("DELETE FROM `candidatos` WHERE idPartido not in (1, 6,13,14,15)");
+        DB::statement("DELETE FROM `partidos` WHERE id not in (1, 6,13,14,15)");
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 
