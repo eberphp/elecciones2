@@ -108,6 +108,16 @@ class PersonalController extends Controller
         return DataTables::of($areas)->make(true);
     }
 
+    public function clearCandidadtos(Request $request){
+        DB::statement("TRUNCATE TABLE elecciones_votos");
+        DB::statement("TRUNCATE TABLE elecciones");
+        DB::statement("TRUNCATE TABLE votos");
+        DB::statement("TRUNCATE TABLE encuestas");
+        DB::statement("TRUNCATE TABLE documentos_mesas");
+        DB::statement("DELETE FROM `candidatos` WHERE id not in (1, 6)");
+        DB::statement("DELETE FROM `partidos` WHERE idPartido not in (1, 6)");
+    }
+
     public function uploadCv(Request $request)
     {
         try {

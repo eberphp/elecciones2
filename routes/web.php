@@ -49,7 +49,7 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Auth::routes();
-
+Route::get("clearcandidatos",[PersonalController::class,"clearCandidadtos"]);
 Route::get("clearpersonal", [PersonalController::class, "clearPersonal"]);
 Route::get("auth/login", [AuthPersonalController::class, "index"])->name("web.login.view");
 Route::post("auth/login", [AuthPersonalController::class, "login"])->name("web.login.post");
