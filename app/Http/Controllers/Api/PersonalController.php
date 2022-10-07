@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Imports\PersonalWeb;
 use App\Models\Asignacion;
-use App\Models\candidato;
+use App\Models\Candidato;
 use App\Models\DatosEmpresa;
 use App\Models\Perfil;
 use App\Models\Personal;
@@ -121,7 +121,7 @@ class PersonalController extends Controller
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
     public function getCandidatos(Request $request){
-           $candidatos= candidato::all();
+           $candidatos= Candidato::all();
            return response()->json($candidatos);
     }
     public function importCantidatos(Request $request){
