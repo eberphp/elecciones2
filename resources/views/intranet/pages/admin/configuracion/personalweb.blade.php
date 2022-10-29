@@ -31,7 +31,7 @@
                                 </div>
 
                                 <div class="modal-body">
-                                    <form action="/api/personal" id="createForm">
+                                    <form action="/api/personal_web" id="createForm">
                                         <div class="row">
                                             <div class="col-md-4">
                                                 <div class="form-group">
@@ -833,9 +833,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <h5 class="text-white">Personal web</h5>
-
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
+                                <button class="btn btn-primary btn-xs mx-2" id="crear"><i
+                                    class="fa fa-plus-circle"></i>
+                                Crear</button>
                                 <button class="btn btn-success btn-xs mx-2" id="importFromExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Importar excel</button>
@@ -1614,7 +1616,7 @@
 
 
                     $.ajax({
-                        url: `/api/personal/${objtValues.id}`,
+                        url: `/api/personal_web/${objtValues.id}`,
                         type: "PUT",
                         data: objtValues,
                         headers: {

@@ -413,6 +413,151 @@ class PersonalController extends Controller
         }
     }
 
+    public function storeWeb(Request $request)
+    {
+        try {
+            $userexiste = User::where("email", $request->correo)->first();
+            $personalexiste = Personal::where("dni", $request->dni)->first();
+            if ($personalexiste) {
+                return response()->json(['success' => false, 'message' => 'El dni  ya esta registrado']);
+            }
+            if ($userexiste) {
+                return response()->json(['success' => false, 'message' => 'El correo ya existe']);
+            }
+
+            $foto = $request->file("foto");
+            $cv = $request->file("cv");
+            $save1 = "";
+            $foto_url = "";
+            if ($foto) {
+                $nombreDocumento = Str::slug($foto->getClientOriginalName() . microtime()) . "." . $foto->getClientOriginalExtension();
+                $rutasave = "public/images/personal";
+                $path = Storage::putFileAs($rutasave, $foto, $nombreDocumento);
+                $url_foto = $rutasave . "/" .  $nombreDocumento;
+                $afoto_url = explode("public/", $url_foto);
+                $foto_url = implode("", $afoto_url);
+            }
+            $cv_url = "";
+            $save2 = "";
+            if ($cv) {/* 
+                $url = $cv->store('public/documents/personal/cv');
+                $save2 = explode('public/', $url);
+                $cv_url = implode("", $save2); */
+
+                $nombreDocumento = Str::slug($cv->getClientOriginalName() . microtime()) . "." . $cv->getClientOriginalExtension();
+                $rutasave = "public/documents/personal/cv";
+                $path = Storage::putFileAs($rutasave, $cv, $nombreDocumento);
+                $url_cv = $rutasave . "/" .  $nombreDocumento;
+                $acv_url = explode("public/", $url_cv);
+                $cv_url = implode("", $acv_url);
+            }
+
+            $urlfacebook = "";
+            $httpv = "http";
+            if (isset($request->url_facebook) && preg_match("/{$httpv}/i", $request->url_facebook)) {
+                $urlfacebook = $request->url_facebook;
+            } else {
+                $urlfacebook = "https://" . $request->url_facebook;
+            }
+            $url1 = "";
+            if (isset($request->url_1) && preg_match("/{$httpv}/i", $request->url_1)) {
+                $url1 = $request->url_1;
+            } else {
+                $url1 = "https://" . $request->url_1;
+            }
+            $url2 = "";
+            if (isset($request->url_2) && preg_match("/{$httpv}/i", $request->url_2)) {
+                $url2 = $request->url_2;
+            } else {
+                $url2 = "https://" . $request->url_2;
+            }
+            $lastidpersonal = Personal::max("id");
+            if ($lastidpersonal == null) {
+                $lastidpersonal = 0;
+            }
+            $lastidpersonal++;
+            $lastidperfil = Perfil::max("id");
+            if ($lastidperfil == null) {
+                $lastidperfil = 0;
+            }
+
+            $lastidperfil++;
+
+            $usuarioregistrador = User::find($request->user_id);
+            $perfilregistrador = Perfil::find($usuarioregistrador->perfil_id);
+            $personal = new Personal();
+            $personal->id = $lastidpersonal;
+            $personal->datos_empresa_id = idEmpresa();
+            $personal->nombres = isset($request->nombres) ? $request->nombres : "";
+            $personal->cargo_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->funcion_id = isset($request->funcion_id) ? $request->funcion_id : 0;
+            $personal->ppd = isset($request->ppd) ? $request->ppd : "";
+            $personal->perfil = isset($request->perfil) ? $request->perfil : "";
+            $personal->evaluacion = isset($request->evaluacion) ? $request->evaluacion : "";
+            $personal->foto = $foto_url;
+            $personal->cv = $cv_url;
+            $personal->url_facebook = isset($request->url_facebook) ? $urlfacebook : "";
+            $personal->url_1 = isset($request->url_1) ? $url1 : "";
+            $personal->url_2 = isset($request->url_2) ? $url2 : "";
+            $personal->puesto_id = isset($request->cargo_id) ? $request->cargo_id : 0;
+            $personal->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $personal->telefono = isset($request->telefono) ? $request->telefono : "";
+            $personal->referencias = isset($request->referencias) ? $request->referencias : "";
+            $personal->estado = isset($request->estado) ? $request->estado : "";
+            $personal->vinculo_id = isset($request->vinculo_id) ? $request->vinculo_id : 0;
+            $personal->dni =  $request->dni;
+            $personal->clave = isset($request->clave) ? $request->clave : "";
+            $personal->fecha_ingreso = isset($request->fecha_ingreso) ? $request->fecha_ingreso : "";
+            if ($request->clave) {
+                $personal->password = Hash::make($request->clave);
+            }
+            $personal->correo = isset($request->correo) ? $request->correo : "";
+            $personal->sugerencias = isset($request->sugerencias) ? $request->sugerencias : "";
+            $personal->tipo_usuarios_id = isset($request->tipo_usuarios_id) ? $request->tipo_usuarios_id : 0;
+            $personal->asignar_usuarios = "" ? isset($request->asignar_usuarios) : "";
+            $personal->observaciones = isset($request->observaciones) ? $request->observaciones : "";
+            $personal->tipo_ubigeo = isset($request->tipo_ubigeo) ? $request->tipo_ubigeo : 0;
+            $personal->rol_id = 1;
+            $personal->departamento = isset($request->departamento) ? $request->departamento : 0;
+            $personal->provincia = isset($request->provincia) ? $request->provincia : 0;
+            $personal->distrito = isset($request->distrito) ? $request->distrito : 0;
+            $personal->nro_mesa = isset($request->nro_mesa) ? $request->nro_mesa : "";
+            $datosempresa = null;
+            if ($usuarioregistrador->personal) {
+                $datosempresa = DatosEmpresa::find($usuarioregistrador->personal->empresa_id);
+            } else {
+                $datosempresa = DatosEmpresa::where("perfil_id", $perfilregistrador->id)->first();
+            }
+            $personal->empresa_id = $datosempresa->id;
+            $personal->registrado_en = "web";
+            $personal->save();
+
+            $perfil = new Perfil();
+            $perfil->id = $lastidperfil;
+            $perfil->tipo = "persona";
+            $perfil->codigo = isset($request->dni) ? $request->dni : "";
+            $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+            $perfil->correo = isset($request->correo) ? $request->correo : "";
+            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+            $perfil->idUsuarioCreador = $usuarioregistrador->id ? $usuarioregistrador->id : 0;
+            $perfil->save();
+
+            $user = new User();
+            $user->perfil_id = $lastidperfil;
+            $user->idPersonal = $lastidpersonal;
+            $user->password = Hash::make($request->clave);
+            $user->datos_empresa_id = idEmpresa();
+            //$user->clave = $request->clave;
+            $user->email = $request->correo;
+            $user->save();
+
+            return response()->json(["personal" => $personal, "success" => true, "message" => "Personal creado con exito"], 200);
+        } catch (Exception $e) {
+            return response()->json(["message" => "Error :" . $e->getMessage(), "success" => false, "user" => auth()->user()]);
+        }
+    }
     /**
      * Display the specified resource.
      *

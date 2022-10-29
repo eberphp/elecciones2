@@ -90,6 +90,7 @@ Route::post("personal/pagination_intranet",[PersonalController::class, "paginati
 Route::post("personal/pagination_web",[PersonalController::class, "paginationWeb"]);
 Route::post("personal/pagination", [PersonalController::class, "pagination"]);
 Route::resource("personal", PersonalController::class);
+Route::post("personal_web", [PersonalController::class, "storeWeb"]);
 
 Route::get('/departamentos', 'App\Http\Controllers\Api\DepartamentoController@index');
 Route::get('/provincias/{id}', 'App\Http\Controllers\Api\ProvinciaController@showDep');
