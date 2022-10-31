@@ -851,20 +851,24 @@ class PersonalController extends Controller
             $personal->save();
 
 
-            if ($correoeditar) {
+            if (isset($correoeditar) && $correoeditar) {
                 $user = User::where("email", $correoeditar)->first();
-                $user->password = Hash::make($request->clave);
-                $user->clave = $request->clave;
-                $user->email = $request->correo;
-                $user->save();
-                $perfil = Perfil::find($user->perfil_id);
-                $perfil->codigo = isset($request->dni) ? $request->dni : "";
-                $perfil->correo = isset($request->correo) ? $request->correo : "";
-                $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
-                $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
-                $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
-                $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
-                $perfil->save();
+                if ($user) {
+                    $user->password = Hash::make($request->clave);
+                    $user->clave = $request->clave;
+                    $user->email = $request->correo;
+                    $user->save();
+                    $perfil = Perfil::find($user->perfil_id);
+                    if ($perfil) {
+                        $perfil->codigo = isset($request->dni) ? $request->dni : "";
+                        $perfil->correo = isset($request->correo) ? $request->correo : "";
+                        $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+                        $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+                        $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+                        $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+                        $perfil->save();
+                    }
+                }
             }
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
         } catch (Exception $e) {
