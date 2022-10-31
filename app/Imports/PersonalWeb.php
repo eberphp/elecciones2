@@ -57,6 +57,16 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
             if(isset($row["nombre_corto"]) && $row["nombre_corto"]) {
                 $correoregistrado->nombreCorto=$row["nombre_corto"];
             }
+            if (isset($row["estado"]) && $row["estado"]) {
+                $estado = EstadoEvaluacion::where('nombre', $row["estado"])->first();
+                if ($estado) {
+                    $correoregistrado->estado = $estado->id;
+                } else {
+                    $correoregistrado->estado = 0;
+                }
+            } else {
+                $correoregistrado->estado = 0;
+            }
             $correoregistrado->save();
             return null;
         }

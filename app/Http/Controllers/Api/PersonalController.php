@@ -109,8 +109,9 @@ class PersonalController extends Controller
         return DataTables::of($areas)->make(true);
     }
 
-    public function clearCandidadtos(Request $request){
-       /*  DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+    public function clearCandidadtos(Request $request)
+    {
+        /*  DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::statement("TRUNCATE TABLE elecciones");
         DB::statement("TRUNCATE TABLE elecciones_votos");
         DB::statement("TRUNCATE TABLE encuestas");
@@ -124,14 +125,14 @@ class PersonalController extends Controller
         DB::statement("UPDATE candidatos set nombresApellidos='INDECISO',nombreCorto='INDECISO' where idPartido=13");
         DB::statement("UPDATE candidatos set nombresApellidos='NULOS',nombreCorto='NULOS' where idPartido=14");
         DB::statement("UPDATE candidatos set nombresApellidos='IMPUGNADOS',nombreCorto='INPUGNADOS' where idPartido=15");
-
-
     }
-    public function getCandidatos(Request $request){
-           $candidatos= Candidato::all();
-           return response()->json($candidatos);
+    public function getCandidatos(Request $request)
+    {
+        $candidatos = Candidato::all();
+        return response()->json($candidatos);
     }
-    public function importCantidatos(Request $request){
+    public function importCantidatos(Request $request)
+    {
         $path = public_path('candidatos.sql');
         $sql = file_get_contents($path);
         DB::unprepared($sql);
@@ -850,21 +851,21 @@ class PersonalController extends Controller
             $personal->save();
 
 
-
-            $user = User::where("email", $correoeditar)->first();
-            $user->password = Hash::make($request->clave);
-            $user->clave = $request->clave;
-            $user->email = $request->correo;
-            $user->save();
-            $perfil = Perfil::find($user->perfil_id);
-            $perfil->codigo = isset($request->dni) ? $request->dni : "";
-            $perfil->correo = isset($request->correo) ? $request->correo : "";
-            $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
-            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
-            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
-            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
-            $perfil->save();
-
+            if ($correoeditar) {
+                $user = User::where("email", $correoeditar)->first();
+                $user->password = Hash::make($request->clave);
+                $user->clave = $request->clave;
+                $user->email = $request->correo;
+                $user->save();
+                $perfil = Perfil::find($user->perfil_id);
+                $perfil->codigo = isset($request->dni) ? $request->dni : "";
+                $perfil->correo = isset($request->correo) ? $request->correo : "";
+                $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+                $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+                $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+                $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+                $perfil->save();
+            }
             return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
         } catch (Exception $e) {
             return response()->json(['message' => "Error :" . $e->getMessage(), "success" => false]);
