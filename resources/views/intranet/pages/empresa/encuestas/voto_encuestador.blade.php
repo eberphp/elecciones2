@@ -245,6 +245,13 @@
         $(document).on('click', '.allRegional', (e) => {
             const partido = e.currentTarget.parentNode.parentNode.parentNode.parentNode.children[0].children[0]
                 .value;
+            const valuesPartidos=$(`input[partido="${partido}"]`);
+            for(let i=0; i<valuesPartidos.length; i++){
+                if(valuesPartidos[i]!=e.target){
+                    valuesPartidos[i].click();
+                    console.log(valuesPartidos[i]);
+                }
+            }
 
             $(".allRegional").each((key, el) => {
                 el.parentNode.parentNode.parentNode.classList.remove('bg-gradient-success')
@@ -532,7 +539,7 @@
                             fila += `
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center form-check">
-                                            <input class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
+                                            <input partido="${res[i].id}" class="allRegional form-check-input" id="r${res[i].Regional[0].id}" type="radio" name="regional[]" value="1" required />
                                             <label class="drinkcard-cc text-center"
                                             style="background-image: url(${(res[i].Regional[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Regional[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                             for="r${res[i].Regional[0].id}">
@@ -551,7 +558,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center form-check">
-                                        <input class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
+                                        <input partido="${res[i].id}"  class="allProvincial form-check-input" id="p${res[i].Provincial[0].id}" type="radio" name="provincial[]" value="1" required />
                                         <label class="drinkcard-cc text-center"
                                         style="background-image: url(${(res[i].Provincial[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Provincial[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="p${res[i].Provincial[0].id}">
@@ -569,7 +576,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center form-check">
-                                        <input class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
+                                        <input partido="${res[i].id}"  class="allDistrital form-check-input" id="d${res[i].Distrital[0].id}" type="radio" name="distrital[]" value="1" required />
                                         <label class="drinkcard-cc text-center"
                                         style="background-image: url(${(res[i].Distrital[0].visualiza === 'Si') ? urlCandidato +'/'+ res[i].Distrital[0].foto : 'https://flyclipart.com/businessman-officeworker-user-icon-with-png-and-vector-format-user-icon-png-133444' });"
                                         for="d${res[i].Distrital[0].id}">
