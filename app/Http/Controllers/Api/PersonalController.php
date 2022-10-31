@@ -733,6 +733,143 @@ class PersonalController extends Controller
         }
     }
 
+
+    public function updateWeb(Request $request, $id)
+    {
+        //
+        try {
+            $httpv = "http";
+            $urlfacebook = "";
+
+            if (isset($request->url_facebook) &&  preg_match("/{$httpv}/i", $request->url_facebook)) {
+                $urlfacebook = $request->url_facebook;
+            } else {
+                $urlfacebook = "https://" . $request->url_facebook;
+            }
+            $url1 = "";
+            if (isset($request->url_1) && preg_match("/{$httpv}/i", $request->url_1)) {
+                $url1 = $request->url_1;
+            } else {
+                $url1 = "https://" . $request->url_1;
+            }
+            $url2 = "";
+            if (isset($request->url_2) && preg_match("/{$httpv}/i", $request->url_2)) {
+                $url2 = $request->url_2;
+            } else {
+                $url2 = "https://" . $request->url_2;
+            }
+            $personal = Personal::find($id);
+            $correoeditar = $personal->correo;
+            if (isset($request->nombres) && $request->nombres) {
+                $personal->nombres = $request->nombres;
+            }
+            if (isset($request->cargo_id) && $request->cargo_id) {
+                $personal->cargo_id = $request->cargo_id;
+            }
+            if (isset($request->ppd) && $request->ppd) {
+                $personal->ppd = $request->ppd;
+            }
+            if (isset($request->perfil) && $request->perfil) {
+                $personal->perfil = $request->perfil;
+            }
+            if (isset($request->url_facebook) && $request->url_facebook) {
+                $personal->url_facebook = $urlfacebook;
+            }
+            if (isset($request->url_1) && $request->url_1) {
+
+                $personal->url_1 = $url1;
+            }
+            if (isset($request->url_2) && $request->url_2) {
+                $personal->url_2 = $url2;
+            }
+            if (isset($request->cargo_id) && $request->cargo_id) {
+                $personal->puesto_id = $request->cargo_id;
+            }
+            if (isset($request->nombreCorto) && $request->nombreCorto) {
+                $personal->nombreCorto = $request->nombre_corto;
+            }
+            if (isset($request->telefono) && $request->telefono) {
+                $personal->telefono = $request->telefono;
+            }
+            if (isset($request->referencias) && $request->referencias) {
+                $personal->referencias = $request->referencias;
+            }
+            if ($request->clave) {
+                $personal->password = Hash::make($request->clave);
+            }
+            if (isset($request->evaluacion) && $request->evaluacion) {
+                $personal->evaluacion = $request->evaluacion;
+            }
+            if (isset($request->vinculo_id) && $request->vinculo_id) {
+                $personal->vinculo_id = $request->vinculo_id;
+            }
+            if (isset($request->funcion_id) && $request->funcion_id) {
+                $personal->funcion_id = $request->funcion_id;
+            }
+            if (isset($request->dni) && $request->dni) {
+                $personal->dni = $request->dni;
+            }
+            if (isset($request->clave) && $request->clave) {
+                $personal->clave = $request->clave;
+            }
+            if (isset($request->estado) && $request->estado) {
+                $personal->estado = $request->estado;
+            }
+            if (isset($request->tipo_ubigeo) && $request->tipo_ubigeo) {
+                $personal->tipo_ubigeo = $request->tipo_ubigeo;
+            }
+            if (isset($request->fecha_ingreso) && $request->fecha_ingreso) {
+                $personal->fecha_ingreso = $request->fecha_ingreso;
+            }
+            if (isset($request->sugerencias) && $request->sugerencias) {
+
+                $personal->sugerencias =  $request->sugerencias;
+            }
+            if (isset($request->tipo_usuarios_id) && $request->tipo_usuarios_id) {
+
+                $personal->tipo_usuarios_id =  $request->tipo_usuarios_id;
+            }
+            if (isset($request->observaciones) && $request->observaciones) {
+                $personal->observaciones = $request->observaciones;
+            }
+            if (isset($request->departamento) && $request->departamento) {
+                $personal->departamento = $request->departamento;
+            }
+            if (isset($request->nro_mesa) && $request->nro_mesa) {
+                $personal->nro_mesa = $request->nro_mesa;
+            }
+            if (isset($request->provincia) && $request->provincia) {
+                $personal->provincia = $request->provincia;
+            }
+            if (isset($request->observaciones) && $request->observaciones) {
+                $personal->observaciones = $request->observaciones;
+            }
+            if (isset($request->distrito) && $request->distrito) {
+                $personal->distrito = $request->distrito;
+            }
+            $personal->save();
+
+
+
+            $user = User::where("email", $correoeditar)->first();
+            $user->password = Hash::make($request->clave);
+            $user->clave = $request->clave;
+            $user->email = $request->correo;
+            $user->save();
+            $perfil = Perfil::find($user->perfil_id);
+            $perfil->codigo = isset($request->dni) ? $request->dni : "";
+            $perfil->correo = isset($request->correo) ? $request->correo : "";
+            $perfil->nombres = isset($request->nombres) ? $request->nombres : "";
+            $perfil->telefono = isset($request->telefono) ? $request->telefono : "";
+            $perfil->nombreCorto = isset($request->nombre_corto) ? $request->nombre_corto : "";
+            $perfil->docIdentidad = isset($request->dni) ? $request->dni : "";
+            $perfil->save();
+
+            return response()->json(["personal" => $personal, "success" => true, "message" => "Personal actualizado con exito"], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => "Error :" . $e->getMessage(), "success" => false]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      *
