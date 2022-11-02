@@ -74,6 +74,9 @@ Route::get('actualizar/git/proyectos-empresas', [EmpresaController::class, 'actu
 Route::get('empresas-create', [EmpresaController::class, 'create'])->name('empresas.create');
 Route::post('empresa-store', [EmpresaController::class, 'store'])->name('empresas.store');
 
+Route::get('empresas-edit/{id}', [EmpresaController::class, 'edit'])->name('empresas.edit');
+Route::put('empresa-update/{id}', [EmpresaController::class, 'update'])->name('empresas.update');
+
 Route::get('datos-empresa', [DatosController::class, 'index'])->name('datos.empresa');
 route::put('update-datos-empresa/{id}', [DatosController::class, 'update'])->name('datos.update');
 
