@@ -98,6 +98,12 @@
                                 <button class="btn btn-success" style="margin-top: 10%;width:100%">Actualizar</button>
                             </div>
                         </div>
+                        <div class="row mt-3">
+                            <div class="col-12 col-sm-6">
+                                <label for="">Número de Visitas</label>
+                                <input type="text" class="multisteps-form__input form-control" value="{{$datos->visitas}}" disabled>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
