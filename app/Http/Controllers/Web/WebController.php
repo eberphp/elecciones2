@@ -25,6 +25,12 @@ class WebController extends Controller
         $servicios = Servicio::where('datos_empresa_id', $id)->orderBy('nombre', 'asc')->get();
         $botones = Boton::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
         $datos = DatosEmpresa::where('id', $id)->first();
+        //contador
+        $contador  = $datos->visitas;
+        $contador = $contador+1;
+        $datos->visitas = $contador;
+        $datos->save();
+        //fin contador
         $redes = RedesSociales::where('datos_empresa_id', $id)->first();
         $sliders = Slider::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
         $testimonios = Testimonio::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
