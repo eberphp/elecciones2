@@ -53,7 +53,7 @@
                                         <tr>
                                             <td class="text-sm font-weight-normal">
                                                 <a href="{{ route('empresas.edit', $usuario->perfil->id)}}" class="btn btn-success"> Editar </a>
-                                                <a href="#" class="btn btn-danger"> Eliminar </a>
+                                                <a href="{{ route('empresas.destroy', $usuario->perfil->id)}}" class="btn btn-danger"> Eliminar </a>
                                             </td>
                                             <td class="text-sm font-weight-normal">{{ $usuario->perfil->codigo }}</td>
                                             <td class="text-sm font-weight-normal">

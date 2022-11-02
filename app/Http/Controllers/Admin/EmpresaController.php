@@ -246,6 +246,12 @@ class EmpresaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $perfil = Perfil::find($id);
+        $perfil->delete();
+
+        $usuario = User::where('perfil_id', $id)->first();
+        $usuario->delete();
+
+        return back();
     }
 }

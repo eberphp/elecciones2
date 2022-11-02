@@ -77,6 +77,8 @@ Route::post('empresa-store', [EmpresaController::class, 'store'])->name('empresa
 Route::get('empresas-edit/{id}', [EmpresaController::class, 'edit'])->name('empresas.edit');
 Route::put('empresa-update/{id}', [EmpresaController::class, 'update'])->name('empresas.update');
 
+Route::get('empresa-destroy/{id}', [EmpresaController::class, 'destroy'])->name('empresas.destroy');
+
 Route::get('datos-empresa', [DatosController::class, 'index'])->name('datos.empresa');
 route::put('update-datos-empresa/{id}', [DatosController::class, 'update'])->name('datos.update');
 
