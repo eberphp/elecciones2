@@ -39,11 +39,11 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Nombres</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="nombres" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="nombres" value="{{$perfil->nombres}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Apellidos</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="apellidos" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="apellidos" value="{{$perfil->apellidos}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
