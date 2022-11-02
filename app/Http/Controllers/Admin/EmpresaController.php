@@ -185,7 +185,9 @@ class EmpresaController extends Controller
     public function edit($id)
     {
         $perfil = Perfil::find($id);
-        return view('intranet.pages.admin.empresas.edit')->with(compact('perfil'));
+        $usuario = User::where('perfil_id', $id)->first();
+        $empresa = DatosEmpresa::where('perfil_id', $id)->first();
+        return view('intranet.pages.admin.empresas.edit')->with(compact('perfil', 'usuario', 'empresa'));
     }
 
     /**

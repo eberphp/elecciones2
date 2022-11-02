@@ -95,7 +95,7 @@
                                         <div class="row mt-3">
                                             <div class="col">
                                                 <label>Usuario</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="usuario" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="usuario" value="{{$usuario->email}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
@@ -168,31 +168,31 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Empresa</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="empresa" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="empresa" value="{{$perfil->empresa}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>RUC</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="ruc" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="ruc" value="{{$perfil->ruc}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Codigo</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="codigo" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="codigo" value="{{$perfil->codigo}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Lugar</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="lugar" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="lugar" value="{{$perfil->lugar}}" required/>
                                             </div>
 
                                             <div class="col-12 col-sm-12 mt-3 mt-sm-0">
                                                 <label>Dominio</label>
-                                                <input class="multisteps-form__input form-control" placeholder="www.example.com" type="text" name="dominio" required/>
+                                                <input class="multisteps-form__input form-control" placeholder="www.example.com" type="text" name="dominio" value="{{$empresa->dominio}}" required/>
                                             </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">
                                             <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Atras</button>
-                                            <button class="btn bg-gradient-dark ms-auto mb-0" type="submit" title="Send">Crear</button>
+                                            <button class="btn bg-gradient-dark ms-auto mb-0" type="submit" title="Send">Actualizar</button>
                                         </div>
                                     </div>
                                 </div>
