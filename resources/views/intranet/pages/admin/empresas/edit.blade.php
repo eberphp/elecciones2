@@ -29,7 +29,7 @@
                     <!--form panels-->
                     <div class="row">
                         <div class="col-12 col-lg-8 m-auto">
-                            <form class="multisteps-form__form mb-8" action="{{ route('empresas.store')}}" method="POST">
+                            <form class="multisteps-form__form mb-8" action="{{ route('empresas.update', $perfil->id)}}" method="POST">
                                 @csrf
                                 <!--single form panel-->
                                 <div class="card multisteps-form__panel p-3 border-radius-xl bg-white js-active" data-animation="FadeIn">
@@ -101,7 +101,7 @@
                                         <div class="row mt-3">
                                             <div class="col">
                                                 <label>Clave</label>
-                                                <input class="multisteps-form__input form-control" type="password" name="password" required/>
+                                                <input class="multisteps-form__input form-control" type="password" name="password" value="{{$usuario->clave}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">

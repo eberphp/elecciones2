@@ -199,7 +199,43 @@ class EmpresaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $perfil = Perfil::find($id);
+        $perfil->nombres = $request->nombres . ' ' . $request->apellidos;
+        $perfil->telefono = $request->telefono;
+        $perfil->nombreCorto = $request->nombreCorto;
+        $perfil->edad = $request->edad;
+        $perfil->fechaNacimiento = $request->fechaNacimiento;
+        $perfil->profesion = $request->profesion;
+        $perfil->cargo = $request->cargo;
+        $perfil->docIdentidad = $request->docIdentidad;
+        $perfil->correo = $request->usuario;
+        $perfil->empresa = $request->empresa;
+        $perfil->ruc = $request->ruc;
+        $perfil->codigo = $request->codigo;
+        $perfil->lugar = $request->lugar;
+        $perfil->save();
+
+        $texto      = str_replace(["//", "/", "http", "https", ":"], '', $request->dominio);
+
+        $empresa = DatosEmpresa::where('perfil_id', $id)->first();
+        $empresa->dominio = $texto;
+        $empresa->save();
+
+        $usuario = User::create([
+            'perfil_id' => $perfil->id,
+            'email' => $request->usuario,
+            'password' => bcrypt($request->password),
+            'clave' => $request->password,
+            'datos_empresa_id'  => $empresa->id
+        ]);
+
+        $usuario = User::where('perfil_id', $id)->first();
+        $usuario->email = $request->usuario;
+        $usuario->clave = $request->password;
+        $usuario->password = bcrypt($request->password);
+        $usuario->save();
+
+        return redirect()->route('empresas.admin');
     }
 
     /**
