@@ -49,37 +49,37 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Telefono</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="telefono" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="telefono" value="{{$perfil->telefono}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Nombre Corto</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="nombreCorto" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="nombreCorto" value="{{$perfil->nombreCorto}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Edad</label>
-                                                <input class="multisteps-form__input form-control" type="number" name="edad" required/>
+                                                <input class="multisteps-form__input form-control" type="number" name="edad" value="{{$perfil->edad}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Fecha Nacimiento</label>
-                                                <input class="form-control datetimepicker" type="text" name="fechaNacimiento" data-input required/>
+                                                <input class="form-control datetimepicker" type="text" name="fechaNacimiento" value="{{$perfil->fechaNacimiento}}" data-input required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Profesion</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="profesion" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="profesion" value="{{$perfil->profesion}}" required/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Cargo</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="cargo" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="cargo" value="{{$perfil->cargo}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Documento de Identidad</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="docIdentidad" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="docIdentidad" value="{{$perfil->docIdentidad}}" required/>
                                             </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">
