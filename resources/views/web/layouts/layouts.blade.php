@@ -254,7 +254,7 @@
     </div>
 
     <a href="#" class="globo-visitas" target="_blank">
-        <span>{{$datos->visitas}} <br>Visitas</span>
+        <span style="margin-top: 5px;">{{$datos->visitas}} <br>Visitas</span>
     </a>
 
     <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Hola"
