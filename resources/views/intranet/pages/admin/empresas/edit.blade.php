@@ -102,13 +102,13 @@
                                         <div class="row mt-3">
                                             <div class="col">
                                                 <label>Clave</label>
-                                                <input class="multisteps-form__input form-control" type="password" name="password" value="{{$usuario->clave}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="password" value="{{$usuario->clave}}" required/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col">
                                                 <label>Confirmar Clave</label>
-                                                <input class="multisteps-form__input form-control" type="password" name="passwordConfirm" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="passwordConfirm" required/>
                                             </div>
                                         </div>
                                         <!--<div class="row mt-3">
