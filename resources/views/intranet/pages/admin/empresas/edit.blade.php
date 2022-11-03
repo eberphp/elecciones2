@@ -40,47 +40,47 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Nombres</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="nombres" value="{{$perfil->nombres}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="nombres" value="{{$perfil->nombres}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Apellidos</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="apellidos" value="{{$perfil->apellidos}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="apellidos" value="{{$perfil->apellidos}}"/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Telefono</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="telefono" value="{{$perfil->telefono}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="telefono" value="{{$perfil->telefono}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Nombre Corto</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="nombreCorto" value="{{$perfil->nombreCorto}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="nombreCorto" value="{{$perfil->nombreCorto}}"/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Edad</label>
-                                                <input class="multisteps-form__input form-control" type="number" name="edad" value="{{$perfil->edad}}" required/>
+                                                <input class="multisteps-form__input form-control" type="number" name="edad" value="{{$perfil->edad}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Fecha Nacimiento</label>
-                                                <input class="form-control datetimepicker" type="text" name="fechaNacimiento" value="{{$perfil->fechaNacimiento}}" data-input required/>
+                                                <input class="form-control datetimepicker" type="text" name="fechaNacimiento" value="{{$perfil->fechaNacimiento}}" data-input/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Profesion</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="profesion" value="{{$perfil->profesion}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="profesion" value="{{$perfil->profesion}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Cargo</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="cargo" value="{{$perfil->cargo}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="cargo" value="{{$perfil->cargo}}"/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Documento de Identidad</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="docIdentidad" value="{{$perfil->docIdentidad}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="docIdentidad" value="{{$perfil->docIdentidad}}"/>
                                             </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">
@@ -169,21 +169,21 @@
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Empresa</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="empresa" value="{{$perfil->empresa}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="empresa" value="{{$perfil->empresa}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>RUC</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="ruc" value="{{$perfil->ruc}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="ruc" value="{{$perfil->ruc}}"/>
                                             </div>
                                         </div>
                                         <div class="row mt-3">
                                             <div class="col-12 col-sm-6">
                                                 <label>Codigo</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="codigo" value="{{$perfil->codigo}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="codigo" value="{{$perfil->codigo}}"/>
                                             </div>
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Lugar</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="lugar" value="{{$perfil->lugar}}" required/>
+                                                <input class="multisteps-form__input form-control" type="text" name="lugar" value="{{$perfil->lugar}}"/>
                                             </div>
 
                                             <div class="col-12 col-sm-12 mt-3 mt-sm-0">
@@ -193,7 +193,7 @@
 
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Visitas</label>
-                                                <input class="multisteps-form__input form-control" type="number" name="visitas" value="{{$empresa->visitas}}" required/>
+                                                <input class="multisteps-form__input form-control" type="number" name="visitas" value="{{$empresa->visitas}}"/>
                                             </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">
