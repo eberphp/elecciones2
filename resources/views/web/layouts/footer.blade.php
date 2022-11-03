@@ -30,13 +30,6 @@
                             </div>
                         </li>
                         <li>
-                            <span class="icon pe-7s-call"></span>
-                            <div class="cont">
-                                <h6>Telefono</h6>
-                                <p>{{$datos->visitas}}</p>
-                            </div>
-                        </li>
-                        <li>
                             {{--<span class="icon pe-7s-call"></span>--}}
                             <div class="cont">
                                 <a href="#exampleModal" data-toggle="modal"><h6>Terminos y Condiciones</h6></a>
