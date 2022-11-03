@@ -193,7 +193,7 @@
 
                                             <div class="col-12 col-sm-6 mt-3 mt-sm-0">
                                                 <label>Visitas</label>
-                                                <input class="multisteps-form__input form-control" type="text" name="visitas" value="{{$empresa->visitas}}" required/>
+                                                <input class="multisteps-form__input form-control" type="number" name="visitas" value="{{$empresa->visitas}}" required/>
                                             </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">

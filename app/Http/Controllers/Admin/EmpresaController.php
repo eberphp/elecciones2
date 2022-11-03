@@ -122,6 +122,7 @@ class EmpresaController extends Controller
                 // 'datos_empresa_id' => $usuario->id,
                 'perfil_id' => $perfil->id,
                 'dominio'   => $texto,
+                'visitas'   => $request->visitas,
             ]);
 
             $usuario = User::create([
@@ -219,6 +220,7 @@ class EmpresaController extends Controller
 
         $empresa = DatosEmpresa::where('perfil_id', $id)->first();
         $empresa->dominio = $texto;
+        $empresa->visitas = $request->visitas;
         $empresa->save();
 
         $usuario = User::create([
