@@ -77,7 +77,7 @@
             position: fixed;
             width: 50px;
             height: 50px;
-            bottom: 145px;
+            bottom: 90px;
             right: 30px;
             background-color: black;
             color: #FFF;
@@ -91,7 +91,7 @@
             position: fixed;
             width: 50px;
             height: 50px;
-            bottom: 90px;
+            bottom: 145px;
             right: 30px;
             background-color: #25d366;
             color: #FFF;
@@ -253,13 +253,15 @@
         </div>
     </div>
 
-    <a href="#" class="globo-visitas" target="_blank">
-        <span style="margin-top: 5px;">{{$datos->visitas}} <br>Visitas</span>
-    </a>
+    
 
     <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Hola"
         class="whatsapp" target="_blank">
         <i class="fa fa-whatsapp whatsapp-icon"></i>
+    </a>
+
+    <a href="#" class="globo-visitas" target="_blank">
+        <span style="margin-top: 5px;">{{$datos->visitas}} <br>Visitas</span>
     </a>
 
     
