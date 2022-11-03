@@ -77,13 +77,13 @@
             position: fixed;
             width: 50px;
             height: 50px;
-            bottom: 90px;
+            bottom: 145px;
             right: 30px;
             background-color: black;
             color: #FFF;
             border-radius: 50px;
             text-align: center;
-            font-size: 26px;
+            font-size: 13px;
             z-index: 100;
         }
 
@@ -254,7 +254,7 @@
     </div>
 
     <a href="#" class="globo-visitas" target="_blank">
-        <span>{{$datos->visitas}}</span>
+        <span>{{$datos->visitas}} <br>Visitas</span>
     </a>
 
     <a href="https://wa.me/51{{ $datos->telefono1 }}?text=Hola"
