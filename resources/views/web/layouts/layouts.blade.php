@@ -81,7 +81,7 @@
             right: 30px;
             background-color: black;
             color: #FFF;
-            border-radius: 50px;
+            border-radius: 15px;
             text-align: center;
             font-size: 13px;
             z-index: 100;
