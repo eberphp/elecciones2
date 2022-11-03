@@ -31,6 +31,7 @@
                         <div class="col-12 col-lg-8 m-auto">
                             <form class="multisteps-form__form mb-8" action="{{ route('empresas.update', $perfil->id)}}" method="POST">
                                 @csrf
+                                @method('PUT')
                                 <!--single form panel-->
                                 <div class="card multisteps-form__panel p-3 border-radius-xl bg-white js-active" data-animation="FadeIn">
                                     <h5 class="font-weight-bolder mb-0">Representante Legal</h5>
