@@ -190,6 +190,11 @@
                                                 <label>Dominio</label>
                                                 <input class="multisteps-form__input form-control" placeholder="www.example.com" type="text" name="dominio" value="{{$empresa->dominio}}" required/>
                                             </div>
+
+                                            <div class="col-12 col-sm-6 mt-3 mt-sm-0">
+                                                <label>Visitas</label>
+                                                <input class="multisteps-form__input form-control" type="text" name="visitas" value="{{$empresa->visitas}}" required/>
+                                            </div>
                                         </div>
                                         <div class="button-row d-flex mt-4">
                                             <button class="btn bg-gradient-light mb-0 js-btn-prev" type="button" title="Prev">Atras</button>
