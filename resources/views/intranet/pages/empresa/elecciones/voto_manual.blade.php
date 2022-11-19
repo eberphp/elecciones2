@@ -472,13 +472,7 @@
             getDataVotos();
         });
 
-        $(document).on('change', '.allProvincial', (e) => {
-            getDataVotos();
-        });
-
-        $(document).on('change', '.allDistrital', (e) => {
-            getDataVotos();
-        });
+       
 
         const getDataVotos = () => {
 
@@ -491,11 +485,18 @@
                     const voto = parseInt(el.parentNode.parentNode.children[2].children[0].children[0].children[
                         0].value)
                     dataVotos.votoReg.push([el.value, voto]);
+                    dataVotos.votoPro.push([el.value, voto]);
+                    dataVotos.votoDis.push([el.value, voto]);
+                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value=voto;
+                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value=voto;
                 } else {
                     dataVotos.votoReg.push([el.value, 0]);
+                    dataVotos.votoPro.push([el.value, 0]);
+                    dataVotos.votoDis.push([el.value, 0]);
                 }
 
-                if (el.parentNode.parentNode.children[3].children[0]) {
+
+               /*  if (el.parentNode.parentNode.children[3].children[0]) {
                     const voto = parseInt(el.parentNode.parentNode.children[3].children[0].children[0].children[
                         0].value)
                     dataVotos.votoPro.push([el.value, voto]);
@@ -509,7 +510,7 @@
                     dataVotos.votoDis.push([el.value, voto]);
                 } else {
                     dataVotos.votoDis.push([el.value, 0]);
-                }
+                } */
             });
         }
         async function searchNroTable(busquedaAutomatica=false) {
@@ -777,7 +778,7 @@
                             fila += ` 
                                     <div class="px-2 py-1 mt-1 text-center">
                                         <div class="cc-selector p-2 text-center">
-                                            <input class="allRegional form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="${res[i].Regional[0].votos_departamento}" min="0" required />
+                                            <input class="allRegional  form-control" id="r${res[i].Regional[0].id}" type="number" name="regional[]" value="${res[i].Regional[0].votos_departamento}" min="0" required />
                                         </div>
                                         <div class="d-flex flex-column justify-content-center mt-1" >
                                             <label for="r${res[i].Regional[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Regional[0].nombreCorto}</h6></label>
@@ -792,7 +793,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
+                                        <input class="allProvincial form-control" readonly id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
@@ -806,7 +807,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
+                                        <input class="allDistrital form-control" readonly id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>

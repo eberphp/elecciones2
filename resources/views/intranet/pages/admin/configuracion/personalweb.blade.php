@@ -1012,11 +1012,12 @@
             },
             {
                 data: "nro_mesa",
-                render: function(data) {
+                render: function(data, type, row) {
+                    console.log(row);
                     if (data) {
-                        return `<button  idvalue="${data}"  class='btn btn-success' onclick="modalElecciones(this)" >Ir a votar</button>`
+                        return `<button  idvalue="${data}"  class='btn ${row['votos']>0 ?'btn-success':'btn-warning'}' onclick="modalElecciones(this)" >Ir a votar</button>`
                     }
-                    return "<button class='btn btn-danger' disabled>Ir a votar</button>"
+                    return "<button class='btn btn-danger' disabled>Sin mesa</button>"
                 },
                 orderable: false
             },
