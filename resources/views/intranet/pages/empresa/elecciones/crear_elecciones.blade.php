@@ -94,7 +94,6 @@
                                                     </span>
                                                 @endif
 
-                                                @if (date('Y-m-d') <= $eleccion->fecha_termino)
                                                     @if (in_array('Editar', $permisos) || !$personal)
                                                         <div class="icon icon-shape icon-sm me-1 bg-gradient-info shadow text-center btnEditar"
                                                             style="cursor:pointer;" data-item="{{ $eleccion->id }}"
@@ -103,7 +102,6 @@
                                                                 style="cursor:pointer;"></i>
                                                         </div>
                                                     @endif
-                                                @endif
 
                                                
 
