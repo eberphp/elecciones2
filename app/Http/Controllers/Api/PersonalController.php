@@ -100,13 +100,13 @@ class PersonalController extends Controller
     }
     public function paginationIntranet(Request $request)
     {
-        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->addSelectVotos()->where("registrado_en", "intranet");
+        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->addSelectVotos()->where("personal.registrado_en", "intranet");
 
         return DataTables::of($areas)->make(true);
     }
     public function paginationWeb(Request $request)
     {
-        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->addSelectVotos()->where("registrado_en", "web");
+        $areas = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->addSelectVotos()->where("personal.registrado_en", "web");
         return DataTables::of($areas)->make(true);
     }
 
