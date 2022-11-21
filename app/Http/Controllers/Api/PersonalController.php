@@ -100,12 +100,12 @@ class PersonalController extends Controller
     }
     public function paginationIntranet(Request $request)
     {
-        $personal = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->joinEleccionesVoto()->select(["personal.*",DB::raw("COUNT(locales_votacion.id) as votos")])->where("personal.registrado_en", "intranet")->groupBy("personal.id");
+        $personal = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->joinEleccionesVoto()->select(["personal.*",DB::raw("COUNT(elecciones_votos.id) as votos")])->where("personal.registrado_en", "intranet")->groupBy("personal.id");
         return DataTables::of($personal)->make(true);
     }
     public function paginationWeb(Request $request)
     {
-        $personal = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->joinEleccionesVoto()->select(["personal.*",DB::raw("COUNT(locales_votacion.id) as votos")])->where("personal.registrado_en", "web")->groupBy("personal.id");
+        $personal = Personal::with("_estado", "cargo", "funcion", "vinculo", "tipoUsuario", "_departamento", "_provincia", "_distrito", "tiposUbigeo")->where('personal.datos_empresa_id', idEmpresa())->joinMesa()->joinEleccionesVoto()->select(["personal.*",DB::raw("COUNT(elecciones_votos.id) as votos")])->where("personal.registrado_en", "web")->groupBy("personal.id");
         return DataTables::of($personal)->make(true);
     }
 
