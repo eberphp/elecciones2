@@ -53,16 +53,15 @@ class Personal extends Authenticatable
         return $this->belongsTo(EstadoEvaluacion::class, 'estado');
     }
 
-    public function scopeAddSelectVotos($query)
-    {   
-        $query->addSelect([
-            'votos' => EleccionesVoto::selectRaw('count(id)')
-                ->whereColumn('mesa_id', 'locales_votacion.id')
-        ]);
-    }
+  
 
     public function scopeJoinMesa($query)
     {
         return $query->leftJoin('locales_votacion', 'locales_votacion.num_mesa', '=', 'personal.nro_mesa');
+    }
+
+    public function scopeJoinEleccionesVoto($query)
+    {
+        return $query->leftJoin('elecciones_votos', 'elecciones_votos.mesa_id', '=', 'locales_votacion.id');
     }
 }

@@ -158,7 +158,7 @@
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
-                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Elecciones</span>
                     <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
                         aria-label="Close" aria-hidden="true"></i>
                 </div>
@@ -172,7 +172,7 @@
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
-                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Elecciones</span>
                     <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
                         aria-label="Close" aria-hidden="true"></i>
                 </div>
@@ -612,7 +612,7 @@
             console.log(join_data);
 
             swalWithBootstrapButtons.fire({
-                title: 'Estas por ingresar votos a la  Encuesta?',
+                title: 'Estas por ingresar votos a la  elecciones',
                 text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: " +
                     dataVotos.codigo,
                 icon: 'info',

@@ -111,7 +111,7 @@
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
-                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Elecciones</span>
                     <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
                         aria-label="Close" aria-hidden="true"></i>
                 </div>
@@ -125,7 +125,7 @@
                 aria-atomic="true" data-bs-delay="10">
                 <div class="toast-header bg-transparent border-0">
                     <i class="ni ni-bell-55 text-white me-2"></i>
-                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Encuestas</span>
+                    <span class="me-auto text-white font-weight-bold">{{ config('app.name') }} - Elecciones</span>
                     <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
                         aria-label="Close" aria-hidden="true"></i>
                 </div>
@@ -426,6 +426,19 @@
                     const voto = parseInt(el.parentNode.parentNode.children[2].children[0].children[0].children[
                         0].value)
                     dataVotos.votoReg.push([el.value, voto]);
+                    dataVotos.votoPro.push([el.value, voto]);
+                    dataVotos.votoDis.push([el.value, voto]);
+                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value=voto;
+                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value=voto;
+                } else {
+                    dataVotos.votoReg.push([el.value, 0]);
+                    dataVotos.votoPro.push([el.value, 0]);
+                    dataVotos.votoDis.push([el.value, 0]);
+                }
+                /* if (el.parentNode.parentNode.children[2].children[0]) {
+                    const voto = parseInt(el.parentNode.parentNode.children[2].children[0].children[0].children[
+                        0].value)
+                    dataVotos.votoReg.push([el.value, voto]);
                 } else {
                     dataVotos.votoReg.push([el.value, 0]);
                 }
@@ -444,7 +457,7 @@
                     dataVotos.votoDis.push([el.value, voto]);
                 } else {
                     dataVotos.votoDis.push([el.value, 0]);
-                }
+                } */
             });
         }
 
@@ -493,7 +506,7 @@
             console.log(join_data);
 
             swalWithBootstrapButtons.fire({
-                title: 'Estas por ingresar votos a la  Encuesta?',
+                title: 'Estas por ingresar votos a la  Eleccion',
                 text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: " +
                     dataVotos.codigo,
                 icon: 'info',
@@ -682,7 +695,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allProvincial form-control" id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
+                                        <input class="allProvincial form-control" readonly id="p${res[i].Provincial[0].id}" type="number" name="provincial[]" value="${res[i].Provincial[0].votos_provincia}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="p${res[i].Provincial[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Provincial[0].nombreCorto}</h6></label>
@@ -696,7 +709,7 @@
                             fila += `
                                 <div class="px-2 py-1 mt-1 text-center">
                                     <div class="cc-selector p-2 text-center">
-                                        <input class="allDistrital form-control" id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
+                                        <input class="allDistrital form-control" readonly id="d${res[i].Distrital[0].id}" type="number" name="distrital[]" value="${res[i].Distrital[0].votos_distrito}" min="0" required />
                                     </div>
                                     <div class="d-flex flex-column justify-content-center mt-1" >
                                         <label for="d${res[i].Distrital[0].id}"><h6 class="mb-0" style="font-size:10px;cursor:pointer;">${res[i].Distrital[0].nombreCorto}</h6></label>

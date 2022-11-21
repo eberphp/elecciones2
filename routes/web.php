@@ -311,6 +311,8 @@ Route::get("storage_link", function () {
     }
 });
 
+Route::get("delete_eleccion/{id}",[EleccionesController::class,"deleteElecciones"]);
+
 Route::get("imagenes_candidatos", function () {
     $all = Storage::allDirectories("");
     $directoriesandata = [];

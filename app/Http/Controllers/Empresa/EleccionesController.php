@@ -24,7 +24,7 @@ class EleccionesController extends Controller
     public function getElecciones()
     {
         try {
-            $elecciones = DB::table("elecciones")->where("datos_empresa_id",idEmpresa())->orderBy("id", "desc")->get();
+            $elecciones = DB::table("elecciones")->where("datos_empresa_id", idEmpresa())->orderBy("id", "desc")->get();
             return response()->json(["status" => true, "data" => $elecciones]);
         } catch (Exception $e) {
             return response()->json(["success" => false, "message" => $e->getMessage()]);
@@ -154,6 +154,12 @@ class EleccionesController extends Controller
                 ], 402);
             }
         }
+    }
+
+    public function deleteElecciones(Request $request, $id)
+    {
+        EleccionesVoto::where('eleccion_id', $id)->delete();
+        Eleccion::find($id)->delete();
     }
 
     public function publicacion(Request $request, Eleccion $eleccion)
