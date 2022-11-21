@@ -637,7 +637,7 @@
                                     title: 'Felicidades',
                                     text: response.message,
                                 })
-                                location.reload();
+                                history.back();
                             } else {
                                 Swal.fire({
                                     icon: 'danger',

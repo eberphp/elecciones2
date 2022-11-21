@@ -531,7 +531,7 @@
                                     title: 'Felicidades',
                                     text: response.message,
                                 })
-                                location.reload();
+                                location.href = "/auth/profile";
                             } else {
                                 Swal.fire({
                                     icon: 'danger',
