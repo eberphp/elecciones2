@@ -2076,21 +2076,21 @@
             //fin crear usuario
             const renderDatatable = function() {
                 columns_datatables.push({
-                    data: "departamento",
+                    data: "personal.departamento",
                     render: function(data) {
                         return "";
                     },
                     visible: false
                 });
                 columns_datatables.push({
-                    data: "provincia",
+                    data: "personal.provincia",
                     render: function(data) {
                         return "";
                     },
                     visible: false
                 });
                 columns_datatables.push({
-                    data: "distrito",
+                    data: "personal.distrito",
                     render: function(data) {
                         return "";
                     },
