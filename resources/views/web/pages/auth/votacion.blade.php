@@ -428,8 +428,8 @@
                     dataVotos.votoReg.push([el.value, voto]);
                     dataVotos.votoPro.push([el.value, voto]);
                     dataVotos.votoDis.push([el.value, voto]);
-                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value=voto;
-                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value=voto;
+                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value = voto;
+                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value = voto;
                 } else {
                     dataVotos.votoReg.push([el.value, 0]);
                     dataVotos.votoPro.push([el.value, 0]);
@@ -505,47 +505,37 @@
             dataVotos.votos = join_data;
             console.log(join_data);
 
-            swalWithBootstrapButtons.fire({
-                title: 'Estas por ingresar votos a la  Eleccion',
-                text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: " +
-                    dataVotos.codigo,
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Si, Guardar',
-                cancelButtonText: 'Cancelar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch('/elecciones_voto/Manuales_web', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $("input[name='_token']").val(),
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(dataVotos),
-                        })
-                        .then(response => response.json())
-                        .then((response) => {
-                            if (response.status) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Felicidades',
-                                    text: response.message,
-                                })
-                                location.href = "/auth/profile";
-                            } else {
-                                Swal.fire({
-                                    icon: 'danger',
-                                    title: 'Ooops...',
-                                    text: response.message,
-                                })
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
 
-                }
-            })
+            fetch('/elecciones_voto/Manuales_web', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataVotos),
+                })
+                .then(response => response.json())
+                .then((response) => {
+                    if (response.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Felicidades',
+                            text: response.message,
+                        })
+                        location.href = "/auth/profile";
+                    } else {
+                        Swal.fire({
+                            icon: 'danger',
+                            title: 'Ooops...',
+                            text: response.message,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+
+
 
             console.log(dataVotos);
 

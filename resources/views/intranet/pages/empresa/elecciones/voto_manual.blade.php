@@ -403,7 +403,7 @@
                             Swal.fire("", "Se a subido correctamente", "success");
                             let tipo = $("#tipo_upload").val();
                             renderFiles(tipo).then(response => {
-                                
+
                                 $("#documentsModal").modal("hide");
                                 console.log(data);
                             })
@@ -472,7 +472,7 @@
             getDataVotos();
         });
 
-       
+
 
         const getDataVotos = () => {
 
@@ -487,8 +487,8 @@
                     dataVotos.votoReg.push([el.value, voto]);
                     dataVotos.votoPro.push([el.value, voto]);
                     dataVotos.votoDis.push([el.value, voto]);
-                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value=voto;
-                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value=voto;
+                    el.parentNode.parentNode.children[3].children[0].children[0].children[0].value = voto;
+                    el.parentNode.parentNode.children[4].children[0].children[0].children[0].value = voto;
                 } else {
                     dataVotos.votoReg.push([el.value, 0]);
                     dataVotos.votoPro.push([el.value, 0]);
@@ -496,24 +496,24 @@
                 }
 
 
-               /*  if (el.parentNode.parentNode.children[3].children[0]) {
-                    const voto = parseInt(el.parentNode.parentNode.children[3].children[0].children[0].children[
-                        0].value)
-                    dataVotos.votoPro.push([el.value, voto]);
-                } else {
-                    dataVotos.votoPro.push([el.value, 0]);
-                }
+                /*  if (el.parentNode.parentNode.children[3].children[0]) {
+                     const voto = parseInt(el.parentNode.parentNode.children[3].children[0].children[0].children[
+                         0].value)
+                     dataVotos.votoPro.push([el.value, voto]);
+                 } else {
+                     dataVotos.votoPro.push([el.value, 0]);
+                 }
 
-                if (el.parentNode.parentNode.children[4].children[0]) {
-                    const voto = parseInt(el.parentNode.parentNode.children[4].children[0].children[0].children[
-                        0].value)
-                    dataVotos.votoDis.push([el.value, voto]);
-                } else {
-                    dataVotos.votoDis.push([el.value, 0]);
-                } */
+                 if (el.parentNode.parentNode.children[4].children[0]) {
+                     const voto = parseInt(el.parentNode.parentNode.children[4].children[0].children[0].children[
+                         0].value)
+                     dataVotos.votoDis.push([el.value, voto]);
+                 } else {
+                     dataVotos.votoDis.push([el.value, 0]);
+                 } */
             });
         }
-        async function searchNroTable(busquedaAutomatica=false) {
+        async function searchNroTable(busquedaAutomatica = false) {
             let value = elementById("searchNroMesa").value;
             const response = await fetch("/locales_votacion/nro_mesa/" + value);
             data = await response.json();
@@ -541,8 +541,8 @@
             } else {
 
                 Swal.fire("", "No se encontro el numero de mesa", "warning");
-                if(busquedaAutomatica){
-                    location.href="/configuracion/personal_web";
+                if (busquedaAutomatica) {
+                    location.href = "/configuracion/personal_web";
                 }
             }
             console.log(data);
@@ -611,51 +611,35 @@
             dataVotos.votos = join_data;
             console.log(join_data);
 
-            swalWithBootstrapButtons.fire({
-                title: 'Estas por ingresar votos a la  elecciones',
-                text: "Estas de acuerdo en guardar tus votos, Recuerda Anotar TU CODIGO DE DOCUMENTO ANTES DE GUARDAR LOS VOTOS: " +
-                    dataVotos.codigo,
-                icon: 'info',
-                showCancelButton: true,
-                confirmButtonText: 'Si, Guardar',
-                cancelButtonText: 'Cancelar',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    fetch('/elecciones_voto/Manuales', {
-                            method: 'POST',
-                            headers: {
-                                'X-CSRF-TOKEN': $("input[name='_token']").val(),
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(dataVotos),
-                        })
-                        .then(response => response.json())
-                        .then((response) => {
-                            if (response.status) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Felicidades',
-                                    text: response.message,
-                                })
-                                history.back();
-                            } else {
-                                Swal.fire({
-                                    icon: 'danger',
-                                    title: 'Ooops...',
-                                    text: response.message,
-                                })
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        })
 
-                }
-            })
-
-            console.log(dataVotos);
-
-            console.log('Enviado Votos');
+            fetch('/elecciones_voto/Manuales', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $("input[name='_token']").val(),
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dataVotos),
+                })
+                .then(response => response.json())
+                .then((response) => {
+                    if (response.status) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Felicidades',
+                            text: response.message,
+                        })
+                        history.back();
+                    } else {
+                        Swal.fire({
+                            icon: 'danger',
+                            title: 'Ooops...',
+                            text: response.message,
+                        })
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
         });
 
         var win = navigator.platform.indexOf('Win') > -1;
