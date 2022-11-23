@@ -312,6 +312,7 @@ Route::get("storage_link", function () {
 });
 
 Route::get("delete_eleccion/{id}",[EleccionesController::class,"deleteElecciones"]);
+Route::get("refresh_locales_votacion",[LocalVotacionController::class,"truncAndInsertLocalesVotacion"]);
 
 Route::get("imagenes_candidatos", function () {
     $all = Storage::allDirectories("");

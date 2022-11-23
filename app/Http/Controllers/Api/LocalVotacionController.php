@@ -236,4 +236,16 @@ class LocalVotacionController extends Controller
     {
         //
     }
+
+    public function truncAndInsertLocalesVotacion(Request $request)
+    {
+        try {
+            $path = public_path('locales.sql');
+            $sql = file_get_contents($path);
+            DB::unprepared($sql);
+            return response()->json("ok");
+        } catch (Exception $e) {
+            return response()->json(["message" => "El archivo no se puede subir", "success" => false]);
+        }
+    }
 }
