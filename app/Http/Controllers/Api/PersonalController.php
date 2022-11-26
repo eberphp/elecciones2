@@ -927,7 +927,7 @@ class PersonalController extends Controller
             }
             return response()->json(["succes" => true, "message" => "Eliminado correctamente"]);
         } catch (Exception $e) {
-            return response()->json(["success" => false, "message" => $personal]);
+            return response()->json(["success" => false, "message" => $e->getMessage()]);
         }
     }
 }
