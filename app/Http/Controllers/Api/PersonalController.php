@@ -921,17 +921,16 @@ class PersonalController extends Controller
             foreach ($personal as $personal) {
                 $user = User::where("email", $personal->correo)->first();
                 if ($user) {
-             
-                $perfil = Perfil::find($user->perfil_id);
-                if ($perfil) {
-                    $perfil->delete();
+                    $perfil = Perfil::find($user->perfil_id);
+                    if ($perfil) {
+                        $perfil->delete();
+                    }
+                    if ($user) {
+                        $user->delete();
+                    }
                 }
-                if ($user) {
-                    $user->delete();
-                }
-                if ($personal) {
-                    $personal->delete();
-                }   }
+
+                $personal->delete();
             }
             return response()->json(["succes" => true, "message" => "Eliminado correctamente"]);
         } catch (Exception $e) {
