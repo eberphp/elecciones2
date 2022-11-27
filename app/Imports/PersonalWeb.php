@@ -74,7 +74,7 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         $lastidpersonal++;
         $personal = new Personal();
         $personal->id = $lastidpersonal;
-        $personal->nombres = $row["nombres"];
+        $personal->nombres = isset($row["nombres"]) ? $row["nombres"] : "-";
         $personal->datos_empresa_id =  idEmpresa();
         $personal->empresa_id = idEmpresa();
         $personal->nombreCorto = isset($row["nombre_corto"]) ? $row["nombre_corto"] : "";
@@ -198,7 +198,6 @@ class PersonalWeb implements ToModel, WithHeadingRow, WithValidation
         return [
             'dni' => 'required',
             'correo' => 'required',
-            'nombres' => 'required',
             'clave' => 'required'
         ];
     }
