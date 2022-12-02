@@ -810,6 +810,40 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="importarModalElecciones" tabindex="-1" role="dialog"
+                    aria-labelledby="importarModalEleccionesLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="importarModalEleccionesLabel">Importar data de elecciones</h5>
+                                <span aria-hidden="true" class="close c-p close-modall" data-dismiss="modal"
+                                    aria-label="Close">&times;</span>
+                            </div>
+                            <div class="modal-body">
+                                <form id="formImportDataElecciones" action="" method="POST">
+                                    <div class="form-group">
+                                        <a href="{{ asset('importar_elecciones.xlsx') }}" target="_blank"
+                                            download="plantilla importar.xlsx" class="btn btn-success"> <i
+                                                class="fa fa-download"></i> Descargar plantilla</a>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="">Seleccione archivo</label>
+                                        <input type="file" name="archivo_excel" id="archivo_excel_elecciones"
+                                            class="form-control"
+                                            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="w-100 d-flex justify-content-end my-2">
+                                            <button type="submit" id="button_upload_excel_elecciones" class="btn btn-danger"> <i
+                                                    class="fa fa-save"></i>
+                                                Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="eleccionesModal" tabindex="-1" role="dialog"
                     aria-labelledby="eleccionesModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -840,7 +874,10 @@
                                 Crear</button>
                                 <button class="btn btn-success btn-xs mx-2" id="importFromExcel"><i
                                         class="fa fa-file-excel"></i>
-                                    Importar excel</button>
+                                    Importar personal</button>
+                                    <button class="btn btn-success btn-xs mx-2" id="importFromExcelElecciones"><i
+                                        class="fa fa-file-excel"></i>
+                                    Importar elecciones</button>
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Excel</button>
@@ -1214,6 +1251,9 @@
             $("#importFromExcel").on("click", function(e) {
                 $("#importarModal").modal("show");
             })
+            $("#importFromExcelElecciones").on("click", function(e) {
+                $("#importarModalElecciones").modal("show");
+            })
             $("#formImportData").on("submit", async function(e) {
                 e.preventDefault();
                 if ($("#archivo_excel")) {
@@ -1234,6 +1274,36 @@
                             if (dataresp.success) {
                                 Swal.fire("Success", "Importado correctamente", "success");
                                 $("#importarModal").modal("hide");
+                                customtable.ajax.reload();
+                            } else {
+                                console.log(dataresp);
+                                Swal.fire("Error", "Error al importar", "error");
+                            }
+                        }
+                    }
+                }
+
+            })
+            $("#formImportDataElecciones").on("submit", async function(e) {
+                e.preventDefault();
+                if ($("#archivo_excel_elecciones")) {
+                    if ($("#archivo_excel_elecciones")[0]) {
+                        if ($("#archivo_excel_elecciones")[0].files[0]) {
+                            const formData = new FormData();
+                            formData.append('file_excel', $("#archivo_excel_elecciones")[0].files[0]);
+                            const resp = await fetch(`/personal_web/importDataElecciones`, {
+                                method: 'post',
+                                body: formData,
+                                headers: {
+                                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                        "content"
+                                    ),
+                                }
+                            })
+                            let dataresp = await resp.json();
+                            if (dataresp.success) {
+                                Swal.fire("Success", "Importado correctamente", "success");
+                                $("#importarModalElecciones").modal("hide");
                                 customtable.ajax.reload();
                             } else {
                                 console.log(dataresp);

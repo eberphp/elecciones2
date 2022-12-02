@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Imports\EleccionesImport;
 use App\Imports\PersonalWeb;
 use App\Models\Asignacion;
 use App\Models\Candidato;
@@ -66,6 +67,34 @@ class PersonalController extends Controller
             return response()->json(["success" => false, "message" => $e->getMessage()]);
         }
     }
+
+    public function importDataElecciones(Request $request)
+    {
+        set_time_limit(10000000);
+        ini_set('memory_limit', '512M');
+        try {
+            $validation = $request->validate([
+                "file_excel" => "required"
+            ]);
+            try {
+                $file = $request->file("file_excel");
+                Excel::import(new EleccionesImport(Auth::user()->id ? Auth::user()->id : 1), $file);
+                return response()->json(['success' => true, 'message' => "Data importada correctamente"]);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+                $rows = "";
+                $atributos = "";
+                foreach ($failures as $failure) {
+                    $rows = $failure->row();
+                    $atributos .=  $failure->attribute() . ",\n";
+                }
+                return response()->json(["success" => false, "message" => $atributos]);
+            }
+        } catch (Exception $e) {
+            return response()->json(["success" => false, "message" => $e->getMessage()]);
+        }
+    }
+
     public function clearPersonal()
     {
 

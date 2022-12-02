@@ -267,6 +267,7 @@ Route::middleware(['auth'])->controller(VotosController::class)->prefix('Votos')
 // RUTAS DE VOTOS Elecciones
 
 Route::post("personal_web/importData", [PersonalController::class, "importData"]);
+Route::post("personal_web/importDataElecciones", [PersonalController::class, "importDataElecciones"]);
 Route::get('elecciones_voto/{eleccion}/Manual_web', [EleccionesVotosController::class, 'manualWeb'])->name('elecciones_voto.manual_web');
 Route::post('elecciones_voto/Manuales_web', [EleccionesVotosController::class, 'storeManualWeb'])->name('elecciones_voto.manuales_web');
 Route::middleware(['auth'])->controller(EleccionesVotosController::class)->prefix('elecciones_voto')->group(function () {
