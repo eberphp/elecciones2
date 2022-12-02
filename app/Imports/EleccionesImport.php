@@ -37,7 +37,7 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
 
     public function model(array $row)
     {
-        $partidos = Partido::where("datos_empresa_id", idEmpresa())->get();
+        $partidos = Partido::all();
         $elecciones = Eleccion::where("datos_empresa_id", idEmpresa())->get();
         $localVotacion = LocalVotacion::where('num_mesa', $row['numero_de_mesa'])->first();
         $departamento = Departamento::where('departamento', $localVotacion->departamento)->first();
@@ -60,22 +60,22 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto1->datos_empresa_id = idEmpresa();
                 $voto1->mesa_id = $localVotacion->id;
                 $voto1->region = 'Distrital';
-                $voto1->votos = $row['candidato_1'];
+                $voto1->votos = $row['gh'];
                 $voto1->tipo_voto = 'Manual';
                 $voto1->codigo = random_int(100000, 999999);
-                $voto1->votos_departamento = $row['candidato_1'];
-                $voto1->votos_provincia = $row['candidato_1'];
-                $voto1->votos_distrito = $row['candidato_1'];
+                $voto1->votos_departamento = $row['gh'];
+                $voto1->votos_provincia = $row['gh'];
+                $voto1->votos_distrito = $row['gh'];
                 $voto1->created_by = $this->usuario_creador;
                 $voto1->updated_by = $this->usuario_creador;
                 $voto1->fecha = date('Y-m-d');
                 $voto1->save();
             } else {
 
-                $votoexiste1->votos_departamento = $row['candidato_1'];
-                $votoexiste1->votos_provincia = $row['candidato_1'];
-                $votoexiste1->votos_distrito = $row['candidato_1'];
-                $votoexiste1->votos = $row['candidato_1'];
+                $votoexiste1->votos_departamento = $row['gh'];
+                $votoexiste1->votos_provincia = $row['gh'];
+                $votoexiste1->votos_distrito = $row['gh'];
+                $votoexiste1->votos = $row['gh'];
                 $votoexiste1->updated_by = $this->usuario_creador;
                 $votoexiste1->save();
             }
@@ -98,21 +98,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto2->datos_empresa_id = idEmpresa();
                 $voto2->mesa_id = $localVotacion->id;
                 $voto2->region = 'Distrital';
-                $voto2->votos = $row['candidato_2'];
+                $voto2->votos = $row['va'];
                 $voto2->tipo_voto = 'Manual';
                 $voto2->codigo = random_int(100000, 999999);
-                $voto2->votos_departamento = $row['candidato_2'];
-                $voto2->votos_provincia = $row['candidato_2'];
-                $voto2->votos_distrito = $row['candidato_2'];
+                $voto2->votos_departamento = $row['va'];
+                $voto2->votos_provincia = $row['va'];
+                $voto2->votos_distrito = $row['va'];
                 $voto2->created_by = $this->usuario_creador;
                 $voto2->updated_by = $this->usuario_creador;
                 $voto2->fecha = date('Y-m-d');
                 $voto2->save();
             } else {
-                $votoexiste2->votos_departamento = $row['candidato_2'];
-                $votoexiste2->votos_provincia = $row['candidato_2'];
-                $votoexiste2->votos_distrito = $row['candidato_2'];
-                $votoexiste2->votos = $row['candidato_2'];
+                $votoexiste2->votos_departamento = $row['va'];
+                $votoexiste2->votos_provincia = $row['va'];
+                $votoexiste2->votos_distrito = $row['va'];
+                $votoexiste2->votos = $row['va'];
                 $votoexiste2->updated_by = $this->usuario_creador;
                 $votoexiste2->save();
             }
