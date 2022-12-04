@@ -72,22 +72,22 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto1->datos_empresa_id = idEmpresa();
                 $voto1->mesa_id = $localVotacion->id;
                 $voto1->region = 'Distrital';
-                $voto1->votos = $row['gh'];
+                $voto1->votos = isset($row['gh'])?$row["gh"]:0;
                 $voto1->tipo_voto = 'Manual';
                 $voto1->codigo = random_int(100000, 999999);
-                $voto1->votos_departamento = $row['gh'];
-                $voto1->votos_provincia = $row['gh'];
-                $voto1->votos_distrito = $row['gh'];
+                $voto1->votos_departamento = isset($row['gh'])?$row["gh"]:0;
+                $voto1->votos_provincia = isset($row['gh'])?$row["gh"]:0;
+                $voto1->votos_distrito = isset($row['gh'])?$row["gh"]:0;
                 $voto1->created_by = $this->usuario_creador;
                 $voto1->updated_by = $this->usuario_creador;
                 $voto1->fecha = date('Y-m-d');
                 $voto1->save();
             } else {
 
-                $votoexiste1->votos_departamento = $row['gh'];
-                $votoexiste1->votos_provincia = $row['gh'];
-                $votoexiste1->votos_distrito = $row['gh'];
-                $votoexiste1->votos = $row['gh'];
+                $votoexiste1->votos_departamento = isset($row['gh'])?$row["gh"]:0;
+                $votoexiste1->votos_provincia = isset($row['gh'])?$row["gh"]:0;
+                $votoexiste1->votos_distrito = isset($row['gh'])?$row["gh"]:0;
+                $votoexiste1->votos = isset($row['gh'])?$row["gh"]:0;
                 $votoexiste1->updated_by = $this->usuario_creador;
                 $votoexiste1->save();
             }
@@ -110,21 +110,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto2->datos_empresa_id = idEmpresa();
                 $voto2->mesa_id = $localVotacion->id;
                 $voto2->region = 'Distrital';
-                $voto2->votos = $row['va'];
+                $voto2->votos = isset($row['va'])?$row["va"]:0;
                 $voto2->tipo_voto = 'Manual';
                 $voto2->codigo = random_int(100000, 999999);
-                $voto2->votos_departamento = $row['va'];
-                $voto2->votos_provincia = $row['va'];
-                $voto2->votos_distrito = $row['va'];
+                $voto2->votos_departamento = isset($row['va'])?$row["va"]:0;
+                $voto2->votos_provincia = isset($row['va'])?$row["va"]:0;
+                $voto2->votos_distrito = isset($row['va'])?$row["va"]:0;
                 $voto2->created_by = $this->usuario_creador;
                 $voto2->updated_by = $this->usuario_creador;
                 $voto2->fecha = date('Y-m-d');
                 $voto2->save();
             } else {
-                $votoexiste2->votos_departamento = $row['va'];
-                $votoexiste2->votos_provincia = $row['va'];
-                $votoexiste2->votos_distrito = $row['va'];
-                $votoexiste2->votos = $row['va'];
+                $votoexiste2->votos_departamento = isset($row['va'])?$row["va"]:0;
+                $votoexiste2->votos_provincia = isset($row['va'])?$row["va"]:0;
+                $votoexiste2->votos_distrito = isset($row['va'])?$row["va"]:0;
+                $votoexiste2->votos = isset($row['va'])?$row["va"]:0;
                 $votoexiste2->updated_by = $this->usuario_creador;
                 $votoexiste2->save();
             }
@@ -146,21 +146,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto3->datos_empresa_id = idEmpresa();
                 $voto3->mesa_id = $localVotacion->id;
                 $voto3->region = 'Distrital';
-                $voto3->votos = $row['blancos'];
+                $voto3->votos = isset($row['blancos'])?$row["blancos"]:0;
                 $voto3->tipo_voto = 'Manual';
                 $voto3->codigo = random_int(100000, 999999);
-                $voto3->votos_departamento = $row['blancos'];
-                $voto3->votos_provincia = $row['blancos'];
-                $voto3->votos_distrito = $row['blancos'];
+                $voto3->votos_departamento = isset($row['blancos'])?$row["blancos"]:0;
+                $voto3->votos_provincia = isset($row['blancos'])?$row["blancos"]:0;
+                $voto3->votos_distrito = isset($row['blancos'])?$row["blancos"]:0;
                 $voto3->created_by = $this->usuario_creador;
                 $voto3->updated_by = $this->usuario_creador;
                 $voto3->fecha = date('Y-m-d');
                 $voto3->save();
             } else {
-                $votoexiste3->votos_departamento = $row['blancos'];
-                $votoexiste3->votos_provincia = $row['blancos'];
-                $votoexiste3->votos_distrito = $row['blancos'];
-                $votoexiste3->votos = $row['blancos'];
+                $votoexiste3->votos_departamento = isset($row['blancos'])?$row["blancos"]:0;
+                $votoexiste3->votos_provincia = isset($row['blancos'])?$row["blancos"]:0;
+                $votoexiste3->votos_distrito = isset($row['blancos'])?$row["blancos"]:0;
+                $votoexiste3->votos = isset($row['blancos'])?$row["blancos"]:0;
                 $votoexiste3->updated_by = $this->usuario_creador;
                 $votoexiste3->save();
             }
@@ -183,21 +183,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto4->datos_empresa_id = idEmpresa();
                 $voto4->mesa_id = $localVotacion->id;
                 $voto4->region = 'Distrital';
-                $voto4->votos = $row['nulos'];
+                $voto4->votos = isset($row['nulos'])?$row["nulos"]:0;
                 $voto4->tipo_voto = 'Manual';
                 $voto4->codigo = random_int(100000, 999999);
-                $voto4->votos_departamento = $row['nulos'];
-                $voto4->votos_provincia = $row['nulos'];
-                $voto4->votos_distrito = $row['nulos'];
+                $voto4->votos_departamento = isset($row['nulos'])?$row["nulos"]:0;
+                $voto4->votos_provincia = isset($row['nulos'])?$row["nulos"]:0;
+                $voto4->votos_distrito = isset($row['nulos'])?$row["nulos"]:0;
                 $voto4->created_by = $this->usuario_creador;
                 $voto4->updated_by = $this->usuario_creador;
                 $voto4->fecha = date('Y-m-d');
                 $voto4->save();
             } else {
-                $votoexiste4->votos_departamento = $row['nulos'];
-                $votoexiste4->votos_provincia = $row['nulos'];
-                $votoexiste4->votos_distrito = $row['nulos'];
-                $votoexiste4->votos = $row['nulos'];
+                $votoexiste4->votos_departamento = isset($row['nulos'])?$row["nulos"]:0;
+                $votoexiste4->votos_provincia = isset($row['nulos'])?$row["nulos"]:0;
+                $votoexiste4->votos_distrito = isset($row['nulos'])?$row["nulos"]:0;
+                $votoexiste4->votos = isset($row['nulos'])?$row["nulos"]:0;
                 $votoexiste4->updated_by = $this->usuario_creador;
                 $votoexiste4->save();
             }
@@ -219,21 +219,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto5->datos_empresa_id = idEmpresa();
                 $voto5->mesa_id = $localVotacion->id;
                 $voto5->region = 'Distrital';
-                $voto5->votos = $row['impugnados'];
+                $voto5->votos = isset($row['impugnados'])?$row["impugnados"]:0;
                 $voto5->tipo_voto = 'Manual';
                 $voto5->codigo = random_int(100000, 999999);
-                $voto5->votos_departamento = $row['impugnados'];
-                $voto5->votos_provincia = $row['impugnados'];
-                $voto5->votos_distrito = $row['impugnados'];
+                $voto5->votos_departamento = isset($row['impugnados'])?$row["impugnados"]:0;
+                $voto5->votos_provincia = isset($row['impugnados'])?$row["impugnados"]:0;
+                $voto5->votos_distrito = isset($row['impugnados'])?$row["impugnados"]:0;
                 $voto5->created_by = $this->usuario_creador;
                 $voto5->updated_by = $this->usuario_creador;
                 $voto5->fecha = date('Y-m-d');
                 $voto5->save();
             } else {
-                $votoexiste5->votos_departamento = $row['impugnados'];
-                $votoexiste5->votos_provincia = $row['impugnados'];
-                $votoexiste5->votos_distrito = $row['impugnados'];
-                $votoexiste5->votos = $row['impugnados'];
+                $votoexiste5->votos_departamento = isset($row['impugnados'])?$row["impugnados"]:0;
+                $votoexiste5->votos_provincia = isset($row['impugnados'])?$row["impugnados"]:0;
+                $votoexiste5->votos_distrito = isset($row['impugnados'])?$row["impugnados"]:0;
+                $votoexiste5->votos = isset($row['impugnados'])?$row["impugnados"]:0;
                 $votoexiste5->updated_by = $this->usuario_creador;
                 $votoexiste5->save();
             }
