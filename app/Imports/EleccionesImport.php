@@ -40,9 +40,21 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
         $partidos = Partido::all();
         $elecciones = Eleccion::where("datos_empresa_id", idEmpresa())->get();
         $localVotacion = LocalVotacion::where('num_mesa', $row['numero_de_mesa'])->first();
+        if(!$localVotacion){
+            return null;
+        }
         $departamento = Departamento::where('departamento', $localVotacion->departamento)->first();
+        if(!$departamento){
+            return null;
+        }
         $provincia = Provincia::where('provincia', $localVotacion->provincia)->where('idDepartamento', $departamento->id)->first();
+        if(!$provincia){
+            return null;
+        }
         $distrito = Distrito::where('distrito', $localVotacion->distrito)->where('idDepartamento', $departamento->id)->where('idProvincia', $provincia->id)->first();
+        if(!$distrito){
+            return null;
+        }
         if (count($partidos) >= 5 && count($elecciones) >= 1 && $localVotacion&& $departamento && $provincia && $distrito) {
             // volcado para partido 1
             $votoexiste1 = EleccionesVoto::where("eleccion_id", $elecciones[0]->id)
