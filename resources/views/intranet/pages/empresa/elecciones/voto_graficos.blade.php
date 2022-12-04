@@ -1151,7 +1151,7 @@
                     let img = new Image();
                     img.src = iDe[index].src1;
                     ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDe[index]
-                        .value)) - 16, 15, 15);
+                        .value)) - 16, 20, 20);
                 });
 
                 class CircleChevron {
@@ -1244,7 +1244,7 @@
                     let img = new Image();
                     img.src = iPr[index].src1;
                     ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iPr[index]
-                        .value)) - 16, 15, 15);
+                        .value)) - 16, 20, 20);
                 });
 
                 class CircleChevron {
@@ -1337,7 +1337,7 @@
                     let img = new Image();
                     img.src = iDi[index].src1;
                     ctx.drawImage(img, x.getPixelForValue(index) + 1, y.getPixelForValue(parseInt(iDi[index]
-                        .value)) - 16, 15, 15);
+                        .value)) - 16, 20, 20);
                 });
 
                 class CircleChevron {
