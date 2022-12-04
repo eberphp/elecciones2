@@ -56,13 +56,20 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
             return null;
         }
         if (count($partidos) >= 5 && count($elecciones) >= 1 && $localVotacion&& $departamento && $provincia && $distrito) {
+            if(!$row["gh"] && !$row["va"] && !$row["blancos"] && !$row["nulos"] && !$row["impugnados"]){
+                return null;
+            }
+           
             // volcado para partido 1
+           
+           
             $votoexiste1 = EleccionesVoto::where("eleccion_id", $elecciones[0]->id)
                 ->where("partido_id", $partidos[0]->id)
                 ->where("mesa_id", $localVotacion->id)
                 ->first();
 
             if (!$votoexiste1) {
+          
                 $voto1 = new EleccionesVoto();
                 $voto1->eleccion_id = $elecciones[0]->id;
                 $voto1->partido_id = $partidos[0]->id;
@@ -83,7 +90,7 @@ class EleccionesImport implements ToModel, WithHeadingRow, WithValidation
                 $voto1->fecha = date('Y-m-d');
                 $voto1->save();
             } else {
-
+           
                 $votoexiste1->votos_departamento = isset($row['gh'])?$row["gh"]:0;
                 $votoexiste1->votos_provincia = isset($row['gh'])?$row["gh"]:0;
                 $votoexiste1->votos_distrito = isset($row['gh'])?$row["gh"]:0;
