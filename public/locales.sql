@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `localesvota`
+-- Estructura de tabla para la tabla `locales_votacion`
 --
 
 DROP TABLE IF EXISTS `locales_votacion`;
@@ -40,10 +40,10 @@ CREATE TABLE IF NOT EXISTS `locales_votacion` (
 ) ENGINE=MyISAM AUTO_INCREMENT=1151 DEFAULT CHARSET=utf8mb3;
 
 --
--- Volcado de datos para la tabla `localesvota`
+-- Volcado de datos para la tabla `locales_votacion`
 --
 
-INSERT INTO `localesvota` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
+INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (1, 'AMAZONAS', 'BAGUA', 'ARAMANGO', ' IE 16205', 900073, '900073'),
 (2, 'AMAZONAS', 'BAGUA', 'ARAMANGO', ' IE 16205', 900074, '900074'),
 (3, 'AMAZONAS', 'BAGUA', 'ARAMANGO', ' IE 16205', 900075, '900075'),
@@ -666,7 +666,7 @@ INSERT INTO `localesvota` (`id`, `departamento`, `provincia`, `distrito`, `nom_l
 (620, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 413, '000413'),
 (621, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 414, '000414'),
 (622, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 415, '000415');
-INSERT INTO `localesvota` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
+INSERT INTO `locales_votacion` (`id`, `departamento`, `provincia`, `distrito`, `nom_local`, `num_mesa`, `clave`) VALUES
 (623, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 416, '000416'),
 (624, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 417, '000417'),
 (625, 'AMAZONAS', 'LUYA', 'CAMPORREDONDO', 'IE BRAULIO CAMPORREDONDO', 418, '000418'),
