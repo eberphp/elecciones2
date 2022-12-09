@@ -343,7 +343,7 @@ Route::get("/db_backup", function () {
         if (!File::exists($storageAt))
             File::makeDirectory($storageAt, 0755, true, true);
         exec($command, $output, $returnVar);
-        
+        sleep(4);
         return response()->download(storage_path() . "/app/backup/" . $filename);
 
 
