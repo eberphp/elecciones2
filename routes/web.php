@@ -335,8 +335,8 @@ Route::get("imagenes_candidatos", function () {
 
 Route::get("/db_backup", function () {
     try {
-        $filename = "backup-database.sql.gz";
-        $command = "mysqldump --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . storage_path() . "/app/backup/" . $filename;
+        $filename = "backup-database.sql";
+        $command = "mysqldump --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "   > " . storage_path() . "/app/backup/" . $filename;
         $returnVar = NULL;
         $output  = NULL;
         $storageAt = storage_path() . "/app/backup/";
@@ -344,7 +344,7 @@ Route::get("/db_backup", function () {
             File::makeDirectory($storageAt, 0755, true, true);
         exec($command, $output, $returnVar);
         
-        return $command;
+        return response()->download(storage_path() . "/app/backup/" . $filename);
 
 
     } catch (Exception $e) {
