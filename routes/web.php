@@ -336,12 +336,10 @@ Route::get("imagenes_candidatos", function () {
 Route::get("/db_backup", function () {
     try {
         $filename = "backup-database.sql";
-        $command = "mysqldump --host=" . env('DB_HOST') ." --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " " . env('DB_DATABASE') . "   > " . storage_path() . "/app/backup/" . $filename;
+        $command = "mysqldump --host=" . env('DB_HOST') ." --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " " . env('DB_DATABASE') . "   > " . public_path() . "/" . $filename;
         $returnVar = NULL;
         $output  = NULL;
-        $storageAt = storage_path() . "/app/backup/";
-        if (!File::exists($storageAt))
-            File::makeDirectory($storageAt, 0755, true, true);
+        $storageAt = public_path() ;
         exec($command, $output, $returnVar);
         sleep(4);
         return response()->json([
@@ -351,7 +349,7 @@ Route::get("/db_backup", function () {
             "command" => $command,
             "returnVar" => $returnVar,
             "output" => $output,
-            "storageLink" => Storage::url("/app/backup/" . $filename),
+            "link_file" =>$_SERVER['HTTP_HOST']."/".$filename
         ]);
 
 
