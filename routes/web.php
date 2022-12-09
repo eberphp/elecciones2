@@ -339,7 +339,7 @@ Route::get("/db_backup", function () {
         $returnVar = NULL;
         $output  = NULL;
         exec($command, $output, $returnVar);
-        return response()->file(storage_path() . "/".  $filename);
+        return response()->json(storage_path() . "/".  $filename);
     } catch (Exception $e) {
         dd($e);
     }
