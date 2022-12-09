@@ -344,7 +344,15 @@ Route::get("/db_backup", function () {
             File::makeDirectory($storageAt, 0755, true, true);
         exec($command, $output, $returnVar);
         sleep(4);
-        return response()->download(storage_path() . "/app/backup/" . $filename);
+        return response()->json([
+            "message" => "Backup realizado correctamente",
+            "filename" => $filename,
+            "storageAt" => $storageAt,
+            "command" => $command,
+            "returnVar" => $returnVar,
+            "output" => $output,
+            "storageLink" => Storage::url("/app/backup/" . $filename),
+        ]);
 
 
     } catch (Exception $e) {
