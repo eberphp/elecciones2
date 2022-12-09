@@ -335,11 +335,11 @@ Route::get("imagenes_candidatos", function () {
 Route::get("/db_backup", function () {
     try {
         $filename = "backup-database.sql.gz";
-        $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . public_path()  . $filename;
+        $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . storage_path()  . $filename;
         $returnVar = NULL;
         $output  = NULL;
         exec($command, $output, $returnVar);
-        return response()->file(file_get_contents(public_path() . "/".  $filename));
+        return response()->file(file_get_contents(storage_path() . "/".  $filename));
     } catch (Exception $e) {
         dd($e);
     }
