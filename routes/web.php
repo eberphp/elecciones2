@@ -336,7 +336,7 @@ Route::get("imagenes_candidatos", function () {
 Route::get("/db_backup", function () {
     try {
         $filename = "backup-database.sql";
-        $command = "mysqldump --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " " . env('DB_DATABASE') . "   > " . storage_path() . "/app/backup/" . $filename;
+        $command = "mysqldump --host=" . env('DB_HOST') ." --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " " . env('DB_DATABASE') . "   > " . storage_path() . "/app/backup/" . $filename;
         $returnVar = NULL;
         $output  = NULL;
         $storageAt = storage_path() . "/app/backup/";
