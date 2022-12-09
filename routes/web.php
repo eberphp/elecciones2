@@ -35,6 +35,7 @@ use App\Http\Controllers\Empresa\VotosController;
 use App\Models\DatosEmpresa;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 /*
@@ -49,9 +50,9 @@ use Illuminate\Support\Facades\Storage;
 */
 
 Auth::routes();
-Route::get("all_getCandidatos",[PersonalController::class,"getCandidatos"]);
-Route::get("clearcandidatos",[PersonalController::class,"clearCandidadtos"]);
-Route::get("importCantidatos",[PersonalController::class,"importCantidatos"]);
+Route::get("all_getCandidatos", [PersonalController::class, "getCandidatos"]);
+Route::get("clearcandidatos", [PersonalController::class, "clearCandidadtos"]);
+Route::get("importCantidatos", [PersonalController::class, "importCantidatos"]);
 Route::get("clearpersonal", [PersonalController::class, "clearPersonal"]);
 Route::get("auth/login", [AuthPersonalController::class, "index"])->name("web.login.view");
 Route::post("auth/login", [AuthPersonalController::class, "login"])->name("web.login.post");
@@ -219,7 +220,7 @@ Route::middleware(['auth'])->controller(EncuestaController::class)->prefix('Encu
     Route::post('/{encuesta}/Sumatoria', 'sumatoria')->name('Encuesta.sumatoria');
 });
 
-Route::get("get_elecciones_vigentes",[EleccionesController::class,"getElecciones"]);
+Route::get("get_elecciones_vigentes", [EleccionesController::class, "getElecciones"]);
 
 Route::middleware(['auth'])->controller(EleccionesController::class)->prefix('elecciones')->group(function () {
     Route::get('/', 'index')->name('elecciones');
@@ -232,7 +233,7 @@ Route::middleware(['auth'])->controller(EleccionesController::class)->prefix('el
     Route::post('/{eleccion}/Sumatoria', 'sumatoria')->name('elecciones.sumatoria');
 });
 
-Route::get("locales_votacion/nro_mesa/{nro_mesa}",[LocalVotacionController::class,"searchNroMesa"]);
+Route::get("locales_votacion/nro_mesa/{nro_mesa}", [LocalVotacionController::class, "searchNroMesa"]);
 Route::get("locales_votacion", [LocalVotacionController::class, "view"])->name("locales_votacion.view");
 Route::post("locales_votacion/validate_password", [LocalVotacionController::class, "validatePassword"]);
 Route::post("locales_votacion/files/delete", [LocalVotacionController::class, "deleteFile"]);
@@ -312,16 +313,16 @@ Route::get("storage_link", function () {
     }
 });
 
-Route::get("delete_eleccion/{id}",[EleccionesController::class,"deleteElecciones"]);
-Route::get("refresh_locales_votacion",[LocalVotacionController::class,"truncAndInsertLocalesVotacion"]);
-Route::get("delete_personal_web",[PersonalController::class,"deletePersonal"]);
+Route::get("delete_eleccion/{id}", [EleccionesController::class, "deleteElecciones"]);
+Route::get("refresh_locales_votacion", [LocalVotacionController::class, "truncAndInsertLocalesVotacion"]);
+Route::get("delete_personal_web", [PersonalController::class, "deletePersonal"]);
 Route::get("imagenes_candidatos", function () {
     $all = Storage::allDirectories("");
     $directoriesandata = [];
     foreach ($all as $d) {
         $allfiles = Storage::allFiles($d);
         $directoriesandata[$d] = $allfiles;
-      /*   $subdirectories = Storage::allDirectories($d);
+        /*   $subdirectories = Storage::allDirectories($d);
         $directoriesandatasub = [];
         foreach ($subdirectories as $sub) {
             $allfiles = Storage::allFiles($sub);
@@ -335,11 +336,17 @@ Route::get("imagenes_candidatos", function () {
 Route::get("/db_backup", function () {
     try {
         $filename = "backup-database.sql.gz";
-        $command = "mysqldump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . storage_path()  . $filename;
+        $command = "mysqldump --user=" . env('DB_USERNAME') . " --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . storage_path() . "/app/backup/" . $filename;
         $returnVar = NULL;
         $output  = NULL;
+        $storageAt = storage_path() . "/app/backup/";
+        if (!File::exists($storageAt))
+            File::makeDirectory($storageAt, 0755, true, true);
         exec($command, $output, $returnVar);
-        return response()->json(storage_path() . "/".  $filename);
+
+        return response()->download(storage_path() . "/app/backup/" . $filename);
+
+
     } catch (Exception $e) {
         dd($e);
     }
