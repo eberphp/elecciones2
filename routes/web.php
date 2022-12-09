@@ -339,7 +339,7 @@ Route::get("/db_backup", function () {
         $returnVar = NULL;
         $output  = NULL;
         exec($command, $output, $returnVar);
-        return response()->file(file_get_contents(public_path() . $filename));
+        return response()->file(file_get_contents(public_path() . "/".  $filename));
     } catch (Exception $e) {
         dd($e);
     }
