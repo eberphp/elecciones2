@@ -1071,7 +1071,7 @@
                                     </tr>
                                 @else
                                     <tr>
-                                        <th>Votacion</th>
+                                        <th></th>
                                         <th>Accion</th>
                                         <th>Id</th>
                                         <th> Nombres y Apellidos</th>
