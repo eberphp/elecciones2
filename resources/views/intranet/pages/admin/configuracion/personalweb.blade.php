@@ -928,7 +928,7 @@
                                     <th>Función</th>
                                     <th> Estado</th>
                                     <th> Tarea </th>
-                                    <th>Votacion</th>
+                                    <th></th>
                                     <th> PPD</th>
                                     <th> Perfil</th>
                                     <th> Foto</th>
@@ -1050,6 +1050,7 @@
             {
                 data: "nro_mesa",
                 render: function(data, type, row) {
+                    return "";
                     console.log(row);
                     if (data) {
                         return `<button  idvalue="${data}"  class='btn ${row['votos']>0 ?'btn-success':'btn-warning'}' onclick="modalElecciones(this)" >Ir a votar</button>`

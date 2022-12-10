@@ -972,7 +972,7 @@
                                 @if ($personal)
                                     <tr>
                                         
-                                        <th>Votacion</th>
+                                        <th></th>
                                         <th>Accion</th>
                                         @if (in_array('Id', $permisos))
                                             <th> id</th>
@@ -1408,6 +1408,7 @@
             {
                 data: "nro_mesa",
                 render: function(data, type, row) {
+                    return "";
                     if (data) {
                         return `<button  idvalue="${data}"  class='btn ${row['votos']>0 ?'btn-success':'btn-warning'}' onclick="modalElecciones(this)" >Ir a votar</button>`
                     }
