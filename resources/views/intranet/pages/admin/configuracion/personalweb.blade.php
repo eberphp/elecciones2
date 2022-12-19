@@ -251,7 +251,7 @@
                                                         id="ppd_ic">
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            {{-- <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
                                                         Referencias
@@ -260,7 +260,7 @@
 
 
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -281,7 +281,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            {{--  <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
                                                         Observaciones
@@ -298,7 +298,7 @@
                                                     </label>
                                                     <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ic"></textarea>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="w-100 d-flex justify-content-end">
                                             <button class="btn btn-primary" type="submit">Guardar</button>
@@ -526,7 +526,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            {{--  <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
                                                         Referencias
@@ -535,7 +535,7 @@
 
 
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
@@ -556,7 +556,7 @@
 
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
+                                            {{--          <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">
                                                         Observaciones
@@ -573,7 +573,7 @@
                                                     </label>
                                                     <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie"></textarea>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </div>
                                         <div class="w-100 d-flex justify-content-end">
                                             <button class="btn btn-primary" type="submit">Guardar</button>
@@ -834,8 +834,8 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="w-100 d-flex justify-content-end my-2">
-                                            <button type="submit" id="button_upload_excel_elecciones" class="btn btn-danger"> <i
-                                                    class="fa fa-save"></i>
+                                            <button type="submit" id="button_upload_excel_elecciones"
+                                                class="btn btn-danger"> <i class="fa fa-save"></i>
                                                 Guardar</button>
                                         </div>
                                     </div>
@@ -870,12 +870,12 @@
                             </div>
                             <div class="col-md-6 d-flex justify-content-end my-2">
                                 <button class="btn btn-primary btn-xs mx-2" id="crear"><i
-                                    class="fa fa-plus-circle"></i>
-                                Crear</button>
+                                        class="fa fa-plus-circle"></i>
+                                    Crear</button>
                                 <button class="btn btn-success btn-xs mx-2" id="importFromExcel"><i
                                         class="fa fa-file-excel"></i>
                                     Importar personal</button>
-                                    <button class="btn btn-success btn-xs mx-2" id="importFromExcelElecciones"><i
+                                <button class="btn btn-success btn-xs mx-2" id="importFromExcelElecciones"><i
                                         class="fa fa-file-excel"></i>
                                     Importar elecciones</button>
                                 <button class="btn btn-success btn-xs" id="exportToExcel"><i
@@ -933,13 +933,13 @@
                                     <th> Perfil</th>
                                     <th> Foto</th>
                                     <th> Cv</th>
-                                    <th>Evaluacion</th>
+                                    <th>Evaluacion</th>{{-- 
                                     <th> URL_facebook</th>
                                     <th> URL_1</th>
-                                    <th> URL_1</th>
+                                    <th> URL_1</th> --}}
                                     <th> Nombre Corto</th>
-                                    <th> Telefono</th>
-                                    <th> Referencias</th>
+                                    <th> Telefono</th>{{-- 
+                                    <th> Referencias</th> --}}
 
 
 
@@ -956,8 +956,8 @@
 
                                     <th> Correo</th>
 
-
-                                    <th> Sugerencias</th>
+                                    {{-- 
+                                    <th> Sugerencias</th> --}}
 
                                     {{-- <th>Tipo de Usuario</th> --}}
 
@@ -965,7 +965,7 @@
                                     <th> Asignar Usuarios</th>
 
 
-                                    <th> Observaciones</th>
+                                    {{-- <th> Observaciones</th> --}}
 
                                     {{-- <th> Tipo Ubigeo</th> --}}
 
@@ -1090,26 +1090,26 @@
                     return `<span objectid="${type.id}"  onclick="handleViewEvaluacion(this)" class="btn btn-primary btn-sm" >Evaluacion</span>`;
                 }
             },
-            {
-                data: "url_facebook",
-                render: function(data) {
-                    return `<a href="${data}" target="_blank">${data}</a>`
-                }
-            },
-            {
-                data: "url_1",
-                render: function(data) {
+            /*  {
+                 data: "url_facebook",
+                 render: function(data) {
+                     return `<a href="${data}" target="_blank">${data}</a>`
+                 }
+             },
+             {
+                 data: "url_1",
+                 render: function(data) {
 
-                    return `<a href="${data}" target="_blank">${data}</a>`
-                }
-            },
-            {
-                data: "url_2",
-                render: function(data) {
+                     return `<a href="${data}" target="_blank">${data}</a>`
+                 }
+             },
+             {
+                 data: "url_2",
+                 render: function(data) {
 
-                    return `<a href="${data}" target="_blank">${data}</a>`
-                }
-            },
+                     return `<a href="${data}" target="_blank">${data}</a>`
+                 }
+             }, */
             {
                 data: "nombreCorto",
                 render: function(data) {
@@ -1122,7 +1122,7 @@
                     return data ? data : "";
                 }
             },
-            {
+            /* {
                 data: "referencias",
                 render: function(data) {
                     if (data) {
@@ -1133,7 +1133,7 @@
                     }
                     return "";
                 }
-            },
+            }, */
 
             {
                 data: "vinculo.nombre",
@@ -1170,7 +1170,7 @@
                     return data ? data : "";
                 }
             },
-            {
+            /* {
                 data: "sugerencias",
                 render: function(data) {
 
@@ -1185,7 +1185,7 @@
 
                     return `${html}`;
                 }
-            },
+            }, */
             /* {
                 data: "tipo_usuario.nivel",
                 searchable: false,
@@ -1199,22 +1199,22 @@
                     return data ? data : "";
                 }
             },
-            {
-                data: "observaciones",
-                render: function(data) {
+            /*  {
+                 data: "observaciones",
+                 render: function(data) {
 
-                    let html = "";
-                    if (data) {
-                        let parser = new DOMParser();
-                        let doc = parser.parseFromString(data, 'text/html');
-                        html = doc.body.firstChild.data;
-                    } else {
-                        html = "";
-                    }
+                     let html = "";
+                     if (data) {
+                         let parser = new DOMParser();
+                         let doc = parser.parseFromString(data, 'text/html');
+                         html = doc.body.firstChild.data;
+                     } else {
+                         html = "";
+                     }
 
-                    return `${html}`;
-                }
-            },
+                     return `${html}`;
+                 }
+             }, */
             /* 
                         {
                             data: "tipos_ubigeo.nombre",

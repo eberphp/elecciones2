@@ -303,7 +303,7 @@
                                                 </div>
                                             @endif
 
-                                            @if (in_array('Referencias', $permisos) || !$personal)
+                                           {{--  @if (in_array('Referencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="form-label">
@@ -314,7 +314,7 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                             @if (in_array('Perfil', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
@@ -632,7 +632,7 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                            @if (in_array('Referencias', $permisos) || !$personal)
+{{--                                             @if (in_array('Referencias', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label class="form-label">
@@ -643,7 +643,7 @@
 
                                                     </div>
                                                 </div>
-                                            @endif
+                                            @endif --}}
                                             @if (in_array('Perfil', $permisos) || !$personal)
                                                 <div class="col-md-12">
                                                     <div class="form-group">

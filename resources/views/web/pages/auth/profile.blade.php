@@ -15,7 +15,7 @@
                 <div class="card container mx-auto px-4">
                     <div class="card-body">
                         <form action="" class="card-body p-4" id="editForm">
-                            <h1 class="h4">Perfil</h1>
+                            <h1 class="h4">Hoja de vida</h1>
                             @csrf
                             <div class="row">
 
@@ -164,14 +164,14 @@
 
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                           {{--      <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">
                                             Referencias
                                         </label>
                                         <textarea class="form-control ckeditor" name="referencias" id="referencias_ie">{{ $personal->referencias }}</textarea>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="col-md-12">
 
                                     <div class="form-group">
@@ -182,7 +182,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-12">
+                                {{-- <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="form-label">
                                             Observaciones
@@ -197,7 +197,7 @@
                                         </label>
                                         <textarea class="form-control ckeditor" name="sugerencias" id="sugerencias_ie">{{ $personal->sugerencias }}</textarea>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="w-100 d-flex justify-content-end my-4">
                                 <button class="btn btn-primary" type="submit">Guardar</button>
