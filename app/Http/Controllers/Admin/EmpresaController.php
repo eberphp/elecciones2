@@ -223,13 +223,13 @@ class EmpresaController extends Controller
         $empresa->visitas = $request->visitas;
         $empresa->save();
 
-        $usuario = User::create([
+        /*$usuario = User::create([
             'perfil_id' => $perfil->id,
             'email' => $request->usuario,
             'password' => bcrypt($request->password),
             'clave' => $request->password,
             'datos_empresa_id'  => $empresa->id
-        ]);
+        ]);*/
 
         $usuario = User::where('perfil_id', $id)->first();
         $usuario->email = $request->usuario;
