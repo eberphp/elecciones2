@@ -45,7 +45,8 @@
               <tbody>
                 @foreach ($usuarios as $usuario)
                     <?php $perfil = App\Models\Perfil::find($usuario->perfil_id); ?>
-                    <tr>
+                    @if ($perfil)
+                        <tr>
                         <td class="text-sm font-weight-normal"></td>
                       <td class="text-sm font-weight-normal">{{$perfil->codigo}}</td>
                       <td class="text-sm font-weight-normal">{{$perfil->nombres}}</td>
@@ -62,6 +63,28 @@
                       <td class="text-sm font-weight-normal">{{$perfil->lugar}}</td>
                       <td class="text-sm font-weight-normal">{{$perfil->observaciones}}</td>
                     </tr>
+                    @else
+                        <tr>
+                            <td>usuario: {{$usuario}}</td>
+                        </tr>
+                    @endif
+                    {{--<tr>
+                        <td class="text-sm font-weight-normal"></td>
+                      <td class="text-sm font-weight-normal">{{$perfil->codigo}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->nombres}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->telefono}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->nombreCorto}}</td>
+                      <td class="text-sm font-weight-normal">{{$usuario->email}}</td>
+                      <td class="text-sm font-weight-normal">{{$usuario->clave}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->docIdentidad}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->edad}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->fechaNacimiento}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->profesion}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->cargo}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->correo}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->lugar}}</td>
+                      <td class="text-sm font-weight-normal">{{$perfil->observaciones}}</td>
+                    </tr>--}}
                 @endforeach
               </tbody>
             </table>
