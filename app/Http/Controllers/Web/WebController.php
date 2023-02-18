@@ -26,7 +26,7 @@ class WebController extends Controller
         $servicios = Servicio::where('datos_empresa_id', $id)->orderBy('nombre', 'asc')->get();
         $botones = Boton::where('datos_empresa_id', $id)->orderBy('orden', 'asc')->get();
         $datos = DatosEmpresa::where('id', $id)->first();
-        dd($datos);
+        //dd($datos);
         //contador
         $contador  = $datos->visitas;
         $contador = $contador+1;
