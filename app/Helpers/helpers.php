@@ -10,7 +10,7 @@ if (!function_exists('idEmpresa')) {
     function idEmpresa()
     {
 
-        try {
+        //try {
 
             $texto      = url('');
             $domain     = explode("//", $texto);
@@ -33,10 +33,10 @@ if (!function_exists('idEmpresa')) {
             } else {
                 abort(404);
             }
-        } catch (ValidationException $th) {
+        /*} catch (ValidationException $th) {
             Log::error('idEmpresa ' . json_encode($th));
             abort(404);
-        }
+        }*/
     }
 }
 
