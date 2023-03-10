@@ -30,7 +30,7 @@ class DatosController extends Controller
         if ($request->file("favicon")) {
             $imagen = $request->file("favicon");
             $nombreimagenFavicon = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/favicon/";
+            $rutasave = "img/favicon/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenFavicon);
         } else {
             $nombreimagenFavicon = $datos->favicon;
@@ -39,7 +39,7 @@ class DatosController extends Controller
         if ($request->file("bannerPrincipal")) {
             $imagen = $request->file("bannerPrincipal");
             $nombreimagenBanner = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/bannerPrincipal/";
+            $rutasave = "img/bannerPrincipal/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagenBanner);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
