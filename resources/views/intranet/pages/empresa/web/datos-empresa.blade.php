@@ -1,7 +1,7 @@
 @extends('intranet.layouts.layout')
 
 @section('style')
-    
+
 @endsection
 
 @section('content')
@@ -37,7 +37,7 @@
                                 <label for="">Favicon</label>
                                 {{--<input type="text" name="favicon" class="multisteps-form__input form-control" value="{{$datos->favicon}}">--}}
                                 <input type="file" name="favicon" class="multisteps-form__input form-control">
-                                <img src="{{ asset('storage/img/favicon/'.$datos->favicon)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
+                                <img src="{{ asset('img/favicon/'.$datos->favicon)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -45,7 +45,7 @@
                                 <label for="">Banner Principal</label>
                                 {{--<input type="text" name="bannerPrincipal" class="multisteps-form__input form-control" value="{{$datos->bannerPrincipal}}">--}}
                                 <input type="file" name="bannerPrincipal" class="multisteps-form__input form-control">
-                                <img src="{{ asset('storage/img/bannerPrincipal/'.$datos->bannerPrincipal)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
+                                <img src="{{ asset('img/bannerPrincipal/'.$datos->bannerPrincipal)}}" alt="" style="height: 60px;width: auto;margin-top: 2%;">
                             </div>
                         </div>
                         <div class="row mt-3">
@@ -70,21 +70,21 @@
                             <div class="col-12 col-sm-6">
                                 <label for="">Pié de Página</label>
                                 <textarea class=" multisteps-form__input form-control ckeditor" name="piePagina" id="editor1" rows="10" cols="58">{{$datos->piePagina}}</textarea>
-                                
+
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">Termino y Condiciones</label>
                                 <textarea class=" multisteps-form__input form-control ckeditor" name="terminoCondiciones" id="editor1" rows="10" cols="58">{{$datos->terminoCondiciones}}</textarea>
-                                
+
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col-12 col-sm-6">
                                 <label for="">Nosotros</label>
                                 <textarea class=" multisteps-form__input form-control ckeditor" name="nosotros" id="editor1" rows="10" cols="58">{{$datos->nosotros}}</textarea>
-                                
+
                             </div>
                         </div>
                         <div class="row mt-3">
