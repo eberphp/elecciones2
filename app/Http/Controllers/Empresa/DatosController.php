@@ -31,7 +31,7 @@ class DatosController extends Controller
             $imagen = $request->file("favicon");
             $nombreimagenFavicon = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
             $rutasave = "public/img/favicon/";
-            $path = Storage::disk('public')->put('public/img/favicon/'+$nombreimagenFavicon, $imagen);
+            $path = Storage::disk('public')->put('img/favicon/'+$nombreimagenFavicon, $imagen);
             //$path = Storage::disk('public')->putFileAs($rutasave, $imagen, $nombreimagenFavicon, 'public');
         } else {
             $nombreimagenFavicon = $datos->favicon;
