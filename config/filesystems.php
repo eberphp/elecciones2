@@ -32,7 +32,7 @@ return [
 
         'local' => [
             'driver' => 'local',
-            'root' => public_path(), //con esta ruta
+            'root' => '', //con esta ruta
         ],
 
         'public' => [
