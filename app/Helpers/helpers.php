@@ -22,7 +22,7 @@ if (!function_exists('idEmpresa')) {
             }
 
             $empresa = DatosEmpresa::where('dominio', $domain_aux)->first();
-            //dd($empresa);
+            dd($empresa);
 
            // dd($domain_aux, $empresa);
 
