@@ -43,10 +43,10 @@ class PublicacionController extends Controller
 
             $imagen = $request->file("imagen");
 
-    
-            
+
+
             $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/publicaciones/";
+            $rutasave = "img/publicaciones/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 
@@ -113,7 +113,7 @@ class PublicacionController extends Controller
 
             $imagen = $request->file("imagen");
             $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/publicaciones/";
+            $rutasave = "img/publicaciones/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 

@@ -66,7 +66,7 @@
             <div class="swiper-wrapper altutra">
                 @foreach ($sliders as $slider)
                     <div class="swiper-slide">
-                        <div class="bg-img valign" data-background="{{ asset('storage/img/sliders/' . $slider->imagen) }}"
+                        <div class="bg-img valign" data-background="{{ asset('img/sliders/' . $slider->imagen) }}"
                             data-overlay-dark="6">
                             <div class="container">
                                 <div class="row justify-content-center" style="float: left!important;">
@@ -189,7 +189,7 @@
                             @if ($publicacion->idConfiguracion == 2)
                                 <div class="col-lg-12 wow fadeInLeft" style="margin-top: 1%;margin-bottom: 1%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                             alt=""style="width: 100%;">
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -204,7 +204,7 @@
                                 <div class="col-lg-12 wow fadeInLeft" style="margin-top: 1%;margin-bottom: 1%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -220,7 +220,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt=""
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt=""
                                                 style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -244,7 +244,7 @@
                                                     <div class="swiper-slide new-alturita-bloque-1">
                                                         <div class="bg-img valign"
                                                             style="background-size: 100%!important;"
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -282,7 +282,7 @@
                                 <div class="col-lg-6 col-12"
                                     style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt=""
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt=""
                                             style="width: 100%;">
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -298,7 +298,7 @@
                                     style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -315,7 +315,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -338,7 +338,7 @@
                                                 @foreach ($imagenes as $imagen)
                                                     <div class="swiper-slide new-alturita">
                                                         <div class="bg-img valign" style=""
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -376,7 +376,7 @@
                                 <div class="col-lg-4 col-sm-12"
                                     style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt=""
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt=""
                                             style="width: 100%;">
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -392,7 +392,7 @@
                                     style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank" style="width: 100%;"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -409,7 +409,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -433,7 +433,7 @@
                                                     <div class="swiper-slide new-alturita-bloque-3" style="">
                                                         <div class="bg-img valign"
                                                             style="background-size: 100%!important;"
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -471,7 +471,7 @@
                                 <div class="col-lg-3 col-6"
                                     style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt="">
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt="">
                                     @else
                                         {!! $publicacion->linkVideo !!}
                                     @endif
@@ -486,7 +486,7 @@
                                     style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -503,7 +503,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -527,7 +527,7 @@
                                                     <div class="swiper-slide new-alturita-bloque-4">
                                                         <div class="bg-img valign alineacion-center"
                                                             style="background-size: 100%!important;"
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -562,7 +562,7 @@
                                 <div class="col-lg-4 col-sm-6"
                                     style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt="">
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt="">
                                     @else
                                         {!! $publicacion->linkVideo !!}
                                     @endif
@@ -577,7 +577,7 @@
                                     style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -594,7 +594,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -618,7 +618,7 @@
                                                     <div class="swiper-slide" style="min-height: 43vh!important;">
                                                         <div class="bg-img valign"
                                                             style="background-size: 100%!important;background-position: center!important;"
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -656,7 +656,7 @@
                                 <div class="col-lg-8 col-sm-12"
                                     style="text-align: left;margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
-                                        <img src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}" alt="">
+                                        <img src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}" alt="">
                                     @else
                                         {!! $publicacion->linkVideo !!}
                                     @endif
@@ -671,7 +671,7 @@
                                     style="margin-top: 1%;margin-bottom: 1%;padding-right: 0.5%;padding-left: 0.5%;">
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ $publicacion->url }}" target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -688,7 +688,7 @@
                                     @if ($publicacion->selecciona == 'Imagen')
                                         <a href="{{ route('subpublicaciones', [$publicacion->datos_empresa_id, $publicacion->id]) }}"
                                             target="_blank"><img
-                                                src="{{ asset('storage/img/publicaciones/' . $publicacion->imagen) }}"
+                                                src="{{ asset('img/publicaciones/' . $publicacion->imagen) }}"
                                                 alt="" style="width: 100%;"></a>
                                     @else
                                         {!! $publicacion->linkVideo !!}
@@ -712,7 +712,7 @@
                                                     <div class="swiper-slide" style="min-height: 43vh!important;">
                                                         <div class="bg-img valign"
                                                             style="background-size: 100%!important;background-position: center!important;"
-                                                            data-background="{{ asset('storage/img/publicaciones/galeria/' . $imagen->imagen) }}"
+                                                            data-background="{{ asset('img/publicaciones/galeria/' . $imagen->imagen) }}"
                                                             data-overlay-dark="6">
 
                                                         </div>
@@ -763,7 +763,7 @@
                                         <div class="swiper-slide">
                                             <div class="content wow noraidus fadeInUp" data-wow-delay=".3s">
                                                 <div class="item-img bg-img wow imago" style="text-align: center">
-                                                    <img src="{{ asset('storage/img/testimonios/' . $testimonio->imagen) }}"
+                                                    <img src="{{ asset('img/testimonios/' . $testimonio->imagen) }}"
                                                         alt="" style="height: 200px;width: auto;">
 
                                                     <p>{!! $testimonio->texto !!}</p>

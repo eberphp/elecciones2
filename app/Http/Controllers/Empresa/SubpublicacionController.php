@@ -30,7 +30,7 @@ class SubpublicacionController extends Controller
         if ($request->hasFile("imagen")) {
             $imagen = $request->file("imagen");
             $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/subpublicaciones/";
+            $rutasave = "img/subpublicaciones/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
             //$post->imagen = $nombreimagen;
@@ -69,7 +69,7 @@ class SubpublicacionController extends Controller
 
             $imagen = $request->file("imagen");
             $nombreimagen = Str::slug($imagen->getClientOriginalName() . microtime()) . "." . $imagen->guessExtension();
-            $rutasave = "public/img/subpublicaciones/";
+            $rutasave = "img/subpublicaciones/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
             //copy($imagen->getRealPath(),$ruta.$nombreimagen);
 

@@ -45,7 +45,7 @@ class SliderController extends Controller
         if ($request->hasFile("imagen")) {
             $imagen = $request->file("imagen");
             $nombreimagen = Str::slug($request->nombre) . Str::slug(microtime() . "") . "." . $imagen->guessExtension();
-            $rutasave = "public/img/sliders/";
+            $rutasave = "img/sliders/";
             $path = Storage::putFileAs($rutasave, $imagen, $nombreimagen);
         } else {
             $nombreimagen = null;
