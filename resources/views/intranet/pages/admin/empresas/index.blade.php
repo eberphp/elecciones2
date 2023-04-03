@@ -192,7 +192,7 @@
 
                 $(data).each(function(key, value) {
                     $("#content-text").append('<li class="list-group-item"> <a href="http://' +
-                        value + '" target="_blank" >' + value + '</a></li>');
+                        'www.en.levelte.com' + '" target="_blank" >' + value + '</a></li>');
                 });
                 $('#newModal').modal('hide')
                 $('#actualizar-git').modal('show');
