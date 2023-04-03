@@ -65,7 +65,7 @@ class EmpresaController extends Controller
             $nueva_lista = [];
 
             foreach ($respuesta as $d) {
-                $nueva_lista[] = limpiar_datos($d, ['/var/www/', '---> Proyecto Actualizado', ' ']);
+                $nueva_lista[] = limpiar_datos('Proyecto Principal', ['/var/www/', '---> Proyecto Actualizado', ' ']);
             }
             Artisan::call("storage:link");
             return $nueva_lista;
