@@ -28,7 +28,7 @@ class EmpresaController extends Controller
             $d = 'no crear';
 
             if ($u->perfil->datos_empresa) {
-                $d =  file_exists('/var/www/' . $u->perfil->datos_empresa->dominio);
+                $d =  file_exists('/etc/nginx/sites-available/' . $u->perfil->datos_empresa->dominio);
             }
             $u->proyecto_creado = $d;
 
