@@ -42,15 +42,15 @@ class EmpresaController extends Controller
         try {
             $empresa = DatosEmpresa::find($texto);
 
-            if (!file_exists('/var/www/' . $empresa->dominio)) {
-                try {
-                    $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
-                    return $comando;
-                } catch (ValidationException $e) {
-                    return $e;
-                    Log::error('comando: ' . json_encode($e));
-                }
+            //if (!file_exists('/var/www/' . $empresa->dominio)) {
+            try {
+                $comando = exec("sh /var/www/bjar.sh $empresa->dominio");
+                return $comando;
+            } catch (ValidationException $e) {
+                return $e;
+                Log::error('comando: ' . json_encode($e));
             }
+            // }
         } catch (\Throwable $th) {
             //throw $th;
         }
